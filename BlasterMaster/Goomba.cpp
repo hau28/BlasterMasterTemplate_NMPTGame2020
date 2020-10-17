@@ -25,7 +25,7 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// 
 
 	float dx, dy;
-	GetPosition(dx, dy);
+	GetPositionDifference(dx, dy);
 
 	x += dx;
 	y += dy;
@@ -48,6 +48,7 @@ void CGoomba::Render()
 
 	animationHanlders[ani]->Render(x, y);
 	// animation_set->at(ani)->Render(x,y);
+	animationHanlders[ani]->Update();
 
 	//RenderBoundingBox();
 }

@@ -48,19 +48,15 @@ struct CCollisionEvent
 	/// </summary>
 	float rdx, rdy;
 
-	CCollisionEvent(LPGAMEOBJECT sourceObject, LPGAMEOBJECT otherObject, float timeEntry, float rdx, float rdy)
+	CCollisionEvent(LPGAMEOBJECT sourceObject, LPGAMEOBJECT otherObject, float timeEntry, float rdx, float rdy, float nx, float ny)
 	{ 
 		this->sourceObject = sourceObject;
 		this->otherObject = otherObject;
 		this->timeEntry = timeEntry;
 		this->rdx = rdx;
 		this->rdy = rdy;
-
-		// sign of a number x can be defined as (prove it if you want :) )
-		// sign(x) { return (x > 0) - (x < 0) }
-		// Then I have to reverse the sign of dx and dy.
-		this->nx = (rdx < 0) - (rdx > 0);
-		this->ny = (rdy < 0) - (rdy > 0);
+		this->nx = nx;
+		this->ny = ny;
 	}
 
 	/// <summary>

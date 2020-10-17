@@ -52,7 +52,7 @@ LPCOLLISIONEVENT CGameObject::SweptAABBEx(LPGAMEOBJECT coObject)
 	);
 
 	// CCollisionEvent * e = new CCollisionEvent(t, nx, ny, rdx, rdy, coO);
-	CCollisionEvent* e = new CCollisionEvent(this, coObject, t, rdx, rdy);
+	CCollisionEvent* e = new CCollisionEvent(this, coObject, t, rdx, rdy, nx, ny);
 	return e;
 }
 

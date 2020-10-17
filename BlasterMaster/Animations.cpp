@@ -45,7 +45,6 @@ int CAnimation::GetNumberOfFrames()
 #pragma region CAnimationHandler
 void CAnimationHandler::Render(float x, float y, int alpha)
 {
-	DebugOut(L"CuteTN Debug: get frame index %d, \n", currentFrameIndex);
 	LPANIMATION_FRAME frame = animation->GetFrame(currentFrameIndex);
 	animation->Render(currentFrameIndex, x, y, alpha);
 }
@@ -53,6 +52,7 @@ void CAnimationHandler::Render(float x, float y, int alpha)
 void CAnimationHandler::ToNextFrame()
 {
 	currentFrameIndex = (currentFrameIndex + 1) % animation->GetNumberOfFrames();
+	DebugOut(L"CuteTN Debug: next frame: %d of %d\n", currentFrameIndex, animation->GetNumberOfFrames());
 }
 
 void CAnimationHandler::Reset()
@@ -70,9 +70,8 @@ void CAnimationHandler::Update()
 	if (now - lastFrameTime > currentFrameDuration)
 	{
 		ToNextFrame();
+		lastFrameTime = now;
 	}
-
-	lastFrameTime = now;
 }
 #pragma endregion
 

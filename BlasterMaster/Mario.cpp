@@ -17,13 +17,17 @@ CMario::CMario(float x, float y) : CGameObject()
 	start_x = x; 
 	start_y = y; 
 	this->x = x; 
-	this->y = y; 
+	this->y = y;
+
+	// CuteTN Note: remember to set these value
+	vxMax = 10;
+	vyMax = 10;
 }
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	DebugOut(L"CuteTN Debug: access Mario state id: %d\n", GetState());
-	animationHanlders[GetState()]->Update();
+	// DebugOut(L"CuteTN Debug: access Mario state id: %d\n", GetState());
+	// animationHanlders[GetState()]->Update();
 
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
@@ -139,8 +143,11 @@ void CMario::Render()
 			if (nx>0) ani = MARIO_ANI_BIG_IDLE_RIGHT;
 			else ani = MARIO_ANI_BIG_IDLE_LEFT;
 		}
-		else if (vx > 0) 
-			ani = MARIO_ANI_BIG_WALKING_RIGHT; 
+		else if (vx > 0)
+		{
+			ani = MARIO_ANI_BIG_WALKING_RIGHT;
+			DebugOut(L"CuteTN Debug: it walks right!\n");
+		}
 		else ani = MARIO_ANI_BIG_WALKING_LEFT;
 	}
 	else if (level == MARIO_LEVEL_SMALL)
@@ -160,6 +167,7 @@ void CMario::Render()
 
 	// CuteTN Note: keep track of this...
 	animationHanlders[ani]->Render(x, y, alpha);
+	animationHanlders[ani]->Update();
 
 	RenderBoundingBox();
 }

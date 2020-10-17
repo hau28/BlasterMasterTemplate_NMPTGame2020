@@ -3,6 +3,7 @@
 void CBrick::Render()
 {
 	animationHanlders[0]->Render(x, y);
+	animationHanlders[0]->Update();
 	//animation_set->at(0)->Render(x, y);
 	//RenderBoundingBox();
 }
