@@ -43,6 +43,15 @@ int CAnimation::GetNumberOfFrames()
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #pragma region CAnimationHandler
+CAnimationHandler::CAnimationHandler(LPANIMATION animation, bool flipX, bool flipY, int timesRotate90)
+{ 
+	this->animation = animation; 
+	this->flipX = flipX;
+	this->flipY = flipY;
+	this->timesRotate90 = timesRotate90;
+	Reset(); 
+}
+
 void CAnimationHandler::Render(float x, float y, int alpha)
 {
 	LPANIMATION_FRAME frame = animation->GetFrame(currentFrameIndex);

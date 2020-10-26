@@ -78,9 +78,12 @@ class CAnimationHandler
 	DWORD lastFrameTime;
 	int currentFrameIndex;
 	LPANIMATION animation;
+	bool flipX = false;
+	bool flipY = false;
+	int timesRotate90 = 0;
 
 public:
-	CAnimationHandler(LPANIMATION animation) { this->animation = animation; Reset(); };
+	CAnimationHandler(LPANIMATION animation, bool flipX = false, bool flipY = false, int timesRotate90 = 0);
 
 	/// <summary>
 	/// <para> Render currentFrame of the animation at (x,y) </para>
@@ -101,7 +104,7 @@ public:
 };
 
 typedef CAnimationHandler* LPANIMATION_HANDLER;
-#pragma endregion Contains an animation and current frame to handle animation logic for a game object
+#pragma endregion Contains an animation and current frame and other option to handle animation logic for a game object state
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 

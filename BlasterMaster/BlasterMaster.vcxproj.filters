@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Animations.cpp">
+      <Filter>AnimationCore</Filter>
+    </ClCompile>
+    <ClCompile Include="Textures.cpp">
+      <Filter>AnimationCore</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprites.cpp">
+      <Filter>AnimationCore</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>GameManagers</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Brick.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Goomba.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Koopas.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Mario.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Portal.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayScence.cpp">
+      <Filter>Scences</Filter>
+    </ClCompile>
+    <ClCompile Include="Scence.cpp">
+      <Filter>Scences</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Animations.h">
+      <Filter>AnimationCore</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprites.h">
+      <Filter>AnimationCore</Filter>
+    </ClInclude>
+    <ClInclude Include="Textures.h">
+      <Filter>AnimationCore</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>GameManagers</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyEventHandler.h">
+      <Filter>GameManagers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Brick.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Goomba.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Koopas.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Mario.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Portal.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayScence.h">
+      <Filter>Scences</Filter>
+    </ClInclude>
+    <ClInclude Include="Scence.h">
+      <Filter>Scences</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="AnimationCore">
+      <UniqueIdentifier>{5e8e09b2-c946-4041-99df-33b73767c5be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameManagers">
+      <UniqueIdentifier>{28e6045e-7aba-497a-917f-0d10788cd93b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects">
+      <UniqueIdentifier>{25febc18-dede-49ab-be38-8c31e48550b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scences">
+      <UniqueIdentifier>{3e4fe505-fff7-463f-b1af-e0e83220d906}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities">
+      <UniqueIdentifier>{4e47022e-2904-4187-bd61-6c3c99113fe4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
