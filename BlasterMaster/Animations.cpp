@@ -61,7 +61,6 @@ void CAnimationHandler::Render(float x, float y, int alpha)
 void CAnimationHandler::ToNextFrame()
 {
 	currentFrameIndex = (currentFrameIndex + 1) % animation->GetNumberOfFrames();
-	DebugOut(L"CuteTN Debug: next frame: %d of %d\n", currentFrameIndex, animation->GetNumberOfFrames());
 }
 
 void CAnimationHandler::Reset()

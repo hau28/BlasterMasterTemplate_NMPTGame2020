@@ -1,5 +1,6 @@
 #include <Windows.h>
 #include "Utils.h"
+#include "Game.h"
 
 void DebugOut(wchar_t *fmt, ...)
 {
@@ -59,4 +60,13 @@ LPCWSTR ToLPCWSTR(string st)
 
 	// delete wcstring   // << can I ? 
 	return w->c_str();
+}
+
+/// Check if key is down
+/// CuteTN Note: Putting IsKeyDown into CGame Class is a really really bad idea.
+/// So I provide a shortcut to adapt it :^) which makes things worst... but easier to use
+int IsKeyDown(int KeyCode)
+{
+	auto game = CGame::GetInstance();
+	return game->IsKeyDown(KeyCode);
 }

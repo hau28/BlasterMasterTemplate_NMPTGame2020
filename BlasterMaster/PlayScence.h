@@ -11,6 +11,8 @@
 
 class CPlayScene: public CScene
 {
+
+#pragma region Scene
 protected: 
 	CMario *player;					// A play scene has to have player, right? 
 
@@ -35,13 +37,17 @@ public:
 
 	//friend class CPlayScenceKeyHandler;
 };
+#pragma endregion
 
+#pragma region Key Event handler
 class CPlayScenceKeyHandler : public CScenceKeyHandler
 {
 public: 
-	virtual void KeyState(BYTE *states);
+	virtual void OnKeyHold();
 	virtual void OnKeyDown(int KeyCode);
 	virtual void OnKeyUp(int KeyCode) {};
 	CPlayScenceKeyHandler(CScene *s) :CScenceKeyHandler(s) {};
 };
+#pragma endregion
+
 

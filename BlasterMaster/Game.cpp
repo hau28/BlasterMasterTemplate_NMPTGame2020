@@ -171,9 +171,7 @@ void CGame::ProcessKeyboard()
 		}
 	}
 
-	keyHandler->KeyState((BYTE *)&keyStates);
-
-
+	keyHandler->OnKeyHold();
 
 	// Collect all buffered events
 	DWORD dwElements = KEYBOARD_BUFFER_SIZE;
@@ -204,6 +202,7 @@ CGame::~CGame()
 	if (d3d != nullptr) d3d->Release();
 }
 
+#pragma region Collision with sweep AABB
 /*
 	Standard sweptAABB implementation
 	Source: GameDev.net
@@ -305,6 +304,7 @@ void CGame::SweptAABB(
 	}
 
 }
+#pragma endregion
 
 CGame *CGame::GetInstance()
 {

@@ -146,7 +146,6 @@ void CMario::Render()
 		else if (vx > 0)
 		{
 			ani = MARIO_ANI_BIG_WALKING_RIGHT;
-			DebugOut(L"CuteTN Debug: it walks right!\n");
 		}
 		else ani = MARIO_ANI_BIG_WALKING_LEFT;
 	}

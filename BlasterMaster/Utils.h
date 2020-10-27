@@ -21,3 +21,4 @@ wstring ToWSTR(string st);
 
 LPCWSTR ToLPCWSTR(string st);
 
+int IsKeyDown(int KeyCode);
