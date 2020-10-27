@@ -35,7 +35,7 @@
 
 #define MAX_FRAME_RATE 120
 
-CGame *game;
+CGame *game = CGame::GetInstance();
 
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -50,18 +50,19 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-/*
-	Update world status for this frame
-	dt: time period between beginning of last frame and beginning of this frame
-*/
+
+/// <summary>
+/// Update world status for this frame
+/// </summary>
+/// <param name="dt">time period between beginning of last frame and beginning of this frame</param>
 void Update(DWORD dt)
 {
 	CGame::GetInstance()->GetCurrentScene()->Update(dt);
 }
 
-/*
-	Render a frame 
-*/
+/// <summary>
+/// Render a frame
+/// </summary>
 void Render()
 {
 	LPDIRECT3DDEVICE9 d3ddv = game->GetDirect3DDevice();
@@ -132,6 +133,10 @@ HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int Sc
 	return hWnd;
 }
 
+/// <summary>
+/// CuteTN Note: Game loop can be found here!
+/// </summary>
+/// <returns></returns>
 int Run()
 {
 	MSG msg;
@@ -139,8 +144,13 @@ int Run()
 	DWORD frameStart = GetTickCount();
 	DWORD tickPerFrame = 1000 / MAX_FRAME_RATE;
 
+	/// CuteTN Note: This is call the GAME LOOP - aka the skeleton of any game architectures ever!
+	/// Every loop has 3 parts: Input - Update - Render
+	/// Every part has its own architecture and you just have to learn and adapt to it
+	/// Good luck :)
 	while (!done)
 	{
+		// this little code here is also Input...
 		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 		{
 			if (msg.message == WM_QUIT) done = 1;
@@ -159,12 +169,13 @@ int Run()
 		{
 			frameStart = now;
 
-			game->ProcessKeyboard();
-			
+			/// Input - Update - Render
+			CGame::GetInstance()->ProcessKeyboard();
 			Update(dt);
 			Render();
 		}
 		else
+			// why we need to sleep here tbh...
 			Sleep(tickPerFrame - dt);	
 	}
 
@@ -175,7 +186,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
 	HWND hWnd = CreateGameWindow(hInstance, nCmdShow, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-	game = CGame::GetInstance();
 	game->Init(hWnd);
 	game->InitKeyboard();
 

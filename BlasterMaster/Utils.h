@@ -11,6 +11,7 @@
 #include <vector>
 #include <string>
 
+#include "CustomKeyEvent.h"
 
 using namespace std;
 
@@ -22,3 +23,4 @@ wstring ToWSTR(string st);
 LPCWSTR ToLPCWSTR(string st);
 
 int IsKeyDown(int KeyCode);
+vector<CCustomKeyEvent*> NewKeyEvents();

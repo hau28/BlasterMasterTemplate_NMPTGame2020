@@ -41,6 +41,9 @@
     <ClCompile Include="Utils.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="CustomKeyEvent.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -83,6 +86,9 @@
       <Filter>Scences</Filter>
     </ClInclude>
     <ClInclude Include="Utils.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomKeyEvent.h">
       <Filter>Utilities</Filter>
     </ClInclude>
   </ItemGroup>

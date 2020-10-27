@@ -11,11 +11,16 @@
 #include <dinput.h>
 
 #include "Scence.h"
+#include "CustomKeyEvent.h"
 
 using namespace std;
 
 #define KEYBOARD_BUFFER_SIZE 1024
 
+/// <summary>
+/// This class manage universal game logic, it just should be called GameManager
+/// 
+/// </summary>
 class CGame
 {
 	static CGame * __instance;
@@ -33,7 +38,7 @@ class CGame
 	BYTE  keyStates[256];			// DirectInput keyboard state buffer 
 	DIDEVICEOBJECTDATA keyEvents[KEYBOARD_BUFFER_SIZE];		// Buffered keyboard data
 
-	LPKEYEVENTHANDLER keyHandler;
+	// LPKEYEVENTHANDLER keyHandler;
 
 	float cam_x = 0.0f;
 	float cam_y = 0.0f;
@@ -49,12 +54,13 @@ class CGame
 
 public:
 	void InitKeyboard();
-	void SetKeyHandler(LPKEYEVENTHANDLER handler) { keyHandler = handler; }
+	// void SetKeyHandler(LPKEYEVENTHANDLER handler) { keyHandler = handler; }
 	void Init(HWND hWnd);
 	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha = 255);
 
 	int IsKeyDown(int KeyCode);
 	void ProcessKeyboard();
+	vector<CCustomKeyEvent*> CustomKeyEvents; // Just like keyEvents, but friendlier to use :)
 
 	void Load(LPCWSTR gameFile);
 	LPSCENE GetCurrentScene() { return scenes[current_scene]; }

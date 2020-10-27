@@ -171,8 +171,6 @@ void CGame::ProcessKeyboard()
 		}
 	}
 
-	keyHandler->OnKeyHold();
-
 	// Collect all buffered events
 	DWORD dwElements = KEYBOARD_BUFFER_SIZE;
 	hr = didv->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), keyEvents, &dwElements, 0);
@@ -182,15 +180,14 @@ void CGame::ProcessKeyboard()
 		return;
 	}
 
+	CustomKeyEvents.clear();
+
 	// Scan through all buffered events, check if the key is pressed or released
 	for (DWORD i = 0; i < dwElements; i++)
 	{
 		int KeyCode = keyEvents[i].dwOfs;
 		int KeyState = keyEvents[i].dwData;
-		if ((KeyState & 0x80) > 0)
-			keyHandler->OnKeyDown(KeyCode);
-		else
-			keyHandler->OnKeyUp(KeyCode);
+		CustomKeyEvents.push_back(new CCustomKeyEvent(KeyCode, KeyState));
 	}
 }
 
@@ -393,6 +390,6 @@ void CGame::SwitchScene(int scene_id)
 
 	current_scene = scene_id;
 	LPSCENE s = scenes[scene_id];
-	CGame::GetInstance()->SetKeyHandler(s->GetKeyEventHandler());
+	// CGame::GetInstance()->SetKeyHandler(s->GetKeyEventHandler());
 	s->Load();	
 }
