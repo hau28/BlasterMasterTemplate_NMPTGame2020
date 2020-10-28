@@ -32,17 +32,17 @@
     <ClCompile Include="Portal.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="PlayScence.cpp">
-      <Filter>Scences</Filter>
-    </ClCompile>
-    <ClCompile Include="Scence.cpp">
-      <Filter>Scences</Filter>
-    </ClCompile>
     <ClCompile Include="Utils.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
     <ClCompile Include="CustomKeyEvent.cpp">
       <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Scences</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayScene.cpp">
+      <Filter>Scences</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -79,17 +79,18 @@
     <ClInclude Include="Portal.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="PlayScence.h">
-      <Filter>Scences</Filter>
-    </ClInclude>
-    <ClInclude Include="Scence.h">
-      <Filter>Scences</Filter>
-    </ClInclude>
     <ClInclude Include="Utils.h">
       <Filter>Utilities</Filter>
     </ClInclude>
     <ClInclude Include="CustomKeyEvent.h">
       <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h" />
+    <ClInclude Include="Scene.h">
+      <Filter>Scences</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayScene.h">
+      <Filter>Scences</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

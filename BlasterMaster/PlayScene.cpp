@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 
-#include "PlayScence.h"
+#include "PlayScene.h"
 #include "Utils.h"
 #include "Textures.h"
 #include "Sprites.h"
