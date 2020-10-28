@@ -7,6 +7,7 @@
 
 #include "Goomba.h"
 #include "Portal.h"
+#include "Brick.h"
 
 CMario::CMario(float x, float y) : CGameObject()
 {
@@ -24,10 +25,89 @@ CMario::CMario(float x, float y) : CGameObject()
 	vyMax = 10;
 }
 
+#pragma region key events handling
+
+void CMario::HandleKeys(DWORD dt)
+{
+	HandleKeysHold(dt);
+
+	auto keyEvents = NewKeyEvents();
+	for (auto e : keyEvents)
+	{
+		int keyCode = e->GetKeyCode();
+		if (e->IsDown())
+			HandleKeyDown(dt, keyCode);
+		else
+			HandleKeyUp(dt, keyCode);
+	}
+}
+
+void CMario::HandleKeysHold(DWORD dt)
+{
+	if (GetState() == MARIO_STATE_DIE) return;
+
+	if (IsKeyDown(DIK_RIGHT))
+		SetState(MARIO_STATE_WALKING_RIGHT);
+	else if (IsKeyDown(DIK_LEFT))
+		SetState(MARIO_STATE_WALKING_LEFT);
+	else
+		SetState(MARIO_STATE_IDLE);
+}
+void CMario::HandleKeyUp(DWORD dt, int keyCode)
+{
+
+}
+void CMario::HandleKeyDown(DWORD dt, int keyCode)
+{
+	switch (GetState())
+	{
+	case MARIO_STATE_IDLE:
+		if (keyCode == DIK_SPACE)
+			if (!flagIsOnAir)
+			{
+				SetState(MARIO_STATE_JUMP);
+				flagIsOnAir = true;
+			}
+		break;
+	case MARIO_STATE_DIE:
+		return;
+	case MARIO_STATE_JUMP:
+		if (keyCode == DIK_LEFT)
+			SetState(MARIO_STATE_WALKING_LEFT);
+		if (keyCode == DIK_RIGHT)
+			SetState(MARIO_STATE_WALKING_RIGHT);
+		break;
+	case MARIO_STATE_WALKING_LEFT:
+		if (keyCode == DIK_SPACE)
+			if(!flagIsOnAir)
+				SetState(MARIO_STATE_JUMP);
+		break;
+	case MARIO_STATE_WALKING_RIGHT:
+		if (keyCode == DIK_SPACE)
+			if(!flagIsOnAir)
+				SetState(MARIO_STATE_JUMP);
+		break;
+	default:
+		break;
+	}
+}
+
+#pragma endregion
+
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	// DebugOut(L"CuteTN Debug: access Mario state id: %d\n", GetState());
 	// animationHanlders[GetState()]->Update();
+
+	// DEBUG
+	if (flagIsOnAir)
+	{
+		DebugOut(L"jumping\n");
+	}
+	else
+	{
+		DebugOut(L"OnFloor\n");
+	}
 
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
@@ -77,9 +157,19 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		x += min_tx*dx + nx*0.4f;
 		y += min_ty*dy + ny*0.4f;
 
+
+		flagIsOnAir = true;
+		if (abs(vy) > 0.000001)
+		{
+			flagIsOnAir = false;
+			DebugOut(L"CuteTN Debug: vy = %f\n", vy);
+		}
+		else
+			DebugOut(L"CuteTN Debug: vy > 0 = %f\n", vy);
+
 		if (nx!=0) vx = 0;
 		if (ny!=0) vy = 0;
-
+	
 
 		//
 		// Collision logic with other objects
@@ -87,6 +177,24 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
+
+			if (e == nullptr)
+				continue;
+
+			if (dynamic_cast<CBrick*>(e->otherObject))
+			{
+				CBrick* brick = dynamic_cast<CBrick*>(e->otherObject);
+
+				// is on top of a brick
+				if (true)
+				{
+					DebugOut(L"CuteTN Debug: hey it hit the ground, height=%d!\n", y);
+					flagIsOnAir = false;
+				}
+				else
+				{
+				}
+			}
 
 			if (dynamic_cast<CGoomba *>(e->otherObject)) // if e->obj is Goomba 
 			{
@@ -125,6 +233,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			}
 		}
 	}
+
+	HandleKeys(dt);
 
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];

@@ -62,21 +62,12 @@ LPCWSTR ToLPCWSTR(string st)
 	return w->c_str();
 }
 
-/// Check if key is down in the current frame
-/// ---
-/// CuteTN Note: Putting IsKeyDown into CGame Class is a really really bad idea.
-/// So I provide a shortcut to adapt it :^) which makes things worst... but easier to use
 int IsKeyDown(int KeyCode)
 {
 	auto game = CGame::GetInstance();
 	return game->IsKeyDown(KeyCode);
 }
 
-/// <para> Get a list of new key events in this frame from CGame.</para>
-/// This list is reset updated per frames.
-/// Also, keys events are sorted by the time they occur, be sure to iterate them right :)
-/// CuteTN Note: Putting NewKeyEvents into CGame Class is a really really bad idea.
-/// So I provide a shortcut to adapt it :^) which makes things worst... but easier to use
 vector<CCustomKeyEvent*> NewKeyEvents()
 {
 	auto game = CGame::GetInstance();

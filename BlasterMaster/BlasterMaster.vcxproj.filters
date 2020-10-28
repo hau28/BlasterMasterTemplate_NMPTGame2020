@@ -39,10 +39,10 @@
       <Filter>Utilities</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
-      <Filter>Scences</Filter>
+      <Filter>Scenes</Filter>
     </ClCompile>
     <ClCompile Include="PlayScene.cpp">
-      <Filter>Scences</Filter>
+      <Filter>Scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -87,10 +87,10 @@
     </ClInclude>
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Scene.h">
-      <Filter>Scences</Filter>
+      <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="PlayScene.h">
-      <Filter>Scences</Filter>
+      <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -103,11 +103,11 @@
     <Filter Include="GameObjects">
       <UniqueIdentifier>{25febc18-dede-49ab-be38-8c31e48550b9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scences">
-      <UniqueIdentifier>{3e4fe505-fff7-463f-b1af-e0e83220d906}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Utilities">
       <UniqueIdentifier>{4e47022e-2904-4187-bd61-6c3c99113fe4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{3e4fe505-fff7-463f-b1af-e0e83220d906}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -10,5 +10,6 @@ enum class GameState
 	WEAPON_SELECT,
 	SECTION_SWITCH,
 	SCENE_SWITCH,
+	RESET_LIFE,
 };
 

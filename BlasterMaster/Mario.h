@@ -46,8 +46,14 @@ class CMario : public CGameObject
 
 	float start_x;			// initial position of Mario at scene
 	float start_y; 
+
+	bool flagIsOnAir;
 public: 
 	CMario(float x = 0.0f, float y = 0.0f);
+	virtual void HandleKeys(DWORD dt);
+	virtual void HandleKeysHold(DWORD dt);
+	virtual void HandleKeyUp(DWORD dt, int keyCode);
+	virtual void HandleKeyDown(DWORD dt, int keyCode);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = nullptr);
 	virtual void Render();
 
