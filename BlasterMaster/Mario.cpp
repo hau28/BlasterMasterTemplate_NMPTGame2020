@@ -66,7 +66,9 @@ void CMario::HandleKeyDown(DWORD dt, int keyCode)
 			if (!flagIsOnAir)
 			{
 				SetState(MARIO_STATE_JUMP);
-				flagIsOnAir = true;
+
+				// CuteTN Note: something that works
+				// flagIsOnAir = true;
 			}
 		break;
 	case MARIO_STATE_DIE:
@@ -96,21 +98,10 @@ void CMario::HandleKeyDown(DWORD dt, int keyCode)
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	// DebugOut(L"CuteTN Debug: access Mario state id: %d\n", GetState());
-	// animationHanlders[GetState()]->Update();
-
-	// DEBUG
-	if (flagIsOnAir)
-	{
-		DebugOut(L"jumping\n");
-	}
-	else
-	{
-		DebugOut(L"OnFloor\n");
-	}
-
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
+	HandleKeys(dt);
+	flagIsOnAir = true;
 
 	// Simple fall down
 	vy += MARIO_GRAVITY*dt;
@@ -157,16 +148,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		x += min_tx*dx + nx*0.4f;
 		y += min_ty*dy + ny*0.4f;
 
-
-		flagIsOnAir = true;
-		if (abs(vy) > 0.000001)
-		{
-			flagIsOnAir = false;
-			DebugOut(L"CuteTN Debug: vy = %f\n", vy);
-		}
-		else
-			DebugOut(L"CuteTN Debug: vy > 0 = %f\n", vy);
-
 		if (nx!=0) vx = 0;
 		if (ny!=0) vy = 0;
 	
@@ -185,15 +166,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			{
 				CBrick* brick = dynamic_cast<CBrick*>(e->otherObject);
 
-				// is on top of a brick
-				if (true)
-				{
-					DebugOut(L"CuteTN Debug: hey it hit the ground, height=%d!\n", y);
+				// on the top of a brick
+				if (e->ny < 0)
 					flagIsOnAir = false;
-				}
-				else
-				{
-				}
 			}
 
 			if (dynamic_cast<CGoomba *>(e->otherObject)) // if e->obj is Goomba 
@@ -203,6 +178,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				// jump on top >> kill Goomba and deflect a bit 
 				if (e->ny < 0)
 				{
+					flagIsOnAir = false;
+
 					if (goomba->GetState()!= GOOMBA_STATE_DIE)
 					{
 						goomba->SetState(GOOMBA_STATE_DIE);
@@ -234,7 +211,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		}
 	}
 
-	HandleKeys(dt);
 
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
