@@ -133,7 +133,7 @@ void CAnimationHandlersLib::Add(int stateId, LPANIMATION_HANDLER animHandler)
 	animHandlers[stateId] = animHandler;
 }
 
-void CAnimationHandlersLib::Add(int stateId, LPANIMATION animation, bool flipX = false, bool flipY = false, int timesRotate90 = 0)
+void CAnimationHandlersLib::Add(int stateId, LPANIMATION animation, bool flipX, bool flipY, int timesRotate90)
 {
 	LPANIMATION_HANDLER animHandler = new CAnimationHandler(animation, flipX, flipY, timesRotate90);
 	Add(stateId, animHandler);
