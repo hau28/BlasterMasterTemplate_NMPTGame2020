@@ -126,14 +126,14 @@ void CAnimationLib::Clear()
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #pragma region CObjectAnimations
-void CObjectAnimations::AddState(int stateId, LPANIMATION animation)
+void CObjectAnimations::AddState(int stateId, LPANIMATION animation, bool flipX, bool flipY, int timesRotate90)
 {
-	animations[stateId] = animation;
+	animations[stateId] = new CAnimationHandler(animation, flipX, flipY, timesRotate90);
 }
 
-LPANIMATION CObjectAnimations::GetState(int stateId)
+LPANIMATION_HANDLER CObjectAnimations::GetState(int stateId)
 {
-	LPANIMATION ani = animations[stateId];
+	LPANIMATION_HANDLER ani = animations[stateId];
 
 	if (ani == nullptr)
 		DebugOut(L"[ERROR] Failed to find animation id: %d\n", stateId);
@@ -148,7 +148,7 @@ CObjectAnimationHanlders CObjectAnimations::GenerateAnimationHanlders()
 
 	for (auto x : animations)
 	{
-		result[x.first] = new CAnimationHandler(x.second);
+		result[x.first] = new CAnimationHandler(x.second->animation, x.second->flipX, x.second->flipY, x.second->timesRotate90);
 	}
 
 	return result;

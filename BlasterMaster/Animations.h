@@ -77,12 +77,14 @@ class CAnimationHandler
 {
 	DWORD lastFrameTime;
 	int currentFrameIndex;
+
+
+public:
 	LPANIMATION animation;
 	bool flipX = false;
 	bool flipY = false;
 	int timesRotate90 = 0;
 
-public:
 	CAnimationHandler(LPANIMATION animation, bool flipX = false, bool flipY = false, int timesRotate90 = 0);
 
 	/// <summary>
@@ -148,12 +150,12 @@ class CObjectAnimations
 	/// <summary>
 	/// Map from [State Id] to [Animation] 
 	/// </summary>
-	unordered_map<int, LPANIMATION> animations;
+	unordered_map<int, LPANIMATION_HANDLER> animations;
 
 public:
 	CObjectAnimations() { animations.clear(); };
-	void AddState(int stateId, LPANIMATION animation);
-	LPANIMATION GetState(int stateId);
+	void AddState(int stateId, LPANIMATION animation, bool flipX = false, bool flipY = false, int timesRotate90 = 0);
+	LPANIMATION_HANDLER GetState(int stateId);
 
 	/// <summary>
 	/// Generate a new list of AnimationHandler for a new game object to use
