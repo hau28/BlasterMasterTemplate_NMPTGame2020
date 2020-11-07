@@ -207,6 +207,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			{
 				CPortal *p = dynamic_cast<CPortal *>(e->otherObject);
 				CGame::GetInstance()->SwitchScene(p->GetSceneId());
+				break;
 			}
 		}
 	}
