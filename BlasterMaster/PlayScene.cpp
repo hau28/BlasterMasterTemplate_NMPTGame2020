@@ -24,8 +24,12 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define SCENE_SECTION_TEXTURES 2
 #define SCENE_SECTION_SPRITES 3
 #define SCENE_SECTION_ANIMATIONS 4
-#define SCENE_SECTION_ANIMATION_SETS	5
-#define SCENE_SECTION_OBJECTS	6
+#define SCENE_SECTION_STATE_ANIMATION	5
+#define SCENE_OBJECT_ANIMATION	6
+#define SCENE_COLLISION_BOXES	7
+#define SCENE_SECTIONS	8
+#define SCENE_CLASSES	9
+#define SCENE_OBJECTS	10
 
 #define OBJECT_TYPE_MARIO	0
 #define OBJECT_TYPE_BRICK	1
@@ -204,16 +208,15 @@ void CPlayScene::Load()
 		// CuteTN Note: I'm gonna end this code's whole career :)
 
 		if (line == "[TEXTURES]") { section = SCENE_SECTION_TEXTURES; continue; }
-		if (line == "[SPRITES]") { 
-			section = SCENE_SECTION_SPRITES; continue; }
-		if (line == "[ANIMATIONS]") { 
-			section = SCENE_SECTION_ANIMATIONS; continue; }
-		if (line == "[ANIMATION_SETS]") { 
-			section = SCENE_SECTION_ANIMATION_SETS; continue; }
-		if (line == "[OBJECTS]") { 
-			section = SCENE_SECTION_OBJECTS; continue; }
+		if (line == "[SPRITES]") { 	section = SCENE_SECTION_SPRITES; continue; }
+		if (line == "[ANIMATIONS]") {	section = SCENE_SECTION_ANIMATIONS; continue; }
+		if (line == "[STATE_ANIMATIONS]") { section = SCENE_SECTION_STATE_ANIMATION; continue; }
+		if (line == "[OBJECT_ANIMATIONS]") { section = SCENE_OBJECT_ANIMATION; continue; }
+		if (line == "[COLLISION_BOXES]") { section = SCENE_COLLISION_BOXES; continue;}
+		if (line == "[SECTIONS]") { section = SCENE_SECTIONS; continue;}
+		if (line == "[CLASSES]") { section = SCENE_CLASSES; continue;}
+		if (line == "[OBJECTS]") { section = SCENE_OBJECTS; continue;}
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }	
-
 		//
 		// data section
 		//
@@ -222,8 +225,12 @@ void CPlayScene::Load()
 			case SCENE_SECTION_TEXTURES: _ParseSection_TEXTURES(line); break;
 			case SCENE_SECTION_SPRITES: _ParseSection_SPRITES(line); break;
 			case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
-			case SCENE_SECTION_ANIMATION_SETS: _ParseSection_ANIMATION_SETS(line); break;
-			case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
+			case SCENE_SECTION_STATE_ANIMATION: _ParseSection_STATE_ANIMATION(line); break;
+			case SCENE_OBJECT_ANIMATION: _ParseSection_OBJECT_ANIMATION(line); break;
+			case SCENE_COLLISION_BOXES: _ParseSection_COLLISION_BOXES(line); break;
+			case SCENE_SECTIONS: _ParseSection_SECTIONS(line); break;
+			case SCENE_CLASSES: _ParseSection_CLASSES(line); break;
+			case SCENE_OBJECTS: _ParseSection_OBJECTS(line); break;
 		}
 	}
 

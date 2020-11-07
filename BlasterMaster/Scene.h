@@ -2,6 +2,9 @@
 
 #include <d3dx9.h>
 #include "KeyEventHandler.h"
+#include <string>
+
+using namespace std;
 
 class CScene
 {
@@ -17,10 +20,20 @@ public:
 	virtual void Load() = 0;
 	virtual void Unload() = 0;
 	virtual void Update(DWORD dt) = 0;
-	virtual void Render() = 0; 
+	virtual void Render() = 0;
+
+	//Sanh code Input Sence
+	void _ParseSection_TEXTURES(string line);
+	void _ParseSection_SPRITES(string line);
+	void _ParseSection_ANIMATIONS(string line);
+	void _ParseSection_STATE_ANIMATION(string line);
+	void _ParseSection_OBJECT_ANIMATION(string line);
+	void _ParseSection_COLLISION_BOXES(string line);
+	void _ParseSection_SECTIONS(string line);
+	void _ParseSection_CLASSES(string line);
+	void _ParseSection_OBJECTS(string line);
 };
 typedef CScene * LPSCENE;
-
 
 class CScenceKeyHandler : public CKeyEventHandler
 {
