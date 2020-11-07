@@ -125,20 +125,40 @@ void CAnimationLib::Clear()
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#pragma region CObjectAnimations
-void CObjectAnimations::AddState(int stateId, LPANIMATION animation, bool flipX, bool flipY, int timesRotate90)
+#pragma region AnimationHandlersLib
+CAnimationHandlersLib* CAnimationHandlersLib::__instance = nullptr;
+
+void CAnimationHandlersLib::Add(int stateId, LPANIMATION_HANDLER animHandler)
 {
-	animations[stateId] = new CAnimationHandler(animation, flipX, flipY, timesRotate90);
+	animHandlers[stateId] = animHandler;
 }
 
-LPANIMATION_HANDLER CObjectAnimations::GetState(int stateId)
+void CAnimationHandlersLib::Add(int stateId, LPANIMATION animation, bool flipX = false, bool flipY = false, int timesRotate90 = 0)
 {
-	LPANIMATION_HANDLER ani = animations[stateId];
+	LPANIMATION_HANDLER animHandler = new CAnimationHandler(animation, flipX, flipY, timesRotate90);
+	Add(stateId, animHandler);
+}
 
-	if (ani == nullptr)
-		DebugOut(L"[ERROR] Failed to find animation id: %d\n", stateId);
+LPANIMATION_HANDLER CAnimationHandlersLib::Get(int stateId)
+{
+	return animHandlers[stateId];
+}
 
-	return ani;
+CAnimationHandlersLib* CAnimationHandlersLib::GetInstance()
+{
+	if (__instance == nullptr)
+		__instance = new CAnimationHandlersLib();
+
+	return __instance;
+}
+#pragma endregion
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma region CObjectAnimations
+void CObjectAnimations::AddState(int stateId)
+{
+	stateIds.push_back(stateId);
 }
 
 CObjectAnimationHanlders CObjectAnimations::GenerateAnimationHanlders()
@@ -146,9 +166,10 @@ CObjectAnimationHanlders CObjectAnimations::GenerateAnimationHanlders()
 	unordered_map<int, LPANIMATION_HANDLER> result;
 	result.clear();
 
-	for (auto x : animations)
+	for (auto stateId : stateIds)
 	{
-		result[x.first] = new CAnimationHandler(x.second->animation, x.second->flipX, x.second->flipY, x.second->timesRotate90);
+		LPANIMATION_HANDLER baseAnimHandler = CAnimationHandlersLib::GetInstance()->Get(stateId);
+		result[stateId] = new CAnimationHandler(baseAnimHandler->animation, baseAnimHandler->flipX, baseAnimHandler->flipY, baseAnimHandler->timesRotate90);
 	}
 
 	return result;

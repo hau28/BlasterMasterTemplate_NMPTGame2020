@@ -136,26 +136,50 @@ public:
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#pragma region CObjectAnimations
+#pragma region AnimationHandlersLib
 /// <summary>
 /// a map to map from [StateId] to [AnimationHandler]
 /// </summary>
 typedef unordered_map<int, LPANIMATION_HANDLER> CObjectAnimationHanlders;
 
 /// <summary>
+/// Contains a list of animation handler, also have the model of state in there
+/// </summary>
+class CAnimationHandlersLib
+{
+	CAnimationHandlersLib() { animHandlers.clear(); };
+	static CAnimationHandlersLib* __instance;
+
+	/// <summary>
+	/// Map from [state Id] to [animation handler]
+	/// </summary>
+	CObjectAnimationHanlders animHandlers;
+
+public:
+	void Add(int stateId, LPANIMATION_HANDLER animHandler);
+	void Add(int stateId, LPANIMATION animation, bool flipX = false, bool flipY = false, int timesRotate90 = 0);
+	LPANIMATION_HANDLER Get(int stateId);
+
+	static CAnimationHandlersLib* GetInstance();
+};
+#pragma endregion Contains a list of animation handler, also have the model of state in there
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma region CObjectAnimations
+/// <summary>
 /// Contains all object animations of a Game object family
 /// </summary>
 class CObjectAnimations
 {
 	/// <summary>
-	/// Map from [State Id] to [Animation] 
+	/// contains all state Id for this Game object
 	/// </summary>
-	unordered_map<int, LPANIMATION_HANDLER> animations;
+	vector<int> stateIds;
 
 public:
-	CObjectAnimations() { animations.clear(); };
-	void AddState(int stateId, LPANIMATION animation, bool flipX = false, bool flipY = false, int timesRotate90 = 0);
-	LPANIMATION_HANDLER GetState(int stateId);
+	CObjectAnimations() { stateIds.clear(); };
+	void AddState(int stateId);
 
 	/// <summary>
 	/// Generate a new list of AnimationHandler for a new game object to use
