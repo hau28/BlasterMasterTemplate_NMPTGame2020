@@ -60,18 +60,32 @@ void CGame::Init(HWND hWnd)
 	OutputDebugString(L"[INFO] InitGame done;\n");
 }
 
-/*
-	Utility function to wrap LPD3DXSPRITE::Draw 
-*/
-void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha/*, float scaleX, float scaleY, int rotate*/)
+void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha, bool flipX, int rotate)
 {
-	D3DXVECTOR3 p(x - cam_x, y - cam_y, 0);
-	RECT r; 
+	float width = right - left;
+	float height = bottom - top;
+	int scale = 1;
+	D3DXVECTOR2 center = D3DXVECTOR2(flipX ? (width / 2) * scale - width * scale : (width / 2) * scale, (height / 2) * scale);
+	D3DXVECTOR2 translate = D3DXVECTOR2(flipX ? x + width * scale - cam_x : x - cam_x, y - cam_y);
+	D3DXVECTOR2 scaling = D3DXVECTOR2((flipX) ? -scale : scale, scale);
+	float angle = rotate * 1.5707963268;
+	RECT r;
 	r.left = left;
 	r.top = top;
 	r.right = right;
 	r.bottom = bottom;
-	spriteHandler->Draw(texture, &r, nullptr, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
+	D3DXMATRIX matrix;
+	D3DXMatrixTransformation2D(
+		&matrix,
+		NULL,
+		0.0f,
+		&scaling,
+		&center,
+		angle,
+		&translate
+	);
+	spriteHandler->SetTransform(&matrix);
+	spriteHandler->Draw(texture, &r, NULL, NULL, D3DCOLOR_ARGB(alpha, 255, 255, 255));
 }
 
 int CGame::IsKeyDown(int KeyCode)

@@ -56,7 +56,17 @@ public:
 	void InitKeyboard();
 	// void SetKeyHandler(LPKEYEVENTHANDLER handler) { keyHandler = handler; }
 	void Init(HWND hWnd);
-	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha = 255);
+
+	/// <summary>
+	/// Draw a sprite to game world
+	/// </summary>
+	/// <param name="x, y">Position to render, relative to the game world</param>
+	/// <param name="texture">Source spritesheet</param>
+	/// <param name="left, right, top, bottom">the range of sprite in the spritesheet</param>
+	/// <param name="alpha">the transparency</param>
+	/// <param name="flipX"></param>
+	/// <param name="rotate">times to rotate 90 degre clockwise</param>
+	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha = 255, bool flipX = false, int rotate = 0);
 
 	int IsKeyDown(int KeyCode);
 	void ProcessKeyboard();
