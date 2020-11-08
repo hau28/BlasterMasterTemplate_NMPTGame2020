@@ -1,0 +1,126 @@
+[TEXTURES]
+#ID	FilePath
+4	.\Textures\Dome.png
+15	.\Textures\Floater_1.png
+23	.\Textures\Insect.png
+32	.\Textures\Mine.png
+40	.\Textures\Orb_2.png
+53	.\Textures\Ship.png
+61	.\Textures\Skull.png
+69	.\Textures\Worm.png
+78	.\Textures\SideviewSections\A.png
+
+[SPRITES]
+#ID	TextureId	left	top	right	bottom
+5	4		0	0	31	31
+6	4		32	0	63	31
+16	15		0	0	31	15
+17	15		32	0	63	15
+24	23		0	0	31	31
+25	23		32	0	63	31
+33	32		0	0	15	9
+34	32		16	0	31	9
+41	40		0	0	10	17
+42	40		11	0	21	17
+43	40		22	0	32	17
+44	40		33	0	43	17
+45	40		44	0	54	17
+46	40		55	0	65	17
+47	40		66	0	76	17
+48	40		77	0	87	17
+54	53		0	0	31	31
+55	53		32	0	63	31
+62	61		0	0	31	31
+63	61		32	0	63	31
+70	69		0	0	15	31
+71	69		16	0	31	31
+72	69		32	0	47	31
+73	69		48	0	63	31
+79	78		0	0	1023	255
+
+[ANIMATIONS]
+#ID	SpriteId1	Duration1	SpriteId2	Duration2	...
+7	5		10		6		10		
+18	16		20		17		20		
+26	24		10		25		10		
+35	33		10		34		10		
+49	41		10		42		10		43		10		44		10		45		10		46		10		47		10		48		10		
+56	54		10		55		10		
+64	62		10		63		10		
+74	70		10		71		10		72		10		73		10		
+
+[STATE_ANIMATIONS]
+#ID	AnimId	FlipX	FlipY	TimesR90
+9	7	0	0	0
+10	7	0	0	1
+11	7	0	0	2
+12	7	0	0	3
+20	18	0	0	0
+28	26	0	0	0
+29	26	1	0	0
+37	35	0	0	0
+51	49	0	0	0
+58	56	0	0	0
+59	56	1	0	0
+66	64	0	0	0
+67	64	1	0	0
+76	74	0	0	0
+77	74	1	0	0
+
+[OBJECT_ANIMATIONS]
+#ID	StateAnimId1	StateAnimId2	...
+8	9		10		11		12		
+19	20		
+27	28		29		
+36	37		
+50	51		
+57	58		59		
+65	66		67		
+75	76		77		
+
+[COLLISION_BOXES]
+#SpriteId	left	top	right	bottom
+
+[SECTIONS]
+#SectionId	Background
+80		78
+
+[CLASSES]
+#ClassId	Background
+2
+13
+21
+
+[OBJECT]
+#ObjId	ClassId	Properties...
+82 2	IsStatic 1	Section 80	X 0	Y 224	Width 1024	Height 32	
+83 13	Preview 5	Animations 8	Section 80	X 160	Y 136	
+84 13	Preview 5	Animations 8	Section 80	X 288	Y 136	
+85 2	IsStatic 1	Section 80	X 0	Y 192	Width 288	Height 32	
+86 2	IsStatic 1	Section 80	X 0	Y 160	Width 320	Height 32	
+87 2	IsStatic 1	Section 80	X 0	Y 0	Width 32	Height 256	
+88 2	IsStatic 1	Section 80	X 0	Y 0	Width 1024	Height 32	
+89 2	IsStatic 1	Section 80	X 48	Y 32	Width 32	Height 32	
+90 2	IsStatic 1	Section 80	X 112	Y 32	Width 32	Height 48	
+91 2	IsStatic 1	Section 80	X 176	Y 32	Width 32	Height 32	
+92 2	IsStatic 1	Section 80	X 240	Y 32	Width 32	Height 80	
+93 2	IsStatic 1	Section 80	X 304	Y 32	Width 32	Height 48	
+94 2	IsStatic 1	Section 80	X 368	Y 32	Width 32	Height 32	
+95 2	IsStatic 1	Section 80	X 432	Y 32	Width 32	Height 32	
+96 2	IsStatic 1	Section 80	X 496	Y 32	Width 32	Height 48	
+97 2	IsStatic 1	Section 80	X 560	Y 32	Width 32	Height 32	
+98 2	IsStatic 1	Section 80	X 624	Y 32	Width 32	Height 80	
+99 2	IsStatic 1	Section 80	X 688	Y 32	Width 32	Height 32	
+100 2	IsStatic 1	Section 80	X 752	Y 32	Width 32	Height 32	
+101 2	IsStatic 1	Section 80	X 816	Y 32	Width 32	Height 48	
+102 2	IsStatic 1	Section 80	X 880	Y 32	Width 32	Height 80	
+103 2	IsStatic 1	Section 80	X 944	Y 32	Width 80	Height 80	
+104 2	IsStatic 1	Section 80	X 384	Y 160	Width 128	Height 32	
+105 2	IsStatic 1	Section 80	X 400	Y 192	Width 80	Height 32	
+106 2	IsStatic 1	Section 80	X 576	Y 160	Width 128	Height 32	
+107 2	IsStatic 1	Section 80	X 768	Y 160	Width 256	Height 32	
+108 2	IsStatic 1	Section 80	X 592	Y 192	Width 80	Height 32	
+109 2	IsStatic 1	Section 80	X 784	Y 192	Width 240	Height 32	
+110 21	Preview 17	Animations 19	Section 80	X 32	Y 32	
+
+

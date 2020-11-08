@@ -4,14 +4,16 @@
 #include "Textures.h"
 #include "Sprites.h"
 #include "Animations.h"
+#include "GameObjectFactory.h"
 #include <map>
 
 using namespace std;
 
-CScene::CScene(int id, LPCWSTR filePath)
+CScene::CScene(int id, LPCWSTR filePath, int startUpSection)
 {
 	this->id = id;
 	this->sceneFilePath = filePath;
+	this->CurrentSectionId = startUpSection;
 }
 
 void CScene::_ParseSection_TEXTURES(string line)
@@ -88,34 +90,38 @@ void CScene::_ParseSection_STATE_ANIMATION(string line)
 
 	int state_id = atoi(tokens[0].c_str());
 	int ani_id = atoi(tokens[1].c_str());
+	LPANIMATION ani = CAnimationLib::GetInstance()->Get(ani_id);
+
 	int flipX = atoi(tokens[2].c_str());
 	int flipY = atoi(tokens[3].c_str());
-	int Rotate = atoi(tokens[4].c_str());
+	int rotate = atoi(tokens[4].c_str());
 
-	//Nghia code
-
+	// Add to lib
+	CAnimationHandlersLib::GetInstance()->Add(state_id, ani, flipX, flipY, rotate);
 }
 
-void CScene::_ParseSection_OBJECT_ANIMATION(string line)
+void CScene::_ParseSection_OBJECT_ANIMATIONS(string line)
 {
-
 	vector<string> tokens = split(line);
 
 	if (tokens.size() < 2) return;
 
 	int objectAni_id = atoi(tokens[0].c_str());
+	LPOBJECT_ANIMATIONS objAni = new CObjectAnimations();
+
 	for (int i = 1; i < tokens.size(); i ++)
 	{
-		int ani_id = atoi(tokens[i].c_str());
-		//Add ani into Object_Animations
+		int stateId = atoi(tokens[i].c_str());
+		objAni->AddState(stateId);
 	}
 
-	//Nghia code
+	// Add to lib
+	CObjectAnimationsLib::GetInstance()->Add(objectAni_id, objAni);
 }
 
 void CScene::_ParseSection_COLLISION_BOXES(string line)
 {
-	//Nghia code
+	// CuteTN Note: Empty functions since we no more need to import collision box :)
 }
 
 void CScene::_ParseSection_SECTIONS(string line)
@@ -135,7 +141,13 @@ void CScene::_ParseSection_SECTIONS(string line)
 		return;
 	}
 
+	// CuteTN To do: may us delete this later?
+	// set the first section as startup
+	if (CurrentSectionId == -1)
+		CurrentSectionId = section_ID;
+
 	//Add section
+	this->Sections[section_ID] = new CSection(this, texture_ID);
 }
 	
 void CScene::_ParseSection_CLASSES(string line)
@@ -154,12 +166,28 @@ void CScene::_ParseSection_OBJECTS(string line)
 	int class_ID = atoi(tokens[1].c_str());
 
 	//Create list properties 
-	map <string, int> Properties;
+	map<string, string> Properties;
 	for (int i = 2; i < tokens.size(); i+=2)
 	{
 		string prop_name = tokens[i].c_str();
-		int prop_value = atoi(tokens[i + 1].c_str());
+		string prop_value = tokens[i + 1].c_str();
+
+		Properties[prop_name] = prop_value;
 	}
 
-	//Nghia code
+	// Create a new game object
+	// CuteTN Warning: This function below has already add this new game object to its section (which is bad LOL)
+	LPGAMEOBJECT obj = CGameObjectFactory::Create(this, class_ID, Properties);
+}
+
+void CScene::Update(DWORD dt)
+{
+	Sections[CurrentSectionId]->Update(dt);
+	
+	// CuteTN to do: switching section here
+}
+
+void CScene::Render()
+{
+	Sections[CurrentSectionId]->Render();
 }

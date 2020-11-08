@@ -17,21 +17,6 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="Brick.cpp">
-      <Filter>GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Goomba.cpp">
-      <Filter>GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Koopas.cpp">
-      <Filter>GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Mario.cpp">
-      <Filter>GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Portal.cpp">
-      <Filter>GameObjects</Filter>
-    </ClCompile>
     <ClCompile Include="Utils.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
@@ -44,6 +29,24 @@
     <ClCompile Include="PlayScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Consts.h" />
+    <ClCompile Include="GameObjectFactory.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Section.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Floater.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Dome.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="CTileArea.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Sophia.cpp" />
+    <ClCompile Include="AnimatableObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -58,25 +61,7 @@
     <ClInclude Include="Game.h">
       <Filter>GameManagers</Filter>
     </ClInclude>
-    <ClInclude Include="KeyEventHandler.h">
-      <Filter>GameManagers</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Brick.h">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Goomba.h">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Koopas.h">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Mario.h">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Portal.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="Utils.h">
@@ -92,6 +77,23 @@
     <ClInclude Include="PlayScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="GameObjectFactory.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Section.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Floater.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Dome.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CTileArea.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Sophia.h" />
+    <ClInclude Include="AnimatableObject.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="AnimationCore">

@@ -39,15 +39,4 @@ public:
 };
 #pragma endregion
 
-#pragma region Key Event handler
-class CPlayScenceKeyHandler : public CScenceKeyHandler
-{
-public: 
-	virtual void OnKeyHold();
-	virtual void OnKeyDown(int KeyCode);
-	virtual void OnKeyUp(int KeyCode) {};
-	CPlayScenceKeyHandler(CScene *s) :CScenceKeyHandler(s) {};
-};
-#pragma endregion
-
 

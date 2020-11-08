@@ -12,7 +12,6 @@ using namespace std;
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 	CScene(id, filePath)
 {
-	key_handler = new CPlayScenceKeyHandler(this);
 }
 
 /*
@@ -229,7 +228,7 @@ void CPlayScene::Load()
 			case SCENE_SECTION_SPRITES: _ParseSection_SPRITES(line); break;
 			case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
 			case SCENE_SECTION_STATE_ANIMATION: _ParseSection_STATE_ANIMATION(line); break;
-			case SCENE_OBJECT_ANIMATION: _ParseSection_OBJECT_ANIMATION(line); break;
+			case SCENE_OBJECT_ANIMATION: _ParseSection_OBJECT_ANIMATIONS(line); break;
 			case SCENE_COLLISION_BOXES: _ParseSection_COLLISION_BOXES(line); break;
 			case SCENE_SECTIONS: _ParseSection_SECTIONS(line); break;
 			case SCENE_CLASSES: _ParseSection_CLASSES(line); break;
@@ -292,35 +291,4 @@ void CPlayScene::Unload()
 	player = nullptr;
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
-}
-
-void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
-{
-	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
-
-	CMario *mario = ((CPlayScene*)scence)->GetPlayer();
-	switch (KeyCode)
-	{
-	case DIK_SPACE:
-		mario->SetState(MARIO_STATE_JUMP);
-		break;
-	case DIK_A: 
-		mario->Reset();
-		break;
-	}
-}
-
-
-void CPlayScenceKeyHandler::OnKeyHold()
-{
-	CMario *mario = ((CPlayScene*)scence)->GetPlayer();
-
-	// disable control key when Mario die 
-	if (mario->GetState() == MARIO_STATE_DIE) return;
-	if (IsKeyDown(DIK_RIGHT))
-		mario->SetState(MARIO_STATE_WALKING_RIGHT);
-	else if (IsKeyDown(DIK_LEFT))
-		mario->SetState(MARIO_STATE_WALKING_LEFT);
-	else
-		mario->SetState(MARIO_STATE_IDLE);
 }

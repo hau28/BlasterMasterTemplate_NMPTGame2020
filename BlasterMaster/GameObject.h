@@ -107,7 +107,7 @@ protected:
 	/// </summary>
 	DWORD dt; 
 
-	CObjectAnimationHanlders animationHanlders;
+	int classId;
 
 public: 
 	CGameObject();
@@ -143,9 +143,6 @@ public:
 
 	void RenderBoundingBox();
 
-	void SetAnimationHandlers(CObjectAnimationHanlders animHanlders) { this->animationHanlders = animHanlders; }
-
-		
 	/// <summary>
 	/// <para> Extension of original SweptAABB to deal with two moving objects </para>
 	/// </summary>
@@ -192,6 +189,8 @@ public:
 	/// <para> WARNING 1: this could cover other game objects and causes visual bugs. The order of rendering is important, too </para>
 	/// </summary>
 	virtual void Render() = 0;
+
+    int GetClass() { return classId; };
 
 	~CGameObject();
 };

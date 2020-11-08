@@ -1,6 +1,6 @@
 #pragma once
 
-#include <unordered_map>
+#include <map>
 
 #include <Windows.h>
 #include <d3d9.h>
@@ -12,6 +12,7 @@
 
 #include "Scene.h"
 #include "CustomKeyEvent.h"
+#include "Scene.h"
 
 using namespace std;
 
@@ -46,7 +47,8 @@ class CGame
 	int screen_width;
 	int screen_height; 
 
-	unordered_map<int, LPSCENE> scenes;
+	// std::map<int, LPSCENE> scenes;
+	std::map<int, LPSCENE> scenes;
 	int current_scene; 
 
 	void _ParseSection_SETTINGS(string line);

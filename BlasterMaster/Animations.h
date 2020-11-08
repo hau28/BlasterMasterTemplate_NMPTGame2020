@@ -188,7 +188,7 @@ public:
 	CObjectAnimationHanlders GenerateAnimationHanlders();
 };
 
-typedef CObjectAnimations* LPObjectAnimations;
+typedef CObjectAnimations* LPOBJECT_ANIMATIONS;
 #pragma endregion Contains all object animations of a Game object family
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -207,11 +207,11 @@ class CObjectAnimationsLib
 	/// <summary>
 	/// Map from [GameObjectFamilyId] to [ObjectAnimations]
 	/// </summary>
-	unordered_map<int, LPObjectAnimations> objectAnimations;
+	unordered_map<int, LPOBJECT_ANIMATIONS> objectAnimations;
 
 public:
-	void Add(int objAnimsId, LPObjectAnimations objectAnimations);
-	LPObjectAnimations Get(int objAnimsId);
+	void Add(int objAnimsId, LPOBJECT_ANIMATIONS objectAnimations);
+	LPOBJECT_ANIMATIONS Get(int objAnimsId);
 
 	static CObjectAnimationsLib* GetInstance();
 };
