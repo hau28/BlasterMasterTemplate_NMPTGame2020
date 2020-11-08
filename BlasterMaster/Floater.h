@@ -1,8 +1,7 @@
 #pragma once
 #include "AnimatableObject.h"
 
-class CFloater :
-    public CAnimatableObject
+class CFloater : public CAnimatableObject
 {
 public:
     CFloater() {};

@@ -4,10 +4,6 @@
 #include <map>
 #include <string>
 #include "Utils.h"
-#include "Section.h"
-#include "Consts.h"
-#include "GameObject.h"
-#include "GameObjectFactory.h"
 
 using namespace std;
 
@@ -19,13 +15,14 @@ protected:
 
 public: 
 	CScene() {};
-	CScene(int id, LPCWSTR filePath, int startUpSection = -1);
+	CScene(int id, LPCWSTR filePath);
 
 	virtual void Load() = 0;
 	virtual void Unload() = 0;
 	void Update(DWORD dt);
 	void Render();
 
+	/* put back to PlayScene
 	//Sanh code Input Sence
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
@@ -37,8 +34,10 @@ public:
 	void _ParseSection_CLASSES(string line);
 	void _ParseSection_OBJECTS(string line);
 	
+
 	unordered_map<int, LPSECTION> Sections;
 	int CurrentSectionId;
+	*/
 };
 
 typedef CScene * LPSCENE;

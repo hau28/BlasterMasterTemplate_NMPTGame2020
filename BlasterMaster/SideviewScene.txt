@@ -1,6 +1,6 @@
 [TEXTURES]
 #ID	FilePath
-4	.\Textures\Dome.png
+4       .\Textures\Dome.png
 15	.\Textures\Floater_1.png
 23	.\Textures\Insect.png
 32	.\Textures\Mine.png
@@ -40,7 +40,7 @@
 
 [ANIMATIONS]
 #ID	SpriteId1	Duration1	SpriteId2	Duration2	...
-7	5		10		6		10		
+7	5               10		6		10		
 18	16		20		17		20		
 26	24		10		25		10		
 35	33		10		34		10		

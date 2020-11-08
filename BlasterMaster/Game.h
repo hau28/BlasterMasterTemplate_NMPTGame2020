@@ -5,17 +5,16 @@
 #include <Windows.h>
 #include <d3d9.h>
 #include <d3dx9.h>
-
-
-#define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 
 #include "Scene.h"
-#include "PlayScene.h"
 #include "CustomKeyEvent.h"
 #include "Utils.h"
 #include <iostream>
 #include <fstream>
+
+#define DIRECTINPUT_VERSION 0x0800
+
 
 
 using namespace std;

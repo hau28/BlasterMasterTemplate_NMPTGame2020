@@ -2,7 +2,8 @@
 
 LPGAMEOBJECT CGameObjectFactory::Create(int classId, map<string, string> properties, int& sectionId)
 {
-	LPGAMEOBJECT result;
+	LPGAMEOBJECT result = nullptr;
+	sectionId = -1;
 
 	// CuteTN Todo...
 	// not yet have any game object, so leave this here until we can finally add it...
@@ -23,10 +24,13 @@ LPGAMEOBJECT CGameObjectFactory::Create(int classId, map<string, string> propert
 		GetTileAreaObjectProps(properties, x, y, width, height);
 		result = new CTileArea(classId, x, y, width, height);
 		break;
+	default:
+		return nullptr;
+		break;
 	}
 
 	//every game object should have a section
-	int sectionId = atoi(properties["Section"].c_str());
+	sectionId = atoi(properties["Section"].c_str());
 
 	return result;
 }

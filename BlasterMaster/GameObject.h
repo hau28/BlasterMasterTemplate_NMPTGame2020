@@ -6,8 +6,8 @@
 #include <algorithm>
 
 #include "Utils.h"
+#include "Textures.h"
 #include "Game.h"
-
 
 using namespace std;
 

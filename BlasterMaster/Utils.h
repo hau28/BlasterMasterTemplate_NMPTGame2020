@@ -11,6 +11,7 @@
 #include <vector>
 #include <string>
 
+#include "Consts.h"
 #include "CustomKeyEvent.h"
 
 using namespace std;
@@ -23,6 +24,7 @@ wstring ToWSTR(string st);
 LPCWSTR ToLPCWSTR(string st);
 
 
+/*
 /// Check if key is down in the current frame
 /// CuteTN Note: Putting IsKeyDown into CGame Class is a really really bad idea.
 /// So I provide a shortcut to adapt it :^) which makes things worst... but easier to use
@@ -33,4 +35,5 @@ int IsKeyDown(int KeyCode);
 /// Also, keys events are sorted by the time they occur, be sure to iterate them right :)
 /// CuteTN Note: Putting NewKeyEvents into CGame Class is a really really bad idea.
 /// So I provide a shortcut to adapt it :^) which makes things worst... but easier to use
-vector<CCustomKeyEvent*> NewKeyEvents();
+std::vector<CCustomKeyEvent*> NewKeyEvents();
+*/

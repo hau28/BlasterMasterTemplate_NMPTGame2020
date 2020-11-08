@@ -1,8 +1,7 @@
 #pragma once
 #include "AnimatableObject.h"
 
-class CDome :
-    public CAnimatableObject
+class CDome : public CAnimatableObject
 {
 public:
     CDome() {};

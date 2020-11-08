@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "PlayScene.h"
 
 
 CGame * CGame::__instance = nullptr;
