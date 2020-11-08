@@ -19,8 +19,8 @@ public:
 
 	virtual void Load() = 0;
 	virtual void Unload() = 0;
-	void Update(DWORD dt);
-	void Render();
+	virtual void Update(DWORD dt) = 0;
+	virtual void Render() = 0;
 
 	/* put back to PlayScene
 	//Sanh code Input Sence

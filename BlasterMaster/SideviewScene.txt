@@ -91,7 +91,7 @@
 13
 21
 
-[OBJECT]
+[OBJECTS]
 #ObjId	ClassId	Properties...
 82 2	IsStatic 1	Section 80	X 0	Y 224	Width 1024	Height 32	
 83 13	Preview 5	Animations 8	Section 80	X 160	Y 136	

@@ -20,7 +20,7 @@ void CSection::Render()
 	// CuteTN Note: the order of rendering would be implemented here :)
 
 	RenderBackground();
-	
+
 	for (auto obj : Objects)
 		obj->Render();
 }

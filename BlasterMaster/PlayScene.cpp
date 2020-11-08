@@ -375,13 +375,13 @@ void CPlayScene::Load()
 		//
 		switch (section)
 		{ 
-			case SCENE_SECTION_TEXTURES: _ParseSection_TEXTURES(line); break;
+			case SCENE_SECTION_TEXTURES: _ParseSection_TEXTURES(line);   break;
 			case SCENE_SECTION_SPRITES: _ParseSection_SPRITES(line); break;
-			case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
-			case SCENE_SECTION_STATE_ANIMATION: _ParseSection_STATE_ANIMATION(line); break;
-			case SCENE_OBJECT_ANIMATION: _ParseSection_OBJECT_ANIMATIONS(line); break;
-			case SCENE_COLLISION_BOXES: _ParseSection_COLLISION_BOXES(line); break;
-			case SCENE_SECTIONS: _ParseSection_SECTIONS(line); break;
+			case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line);break;
+			case SCENE_SECTION_STATE_ANIMATION: _ParseSection_STATE_ANIMATION(line);  break;
+			case SCENE_OBJECT_ANIMATION: _ParseSection_OBJECT_ANIMATIONS(line);  break;
+			case SCENE_COLLISION_BOXES: _ParseSection_COLLISION_BOXES(line);  break;
+			case SCENE_SECTIONS: _ParseSection_SECTIONS(line);  break;
 			case SCENE_CLASSES: _ParseSection_CLASSES(line); break;
 			case SCENE_OBJECTS: _ParseSection_OBJECTS(line); break;
 		}
