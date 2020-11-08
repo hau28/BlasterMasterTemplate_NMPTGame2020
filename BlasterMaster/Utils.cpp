@@ -13,14 +13,39 @@ void DebugOut(wchar_t *fmt, ...)
 vector<string> split(string line, string delimeter)
 {
 	vector<string> tokens;
-	size_t last = 0; size_t next = 0;
-	while ((next = line.find(delimeter, last)) != string::npos)
-	{
-		tokens.push_back(line.substr(last, next - last));
-		last = next + 1;
-	}
-	tokens.push_back(line.substr(last));
+	//size_t last = 0; size_t next = 0;
+	//while ((next = line.find(delimeter, last)) != string::npos)
+	//{
+	//	tokens.push_back(line.substr(last, next - last));
+	//	last = next + 1;
+	//}
+	//tokens.push_back(line.substr(last));
 
+	string temp = "";
+	for (int i = 0; i < line.length(); i++)
+		if (line[i] == ' ' || line[i] == '\t')
+			temp += ' ';
+		else temp += line[i];
+	
+	line = temp + " ";
+	int i = 0;
+	string sub = " ";
+	while (i < line.length())
+	{
+		//Luoc bo cac khoang trang
+		if (line[i] == ' ')
+		{
+			if (sub[0] != ' ')
+				tokens.push_back(sub);
+			sub = " ";
+			i++;
+			continue;
+		}
+		if (sub == " ") sub = line[i];
+		else
+			sub += line[i];
+		i++;
+	}
 	return tokens;
 }
 
