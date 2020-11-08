@@ -1,7 +1,4 @@
 #include "Sprites.h"
-#include "Game.h"
-#include "Utils.h"
-#include <iostream>
 
 CSprite::CSprite(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex)
 {

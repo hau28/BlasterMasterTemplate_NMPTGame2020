@@ -1,74 +1,20 @@
 #pragma once
 
 #include <Windows.h>
-#include <d3dx9.h>
 #include <vector>
+#include <d3dx9.h>
+#include <algorithm>
 
-#include "Sprites.h"
-#include "Animations.h"
+#include "Utils.h"
+#include "Game.h"
 
 
 using namespace std;
 
 #define ID_TEX_BBOX -100		// special texture to draw object bounding box
 
-class CGameObject; 
-typedef CGameObject * LPGAMEOBJECT;
-
 struct CCollisionEvent;
 typedef CCollisionEvent * LPCOLLISIONEVENT;
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#pragma region CCollisionEvent
-/// <summary>
-/// <para> Stores infomation of a collision event from ONE game object to ANOTHER </para>
-/// <para> Based on Swept AABB algorithm </para>
-/// </summary>
-struct CCollisionEvent
-{
-	LPGAMEOBJECT sourceObject;
-	LPGAMEOBJECT otherObject;
-
-	/// <summary>
-	/// <para> Predicted time until colision based on swept AABB Algoithm </para>
-	/// <para> Collision on next frame only when: 0&lt;timeEntry&lt;1 </para>
-	/// </summary>
-	float timeEntry;
-
-	/// <summary>
-	/// <para> A small distance to move in order not to collide to otherObject </para> 
-	/// <para> Backward of (dx,dy) </para>
-	/// <para> Value can only be either -1, 0 or 1 </para>
-	/// </summary>
-	float nx, ny;
-	
-	/// <summary>
-	/// <para> Relative movement from sourceObject to otherObject perspective (i.e otherObject is static) </para>
-	/// </summary>
-	float rdx, rdy;
-
-	CCollisionEvent(LPGAMEOBJECT sourceObject, LPGAMEOBJECT otherObject, float timeEntry, float rdx, float rdy, float nx, float ny)
-	{ 
-		this->sourceObject = sourceObject;
-		this->otherObject = otherObject;
-		this->timeEntry = timeEntry;
-		this->rdx = rdx;
-		this->rdy = rdy;
-		this->nx = nx;
-		this->ny = ny;
-	}
-
-	/// <summary>
-	/// <para> One doesn't have to go to this function definition just to know it compares 2 entryTime, do they? </para>
-	/// </summary>
-	/// <returns>returns TRUE iff a.timeEntry&lt;b.timeEntry</returns>
-	static bool compare(const LPCOLLISIONEVENT &a, LPCOLLISIONEVENT &b)
-	{
-		return a->timeEntry < b->timeEntry;
-	}
-};
-#pragma endregion
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -148,14 +94,14 @@ public:
 	/// </summary>
 	/// <param name="coObject"></param>
 	/// <returns></returns>
-	LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coObject);
+	LPCOLLISIONEVENT SweptAABBEx(CGameObject* coObject);
 
 	/// <summary>
 	/// <para> Calculate potential collisions with the list of colliable objects </para>
 	/// </summary>
 	/// <param name="coObjects:"> The list of colliable objects </param>
 	/// <param name="coEvents:"> List of potential collisions </param>
-	void CalcPotentialCollisions(vector<LPGAMEOBJECT> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);
+	void CalcPotentialCollisions(vector<CGameObject*> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);
 	void FilterCollision(
 		vector<LPCOLLISIONEVENT> &coEvents, 
 		vector<LPCOLLISIONEVENT> &coEventsResult, 
@@ -181,7 +127,7 @@ public:
 	/// </summary>
 	/// <param name="dt:">Time elapsed from last frame. be acknowledged that this is NOT A CONSTANT, it's based on real-time</param>
 	/// <param name="coObjects:">Collision objects. I've not yet known how can this parameter help, but let us keep it that way...</param>
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = nullptr);
+	virtual void Update(DWORD dt, vector<CGameObject*> *coObjects = nullptr);
 
 	/// <summary>
 	/// <para> Render function is called at most once per frame (conventionally) </para>
@@ -193,5 +139,59 @@ public:
     int GetClass() { return classId; };
 
 	~CGameObject();
+};
+
+typedef CGameObject * LPGAMEOBJECT;
+#pragma endregion
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma region CCollisionEvent
+/// <summary>
+/// <para> Stores infomation of a collision event from ONE game object to ANOTHER </para>
+/// <para> Based on Swept AABB algorithm </para>
+/// </summary>
+struct CCollisionEvent
+{
+	LPGAMEOBJECT sourceObject;
+	LPGAMEOBJECT otherObject;
+
+	/// <summary>
+	/// <para> Predicted time until colision based on swept AABB Algoithm </para>
+	/// <para> Collision on next frame only when: 0&lt;timeEntry&lt;1 </para>
+	/// </summary>
+	float timeEntry;
+
+	/// <summary>
+	/// <para> A small distance to move in order not to collide to otherObject </para> 
+	/// <para> Backward of (dx,dy) </para>
+	/// <para> Value can only be either -1, 0 or 1 </para>
+	/// </summary>
+	float nx, ny;
+
+	/// <summary>
+	/// <para> Relative movement from sourceObject to otherObject perspective (i.e otherObject is static) </para>
+	/// </summary>
+	float rdx, rdy;
+
+	CCollisionEvent(LPGAMEOBJECT sourceObject, LPGAMEOBJECT otherObject, float timeEntry, float rdx, float rdy, float nx, float ny)
+	{
+		this->sourceObject = sourceObject;
+		this->otherObject = otherObject;
+		this->timeEntry = timeEntry;
+		this->rdx = rdx;
+		this->rdy = rdy;
+		this->nx = nx;
+		this->ny = ny;
+	}
+
+	/// <summary>
+	/// <para> One doesn't have to go to this function definition just to know it compares 2 entryTime, do they? </para>
+	/// </summary>
+	/// <returns>returns TRUE iff a.timeEntry&lt;b.timeEntry</returns>
+	static bool compare(const LPCOLLISIONEVENT& a, LPCOLLISIONEVENT& b)
+	{
+		return a->timeEntry < b->timeEntry;
+	}
 };
 #pragma endregion

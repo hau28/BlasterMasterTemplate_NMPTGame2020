@@ -11,8 +11,12 @@
 #include <dinput.h>
 
 #include "Scene.h"
+#include "PlayScene.h"
 #include "CustomKeyEvent.h"
-#include "Scene.h"
+#include "Utils.h"
+#include <iostream>
+#include <fstream>
+
 
 using namespace std;
 
@@ -75,7 +79,7 @@ public:
 	vector<CCustomKeyEvent*> CustomKeyEvents; // Just like keyEvents, but friendlier to use :)
 
 	void Load(LPCWSTR gameFile);
-	LPSCENE GetCurrentScene() { return scenes[current_scene]; }
+	LPSCENE GetCurrentScene() { return scenes[current_scene]; };
 	void SwitchScene(int scene_id);
 
 	int GetScreenWidth() { return screen_width; }

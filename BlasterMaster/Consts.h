@@ -1,3 +1,5 @@
+#pragma once
+
 const int CLASS_TILE_BLOCKABLE                    = 2;
 const int TEXTURE_DOME                            = 4;
 const int TEXTURE_DOME_R0C0                       = 5;

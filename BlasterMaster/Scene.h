@@ -1,10 +1,13 @@
 #pragma once
 
 #include <d3dx9.h>
+#include <map>
 #include <string>
-#include "GameObject.h"
+#include "Utils.h"
 #include "Section.h"
 #include "Consts.h"
+#include "GameObject.h"
+#include "GameObjectFactory.h"
 
 using namespace std;
 
@@ -37,4 +40,5 @@ public:
 	unordered_map<int, LPSECTION> Sections;
 	int CurrentSectionId;
 };
+
 typedef CScene * LPSCENE;

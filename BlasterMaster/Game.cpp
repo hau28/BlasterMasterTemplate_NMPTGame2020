@@ -1,10 +1,5 @@
-#include <iostream>
-#include <fstream>
-
 #include "Game.h"
-#include "Utils.h"
 
-#include "PlayScene.h"
 
 CGame * CGame::__instance = nullptr;
 

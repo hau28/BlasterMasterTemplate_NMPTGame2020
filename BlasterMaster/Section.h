@@ -1,24 +1,25 @@
 #pragma once
-#include <d3dx9.h>
-#include <vector>
+#include <d3d9.h>
 #include "Game.h"
+#include "Textures.h"
+#include "GameObject.h"
 
 class CSection
 {
 private:
 	// int sectionId;					we may not need this
 	int backgroundTextureId;
-	LPSCENE scene;
+	// LPSCENE scene;					why we need to know its scene anyway?
 
 public:
 	CSection() {};
-	CSection(LPSCENE scene, int backgroundTextureId);
+	CSection(int bgTextureId);
 
 	void RenderBackground();
 	void Update(DWORD dt);
 	void Render();
 
-	vector<LPGAMEOBJECT> Objects;
+	vector<CGameObject*> Objects;
 };
 
 typedef CSection* LPSECTION;

@@ -42,11 +42,11 @@
     <ClCompile Include="Dome.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="CTileArea.cpp">
-      <Filter>GameObjects</Filter>
-    </ClCompile>
     <ClCompile Include="Sophia.cpp" />
     <ClCompile Include="AnimatableObject.cpp" />
+    <ClCompile Include="TileArea.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -89,11 +89,11 @@
     <ClInclude Include="Dome.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="CTileArea.h">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="Sophia.h" />
     <ClInclude Include="AnimatableObject.h" />
+    <ClInclude Include="TileArea.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="AnimationCore">

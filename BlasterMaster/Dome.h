@@ -7,7 +7,7 @@ class CDome :
 public:
     CDome() {};
     CDome(int classId, int x, int y, int animsId) : CAnimatableObject::CAnimatableObject(classId, x, y, animsId) {};
-    void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+    virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 };
 
 typedef CDome* LPDOME;

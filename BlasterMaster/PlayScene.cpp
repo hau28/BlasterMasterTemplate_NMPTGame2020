@@ -1,11 +1,4 @@
-#include <iostream>
-#include <fstream>
-
 #include "PlayScene.h"
-#include "Utils.h"
-#include "Textures.h"
-#include "Sprites.h"
-#include "Portal.h"
 
 using namespace std;
 
@@ -59,6 +52,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 //
 //void CPlayScene::_ParseSection_SPRITES(string line)
 //{
+#include "Koopas.h"
 //	vector<string> tokens = split(line);
 //
 //	if (tokens.size() < 6) return; // skip invalid lines
@@ -260,11 +254,11 @@ void CPlayScene::Update(DWORD dt)
 	}
 
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
-	if (player == nullptr) return; 
+	// if (player == nullptr) return; 
 
 	// Update camera to follow mario
 	float cx, cy;
-	player->GetPosition(cx, cy);
+	// player->GetPosition(cx, cy);
 
 	CGame *game = CGame::GetInstance();
 	cx -= game->GetScreenWidth() / 2;
@@ -275,8 +269,12 @@ void CPlayScene::Update(DWORD dt)
 
 void CPlayScene::Render()
 {
-	for (int i = 0; i < objects.size(); i++)
-		objects[i]->Render();
+	CScene::Render();
+}
+
+void CPlayScene::Update(DWORD dt)
+{
+	CScene::Update(dt);
 }
 
 /*
@@ -288,7 +286,7 @@ void CPlayScene::Unload()
 		delete objects[i];
 
 	objects.clear();
-	player = nullptr;
+	// player = nullptr;
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }

@@ -1,13 +1,10 @@
 #pragma once
-#include "Scene.h"
-#include "GameObject.h"
-#include "Game.h"
+#include "Utils.h"
 #include <map>
-#include "Animations.h"
 
 #include "Dome.h"
 #include "Floater.h"
-#include "CTileArea.h"
+#include "TileArea.h"
 
 /// <summary>
 /// The Abstract factory for creating game objects
@@ -25,6 +22,6 @@ public:
 	/// <param name="classId">Decide which class of object to create</param>
 	/// <param name="properties">the list of properties info, map from a property name to its corresponding value</param>
 	/// <returns></returns>
-	static LPGAMEOBJECT Create(LPSCENE scene, int classId, map<string, string> properties);
+	static LPGAMEOBJECT Create(int classId, map<string, string> properties, int& sectionId);
 };
 

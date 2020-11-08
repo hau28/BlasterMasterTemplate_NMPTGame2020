@@ -1,6 +1,6 @@
 #include "GameObjectFactory.h"
 
-LPGAMEOBJECT CGameObjectFactory::Create(LPSCENE scene, int classId, map<string, string> properties)
+LPGAMEOBJECT CGameObjectFactory::Create(int classId, map<string, string> properties, int& sectionId)
 {
 	LPGAMEOBJECT result;
 
@@ -27,7 +27,6 @@ LPGAMEOBJECT CGameObjectFactory::Create(LPSCENE scene, int classId, map<string, 
 
 	//every game object should have a section
 	int sectionId = atoi(properties["Section"].c_str());
-	scene->Sections[sectionId]->Objects.push_back(result);
 
 	return result;
 }

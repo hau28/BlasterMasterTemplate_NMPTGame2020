@@ -1,10 +1,8 @@
 #include "Section.h"
-#include "Textures.h"
 
-CSection::CSection(LPSCENE scene, int backgroundTextureId)
+CSection::CSection(int bgTextureId)
 {
-	this->scene = scene;
-	this->backgroundTextureId = backgroundTextureId;
+	this->backgroundTextureId = bgTextureId;
 }
 
 void CSection::Update(DWORD dt)

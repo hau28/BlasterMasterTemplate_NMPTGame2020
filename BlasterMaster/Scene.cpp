@@ -1,13 +1,4 @@
 #include "Scene.h"
-#include <string>
-#include "Utils.h"
-#include "Textures.h"
-#include "Sprites.h"
-#include "Animations.h"
-#include "GameObjectFactory.h"
-#include <map>
-
-using namespace std;
 
 CScene::CScene(int id, LPCWSTR filePath, int startUpSection)
 {
@@ -86,8 +77,6 @@ void CScene::_ParseSection_STATE_ANIMATION(string line)
 
 	if (tokens.size() < 5) return; 
 
-	LPANIMATION ani = new CAnimation();
-
 	int state_id = atoi(tokens[0].c_str());
 	int ani_id = atoi(tokens[1].c_str());
 	LPANIMATION ani = CAnimationLib::GetInstance()->Get(ani_id);
@@ -147,7 +136,7 @@ void CScene::_ParseSection_SECTIONS(string line)
 		CurrentSectionId = section_ID;
 
 	//Add section
-	this->Sections[section_ID] = new CSection(this, texture_ID);
+	this->Sections[section_ID] = new CSection(texture_ID);
 }
 	
 void CScene::_ParseSection_CLASSES(string line)
@@ -176,8 +165,9 @@ void CScene::_ParseSection_OBJECTS(string line)
 	}
 
 	// Create a new game object
-	// CuteTN Warning: This function below has already add this new game object to its section (which is bad LOL)
-	LPGAMEOBJECT obj = CGameObjectFactory::Create(this, class_ID, Properties);
+	int sectionId;
+	LPGAMEOBJECT obj = CGameObjectFactory::Create(class_ID, Properties, sectionId);
+	Sections[sectionId]->Objects.push_back(obj);
 }
 
 void CScene::Update(DWORD dt)

@@ -2,6 +2,9 @@
 #include <Windows.h>
 #include <d3dx9.h>
 #include <unordered_map>
+#include "Utils.h"
+#include "Game.h"
+#include <iostream>
 
 using namespace std;
 

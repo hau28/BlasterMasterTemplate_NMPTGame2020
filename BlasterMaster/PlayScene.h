@@ -1,12 +1,17 @@
 #pragma once
+
+#include <iostream>
+#include <fstream>
+
 #include "Game.h"
 #include "Textures.h"
 #include "Scene.h"
 #include "GameObject.h"
-#include "Brick.h"
-#include "Mario.h"
-#include "Goomba.h"
-#include "Koopas.h"
+
+#include "Utils.h"
+#include "Textures.h"
+#include "Sprites.h"
+#include "Portal.h"
 
 
 class CPlayScene: public CScene
@@ -14,9 +19,8 @@ class CPlayScene: public CScene
 
 #pragma region Scene
 protected: 
-	CMario *player;					// A play scene has to have player, right? 
+	// CMario *player;					// A play scene has to have player, right? 
 
-	vector<LPGAMEOBJECT> objects;
 
 	//void _ParseSection_TEXTURES(string line);
 	//void _ParseSection_SPRITES(string line);
@@ -33,7 +37,7 @@ public:
 	virtual void Render();
 	virtual void Unload();
 
-	CMario * GetPlayer() { return player; } 
+	// CMario * GetPlayer() { return player; } 
 
 	//friend class CPlayScenceKeyHandler;
 };
