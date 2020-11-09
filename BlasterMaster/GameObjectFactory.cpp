@@ -20,6 +20,10 @@ LPGAMEOBJECT CGameObjectFactory::Create(int classId, map<string, string> propert
 		GetAnimatableObjectProps(properties, x, y, animsId);
 		result = new CFloater(classId, x, y, animsId);
 		break;
+	case CLASS_SOPHIA:
+		GetAnimatableObjectProps(properties, x, y, animsId);
+		result = new CSophia(classId, x, y, animsId);
+		break;
 	case CLASS_TILE_BLOCKABLE:
 		GetTileAreaObjectProps(properties, x, y, width, height);
 		result = new CTileArea(classId, x, y, width, height);

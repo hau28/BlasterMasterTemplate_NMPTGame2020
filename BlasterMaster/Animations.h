@@ -61,7 +61,7 @@ public:
 	/// <param name="x"> x-coordinate, relative to the gameworld (not the camera) </param>
 	/// <param name="y"> y-coordinate, relative to the gameworld (not the camera) </param>
 	/// <param name="alpha">opacity</param>
-	void Render(int currentFrame, float x, float y, int alpha = 255);
+	void Render(int currentFrame, float x, float y, int alpha = 255, bool flipX = false, int rotate = 0);
 	int GetNumberOfFrames();
 };
 

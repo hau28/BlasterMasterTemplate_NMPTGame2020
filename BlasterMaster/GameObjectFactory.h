@@ -5,6 +5,7 @@
 #include "Dome.h"
 #include "Floater.h"
 #include "TileArea.h"
+#include "Sophia.h"
 
 /// <summary>
 /// The Abstract factory for creating game objects

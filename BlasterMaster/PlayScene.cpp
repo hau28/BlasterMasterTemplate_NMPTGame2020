@@ -188,9 +188,9 @@ void CPlayScene::_ParseSection_TEXTURES(string line)
 	//int G = atoi(tokens[3].c_str());
 	//int B = atoi(tokens[4].c_str());
 
-	int R = 255;
-	int G = 255;
-	int B = 255;
+	int R = 254;
+	int G = 254;
+	int B = 254;
 
 	CTextures::GetInstance()->Add(texID, path.c_str(), D3DCOLOR_XRGB(R, G, B));
 }
@@ -338,6 +338,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	// Create a new game object
 	int sectionId;
 	LPGAMEOBJECT obj = CGameObjectFactory::Create(class_ID, Properties, sectionId);
+	if (obj == nullptr)
+		DebugOut(L"[ERROR] Cannot create object with object Id: %d\n", obj_ID);
 	Sections[sectionId]->Objects.push_back(obj);
 }
 

@@ -24,7 +24,6 @@ wstring ToWSTR(string st);
 LPCWSTR ToLPCWSTR(string st);
 
 
-/*
 /// Check if key is down in the current frame
 /// CuteTN Note: Putting IsKeyDown into CGame Class is a really really bad idea.
 /// So I provide a shortcut to adapt it :^) which makes things worst... but easier to use
@@ -36,4 +35,3 @@ int IsKeyDown(int KeyCode);
 /// CuteTN Note: Putting NewKeyEvents into CGame Class is a really really bad idea.
 /// So I provide a shortcut to adapt it :^) which makes things worst... but easier to use
 std::vector<CCustomKeyEvent*> NewKeyEvents();
-*/

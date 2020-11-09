@@ -1,4 +1,5 @@
 #include "Utils.h"
+#include "Game.h"
 
 void DebugOut(wchar_t *fmt, ...)
 {
@@ -85,7 +86,6 @@ LPCWSTR ToLPCWSTR(string st)
 	return w->c_str();
 }
 
-/*
 int IsKeyDown(int KeyCode)
 {
 	auto game = CGame::GetInstance();
@@ -97,4 +97,3 @@ vector<CCustomKeyEvent*> NewKeyEvents()
 	auto game = CGame::GetInstance();
 	return game->CustomKeyEvents;
 }
-*/
