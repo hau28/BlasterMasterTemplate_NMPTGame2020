@@ -8,7 +8,7 @@ const int SOPHIA_BOUNDBOX_HEIGHT = 16;
 const int SOPHIA_BOUNDBOX_OFFSETX = 9;
 const int SOPHIA_BOUNDBOX_OFFSETY = 23;
 
-const int SOPHIA_GRAVITY = 0;
+const float SOPHIA_GRAVITY = 0.01f;
 
 class CSophia :
     public CAnimatableObject

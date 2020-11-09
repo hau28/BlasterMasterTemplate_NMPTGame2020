@@ -4,6 +4,8 @@
 CSophia::CSophia(int classId, int x, int y, int animsId) : CAnimatableObject::CAnimatableObject(classId, x, y, animsId)
 {
 	SetState(SOPHIA_STATE_WALK_RIGHT);
+	vyMax = 100;
+	vxMax = 10;
 };
 
 
@@ -55,6 +57,11 @@ void CSophia::HandleKeyUp(DWORD dt, int keyCode)
 }
 void CSophia::HandleKeyDown(DWORD dt, int keyCode)
 {
+	if (keyCode == DIK_X && !flagOnAir)
+	{
+		DebugOut(L"%f\n", vy);
+		ay = -0.019;
+	}
 }
 
 void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
@@ -88,10 +95,9 @@ void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
 	CGameObject::Update(dt, coObjs);
-
 	HandleKeys(dt);
-
 	flagOnAir = true;
+
 	// Simple fall down
 	vy += SOPHIA_GRAVITY;
 
@@ -109,8 +115,9 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
 	{
-		x += dx;
-		y += dy;
+		//x += dx;
+		//y += dy;
+		SolveClassicalMechanics();
 	}
 	else
 	{
@@ -129,10 +136,10 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 		if (nx != 0) vx = 0;
 		if (ny != 0) vy = 0;
 
-
 		// collision logic
 		for (LPCOLLISIONEVENT coEvent : coEvents)
 			HandleCollision(dt, coEvent);
+
 	}
 
 }

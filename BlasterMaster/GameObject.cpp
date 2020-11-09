@@ -137,6 +137,9 @@ void CGameObject::SolveClassicalMechanics()
 
 	x += vx * dt;
 	y += vy * dt;
+
+	ax = 0;
+	ay = 0;
 }
 
 CGameObject::~CGameObject()
