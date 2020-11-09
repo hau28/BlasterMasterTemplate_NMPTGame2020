@@ -20,7 +20,7 @@ class CPlayScene: public CScene
 
 #pragma region Scene
 protected: 
-	// CMario *player;					// A play scene has to have player, right? 
+	LPGAMEOBJECT player;					// A play scene has to have player, right? 
 
 
 	//void _ParseSection_TEXTURES(string line);
@@ -51,7 +51,10 @@ public:
 	unordered_map<int, LPSECTION> Sections;
 	int CurrentSectionId;
 
-	// CMario * GetPlayer() { return player; } 
+	//Sanh
+	LPSECTION GetCurrentSection() { return Sections[CurrentSectionId]; }
+
+	LPGAMEOBJECT GetPlayer() { return player; } 
 
 	//friend class CPlayScenceKeyHandler;
 };

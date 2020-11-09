@@ -338,6 +338,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	// Create a new game object
 	int sectionId;
 	LPGAMEOBJECT obj = CGameObjectFactory::Create(class_ID, Properties, sectionId);
+	if (class_ID == CLASS_SOPHIA)
+		this->player = obj;
 	if (obj == nullptr)
 		DebugOut(L"[ERROR] Cannot create object with object Id: %d\n", obj_ID);
 	Sections[sectionId]->Objects.push_back(obj);
@@ -415,20 +417,34 @@ void CPlayScene::Update(DWORD dt)
 
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	// if (player == nullptr) return; 
-
+		*/
+	
+	//Sanh code 
 	// Update camera to follow mario
 	float cx, cy;
-	// player->GetPosition(cx, cy);
+	player->GetPosition(cx, cy);
 
 	CGame *game = CGame::GetInstance();
-	cx -= game->GetScreenWidth() / 2;
-	cy -= game->GetScreenHeight() / 2;
+	cx -= game->GetScreenWidth() / 2 - 12;
+	cy -= game->GetScreenHeight() / 2 - 8;
 
-	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy);
-	*/
+	//Need know pos of section background
+	LPSECTION section = this->GetCurrentSection();
+	float width_section = section->getBgWidth();
+	float height_section = section->getBgHeight();
+
+	if (cx < 0) cx = 0;
+	if (cy < 0) cy = 0;
+
+	if (cx + game->GetScreenWidth() > width_section)
+		cx = width_section - game->GetScreenWidth();
+
+	if (cy + game->GetScreenHeight() > height_section)
+		cy = height_section - game->GetScreenHeight();
+
+	CGame::GetInstance()->SetCamPos(cx,cy);
 
 	Sections[CurrentSectionId]->Update(dt);
-	
 	// CuteTN to do: switching section here
 }
 
