@@ -364,6 +364,6 @@
 351 2	Section 323	X 592	Y 192	Width 80	Height 32	
 352 2	Section 323	X 784	Y 192	Width 240	Height 32	
 353 21	Preview 17	Animations 19	Section 323	X 32	Y 32	
-354 320	Preview 178	Animations 245	Section 323	X 35	Y 118	
+354 320	Preview 178	Animations 245	Section 323	X 35	Y 0
 
 
