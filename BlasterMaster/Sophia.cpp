@@ -3,7 +3,7 @@
 
 CSophia::CSophia(int classId, int x, int y, int animsId) : CAnimatableObject::CAnimatableObject(classId, x, y, animsId)
 {
-	SetState(SOPHIA_STATE_IDLE1_RIGHT);
+	SetState(SOPHIA_STATE_IDLE3_RIGHT);
 	vyMax = 100;
 	vxMax = SOPHIA_MAX_SPEED;
 };
@@ -30,7 +30,7 @@ void CSophia::HandleKeysHold(DWORD dt)
 {
 	if (IsKeyDown(DIK_RIGHT))
 	{
-		if (vx>0.01 && GetTickCount() - lastTimeMoveWheel >= 150 - 1200 * vx) {
+		if (abs(vx)>0.01 && GetTickCount() - lastTimeMoveWheel >= 300 - 2750 * abs(vx)) {
 			wheel = (wheel + 1) % 4;
 			lastTimeMoveWheel = GetTickCount();
 		}
@@ -40,7 +40,11 @@ void CSophia::HandleKeysHold(DWORD dt)
 	}
 	else if (IsKeyDown(DIK_LEFT))
 	{
-		SetState(SOPHIA_STATE_WALK_LEFT);
+		if (abs(vx) > 0.01 && GetTickCount() - lastTimeMoveWheel >= 300 - 2750 * abs(vx)) {
+			wheel = (wheel + 1) % 4;
+			lastTimeMoveWheel = GetTickCount();
+		}
+		SetState(SOPHIA_STATE_IDLE_LEFT + 3 - wheel);
 		ax = -0.001;
 		isLeft = true;
 	}
@@ -144,9 +148,11 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 		CalcPotentialCollisions(coObjs, coEvents);
 	if (flagStop && !stopLeft)
 		if (vx > 0) {
-			vx -= 0.005;
-			if (int(500 * vx)>0 &&  GetTickCount() % int(500 * vx) == 0)
+			vx -= 0.005; 
+			if (abs(vx) > 0.0001 && GetTickCount() - lastTimeMoveWheel >= 150 - 1500 * abs(vx)) {
 				wheel = (wheel + 1) % 4;
+				lastTimeMoveWheel = GetTickCount();
+			}
 			SetState(SOPHIA_STATE_IDLE_RIGHT + 3 - wheel);
 		}
 		else {
@@ -154,8 +160,14 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 			flagStop = false;
 		}
 	if (flagStop && stopLeft)
-		if (vx < 0)
+		if (vx < 0) {
 			vx += 0.005;
+			if (abs(vx) > 0.0001 && GetTickCount() - lastTimeMoveWheel >= 150 - 1500 * abs(vx)) {
+				wheel = (wheel + 1) % 4;
+				lastTimeMoveWheel = GetTickCount();
+			}
+			SetState(SOPHIA_STATE_IDLE_LEFT + 3 - wheel);
+		}
 		else {
 			vx = 0;
 			flagStop = false;
