@@ -1,13 +1,27 @@
 #pragma once
 #include "AnimatableObject.h"
+
+// 8 23 31 39
+
+const int SOPHIA_BOUNDBOX_WIDTH = 21;
+const int SOPHIA_BOUNDBOX_HEIGHT = 16;
+const int SOPHIA_BOUNDBOX_OFFSETX = 9;
+const int SOPHIA_BOUNDBOX_OFFSETY = 23;
+
+const int SOPHIA_GRAVITY = 0;
+
 class CSophia :
     public CAnimatableObject
 {
+private:
     void HandleKeys(DWORD dt);
     void HandleKeyUp(DWORD dt, int keyCode);
     void HandleKeyDown(DWORD dt, int keyCode);
     void HandleKeysHold(DWORD dt);
+    void HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent);
 
+    bool flagOnAir;
+    bool flagDead = false;
 
 public:
 	CSophia() {};

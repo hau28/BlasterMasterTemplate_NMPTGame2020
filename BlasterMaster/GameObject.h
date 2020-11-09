@@ -127,7 +127,7 @@ public:
 	/// </summary>
 	/// <param name="dt:">Time elapsed from last frame. be acknowledged that this is NOT A CONSTANT, it's based on real-time</param>
 	/// <param name="coObjects:">Collision objects. I've not yet known how can this parameter help, but let us keep it that way...</param>
-	virtual void Update(DWORD dt, vector<CGameObject*> *coObjects = nullptr);
+	virtual void Update(DWORD dt, vector<CGameObject*> *coObjects);
 
 	/// <summary>
 	/// <para> Render function is called at most once per frame (conventionally) </para>

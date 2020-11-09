@@ -1,4 +1,5 @@
 #include "Section.h"
+#include "TileArea.h"
 
 CSection::CSection(int bgTextureId)
 {
@@ -9,8 +10,18 @@ void CSection::Update(DWORD dt)
 {
 	// CuteTN to do: filter out the neccessary objects to update
 
+	// collision objects for static object, i.e. tiles
+	//vector<LPGAMEOBJECT> coObjs_static;
+	//coObjs_static.clear();
+
+
 	for (auto obj : Objects)
-		obj->Update(dt);
+	{
+		if (dynamic_cast<LPTILE_AREA>(obj))
+			obj->Update(dt, nullptr);
+		else
+			obj->Update(dt, &Objects);
+	}
 
 	// CutetN todo: set new position for camera
 }
@@ -18,7 +29,6 @@ void CSection::Update(DWORD dt)
 void CSection::Render()
 {
 	// CuteTN Note: the order of rendering would be implemented here :)
-
 	RenderBackground();
 
 	for (auto obj : Objects)
