@@ -30,7 +30,11 @@ void CSophia::HandleKeysHold(DWORD dt)
 {
 	if (IsKeyDown(DIK_RIGHT))
 	{
-		SetState(SOPHIA_STATE_WALK_RIGHT);
+		if (vx>0.01 && GetTickCount() - lastTimeMoveWheel >= 150 - 1200 * vx) {
+			wheel = (wheel + 1) % 4;
+			lastTimeMoveWheel = GetTickCount();
+		}
+		SetState(SOPHIA_STATE_IDLE_RIGHT + 3 - wheel);
 		ax = 0.001;
 		isLeft = false;
 	}
@@ -60,7 +64,6 @@ void CSophia::HandleKeysHold(DWORD dt)
 void CSophia::HandleKeyUp(DWORD dt, int keyCode)
 {
 	if (keyCode == DIK_RIGHT) {
-		SetState(SOPHIA_STATE_IDLE1_RIGHT);
 		flagStop = true;
 		stopLeft = false;
 	}
@@ -140,8 +143,12 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 	if(!flagDead)
 		CalcPotentialCollisions(coObjs, coEvents);
 	if (flagStop && !stopLeft)
-		if (vx > 0)
+		if (vx > 0) {
 			vx -= 0.005;
+			if (int(500 * vx)>0 &&  GetTickCount() % int(500 * vx) == 0)
+				wheel = (wheel + 1) % 4;
+			SetState(SOPHIA_STATE_IDLE_RIGHT + 3 - wheel);
+		}
 		else {
 			vx = 0;
 			flagStop = false;

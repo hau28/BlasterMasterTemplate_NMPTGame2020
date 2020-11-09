@@ -26,6 +26,8 @@ private:
     bool flagStop = false;
     bool stopLeft = false;
     bool isLeft = false;
+    DWORD lastTimeMoveWheel;
+    int wheel = 0;
 public:
 	CSophia() {};
 	CSophia(int classId, int x, int y, int animsId);
