@@ -57,10 +57,10 @@ void CSophia::HandleKeyUp(DWORD dt, int keyCode)
 }
 void CSophia::HandleKeyDown(DWORD dt, int keyCode)
 {
-	if (keyCode == DIK_X && !flagOnAir)
+	if (!flagOnAir && keyCode == DIK_X)
 	{
-		DebugOut(L"%f\n", vy);
-		ay = -0.019;
+		ay = -0.015;
+		flagOnAir = true;
 	}
 }
 
@@ -96,11 +96,10 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
 	CGameObject::Update(dt, coObjs);
 	HandleKeys(dt);
-	flagOnAir = true;
 
 	// Simple fall down
-	vy += SOPHIA_GRAVITY;
-
+	vy += SOPHIA_GRAVITY; 
+	//SolveClassicalMechanics();
 	float dx, dy;
 	GetPositionDifference(dx, dy);
 
@@ -127,12 +126,10 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 
 		// TODO: This is a very ugly designed function!!!!
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
 		// block every object first!
 		// CuteTN Note: wth is 0.4f??? WHAT IS IT?
-		x += min_tx * dx + nx;// *0.4f;
-		y += min_ty * dy + ny;// *0.4f;
-
+		x += min_tx * dx+ nx *0.4f;
+		y += min_ty * dy+ ny *0.4f;
 		if (nx != 0) vx = 0;
 		if (ny != 0) vy = 0;
 
