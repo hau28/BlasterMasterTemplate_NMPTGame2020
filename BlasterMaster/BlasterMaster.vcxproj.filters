@@ -11,9 +11,6 @@
     <ClCompile Include="Sprites.cpp">
       <Filter>AnimationCore</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>GameManagers</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
@@ -47,6 +44,9 @@
     <ClCompile Include="TileArea.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>AnimationCore</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -60,9 +60,6 @@
     </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>GameManagers</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="Utils.h">
       <Filter>Utilities</Filter>
@@ -92,6 +89,9 @@
     <ClInclude Include="Sophia.h" />
     <ClInclude Include="AnimatableObject.h" />
     <ClInclude Include="TileArea.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
   </ItemGroup>

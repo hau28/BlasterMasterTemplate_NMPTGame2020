@@ -5,10 +5,9 @@
 class CAnimatableObject :
     public CGameObject
 {
-private:
+public:
 	CObjectAnimationHanlders animationHandlers;
 
-public:
 	CAnimatableObject() {};
 	CAnimatableObject(int classId, int x, int y, int animsId);
 

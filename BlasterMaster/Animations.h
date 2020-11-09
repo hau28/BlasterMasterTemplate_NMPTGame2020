@@ -77,7 +77,6 @@ typedef CAnimation *LPANIMATION;
 class CAnimationHandler
 {
 	DWORD lastFrameTime;
-	int currentFrameIndex;
 
 
 public:
@@ -85,6 +84,7 @@ public:
 	bool flipX = false;
 	bool flipY = false;
 	int timesRotate90 = 0;
+	int currentFrameIndex;
 
 	CAnimationHandler(LPANIMATION animation, bool flipX = false, bool flipY = false, int timesRotate90 = 0);
 

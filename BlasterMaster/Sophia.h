@@ -7,6 +7,7 @@ const int SOPHIA_BOUNDBOX_WIDTH = 21;
 const int SOPHIA_BOUNDBOX_HEIGHT = 16;
 const int SOPHIA_BOUNDBOX_OFFSETX = 9;
 const int SOPHIA_BOUNDBOX_OFFSETY = 23;
+const float SOPHIA_MAX_SPEED = 0.1;
 
 const float SOPHIA_GRAVITY = 0.01f;
 
@@ -21,8 +22,10 @@ private:
     void HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent);
 
     bool flagOnAir;
-    bool flagDead = false;
-
+    bool flagDead=0;
+    bool flagStop = false;
+    bool stopLeft = false;
+    bool isLeft = false;
 public:
 	CSophia() {};
 	CSophia(int classId, int x, int y, int animsId);
