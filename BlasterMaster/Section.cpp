@@ -4,6 +4,15 @@
 CSection::CSection(int bgTextureId)
 {
 	this->backgroundTextureId = bgTextureId;
+
+	LPDIRECT3DTEXTURE9 backgroundTexture = CTextures::GetInstance()->Get(backgroundTextureId);
+
+	// getting the size of texture
+	D3DSURFACE_DESC surfaceDesc;
+	backgroundTexture->GetLevelDesc(0, &surfaceDesc);
+
+	bgWidth = surfaceDesc.Width;
+	bgHeight = surfaceDesc.Height;
 }
 
 void CSection::Update(DWORD dt)
@@ -38,9 +47,5 @@ void CSection::Render()
 void CSection::RenderBackground()
 {
 	LPDIRECT3DTEXTURE9 backgroundTexture = CTextures::GetInstance()->Get(backgroundTextureId);
-	// getting the size of texture
-	D3DSURFACE_DESC surfaceDesc;
-	backgroundTexture->GetLevelDesc(0, &surfaceDesc);
-
-	CGame::GetInstance()->Draw(0, 0, backgroundTexture, 0, 0, surfaceDesc.Width, surfaceDesc.Height);
+	CGame::GetInstance()->Draw(0, 0, backgroundTexture, 0, 0, bgWidth, bgHeight);
 }
