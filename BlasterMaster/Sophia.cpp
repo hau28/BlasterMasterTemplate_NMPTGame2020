@@ -1,5 +1,6 @@
 #include "Sophia.h"
 #include "TileArea.h"
+#include "CollisionSolver.h"
 
 CSophia::CSophia(int classId, int x, int y, int animsId) : CAnimatableObject::CAnimatableObject(classId, x, y, animsId)
 {
@@ -110,6 +111,11 @@ void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 		{
 		case CLASS_TILE_BLOCKABLE:
 		{
+			x += coEvent->timeEntry * dt * vx + coEvent->nx*0.4f;
+			y += coEvent->timeEntry * dt * vy + coEvent->ny*0.4f;
+			if (coEvent->nx != 0) vx = 0;
+			if (coEvent->ny != 0) vy = 0;
+
 			// on top of a blockable tile
 			if (coEvent->ny < 0)
 			{
@@ -138,7 +144,8 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 
 	// turn off collision when die 
 	if(!flagDead)
-		CalcPotentialCollisions(coObjs, coEvents);
+		CCollisionSolver::CalcPotentialCollisions(this, coObjs, coEvents, dt);
+
 	if (flagStop && !stopLeft)
 		if (vx > 0)
 			vx -= 0.005;
@@ -168,13 +175,13 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 		float rdy = 0;
 
 		// TODO: This is a very ugly designed function!!!!
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+		// FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 		// block every object first!
 		// CuteTN Note: wth is 0.4f??? WHAT IS IT?
-		x += min_tx * dx + nx*0.4f;
-		y += min_ty * dy + ny*0.4f;
-		if (nx != 0) vx = 0;
-		if (ny != 0) vy = 0;
+		// x += min_tx * dx + nx*0.4f;
+		// y += min_ty * dy + ny*0.4f;
+		// if (nx != 0) vx = 0;
+		// if (ny != 0) vy = 0;
 
 		// collision logic
 		for (LPCOLLISIONEVENT coEvent : coEvents)

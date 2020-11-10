@@ -1,6 +1,8 @@
 #pragma once
 #include "AnimatableObject.h"
 
+// bound 8 12 23 18
+
 class CDome : public CAnimatableObject
 {
 public:

@@ -44,9 +44,11 @@
     <ClCompile Include="TileArea.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="Worm.cpp" />
     <ClCompile Include="Game.cpp">
-      <Filter>AnimationCore</Filter>
+      <Filter>GameManagers</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionSolver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -94,6 +96,8 @@
     <ClInclude Include="GameObject.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
+    <ClInclude Include="Worm.h" />
+    <ClInclude Include="CollisionSolver.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="AnimationCore">

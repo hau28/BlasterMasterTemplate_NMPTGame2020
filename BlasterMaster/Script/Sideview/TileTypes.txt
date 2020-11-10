@@ -1,0 +1,8 @@
+CLASS
+	CLASS_TILE_BLOCKABLE
+	Section Section - "The<>section<>that<>contains<>this<>game<>object"
+	Int X - "Left<>position"
+	Int Y - "Top<>position"
+	Int Width - ""
+	Int Height - ""
+;

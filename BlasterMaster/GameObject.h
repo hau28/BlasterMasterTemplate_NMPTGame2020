@@ -89,20 +89,8 @@ public:
 
 	void RenderBoundingBox();
 
-	/// <summary>
-	/// <para> Extension of original SweptAABB to deal with two moving objects </para>
-	/// </summary>
-	/// <param name="coObject"></param>
-	/// <returns></returns>
-	LPCOLLISIONEVENT SweptAABBEx(CGameObject* coObject);
 
-	/// <summary>
-	/// <para> Calculate potential collisions with the list of colliable objects </para>
-	/// </summary>
-	/// <param name="coObjects:"> The list of colliable objects </param>
-	/// <param name="coEvents:"> List of potential collisions </param>
-	void CalcPotentialCollisions(vector<CGameObject*> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);
-	void FilterCollision(
+	/*void FilterCollision(
 		vector<LPCOLLISIONEVENT> &coEvents, 
 		vector<LPCOLLISIONEVENT> &coEventsResult, 
 		float &min_tx, 
@@ -110,7 +98,7 @@ public:
 		float &nx, 
 		float &ny, 
 		float &rdx, 
-		float &rdy);
+		float &rdy);*/
 
 	/// <summary>
 	/// <para> Getting the actual hitbox (collision box) of a game object. Relative to gameworld, not to the sprite itself. </para>

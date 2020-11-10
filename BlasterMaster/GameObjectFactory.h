@@ -6,6 +6,7 @@
 #include "Floater.h"
 #include "TileArea.h"
 #include "Sophia.h"
+#include "Worm.h"
 
 /// <summary>
 /// The Abstract factory for creating game objects

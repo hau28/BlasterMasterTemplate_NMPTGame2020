@@ -1,4 +1,5 @@
 #include "GameObject.h"
+#include "CollisionSolver.h"
 
 CGameObject::CGameObject()
 {
@@ -12,62 +13,9 @@ void CGameObject::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	this->dt = dt;
 }
 
-LPCOLLISIONEVENT CGameObject::SweptAABBEx(LPGAMEOBJECT coObject)
-{
-	float sl, st, sr, sb;		// static object bbox
-	float ml, mt, mr, mb;		// moving object bbox
-	float t, nx, ny;
 
-	coObject->GetBoundingBox(sl, st, sr, sb);
 
-	// deal with moving object: m speed = original m speed - collide object speed
-	float svx, svy;
-	coObject->GetSpeed(svx, svy);
-
-	float sdx = svx*dt;
-	float sdy = svy*dt;
-
-	float dx, dy;
-	this->GetPositionDifference(dx, dy);
-
-	// (rdx, rdy) is RELATIVE movement distance/velocity 
-	float rdx = dx - sdx;
-	float rdy = dy - sdy;
-
-	GetBoundingBox(ml, mt, mr, mb);
-
-	CGame::SweptAABB(
-		ml, mt, mr, mb,
-		rdx, rdy,
-		sl, st, sr, sb,
-		t, nx, ny
-	);
-
-	// CCollisionEvent * e = new CCollisionEvent(t, nx, ny, rdx, rdy, coO);
-	CCollisionEvent* e = new CCollisionEvent(this, coObject, t, rdx, rdy, nx, ny);
-	return e;
-}
-
-void CGameObject::CalcPotentialCollisions(
-	vector<LPGAMEOBJECT>* coObjects,
-	vector<LPCOLLISIONEVENT>& coEvents)
-{
-	if (coObjects == nullptr)
-		return;
-
-	for (UINT i = 0; i < coObjects->size(); i++)
-	{
-		LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i));
-
-		if (e->timeEntry > 0 && e->timeEntry <= 1.0f)
-			coEvents.push_back(e);
-		else
-			delete e;
-	}
-
-	std::sort(coEvents.begin(), coEvents.end(), CCollisionEvent::compare);
-}
-
+/* CuteTN Note: We may not need this...
 void CGameObject::FilterCollision(
 	vector<LPCOLLISIONEVENT> &coEvents,
 	vector<LPCOLLISIONEVENT> &coEventsResult,
@@ -100,7 +48,7 @@ void CGameObject::FilterCollision(
 	if (min_ix>=0) coEventsResult.push_back(coEvents[min_ix]);
 	if (min_iy>=0) coEventsResult.push_back(coEvents[min_iy]);
 }
-
+*/
 
 void CGameObject::RenderBoundingBox()
 {
