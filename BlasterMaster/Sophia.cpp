@@ -8,6 +8,17 @@ CSophia::CSophia(int classId, int x, int y, int animsId) : CAnimatableObject::CA
 	vxMax = SOPHIA_MAX_SPEED;
 };
 
+void CSophia::updateWheel() {
+	if (abs(vx) > 0.001 && GetTickCount() - lastTimeMoveWheel >= 150 - 1500 * abs(vx)) {
+		wheel = (wheel + 1) % 4;
+		lastTimeMoveWheel = GetTickCount();
+	}
+}
+
+void CSophia::setIdleRight() {
+	updateWheel();
+	SetState(idleRightStates[wheel]);
+}
 
 #pragma region key events handling
 
@@ -30,21 +41,13 @@ void CSophia::HandleKeysHold(DWORD dt)
 {
 	if (IsKeyDown(DIK_RIGHT))
 	{
-		if (abs(vx)>0.01 && GetTickCount() - lastTimeMoveWheel >= 300 - 2750 * abs(vx)) {
-			wheel = (wheel + 1) % 4;
-			lastTimeMoveWheel = GetTickCount();
-		}
-		SetState(SOPHIA_STATE_IDLE_RIGHT + 3 - wheel);
+		setIdleRight();
 		ax = 0.001;
 		isLeft = false;
 	}
 	else if (IsKeyDown(DIK_LEFT))
 	{
-		if (abs(vx) > 0.01 && GetTickCount() - lastTimeMoveWheel >= 300 - 2750 * abs(vx)) {
-			wheel = (wheel + 1) % 4;
-			lastTimeMoveWheel = GetTickCount();
-		}
-		SetState(SOPHIA_STATE_IDLE_LEFT + 3 - wheel);
+		SetState(SOPHIA_STATE_WALK_LEFT);
 		ax = -0.001;
 		isLeft = true;
 	}
@@ -68,6 +71,7 @@ void CSophia::HandleKeysHold(DWORD dt)
 void CSophia::HandleKeyUp(DWORD dt, int keyCode)
 {
 	if (keyCode == DIK_RIGHT) {
+		SetState(SOPHIA_STATE_IDLE1_RIGHT);
 		flagStop = true;
 		stopLeft = false;
 	}
@@ -144,30 +148,18 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 	coEvents.clear();
 
 	// turn off collision when die 
-	if(!flagDead)
+	if (!flagDead)
 		CalcPotentialCollisions(coObjs, coEvents);
 	if (flagStop && !stopLeft)
-		if (vx > 0) {
-			vx -= 0.005; 
-			if (abs(vx) > 0.0001 && GetTickCount() - lastTimeMoveWheel >= 150 - 1500 * abs(vx)) {
-				wheel = (wheel + 1) % 4;
-				lastTimeMoveWheel = GetTickCount();
-			}
-			SetState(SOPHIA_STATE_IDLE_RIGHT + 3 - wheel);
-		}
+		if (vx > 0)
+			vx -= 0.005;
 		else {
 			vx = 0;
 			flagStop = false;
 		}
 	if (flagStop && stopLeft)
-		if (vx < 0) {
+		if (vx < 0)
 			vx += 0.005;
-			if (abs(vx) > 0.0001 && GetTickCount() - lastTimeMoveWheel >= 150 - 1500 * abs(vx)) {
-				wheel = (wheel + 1) % 4;
-				lastTimeMoveWheel = GetTickCount();
-			}
-			SetState(SOPHIA_STATE_IDLE_LEFT + 3 - wheel);
-		}
 		else {
 			vx = 0;
 			flagStop = false;
@@ -190,8 +182,8 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 		// block every object first!
 		// CuteTN Note: wth is 0.4f??? WHAT IS IT?
-		x += min_tx * dx + nx*0.4f;
-		y += min_ty * dy + ny*0.4f;
+		x += min_tx * dx + nx * 0.4f;
+		y += min_ty * dy + ny * 0.4f;
 		if (nx != 0) vx = 0;
 		if (ny != 0) vy = 0;
 
