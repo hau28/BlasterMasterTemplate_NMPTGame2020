@@ -19,4 +19,3 @@ public:
 
 	// void SetAnimationHandlers(CObjectAnimationHanlders animHanlders) { this->animationHanlders = animHanlders; }
 };
-

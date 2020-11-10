@@ -29,6 +29,7 @@ private:
     int wheel = 0;
     DWORD lastTimeMoveWheel;
     vector<int> idleRightStates = { SOPHIA_STATE_IDLE_RIGHT,SOPHIA_STATE_IDLE1_RIGHT,SOPHIA_STATE_IDLE2_RIGHT,SOPHIA_STATE_IDLE3_RIGHT };
+    vector<int> idleLeftStates = { SOPHIA_STATE_IDLE_LEFT,SOPHIA_STATE_IDLE1_LEFT,SOPHIA_STATE_IDLE2_LEFT,SOPHIA_STATE_IDLE3_LEFT };
 
 public:
     CSophia() {};
@@ -37,6 +38,7 @@ public:
     virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);     
     virtual void updateWheel();
     virtual void setIdleRight();
+    virtual void setIdleLeft();
 };
 
 typedef CSophia* LPSophia;

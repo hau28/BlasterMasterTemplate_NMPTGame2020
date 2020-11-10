@@ -9,7 +9,7 @@ CSophia::CSophia(int classId, int x, int y, int animsId) : CAnimatableObject::CA
 };
 
 void CSophia::updateWheel() {
-	if (abs(vx) > 0.001 && GetTickCount() - lastTimeMoveWheel >= 150 - 1500 * abs(vx)) {
+	if (abs(vx) > 0.001 && GetTickCount() - lastTimeMoveWheel >= 300 - 2500 * abs(vx)) {
 		wheel = (wheel + 1) % 4;
 		lastTimeMoveWheel = GetTickCount();
 	}
@@ -17,7 +17,12 @@ void CSophia::updateWheel() {
 
 void CSophia::setIdleRight() {
 	updateWheel();
-	SetState(idleRightStates[wheel]);
+	SetState(idleRightStates[3-wheel]);
+}
+
+void CSophia::setIdleLeft() {
+	updateWheel();
+	SetState(idleLeftStates[3-wheel]);
 }
 
 #pragma region key events handling
@@ -47,7 +52,7 @@ void CSophia::HandleKeysHold(DWORD dt)
 	}
 	else if (IsKeyDown(DIK_LEFT))
 	{
-		SetState(SOPHIA_STATE_WALK_LEFT);
+		setIdleLeft();
 		ax = -0.001;
 		isLeft = true;
 	}
@@ -99,7 +104,8 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
 {
 	if (!flagOnAir && keyCode == DIK_X)
 	{
-		ay = -0.015;
+		y -= 0.1;
+		ay = -0.0175;
 		flagOnAir = true;
 	}
 }
@@ -151,15 +157,19 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 	if (!flagDead)
 		CalcPotentialCollisions(coObjs, coEvents);
 	if (flagStop && !stopLeft)
-		if (vx > 0)
+		if (vx > 0) {
 			vx -= 0.005;
+			setIdleRight();
+		}
 		else {
 			vx = 0;
 			flagStop = false;
 		}
 	if (flagStop && stopLeft)
-		if (vx < 0)
+		if (vx < 0) {
 			vx += 0.005;
+			setIdleLeft();
+		}
 		else {
 			vx = 0;
 			flagStop = false;
