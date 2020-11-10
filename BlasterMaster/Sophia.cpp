@@ -57,6 +57,21 @@ void CSophia::HandleKeysHold(DWORD dt)
 	{
 	}
 }
+
+
+void CSophia::HandleKeyDown(DWORD dt, int keyCode)
+{
+	if (!flagOnAir && keyCode == DIK_X)
+	{
+		//them
+		SetState(SOPHIA_STATE_JUMP_LEFT);
+		animationHandlers[state]->currentFrameIndex = 0;
+		//
+		ay = -0.018;
+		flagOnAir = true;
+	}
+}
+
 void CSophia::HandleKeyUp(DWORD dt, int keyCode)
 {
 	if (keyCode == DIK_RIGHT) {
@@ -82,16 +97,19 @@ void CSophia::HandleKeyUp(DWORD dt, int keyCode)
 			animationHandlers[state]->currentFrameIndex = 0;
 		}
 	}
-}
-
-void CSophia::HandleKeyDown(DWORD dt, int keyCode)
-{
-	if (!flagOnAir && keyCode == DIK_X)
-	{
-		ay = -0.015;
-		flagOnAir = true;
+	//them
+	if (keyCode == DIK_X) {
+		if (!isLeft) {
+			SetState(SOPHIA_STATE_FALL_RIGHT);
+			animationHandlers[state]->currentFrameIndex = 0;
+		}
+		if (isLeft) {
+			SetState(SOPHIA_STATE_FALL_LEFT);
+			animationHandlers[state]->currentFrameIndex = 0;
+		}
 	}
 }
+
 
 void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 {

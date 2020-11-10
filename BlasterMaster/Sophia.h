@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "AnimatableObject.h"
 
 // 8 23 31 39
@@ -23,6 +23,9 @@ private:
 
     bool flagOnAir;
     bool flagDead=0;
+    // Thảo thêm 
+    bool flagTurnLeft; 
+
     bool flagStop = false;
     bool stopLeft = false;
     bool isLeft = false;
