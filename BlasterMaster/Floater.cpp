@@ -1,6 +1,6 @@
 #include "Floater.h"
 
-CFloater::CFloater(int classId, int x, int y, int animsId) : CAnimatableObject::CAnimatableObject(classId, x, y, animsId) 
+CFloater::CFloater(int classId, int x, int y, int animsId) : CEnemy::CEnemy(classId, x, y, animsId) 
 {
 	SetState(FLOATER1_STATE_LIVE);
 };

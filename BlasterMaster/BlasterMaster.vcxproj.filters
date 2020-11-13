@@ -26,7 +26,6 @@
     <ClCompile Include="PlayScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Consts.h" />
     <ClCompile Include="GameObjectFactory.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
@@ -39,16 +38,30 @@
     <ClCompile Include="Dome.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="Sophia.cpp" />
-    <ClCompile Include="AnimatableObject.cpp" />
     <ClCompile Include="TileArea.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="Worm.cpp" />
     <ClCompile Include="Game.cpp">
       <Filter>GameManagers</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionSolver.cpp" />
+    <ClCompile Include="AnimatableObject.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Sophia.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Worm.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionSolver.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Consts.h">
+      <Filter>Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -69,7 +82,6 @@
     <ClInclude Include="CustomKeyEvent.h">
       <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="GameState.h" />
     <ClInclude Include="Scene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
@@ -88,16 +100,30 @@
     <ClInclude Include="Dome.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="Sophia.h" />
-    <ClInclude Include="AnimatableObject.h" />
     <ClInclude Include="TileArea.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="Worm.h" />
-    <ClInclude Include="CollisionSolver.h" />
+    <ClInclude Include="AnimatableObject.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Sophia.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Worm.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionSolver.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>GameManagers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="AnimationCore">

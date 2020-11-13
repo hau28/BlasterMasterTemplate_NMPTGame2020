@@ -20,6 +20,7 @@ public:
     CTileArea(int classId, int x, int y, int width, int height);
 
     virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+    virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs) {};
     virtual void Render();
 };
 

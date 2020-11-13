@@ -40,18 +40,7 @@ protected:
 	/// </summary>
 	float ax, ay;
 
-	/// <summary>
-	/// <para> don't even understand this properties :) </para>
-	/// </summary>
-	int nx;	 
-
 	int state = 0;
-
-	/// <summary>
-	/// <para> Time elapsed in 1 frame </para>
-	/// <para> Dont really know why we need it but OK :) </para>
-	/// </summary>
-	DWORD dt; 
 
 	int classId;
 
@@ -61,14 +50,6 @@ public:
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
 	void GetPosition(float &x, float &y) { x = this->x; y = this->y; }
 
-	/// <summary>
-	/// <para> (dx,dy) is the distance this gameObject has moved in the current frame. </para>
-	/// <para> dx = vx * dt; dy = vy *dt </para>
-	/// </summary>
-	/// <param name="dx"></param>
-	/// <param name="dy"></param>
-	void GetPositionDifference(float &dx, float &dy) { dx = vx*dt; dy = vy*dt; }
-
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
 	
@@ -77,15 +58,6 @@ public:
 	
 	virtual void SetState(int state) { this->state = state; }
 	int GetState() { return this->state; }
-
-	/// <summary>
-	/// <para> Evaluate velocity from acceleration, then position by velocity. </para>
-	/// <para> with a little knowledge of calculus and classical mechanics, you'd know that: </para>
-	/// <para> dx / dt = v </para>
-	/// <para> dv / dt = a </para>
-	/// <para> WARNING: Base method doesn't calculate gravity. </para>
-	/// </summary>
-	virtual void SolveClassicalMechanics();
 
 	void RenderBoundingBox();
 
@@ -115,7 +87,7 @@ public:
 	/// </summary>
 	/// <param name="dt:">Time elapsed from last frame. be acknowledged that this is NOT A CONSTANT, it's based on real-time</param>
 	/// <param name="coObjects:">Collision objects. I've not yet known how can this parameter help, but let us keep it that way...</param>
-	virtual void Update(DWORD dt, vector<CGameObject*> *coObjects);
+	virtual void Update(DWORD dt, vector<CGameObject*>* coObjects) = 0;
 
 	/// <summary>
 	/// <para> Render function is called at most once per frame (conventionally) </para>

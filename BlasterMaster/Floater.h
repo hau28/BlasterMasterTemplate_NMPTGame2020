@@ -1,11 +1,15 @@
 #pragma once
-#include "AnimatableObject.h"
+#include "Enemy.h"
 
-class CFloater : public CAnimatableObject
+class CFloater : public CEnemy
 {
 public:
     CFloater() {};
     CFloater(int classId, int x, int y, int animsId);
+    
+    virtual void UpdateVelocity(DWORD dt) {};
+    virtual void HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent) {};
+
     virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 };
 

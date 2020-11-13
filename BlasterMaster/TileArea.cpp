@@ -29,6 +29,7 @@ void CTileArea::GetBoundingBox(float& left, float& top, float& right, float& bot
 
 void CTileArea::Render()
 {
+	RenderBoundingBox();
 	// what do you want to draw?
 	// WHAT DO YOU WANT TO DRAW???
 }

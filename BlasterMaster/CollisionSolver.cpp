@@ -20,27 +20,31 @@ void CCollisionSolver::CalcPotentialCollisions(LPGAMEOBJECT thisObject, vector<C
 
 LPCOLLISIONEVENT CCollisionSolver::SweptAABBEx(LPGAMEOBJECT thisObject, LPGAMEOBJECT coObject, DWORD dt)
 {
-	float sl, st, sr, sb;		// static object bbox
-	float ml, mt, mr, mb;		// moving object bbox
 	float t, nx, ny;
 
+	float sl, st, sr, sb;		// static object bbox
+	float ml, mt, mr, mb;		// moving object bbox
+
+	thisObject->GetBoundingBox(ml, mt, mr, mb);
 	coObject->GetBoundingBox(sl, st, sr, sb);
 
 	// deal with moving object: m speed = original m speed - collide object speed
-	float svx, svy;
+	
+	// static object (that object)
+	float svx, svy, sdx, sdy;
 	coObject->GetSpeed(svx, svy);
+	sdx = svx * dt;
+	sdy = svy * dt;
 
-	float sdx = svx * dt;
-	float sdy = svy * dt;
-
-	float dx, dy;
-	thisObject->GetPositionDifference(dx, dy);
+	// this object
+	float dx, dy, vx, vy;
+	thisObject->GetSpeed(vx, vy);
+	dx = dt * vx;
+	dy = dt * vy;
 
 	// (rdx, rdy) is RELATIVE movement distance/velocity 
 	float rdx = dx - sdx;
 	float rdy = dy - sdy;
-
-	thisObject->GetBoundingBox(ml, mt, mr, mb);
 
 	SweptAABB(
 		ml, mt, mr, mb,
@@ -65,7 +69,6 @@ void CCollisionSolver::SweptAABB(
 	float sl, float st, float sr, float sb,
 	float& t, float& nx, float& ny)
 {
-
 	float dx_entry, dx_exit, tx_entry, tx_exit;
 	float dy_entry, dy_exit, ty_entry, ty_exit;
 
@@ -157,3 +160,66 @@ void CCollisionSolver::SweptAABB(
 
 }
 #pragma endregion
+
+bool CCollisionSolver::IsOverlapped(float l1, float t1, float r1, float b1, float l2, float t2, float r2, float b2, float& l, float& t, float& r, float& b)
+{
+	// intersect rectangle
+	l = max(l1, l2);
+	r = min(r1, r2);
+	t = max(t1, t2);
+	b = min(b1, b2);
+
+	return (l <= r) && (t <= b);
+}
+
+
+bool CCollisionSolver::IsOverlapped(LPGAMEOBJECT obj1, LPGAMEOBJECT obj2, float& l, float& t, float& r, float& b)
+{
+	float l1, t1, r1, b1;
+	float l2, t2, r2, b2;
+
+	obj1->GetBoundingBox(l1, t1, r1, b1);
+	obj2->GetBoundingBox(l2, t2, r2, b2);
+
+	return IsOverlapped(l1, t1, r1, b1, l2, t2, r2, b2, l, t, r, b);
+}
+
+
+bool CCollisionSolver::IsOverlapped(LPGAMEOBJECT obj1, LPGAMEOBJECT obj2)
+{
+	float l, r, t, b;
+	return IsOverlapped(obj1, obj2, l, t, r, b);
+}
+
+void CCollisionSolver::DeOverlap(LPGAMEOBJECT movableObj, LPGAMEOBJECT staticObj, float& dx, float& dy)
+{
+	const float eps = 1e-9;
+	dx = dy = 0;
+
+	float l, t, r, b;
+
+	float l1, t1, r1, b1;
+	float l2, t2, r2, b2;
+
+	movableObj->GetBoundingBox(l1, t1, r1, b1);
+	staticObj->GetBoundingBox(l2, t2, r2, b2);
+
+	if (IsOverlapped(movableObj, staticObj))
+	{
+		// now try moving in 4 directions
+		float dl = r1 - l2;
+		float dr = r2 - l1;
+		float dt = b1 - t2;
+		float db = b2 - t1;
+		float dmin = min(min(dl, dr), min(dt, db));
+
+		if (abs(dmin - dl) < eps)
+			dx = -dl;
+		else if (abs(dmin - dr) < eps)
+			dx = dr;
+		else if (abs(dmin - dt) < eps)
+			dy = -dt;
+		else if (abs(dmin - db) < eps)
+			dy = db;
+	}
+}

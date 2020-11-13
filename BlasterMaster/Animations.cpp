@@ -60,6 +60,9 @@ void CAnimationHandler::Render(float x, float y, int alpha)
 void CAnimationHandler::ToNextFrame()
 {
 	currentFrameIndex = (currentFrameIndex + 1) % animation->GetNumberOfFrames();
+
+	if (currentFrameIndex == 0)
+		currentFrameIndex = startLoopIndex;
 }
 
 void CAnimationHandler::Reset()

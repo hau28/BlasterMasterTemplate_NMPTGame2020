@@ -32,13 +32,13 @@ void CSophia::HandleKeysHold(DWORD dt)
 	if (IsKeyDown(DIK_RIGHT))
 	{
 		SetState(SOPHIA_STATE_WALK_RIGHT);
-		ax = 0.001;
+		vx = SOPHIA_MAX_SPEED;
 		isLeft = false;
 	}
 	else if (IsKeyDown(DIK_LEFT))
 	{
 		SetState(SOPHIA_STATE_WALK_LEFT);
-		ax = -0.001;
+		vx = -SOPHIA_MAX_SPEED;
 		isLeft = true;
 	}
 	if (IsKeyDown(DIK_UP) || IsKeyDown(DIK_UP) && IsKeyDown(DIK_RIGHT))
@@ -64,11 +64,15 @@ void CSophia::HandleKeyUp(DWORD dt, int keyCode)
 		SetState(SOPHIA_STATE_IDLE1_RIGHT);
 		flagStop = true;
 		stopLeft = false;
+
+		vx = 0;
 	}
 	if (keyCode == DIK_LEFT) {
 		SetState(SOPHIA_STATE_IDLE1_LEFT);
 		flagStop = true;
 		stopLeft = true;
+
+		vx = 0;
 	}
 
 	if (keyCode == DIK_UP || keyCode == DIK_DOWN)
@@ -89,9 +93,15 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
 {
 	if (!flagOnAir && keyCode == DIK_X)
 	{
-		ay = -0.015;
-		flagOnAir = true;
+		vy -= SOPHIA_JUMP_FORCE;
 	}
+}
+
+void CSophia::UpdateVelocity(DWORD dt)
+{
+	// CuteTN Todo: Test
+	vy += SOPHIA_GRAVITY;
+	vy = min(vy, SOPHIA_MAX_FALL_SPEED);
 }
 
 void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
@@ -111,16 +121,24 @@ void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 		{
 		case CLASS_TILE_BLOCKABLE:
 		{
-			x += coEvent->timeEntry * dt * vx + coEvent->nx*0.4f;
-			y += coEvent->timeEntry * dt * vy + coEvent->ny*0.4f;
-			if (coEvent->nx != 0) vx = 0;
-			if (coEvent->ny != 0) vy = 0;
-
-			// on top of a blockable tile
-			if (coEvent->ny < 0)
+			// move the object to the collision position, then set the velocity to 0
+			if (coEvent->nx != 0)
 			{
-				flagOnAir = false;
+				float dx = coEvent->rdx * coEvent->timeEntry / dt;
+				this->x += dx;
+				this->vx = 0;
 			}
+
+			if (coEvent->ny != 0)
+			{
+				float dy = coEvent->rdy * coEvent->timeEntry / dt;
+				this->y += dy;
+				this->vy = 0;
+			}
+
+			if (coEvent->ny < 0)
+				flagOnAir = false;
+
 			break;
 		}
 		}
@@ -129,66 +147,9 @@ void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
-	CGameObject::Update(dt, coObjs);
 	HandleKeys(dt);
-
-	// Simple fall down
-	vy += SOPHIA_GRAVITY;
-	//SolveClassicalMechanics();
-	float dx, dy;
-	GetPositionDifference(dx, dy);
-
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-	coEvents.clear();
-
-	// turn off collision when die 
-	if(!flagDead)
-		CCollisionSolver::CalcPotentialCollisions(this, coObjs, coEvents, dt);
-
-	if (flagStop && !stopLeft)
-		if (vx > 0)
-			vx -= 0.005;
-		else {
-			vx = 0;
-			flagStop = false;
-		}
-	if (flagStop && stopLeft)
-		if (vx < 0)
-			vx += 0.005;
-		else {
-			vx = 0;
-			flagStop = false;
-		}
-
-	// No collision occured, proceed normally
-	if (coEvents.size() == 0)
-	{
-		//x += dx;
-		//y += dy;
-		SolveClassicalMechanics();
-	}
-	else
-	{
-		float min_tx, min_ty, nx = 0, ny;
-		float rdx = 0;
-		float rdy = 0;
-
-		// TODO: This is a very ugly designed function!!!!
-		// FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-		// block every object first!
-		// CuteTN Note: wth is 0.4f??? WHAT IS IT?
-		// x += min_tx * dx + nx*0.4f;
-		// y += min_ty * dy + ny*0.4f;
-		// if (nx != 0) vx = 0;
-		// if (ny != 0) vy = 0;
-
-		// collision logic
-		for (LPCOLLISIONEVENT coEvent : coEvents)
-			HandleCollision(dt, coEvent);
-
-	}
-
+	flagOnAir = true;
+	CAnimatableObject::Update(dt, coObjs);
 }
 
 void CSophia::GetBoundingBox(float& left, float& top, float& right, float& bottom)

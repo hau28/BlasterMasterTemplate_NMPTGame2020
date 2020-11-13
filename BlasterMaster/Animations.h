@@ -85,6 +85,7 @@ public:
 	bool flipY = false;
 	int timesRotate90 = 0;
 	int currentFrameIndex;
+	int startLoopIndex = 0;
 
 	CAnimationHandler(LPANIMATION animation, bool flipX = false, bool flipY = false, int timesRotate90 = 0);
 
