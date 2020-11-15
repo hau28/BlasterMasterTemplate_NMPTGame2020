@@ -142,6 +142,7 @@
     <ClCompile Include="CollisionSolver.cpp" />
     <ClCompile Include="Consts.h" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="GameObjectBehaviour.cpp" />
     <ClCompile Include="TileArea.cpp" />
     <ClCompile Include="CustomKeyEvent.cpp" />
     <ClCompile Include="Dome.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="Animations.h" />
     <ClInclude Include="CollisionSolver.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="GameObjectBehaviour.h" />
     <ClInclude Include="TileArea.h" />
     <ClInclude Include="CustomKeyEvent.h" />
     <ClInclude Include="Dome.h" />

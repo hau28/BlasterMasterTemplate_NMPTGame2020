@@ -1,10 +1,12 @@
 #include "Worm.h"
 #include "TileArea.h"
 #include "CollisionSolver.h"
+#include "GameObjectBehaviour.h"
+
 
 CWorm::CWorm(int classId, int x, int y, int animsId) : CEnemy::CEnemy(classId, x, y, animsId)
 {
-	SetState(WORM_STATE_LEFT);
+	SetState(WORM_STATE_RIGHT);
 	vyMax = WORM_MAX_FALL_SPEED;
 };
 
@@ -43,20 +45,8 @@ void CWorm::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 		{
 		case CLASS_TILE_BLOCKABLE:
 		{
-			// move the object to the collision position, then set the velocity to 0
-			if (coEvent->nx != 0)
-			{
-				float dx = coEvent->rdx * coEvent->timeEntry / dt;
-				this->x += dx;
-				this->vx = 0;
-			}
-
-			if (coEvent->ny != 0)
-			{
-				float dy = coEvent->rdy * coEvent->timeEntry / dt;
-				this->y += dy;
-				this->vy = 0;
-			}
+			CGameObjectBehaviour::GetBlocked(dt, coEvent);
+			break;
 		}
 		}
 	}

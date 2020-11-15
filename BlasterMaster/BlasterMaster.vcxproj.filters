@@ -62,6 +62,7 @@
     <ClCompile Include="Consts.h">
       <Filter>Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="GameObjectBehaviour.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -124,6 +125,7 @@
     <ClInclude Include="GameState.h">
       <Filter>GameManagers</Filter>
     </ClInclude>
+    <ClInclude Include="GameObjectBehaviour.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="AnimationCore">

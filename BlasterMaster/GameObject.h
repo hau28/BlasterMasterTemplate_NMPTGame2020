@@ -61,17 +61,6 @@ public:
 
 	void RenderBoundingBox();
 
-
-	/*void FilterCollision(
-		vector<LPCOLLISIONEVENT> &coEvents, 
-		vector<LPCOLLISIONEVENT> &coEventsResult, 
-		float &min_tx, 
-		float &min_ty, 
-		float &nx, 
-		float &ny, 
-		float &rdx, 
-		float &rdy);*/
-
 	/// <summary>
 	/// <para> Getting the actual hitbox (collision box) of a game object. Relative to gameworld, not to the sprite itself. </para>
 	/// <para> Should be implemented with O(1) complexity so that we can call it everytime needed without worrying about the performance (otherwise consider using some properties as cache instead?) </para>
