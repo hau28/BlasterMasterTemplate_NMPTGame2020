@@ -338,10 +338,19 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	// Create a new game object
 	int sectionId;
 	LPGAMEOBJECT obj = CGameObjectFactory::Create(class_ID, Properties, sectionId);
+	
+	// current player
 	if (class_ID == CLASS_SOPHIA)
 		this->player = obj;
+	
+	// add portal to library
+	if (class_ID == CLASS_TILE_PORTAL)
+		CPortalLib::GetInstance()->Add(obj_ID, dynamic_cast<LPPORTAL>(obj));
+
 	if (obj == nullptr)
 		DebugOut(L"[ERROR] Cannot create object with object Id: %d\n", obj_ID);
+
+
 	Sections[sectionId]->Objects.push_back(obj);
 }
 

@@ -14,6 +14,8 @@
 #include "Textures.h"
 #include "Sprites.h"
 
+#include "PortalLib.h"
+
 
 class CPlayScene: public CScene
 {

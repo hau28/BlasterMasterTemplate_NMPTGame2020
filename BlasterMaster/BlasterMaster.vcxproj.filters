@@ -64,6 +64,7 @@
     </ClCompile>
     <ClCompile Include="GameObjectBehaviour.cpp" />
     <ClCompile Include="Portal.cpp" />
+    <ClCompile Include="PortalLib.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -128,6 +129,7 @@
     </ClInclude>
     <ClInclude Include="GameObjectBehaviour.h" />
     <ClInclude Include="Portal.h" />
+    <ClInclude Include="PortalLib.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="AnimationCore">

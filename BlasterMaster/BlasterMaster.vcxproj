@@ -144,6 +144,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GameObjectBehaviour.cpp" />
     <ClCompile Include="Portal.cpp" />
+    <ClCompile Include="PortalLib.cpp" />
     <ClCompile Include="TileArea.cpp" />
     <ClCompile Include="CustomKeyEvent.cpp" />
     <ClCompile Include="Dome.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="GameObjectBehaviour.h" />
     <ClInclude Include="Portal.h" />
+    <ClInclude Include="PortalLib.h" />
     <ClInclude Include="TileArea.h" />
     <ClInclude Include="CustomKeyEvent.h" />
     <ClInclude Include="Dome.h" />
