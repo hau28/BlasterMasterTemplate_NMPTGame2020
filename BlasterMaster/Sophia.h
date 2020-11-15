@@ -40,7 +40,7 @@ public:
     virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 
     static CSophia* GetInstance();
-    static CSophia* InitInstance(int classId, int x, int y, int animsId);
+    static CSophia* InitInstance(int classId, int x, int y, int animsId, int sectionId);
 };
 
 typedef CSophia* LPSOPHIA;

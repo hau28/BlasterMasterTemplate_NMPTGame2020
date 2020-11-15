@@ -42,9 +42,10 @@ protected:
 
 	int state = 0;
 
+public: 
+	int currentSectionId = 0;
 	int classId;
 
-public: 
 	CGameObject();
 
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
@@ -84,8 +85,6 @@ public:
 	/// <para> WARNING 1: this could cover other game objects and causes visual bugs. The order of rendering is important, too </para>
 	/// </summary>
 	virtual void Render() = 0;
-
-    int GetClass() { return classId; };
 
 	~CGameObject();
 };

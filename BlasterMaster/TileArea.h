@@ -4,13 +4,11 @@
 class CTileArea :
     public CGameObject
 {
-private:
+protected:
     int width;
     int height;
 
-    /// <summary>
-    /// Use class id to know the exact tile type
-    /// </summary>
+    // Use class id to know the exact tile type
 
 public:
     void SetSize(int width, int height);
@@ -18,6 +16,7 @@ public:
 
     CTileArea() {}
     CTileArea(int classId, int x, int y, int width, int height);
+    CTileArea(int classId, int x, int y, int width, int height, int sectionId);
 
     virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
     virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs) {};

@@ -1,0 +1,25 @@
+IMPORT
+	".\Script\Sideview\SectionA.txt"
+
+;
+
+IMPORT
+	".\Script\Sideview\SectionB.txt"
+
+;
+
+SECTION_SIDEVIEW_B
+
+
+
+
+
+
+
+
+
+
+
+
+
+

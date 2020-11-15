@@ -19,6 +19,11 @@ CTileArea::CTileArea(int classId, int x, int y, int width, int height)
 	SetSize(width, height);
 }
 
+CTileArea::CTileArea(int classId, int x, int y, int width, int height, int sectionId) :	CTileArea::CTileArea(classId, x, y, width, height)
+{
+	this->currentSectionId = sectionId;
+}
+
 void CTileArea::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;

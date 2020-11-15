@@ -1,19 +1,14 @@
 #pragma once
+#include "TileArea.h"
 
-#include "GameObject.h"
-
-/*
-	Object that triggers scene switching
-*/
-class CPortal : public CGameObject
+class CPortal :
+	public CTileArea
 {
-	int scene_id;	// target scene to switch to 
-
-	int width;
-	int height; 
 public:
-	CPortal(float l, float t, float r, float b, int scene_id);
-	virtual void Render();
-	virtual void GetBoundingBox(float &l, float &t, float &r, float &b);
-	int GetSceneId() { return scene_id;  }
+    int associatedPortalId = -1;
+
+    CPortal() {}
+    CPortal(int classId, int x, int y, int width, int height, int sectionId, int associatedPortalId);
 };
+
+typedef CPortal* LPPORTAL;

@@ -6,3 +6,13 @@ CLASS
 	Int Width - ""
 	Int Height - ""
 ;
+
+CLASS
+	CLASS_TILE_PORTAL
+	Section Section - "The<>section<>that<>contains<>this<>game<>object"
+	Int X - "Left<>position"
+	Int Y - "Top<>position"
+	Int Width - ""
+	Int Height - ""
+	Object Portal - "The<>portal<>with<>which<>this<>portal<>associate<>with"
+;

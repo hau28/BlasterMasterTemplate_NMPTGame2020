@@ -7,14 +7,16 @@
 #include "TileArea.h"
 #include "Sophia.h"
 #include "Worm.h"
+#include "Portal.h"
 
 /// <summary>
 /// The Abstract factory for creating game objects
 /// </summary>
 class CGameObjectFactory
 {
-	static void GetAnimatableObjectProps(map<string, string> properties, int& x, int& y, int& animsId);
-	static void GetTileAreaObjectProps(map<string, string> properties, int& x, int& y, int& width, int& height);
+	static void GetAnimatableObjectProps(map<string, string> properties, int& x, int& y, int& animsId, int& sectionId);
+	static void GetTileAreaObjectProps(map<string, string> properties, int& x, int& y, int& width, int& height, int&sectionId);
+	static void GetPortalProps(map<string, string> properties, int& x, int& y, int& width, int& height, int&sectionId, int&associatedPortalId);
 
 public:
 	/// <summary>

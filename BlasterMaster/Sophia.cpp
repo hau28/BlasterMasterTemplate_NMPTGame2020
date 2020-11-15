@@ -120,7 +120,7 @@ void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 	{
 		LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(obj);
 
-		switch (tileArea->GetClass())
+		switch (tileArea->classId)
 		{
 		case CLASS_TILE_BLOCKABLE:
 		{
@@ -159,10 +159,11 @@ CSophia* CSophia::GetInstance()
 	return __instance;
 }
 
-CSophia* CSophia::InitInstance(int classId, int x, int y, int animsId)
+CSophia* CSophia::InitInstance(int classId, int x, int y, int animsId, int sectionId)
 {
 	delete __instance;
 	__instance = new CSophia(classId, x, y, animsId);
+	__instance->currentSectionId = sectionId;
 
 	return __instance;
 }

@@ -63,6 +63,7 @@
       <Filter>Utilities</Filter>
     </ClCompile>
     <ClCompile Include="GameObjectBehaviour.cpp" />
+    <ClCompile Include="Portal.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -126,6 +127,7 @@
       <Filter>GameManagers</Filter>
     </ClInclude>
     <ClInclude Include="GameObjectBehaviour.h" />
+    <ClInclude Include="Portal.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="AnimationCore">

@@ -41,7 +41,7 @@ void CWorm::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 	{
 		LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(obj);
 
-		switch (tileArea->GetClass())
+		switch (tileArea->classId)
 		{
 		case CLASS_TILE_BLOCKABLE:
 		{

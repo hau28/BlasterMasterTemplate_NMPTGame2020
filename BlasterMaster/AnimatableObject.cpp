@@ -19,7 +19,7 @@ void CAnimatableObject::Deoverlap(vector<LPGAMEOBJECT>* coObjs)
 		{
 			LPTILE_AREA tiles = dynamic_cast<LPTILE_AREA>(obj);
 
-			if (tiles->GetClass() == CLASS_TILE_BLOCKABLE)
+			if (tiles->classId == CLASS_TILE_BLOCKABLE)
 			{
 				float dx, dy;
 				dx = dy = 0;
