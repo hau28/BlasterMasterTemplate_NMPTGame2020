@@ -3,6 +3,8 @@
 #include "CollisionSolver.h"
 #include "GameObjectBehaviour.h"
 
+#include "PortalLib.h"
+
 
 
 CSophia::CSophia(int classId, int x, int y, int animsId) : CAnimatableObject::CAnimatableObject(classId, x, y, animsId)
@@ -99,6 +101,7 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
 		vy -= SOPHIA_JUMP_FORCE;
 	}
 }
+#pragma endregion
 
 void CSophia::UpdateVelocity(DWORD dt)
 {
@@ -130,6 +133,16 @@ void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 				flagOnAir = false;
 
 			break;
+		}
+
+		case CLASS_TILE_PORTAL:
+		{
+			LPPORTAL fromPortal = dynamic_cast<LPPORTAL>(obj);
+			LPPORTAL toPortal = CPortalLib::GetInstance()->Get(fromPortal->associatedPortalId);
+
+			// Sanh code from here!
+			// to do: create an event to CGame, let CGame handle switching section
+			DebugOut(L"To portal %d of section %d\n", toPortal->associatedPortalId, toPortal->currentSectionId);
 		}
 		}
 	}
