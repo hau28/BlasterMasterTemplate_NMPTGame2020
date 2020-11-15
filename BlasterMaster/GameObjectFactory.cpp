@@ -26,7 +26,7 @@ LPGAMEOBJECT CGameObjectFactory::Create(int classId, map<string, string> propert
 		break;
 	case CLASS_SOPHIA:
 		GetAnimatableObjectProps(properties, x, y, animsId);
-		result = new CSophia(classId, x, y, animsId);
+		result = CSophia::InitInstance(classId, x, y, animsId);
 		break;
 	case CLASS_TILE_BLOCKABLE:
 		GetTileAreaObjectProps(properties, x, y, width, height);

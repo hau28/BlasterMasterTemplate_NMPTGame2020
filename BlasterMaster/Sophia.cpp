@@ -3,6 +3,8 @@
 #include "CollisionSolver.h"
 #include "GameObjectBehaviour.h"
 
+
+
 CSophia::CSophia(int classId, int x, int y, int animsId) : CAnimatableObject::CAnimatableObject(classId, x, y, animsId)
 {
 	SetState(SOPHIA_STATE_IDLE1_RIGHT);
@@ -147,3 +149,22 @@ void CSophia::GetBoundingBox(float& left, float& top, float& right, float& botto
 	right = left + SOPHIA_BOUNDBOX_WIDTH;
 	bottom = top + SOPHIA_BOUNDBOX_HEIGHT;
 }
+
+CSophia * CSophia::__instance = nullptr;
+
+CSophia* CSophia::GetInstance()
+{
+	if (__instance == nullptr)
+		__instance = new CSophia();
+	return __instance;
+}
+
+CSophia* CSophia::InitInstance(int classId, int x, int y, int animsId)
+{
+	delete __instance;
+	__instance = new CSophia(classId, x, y, animsId);
+
+	return __instance;
+}
+
+

@@ -27,15 +27,20 @@ private:
     bool flagStop = false;
     bool stopLeft = false;
     bool isLeft = false;
-public:
+
 	CSophia() {};
 	CSophia(int classId, int x, int y, int animsId);
 
+    static CSophia* __instance;
+public:
     virtual void UpdateVelocity(DWORD dt);
     virtual void HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent);
 
     virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs);
     virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+
+    static CSophia* GetInstance();
+    static CSophia* InitInstance(int classId, int x, int y, int animsId);
 };
 
-typedef CSophia* LPSophia;
+typedef CSophia* LPSOPHIA;
