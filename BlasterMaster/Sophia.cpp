@@ -25,6 +25,34 @@ void CSophia::setIdleLeft() {
 	SetState(idleLeftStates[3-wheel]);
 }
 
+void CSophia::setTurnRight() {
+	SetState(gunTurnRight[3 - wheel]);
+}
+
+void CSophia::setTurnLeft() {
+	SetState(gunTurnLeft[3 - wheel]);
+}
+
+void CSophia::setJumpRight() {
+	updateWheel();
+	SetState(jumpRight[3 - wheel]);
+}
+
+void CSophia::setJumpLeft() {
+	updateWheel();
+	SetState(jumpLeft[3 - wheel]);
+}
+
+void CSophia::setFallLeft() {
+	updateWheel();
+	SetState(fallLeft[3 - wheel]);
+}
+
+void CSophia::setFallRight() {
+	updateWheel();
+	SetState(fallRight[3 - wheel]);
+}
+
 #pragma region key events handling
 
 void CSophia::HandleKeys(DWORD dt)
@@ -46,15 +74,40 @@ void CSophia::HandleKeysHold(DWORD dt)
 {
 	if (IsKeyDown(DIK_RIGHT))
 	{
-		setIdleRight();
-		ax = 0.001;
+		if (isLeft)
+			doneTurn = false;
 		isLeft = false;
+		if (!doneTurn) {
+			setTurnRight();
+			if (animationHandlers[state]->currentFrameIndex == animationHandlers[state]->animation->GetNumberOfFrames() - 1) {
+				doneTurn = true;
+			}
+		}
+		if (doneTurn) {
+			animationHandlers[state]->currentFrameIndex = 0;
+			setIdleRight();
+		}
+		ax = 0.001;
+		
 	}
 	else if (IsKeyDown(DIK_LEFT))
 	{
-		setIdleLeft();
-		ax = -0.001;
+		if (!isLeft)
+			doneTurn = false;
 		isLeft = true;
+		if (!doneTurn) {
+			setTurnLeft();
+			if (animationHandlers[state]->currentFrameIndex == animationHandlers[state]->animation->GetNumberOfFrames() - 1) {
+				doneTurn = true;
+
+			}
+		}
+		if (doneTurn) {
+			animationHandlers[state]->currentFrameIndex = 0;
+			setIdleLeft();
+		}
+		ax = -0.001;
+
 	}
 	if (IsKeyDown(DIK_UP) || IsKeyDown(DIK_UP) && IsKeyDown(DIK_RIGHT))
 	{
@@ -76,12 +129,10 @@ void CSophia::HandleKeysHold(DWORD dt)
 void CSophia::HandleKeyUp(DWORD dt, int keyCode)
 {
 	if (keyCode == DIK_RIGHT) {
-		SetState(SOPHIA_STATE_IDLE1_RIGHT);
 		flagStop = true;
 		stopLeft = false;
 	}
 	if (keyCode == DIK_LEFT) {
-		SetState(SOPHIA_STATE_IDLE1_LEFT);
 		flagStop = true;
 		stopLeft = true;
 	}
@@ -98,14 +149,28 @@ void CSophia::HandleKeyUp(DWORD dt, int keyCode)
 			animationHandlers[state]->currentFrameIndex = 0;
 		}
 	}
+	/*if (keyCode == DIK_X)
+	{
+		if (isLeft)
+			setFallLeft();
+		else
+			setFallRight();
+	}*/
 }
 
 void CSophia::HandleKeyDown(DWORD dt, int keyCode)
 {
 	if (!flagOnAir && keyCode == DIK_X)
 	{
-		y -= 0.1;
-		ay = -0.0175;
+		/*if (!isLeft) {
+			setJumpRight();
+		}
+		else
+			setJumpLeft();*/
+		y -= 1;
+		vy = 0;
+		ay = -0.018;
+		//vy = 0.5;
 		flagOnAir = true;
 	}
 }
@@ -159,6 +224,7 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 	if (flagStop && !stopLeft)
 		if (vx > 0) {
 			vx -= 0.005;
+			if (doneTurn)
 			setIdleRight();
 		}
 		else {
@@ -168,6 +234,7 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 	if (flagStop && stopLeft)
 		if (vx < 0) {
 			vx += 0.005;
+			if (doneTurn)
 			setIdleLeft();
 		}
 		else {
