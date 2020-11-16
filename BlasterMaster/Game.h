@@ -11,6 +11,7 @@
 #include "CustomKeyEvent.h"
 #include "GameState.h"
 #include "Utils.h"
+#include "GameEvent.h"
 #include <iostream>
 #include <fstream>
 
@@ -21,6 +22,8 @@
 using namespace std;
 
 #define KEYBOARD_BUFFER_SIZE 1024
+
+class CGameObject;
 
 /// <summary>
 /// This class manage universal game logic, it just should be called GameManager
@@ -60,6 +63,7 @@ class CGame
 	void _ParseSection_SETTINGS(string line);
 	void _ParseSection_SCENES(string line);
 
+	static vector<LPGAME_EVENT> gameEvents;
 
 public:
 	void InitKeyboard();
@@ -97,13 +101,16 @@ public:
 	/// <para> Returns null if there's no player in the current scene </para>
 	/// <para> Becareful: not check the game state yet </para>
 	/// </summary>
-	LPGAMEOBJECT GetCurrentPlayer();
+	CGameObject* GetCurrentPlayer();
 
 	void SetCamPos(float x, float y) { cam_x = x; cam_y = y; }
 
 	static GameState GetState() { return state; };
 	static void SetState(GameState newState);
 
+	static void AddGameEvent(LPGAME_EVENT gameEvent);
+	static void HandleGameEvents();
+	static void HandleGameEvent(LPGAME_EVENT gameEvent);
 
 	static CGame * GetInstance();
 

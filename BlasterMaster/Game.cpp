@@ -6,6 +6,8 @@ CGame * CGame::__instance = nullptr;
 
 GameState CGame::state = GameState::PLAY_SIDEVIEW_SOPHIA;
 
+vector<LPGAME_EVENT> CGame::gameEvents;
+
 /*
 	Initialize DirectX, create a Direct3D device for rendering within the window, initial Sprite library for 
 	rendering 2D images
@@ -213,7 +215,7 @@ CGame::~CGame()
 	if (d3d != nullptr) d3d->Release();
 }
 
-LPGAMEOBJECT CGame::GetCurrentPlayer()
+CGameObject* CGame::GetCurrentPlayer()
 {
 	LPPLAYSCENE currentPlayScene = dynamic_cast<LPPLAYSCENE>(scenes[current_scene]);
 
@@ -227,6 +229,26 @@ void CGame::SetState(GameState newState)
 {
 	// CuteTN to do: prepare for new game state here
 	state = newState;
+}
+
+void CGame::AddGameEvent(LPGAME_EVENT gameEvent)
+{
+	gameEvents.push_back(gameEvent);
+}
+
+void CGame::HandleGameEvents()
+{
+	// CuteTN Note: may need fixing
+	for (auto e : gameEvents)
+		HandleGameEvent(e);
+
+	gameEvents.clear();
+}
+
+void CGame::HandleGameEvent(LPGAME_EVENT gameEvent)
+{
+	// TO DO ADD HANDLING KEY EVENT LOGIC
+	// switch ...
 }
 
 CGame *CGame::GetInstance()

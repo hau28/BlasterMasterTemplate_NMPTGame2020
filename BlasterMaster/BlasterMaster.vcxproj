@@ -142,6 +142,7 @@
     <ClCompile Include="CollisionSolver.cpp" />
     <ClCompile Include="Consts.h" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="GameEvent.cpp" />
     <ClCompile Include="GameObjectBehaviour.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="PortalLib.cpp" />
@@ -160,6 +161,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
+    <ClCompile Include="WalkInPortalEvent.cpp" />
     <ClCompile Include="Worm.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -167,6 +169,7 @@
     <ClInclude Include="Animations.h" />
     <ClInclude Include="CollisionSolver.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="GameEvent.h" />
     <ClInclude Include="GameObjectBehaviour.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="PortalLib.h" />
@@ -185,6 +188,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Textures.h" />
+    <ClInclude Include="WalkInPortalEvent.h" />
     <ClInclude Include="Worm.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

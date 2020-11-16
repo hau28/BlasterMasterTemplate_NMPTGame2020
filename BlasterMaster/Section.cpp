@@ -26,12 +26,10 @@ void CSection::Update(DWORD dt)
 
 	for (auto obj : Objects)
 	{
-		DebugOut(L"oh i oh i%d\n", ++cnt);
 		if (dynamic_cast<LPTILE_AREA>(obj))
 			obj->Update(dt, nullptr);
 		else
 			obj->Update(dt, &Objects);
-		DebugOut(L"oh i oh i%d\n", cnt);
 	}
 }
 

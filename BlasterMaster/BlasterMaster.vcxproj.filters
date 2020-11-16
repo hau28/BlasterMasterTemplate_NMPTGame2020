@@ -62,9 +62,19 @@
     <ClCompile Include="Consts.h">
       <Filter>Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="GameObjectBehaviour.cpp" />
-    <ClCompile Include="Portal.cpp" />
-    <ClCompile Include="PortalLib.cpp" />
+    <ClCompile Include="GameEvent.cpp">
+      <Filter>GameManagers</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjectBehaviour.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Portal.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="PortalLib.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="WalkInPortalEvent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -127,9 +137,19 @@
     <ClInclude Include="GameState.h">
       <Filter>GameManagers</Filter>
     </ClInclude>
-    <ClInclude Include="GameObjectBehaviour.h" />
-    <ClInclude Include="Portal.h" />
-    <ClInclude Include="PortalLib.h" />
+    <ClInclude Include="GameEvent.h">
+      <Filter>GameManagers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectBehaviour.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Portal.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="PortalLib.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="WalkInPortalEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="AnimationCore">
