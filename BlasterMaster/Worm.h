@@ -1,7 +1,7 @@
 #pragma once
 #include "Enemy.h"
 
-// 8 12 23 18
+// bound 8 12 23 18
 
 const int WORM_BOUNDBOX_WIDTH = 15;
 const int WORM_BOUNDBOX_HEIGHT = 6;

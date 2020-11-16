@@ -1,6 +1,15 @@
 #pragma once
 #include "Enemy.h"
 
+// bounding box
+// 8 0 23 15
+
+const int FLOATER_BOUNDBOX_WIDTH = 15;
+const int FLOATER_BOUNDBOX_HEIGHT = 15;
+const int FLOATER_BOUNDBOX_OFFSETX = 8;
+const int FLOATER_BOUNDBOX_OFFSETY = 0;
+
+
 class CFloater : public CEnemy
 {
 public:

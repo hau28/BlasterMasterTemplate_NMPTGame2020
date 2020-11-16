@@ -7,11 +7,10 @@
 	".\Script\Sideview\SectionB.txt"
 
 ;
+cmt
 
+SECTION_SIDEVIEW_A
 SECTION_SIDEVIEW_B
-
-
-
 
 
 
