@@ -19,8 +19,6 @@
 
 class CPlayScene: public CScene
 {
-
-#pragma region Scene
 protected: 
 	LPGAMEOBJECT player;					// A play scene has to have player, right? 
 
@@ -60,6 +58,6 @@ public:
 
 	//friend class CPlayScenceKeyHandler;
 };
-#pragma endregion
 
+typedef CPlayScene* LPPLAYSCENE;
 

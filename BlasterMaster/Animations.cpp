@@ -132,8 +132,6 @@ CAnimationHandlersLib* CAnimationHandlersLib::__instance = nullptr;
 
 void CAnimationHandlersLib::Add(int stateId, LPANIMATION_HANDLER animHandler)
 {
-	if (stateId == 271)
-		DebugOut(L"animations ahihi: %d\n", animHandler->flipX? 1:0);
 	animHandlers[stateId] = animHandler;
 }
 

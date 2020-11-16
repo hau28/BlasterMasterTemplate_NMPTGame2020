@@ -11,5 +11,6 @@ enum class GameState
 	SECTION_SWITCH,
 	SCENE_SWITCH,
 	RESET_LIFE,
+	GAMEOVER,
 };
 

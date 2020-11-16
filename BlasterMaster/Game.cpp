@@ -4,6 +4,8 @@
 
 CGame * CGame::__instance = nullptr;
 
+GameState CGame::state = GameState::PLAY_SIDEVIEW_SOPHIA;
+
 /*
 	Initialize DirectX, create a Direct3D device for rendering within the window, initial Sprite library for 
 	rendering 2D images
@@ -209,6 +211,22 @@ CGame::~CGame()
 	if (backBuffer != nullptr) backBuffer->Release();
 	if (d3ddv != nullptr) d3ddv->Release();
 	if (d3d != nullptr) d3d->Release();
+}
+
+LPGAMEOBJECT CGame::GetCurrentPlayer()
+{
+	LPPLAYSCENE currentPlayScene = dynamic_cast<LPPLAYSCENE>(scenes[current_scene]);
+
+	if (currentPlayScene)
+		return currentPlayScene->GetPlayer();
+
+	return nullptr;
+}
+
+void CGame::SetState(GameState newState)
+{
+	// CuteTN to do: prepare for new game state here
+	state = newState;
 }
 
 CGame *CGame::GetInstance()

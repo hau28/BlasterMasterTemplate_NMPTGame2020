@@ -22,17 +22,17 @@ void CSection::Update(DWORD dt)
 	// collision objects for static object, i.e. tiles
 	//vector<LPGAMEOBJECT> coObjs_static;
 	//coObjs_static.clear();
-
+	int cnt = 0;
 
 	for (auto obj : Objects)
 	{
+		DebugOut(L"oh i oh i%d\n", ++cnt);
 		if (dynamic_cast<LPTILE_AREA>(obj))
 			obj->Update(dt, nullptr);
 		else
 			obj->Update(dt, &Objects);
+		DebugOut(L"oh i oh i%d\n", cnt);
 	}
-
-	// CutetN todo: set new position for camera
 }
 
 void CSection::Render()

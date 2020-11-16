@@ -9,6 +9,7 @@
 
 #include "Scene.h"
 #include "CustomKeyEvent.h"
+#include "GameState.h"
 #include "Utils.h"
 #include <iostream>
 #include <fstream>
@@ -27,6 +28,8 @@ using namespace std;
 /// </summary>
 class CGame
 {
+	static GameState state;
+
 	static CGame * __instance;
 	HWND hWnd;									// Window handle
 
@@ -56,6 +59,7 @@ class CGame
 
 	void _ParseSection_SETTINGS(string line);
 	void _ParseSection_SCENES(string line);
+
 
 public:
 	void InitKeyboard();
@@ -88,7 +92,18 @@ public:
 	LPDIRECT3DSURFACE9 GetBackBuffer() { return backBuffer; }
 	LPD3DXSPRITE GetSpriteHandler() { return this->spriteHandler; }
 
+	/// <summary>
+	/// <para> Returns the current player of the current scene </para>
+	/// <para> Returns null if there's no player in the current scene </para>
+	/// <para> Becareful: not check the game state yet </para>
+	/// </summary>
+	LPGAMEOBJECT GetCurrentPlayer();
+
 	void SetCamPos(float x, float y) { cam_x = x; cam_y = y; }
+
+	static GameState GetState() { return state; };
+	static void SetState(GameState newState);
+
 
 	static CGame * GetInstance();
 
