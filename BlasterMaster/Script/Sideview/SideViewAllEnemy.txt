@@ -45,7 +45,3 @@ IMPORT
 IMPORT
 	".\Script\Sideview\Worm.txt"
 ;
-
-IMPORT
-	".\Script\Sideview\Sophia.txt"
-;

@@ -360,3 +360,11 @@ CLASS
 	Int X - "Left<>position"
 	Int Y - "Right<>position"
 ;
+
+OBJECT
+	CLASS_SOPHIA_0
+	CLASS_SOPHIA
+	SECTION_SIDEVIEW_A
+	35
+	118
+;

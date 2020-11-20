@@ -1,0 +1,31 @@
+IMPORT
+	".\Script\Sideview\SideViewAllEnemy.txt"
+;
+
+TEXTURE
+	TEXTURE_SIDEVIEW_D
+	".\Textures\SideviewSections\D.png"
+	1 1
+;
+
+SECTION
+	SECTION_SIDEVIEW_D
+	TEXTURE_SIDEVIEW_D
+;	
+
+IMPORT
+	".\Script\Sideview\SectionD_Objects.txt"
+;
+
+
+
+
+
+
+
+
+
+
+
+
+
