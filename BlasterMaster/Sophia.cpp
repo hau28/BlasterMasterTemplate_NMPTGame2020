@@ -4,16 +4,18 @@
 #include "GameObjectBehaviour.h"
 
 #include "PortalLib.h"
+#include "SophiaAnimationSystem.h"
 
 
-
-CSophia::CSophia(int classId, int x, int y, int animsId) : CAnimatableObject::CAnimatableObject(classId, x, y, animsId)
+CSophia::CSophia(int classId, int x, int y)
 {
-	SetState(SOPHIA_STATE_IDLE1_RIGHT);
+	this->classId = classId;
+	SetPosition(x, y);
+
+	directionState = gunState = bodyState = wheelState = 0;
 	vyMax = 100;
 	vxMax = SOPHIA_MAX_SPEED;
 };
-
 
 #pragma region key events handling
 
@@ -36,18 +38,23 @@ void CSophia::HandleKeysHold(DWORD dt)
 {
 	if (IsKeyDown(DIK_RIGHT))
 	{
-		SetState(SOPHIA_STATE_WALK_RIGHT);
+		// SetState(SOPHIA_STATE_WALK_RIGHT);
+		directionState = 1;
+
 		vx = SOPHIA_MAX_SPEED;
 		isLeft = false;
 	}
 	else if (IsKeyDown(DIK_LEFT))
 	{
-		SetState(SOPHIA_STATE_WALK_LEFT);
+		// SetState(SOPHIA_STATE_WALK_LEFT);
+		directionState = 0;
+
 		vx = -SOPHIA_MAX_SPEED;
 		isLeft = true;
 	}
 	if (IsKeyDown(DIK_UP) || IsKeyDown(DIK_UP) && IsKeyDown(DIK_RIGHT))
 	{
+		/*
 		if (!isLeft && state != SOPHIA_STATE_GUNUP_RIGHT)
 		{
 			SetState(SOPHIA_STATE_GUNUP_RIGHT);
@@ -58,6 +65,7 @@ void CSophia::HandleKeysHold(DWORD dt)
 			SetState(SOPHIA_STATE_GUNUP_LEFT);
 			animationHandlers[state]->currentFrameIndex = 0;
 		}
+		*/
 	}
 	if (IsKeyDown(DIK_DOWN))
 	{
@@ -66,14 +74,14 @@ void CSophia::HandleKeysHold(DWORD dt)
 void CSophia::HandleKeyUp(DWORD dt, int keyCode)
 {
 	if (keyCode == DIK_RIGHT) {
-		SetState(SOPHIA_STATE_IDLE1_RIGHT);
+		// SetState(SOPHIA_STATE_IDLE1_RIGHT);
 		flagStop = true;
 		stopLeft = false;
 
 		vx = 0;
 	}
 	if (keyCode == DIK_LEFT) {
-		SetState(SOPHIA_STATE_IDLE1_LEFT);
+		// SetState(SOPHIA_STATE_IDLE1_LEFT);
 		flagStop = true;
 		stopLeft = true;
 
@@ -84,11 +92,11 @@ void CSophia::HandleKeyUp(DWORD dt, int keyCode)
 		vy = 0;
 	if (keyCode == DIK_UP) {
 		if (!isLeft) {
-			SetState(SOPHIA_STATE_GUNDOWN_RIGHT);
+			// SetState(SOPHIA_STATE_GUNDOWN_RIGHT);
 			animationHandlers[state]->currentFrameIndex = 0;
 		}
 		if (isLeft) {
-			SetState(SOPHIA_STATE_GUNDOWN_LEFT);
+			// SetState(SOPHIA_STATE_GUNDOWN_LEFT);
 			animationHandlers[state]->currentFrameIndex = 0;
 		}
 	}
@@ -148,6 +156,7 @@ void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 	}
 }
 
+
 void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
 	HandleKeys(dt);
@@ -163,19 +172,29 @@ void CSophia::GetBoundingBox(float& left, float& top, float& right, float& botto
 	bottom = top + SOPHIA_BOUNDBOX_HEIGHT;
 }
 
+void CSophia::Render()
+{
+	LPSPRITE sprite = CSophiaAnimationSystem::GetInstance()->GetSprite(directionState, gunState, bodyState, wheelState);
+	if(sprite)
+		sprite->Draw(x, y);
+}
+
 CSophia * CSophia::__instance = nullptr;
 
 CSophia* CSophia::GetInstance()
 {
 	if (__instance == nullptr)
+	{
 		__instance = new CSophia();
+
+	}
 	return __instance;
 }
 
-CSophia* CSophia::InitInstance(int classId, int x, int y, int animsId, int sectionId)
+CSophia* CSophia::InitInstance(int classId, int x, int y, int sectionId)
 {
 	delete __instance;
-	__instance = new CSophia(classId, x, y, animsId);
+	__instance = new CSophia(classId, x, y);
 	__instance->currentSectionId = sectionId;
 
 	return __instance;

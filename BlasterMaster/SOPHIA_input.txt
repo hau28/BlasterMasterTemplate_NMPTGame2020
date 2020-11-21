@@ -1,0 +1,24 @@
+# this is called texture for short
+# it's actually "spritesheet info"
+# SYNTAX number-of-Row		number-of-Column
+[TEXTURE]
+15 8
+
+# the number of states in each part
+# WARNING: please be aware of the order...
+# SYNTAX: direction   gun   body   wheel
+[DIMENSIONS]
+2 4 6 4
+
+# now this is very painful, you have to assign the states for EACH sprite
+# SYNTAX: rowId   colId   direction   gun   body   wheel
+[SPRITES]
+
+# idle left
+0 0 0 0 0 0
+
+# idle right
+0 7 1 0 0 0
+
+# This is up to you to define
+[SEQUENCES]

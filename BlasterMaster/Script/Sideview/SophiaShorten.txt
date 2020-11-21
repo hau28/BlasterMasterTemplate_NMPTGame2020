@@ -1,0 +1,23 @@
+TEXTURE
+	TEXTURE_SOPHIA
+	".\Textures\xe.png"
+	15 8
+;
+
+CLASS
+	CLASS_SOPHIA
+	Sprite Preview TEXTURE_SOPHIA_R0C6 ""
+	ObjectAnimatons Animations SOPHIA_ANIMATIONS ""
+	Section Section - "The<>section<>that<>contains<>this<>game<>object"
+
+	Int X - "Left<>position"
+	Int Y - "Right<>position"
+;
+
+OBJECT
+	CLASS_SOPHIA_0
+	CLASS_SOPHIA
+	SECTION_SIDEVIEW_A
+	35
+	118
+;

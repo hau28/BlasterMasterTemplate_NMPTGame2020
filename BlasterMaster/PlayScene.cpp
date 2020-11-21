@@ -221,8 +221,6 @@ void CPlayScene::Load()
 
 		if (line[0] == '#') continue;	// skip comment lines	
 
-		// CuteTN Note: I'm gonna end this code's whole career :)
-
 		if (line == "[TEXTURES]") { section = SCENE_SECTION_TEXTURES; continue; }
 		if (line == "[SPRITES]") { 	section = SCENE_SECTION_SPRITES; continue; }
 		if (line == "[ANIMATIONS]") {	section = SCENE_SECTION_ANIMATIONS; continue; }

@@ -75,6 +75,7 @@
       <Filter>GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="WalkInPortalEvent.cpp" />
+    <ClCompile Include="SophiaAnimationSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -150,6 +151,7 @@
       <Filter>GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="WalkInPortalEvent.h" />
+    <ClInclude Include="SophiaAnimationSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="AnimationCore">

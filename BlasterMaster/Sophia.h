@@ -13,14 +13,20 @@ const float SOPHIA_GRAVITY = 0.007f;
 const float SOPHIA_MAX_FALL_SPEED = 0.13f;
 const float SOPHIA_JUMP_FORCE = 0.25f;
 
-class CSophia :
-    public CAnimatableObject
+
+/// <summary>
+/// SOPHIA is also animatable, however, it has a completely different kind of animation system
+/// so we have to somehow override the render method
+/// </summary>
+class CSophia : public CAnimatableObject
 {
 private:
     void HandleKeys(DWORD dt);
     void HandleKeyUp(DWORD dt, int keyCode);
     void HandleKeyDown(DWORD dt, int keyCode);
     void HandleKeysHold(DWORD dt);
+
+    int directionState, gunState, bodyState, wheelState;
 
     bool flagOnAir;
     bool flagDead=0;
@@ -29,9 +35,10 @@ private:
     bool isLeft = false;
 
 	CSophia() {};
-	CSophia(int classId, int x, int y, int animsId);
+	CSophia(int classId, int x, int y);
 
     static CSophia* __instance;
+
 public:
     virtual void UpdateVelocity(DWORD dt);
     virtual void HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent);
@@ -39,8 +46,10 @@ public:
     virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs);
     virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 
+    virtual void Render();
+
     static CSophia* GetInstance();
-    static CSophia* InitInstance(int classId, int x, int y, int animsId, int sectionId);
+    static CSophia* InitInstance(int classId, int x, int y, int sectionId);
 };
 
 typedef CSophia* LPSOPHIA;
