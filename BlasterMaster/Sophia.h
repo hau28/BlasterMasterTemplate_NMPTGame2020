@@ -1,5 +1,6 @@
 #pragma once
 #include "AnimatableObject.h"
+#include "WalkInPortalEvent.h"
 
 // 8 23 31 39
 

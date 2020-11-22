@@ -80,6 +80,7 @@ public:
 	/// <param name="flipX"></param>
 	/// <param name="rotate">times to rotate 90 degre clockwise</param>
 	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha = 255, bool flipX = false, int rotate = 0);
+	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha, bool flipX, int rotate, float offset_x, float offset_y);
 
 	int IsKeyDown(int KeyCode);
 	void ProcessKeyboard();
@@ -104,6 +105,7 @@ public:
 	CGameObject* GetCurrentPlayer();
 
 	void SetCamPos(float x, float y) { cam_x = x; cam_y = y; }
+	void GetCamPos(float &x, float &y) { x = cam_x; y = cam_y; }
 
 	static GameState GetState() { return state; };
 	static void SetState(GameState newState);
@@ -113,7 +115,6 @@ public:
 	static void HandleGameEvent(LPGAME_EVENT gameEvent);
 
 	static CGame * GetInstance();
-
 	~CGame();
 };
 

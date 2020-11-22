@@ -1,6 +1,6 @@
 #include "Game.h"
 #include "PlayScene.h"
-
+#include "Utils.h"
 
 CGame * CGame::__instance = nullptr;
 
@@ -69,6 +69,34 @@ void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 	int scale = 1;
 	D3DXVECTOR2 center = D3DXVECTOR2(flipX ? (width / 2) * scale - width * scale : (width / 2) * scale, (height / 2) * scale);
 	D3DXVECTOR2 translate = D3DXVECTOR2(flipX ? x + width * scale - cam_x : x - cam_x, y - cam_y);
+	D3DXVECTOR2 scaling = D3DXVECTOR2((flipX) ? -scale : scale, scale);
+	float angle = rotate * 1.5707963268;
+	RECT r;
+	r.left = left;
+	r.top = top;
+	r.right = right;
+	r.bottom = bottom;
+	D3DXMATRIX matrix;
+	D3DXMatrixTransformation2D(
+		&matrix,
+		NULL,
+		0.0f,
+		&scaling,
+		&center,
+		angle,
+		&translate
+	);
+	spriteHandler->SetTransform(&matrix);
+	spriteHandler->Draw(texture, &r, NULL, NULL, D3DCOLOR_ARGB(alpha, 255, 255, 255));
+}
+
+void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha, bool flipX, int rotate, float offset_x, float offset_y)
+{
+	float width = right - left;
+	float height = bottom - top;
+	int scale = 1;
+	D3DXVECTOR2 center = D3DXVECTOR2(flipX ? (width / 2) * scale - width * scale : (width / 2) * scale, (height / 2) * scale);
+	D3DXVECTOR2 translate = D3DXVECTOR2(flipX ? x + width * scale - cam_x - offset_x : x - cam_x - offset_x, y - cam_y - offset_y);
 	D3DXVECTOR2 scaling = D3DXVECTOR2((flipX) ? -scale : scale, scale);
 	float angle = rotate * 1.5707963268;
 	RECT r;
@@ -249,6 +277,14 @@ void CGame::HandleGameEvent(LPGAME_EVENT gameEvent)
 {
 	// TO DO ADD HANDLING KEY EVENT LOGIC
 	// switch ...
+
+	//SANH-CAMERA: Set new state when event switch section happens 
+	if (gameEvent->eventName == "WalkInPortalEvent")
+	{
+		DebugOut(L"EVENT WALKINTOPORTAL");
+		LPPLAYSCENE scene =  dynamic_cast<LPPLAYSCENE>(CGame::GetInstance()->GetCurrentScene());
+		scene->handleGameEvent(gameEvent);
+	}
 }
 
 CGame *CGame::GetInstance()

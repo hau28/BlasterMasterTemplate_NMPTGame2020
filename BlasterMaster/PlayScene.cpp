@@ -280,6 +280,10 @@ void CPlayScene::Update(DWORD dt)
 	
 	//Sanh code 
 	// Update camera to follow mario
+
+	LPSECTION section = this->GetCurrentSection();
+	float width_section = section->getBgWidth();
+	float height_section = section->getBgHeight();
 	float cx, cy;
 	player->GetPosition(cx, cy);
 
@@ -287,14 +291,24 @@ void CPlayScene::Update(DWORD dt)
 	cx -= game->GetScreenWidth() / 2 - 12;
 	cy -= game->GetScreenHeight() / 2 - 8;
 
+	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH)
+	{
+		game->GetCamPos(cx, cy);
+		if (cx + 1.5 <= width_section)
+			cx += 1.5;
+		else cx = width_section;
+		float x_sophia, y_sophia;
+		CSophia::GetInstance()->GetPosition(x_sophia,y_sophia);
+		CSophia::GetInstance()->SetPosition(x_sophia + 0.2, y_sophia);
+	}
+
 	//Need know pos of section background
-	LPSECTION section = this->GetCurrentSection();
-	float width_section = section->getBgWidth();
-	float height_section = section->getBgHeight();
 
 	if (cx < 0) cx = 0;
 	if (cy < 0) cy = 0;
 
+	//SANH-CAMERA
+	if (CGame::GetInstance()->GetState() != GameState::SECTION_SWITCH)
 	if (cx + game->GetScreenWidth() > width_section)
 		cx = width_section - game->GetScreenWidth();
 
@@ -302,14 +316,60 @@ void CPlayScene::Update(DWORD dt)
 		cy = height_section - game->GetScreenHeight();
 
 	CGame::GetInstance()->SetCamPos(cx,cy);
+	
+	if (cx >= width_section)
+	{
+		CGame::SetState(GameState::PLAY_SIDEVIEW_SOPHIA);
+		Sections[CurrentSectionId]->deleteSophia();
+		CurrentSectionId = NextSectionId;
+		float x_toPortal, y_toPortal;
+		toPortal->GetPosition(x_toPortal, y_toPortal);
+		Sections[CurrentSectionId]->pushSophia(x_toPortal+5, y_toPortal, CurrentSectionId);
+
+	}
 
 	Sections[CurrentSectionId]->Update(dt);
 	// CuteTN to do: switching section here
 }
 
+
 void CPlayScene::Render()
 {
 	Sections[CurrentSectionId]->Render();
+	//SANH-CAMERA
+	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH)
+	{
+		Sections[NextSectionId]->Render(this->offset_x_SectionSwitch,this->offset_y_SectionSwitch);
+	}
+}
+
+void CPlayScene::set_offset(LPPORTAL fromPortal, LPPORTAL toPortal, string direction)
+{
+	this->toPortal = toPortal;
+	float x_from, y_from, x_to, y_to;
+	fromPortal->GetPosition(x_from, y_from);
+	toPortal->GetPosition(x_to, y_to);
+
+	DebugOut(L"\nx_from : %f, y_from : %f", x_from, y_from);
+	if (direction == "right")
+	{
+		this->offset_y_SectionSwitch = y_from - y_to;
+		this->offset_x_SectionSwitch = Sections[CurrentSectionId]->getBgWidth();
+	}
+}
+
+void CPlayScene::handleGameEvent(LPGAME_EVENT gameEvent)
+{
+	//SANH-CAMERA
+	if (gameEvent->eventName == "WalkInPortalEvent")
+	{
+		CWalkInPortalEvent * temp = dynamic_cast<CWalkInPortalEvent*>(gameEvent);
+		NextSectionId = temp->get_toPortal()->currentSectionId;
+		CGame::SetState(GameState::SECTION_SWITCH);
+
+		set_offset(temp->get_fromPortal(), temp->get_toPortal(), "right");
+		DebugOut(L"OFFSET : %f --- %f", this->offset_x_SectionSwitch, this->offset_y_SectionSwitch);
+	}
 }
 
 /*

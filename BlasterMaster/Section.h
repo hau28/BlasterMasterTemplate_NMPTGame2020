@@ -22,6 +22,12 @@ public:
 	void Update(DWORD dt);
 	void Render();
 
+	//SANH-CAMERA
+	void Render(float offset_x, float offset_y);
+	void RenderBackground(float offset_x, float offset_y);
+	void deleteSophia();
+	void pushSophia(float x, float y, int sectionID);
+
 	vector<CGameObject*> Objects;
 };
 
