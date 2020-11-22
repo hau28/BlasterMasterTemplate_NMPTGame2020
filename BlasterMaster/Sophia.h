@@ -14,7 +14,7 @@ const float FRICTION = 0.00025;
 
 const float SOPHIA_GRAVITY = 0.0005f;
 const float SOPHIA_MAX_FALL_SPEED = 0.175f;
-const float SOPHIA_JUMP_FORCE = 0.225f;
+const float SOPHIA_JUMP_FORCE = 0.26f;
 
 
 /// <summary>

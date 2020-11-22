@@ -73,8 +73,9 @@ void CSophia::HandleKeysHold(DWORD dt)
 	}
 	if (IsKeyDown(DIK_X) && ground == y)
 	{
-			vy = -SOPHIA_JUMP_FORCE;
+		vy = -SOPHIA_JUMP_FORCE;
 	}
+
 }
 void CSophia::HandleKeyUp(DWORD dt, int keyCode)
 {
@@ -92,11 +93,13 @@ void CSophia::HandleKeyUp(DWORD dt, int keyCode)
 	if (keyCode == DIK_UP) {
 
 	}
+	if (vy<0 && ground-y>48.5 && keyCode == DIK_X)
+		vy = 0;
 }
 
 void CSophia::HandleKeyDown(DWORD dt, int keyCode)
 {
-	/*
+	/*	
 	if (!flagOnAir && keyCode == DIK_X)
 	{
 		vy -= SOPHIA_JUMP_FORCE;
@@ -111,12 +114,11 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 	UpdateVelocity(dt);
 	flagOnAir = true;
 	Deoverlap(coObjs);
-	//if (ground - y >= 30)
-		DebugOut(L"reached %f\n",ground - y);
 	vector<LPCOLLISIONEVENT>* colEvents = new vector<LPCOLLISIONEVENT>();
 	colEvents->clear();
 	CheckCollision(dt, coObjs, *colEvents);
 	HandleCollisions(dt, colEvents);
+
 	UpdatePosition(dt);
 	if (!flagOnAir)
 		ground = y;
@@ -125,6 +127,8 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 void CSophia::UpdateVelocity(DWORD dt)
 {
 	//jump handler
+	if (vy < 0 && !IsKeyDown(DIK_X) && ground - y > 48 && ground - y < 48.5)
+		vy = 0;
 
 	vy += SOPHIA_GRAVITY * dt;
 	vy = min(vy, vyMax);
@@ -132,8 +136,6 @@ void CSophia::UpdateVelocity(DWORD dt)
 	vx += ax * dt;
 	vx = min(vx, vxMax);
 	vx = max(vx, -vxMax);
-
-
 
 	//friction handler
 	if (directionState) {
