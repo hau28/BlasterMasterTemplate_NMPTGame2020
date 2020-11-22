@@ -34,6 +34,7 @@ private:
     bool flagOnAir;
     bool flagDead=0;
     float ground;
+    bool turnRight;
 
 	CSophia() {};
 	CSophia(int classId, int x, int y);
@@ -47,10 +48,12 @@ public:
     virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs);
     virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
     virtual void updateWheel();
-    virtual void updateGun();
+    virtual void updateDirection();
+    virtual void updateBody();
     virtual void Render();
     int wheel = 0;
-    DWORD lastTimeMoveWheel;
+    DWORD lastTimeupdateWheel;
+    DWORD lastTimeupdateDirection;
     static CSophia* GetInstance();
     static CSophia* InitInstance(int classId, int x, int y, int sectionId);
 };

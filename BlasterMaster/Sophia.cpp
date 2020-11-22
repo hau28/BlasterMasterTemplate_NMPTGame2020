@@ -11,9 +11,11 @@ CSophia::CSophia(int classId, int x, int y)
 	this->classId = classId;
 	SetPosition(x, y);
 	directionState = 1;
+	turnRight = true;
 	gunState= wheelState = 0;
 	vyMax = SOPHIA_MAX_FALL_SPEED;
 	vxMax = SOPHIA_MAX_SPEED;
+	lastTimeupdateDirection = GetTickCount();
 
 };
 
@@ -36,7 +38,7 @@ void CSophia::HandleKeys(DWORD dt)
 
 void CSophia::updateWheel() {
 	if (vx >= 0.01 && !(flagOnAir && !IsKeyDown(DIK_RIGHT))) {
-		if (GetTickCount() - lastTimeMoveWheel >= (300 - 2000 * abs(vx)) / 5) {
+		if (GetTickCount() - lastTimeupdateWheel >= (300 - 2000 * abs(vx)) / 5) {
 			wheelState = (wheelState + 1) % 4;
 			if (wheelState % 2 == 0) {
 				if (bodyState == 2)
@@ -45,12 +47,12 @@ void CSophia::updateWheel() {
 					if (bodyState == 1)
 						bodyState = 2;
 			}
-			lastTimeMoveWheel = GetTickCount();
+			lastTimeupdateWheel = GetTickCount();
 		}
 	}
 	if (vx <= -0.01 && !(flagOnAir && !IsKeyDown(DIK_LEFT))) {
-		if (GetTickCount() - lastTimeMoveWheel >= (300 - 2000 * abs(vx)) / 5) {
-			wheelState = (wheelState - 1) % 4;
+		if (GetTickCount() - lastTimeupdateWheel >= (300 - 2000 * abs(vx)) / 5) {
+			wheelState = (wheelState + 1) % 4;
 			if (wheelState % 2 == 0) {
 				if (bodyState == 2)
 					bodyState = 1;
@@ -58,17 +60,37 @@ void CSophia::updateWheel() {
 					if (bodyState == 1)
 						bodyState = 2;
 			}
-			lastTimeMoveWheel = GetTickCount();
+			lastTimeupdateWheel = GetTickCount();
 		}
 	}
 	if (vx == 0)
 		bodyState = 2;
 }
 
-void CSophia::updateGun() {
-	if (directionState) {
-		if (gunState == 3)
-			(directionState = !directionState);
+void CSophia::updateDirection() {
+	if (turnRight) {
+		if (GetTickCount() - lastTimeupdateDirection > 100) {
+			if (directionState < 3) {
+				directionState++;
+				lastTimeupdateDirection = GetTickCount();
+			}
+		}
+	}
+	else {
+		if (GetTickCount() - lastTimeupdateDirection > 100) {
+			if (directionState > 0) {
+				directionState--;
+				lastTimeupdateDirection = GetTickCount();
+			}
+		}
+	}
+}
+
+void CSophia::updateBody() {
+	if (vy < -0.01)
+		bodyState = 3;
+	else if (vy > 0.01) {
+		bodyState = 0;
 	}
 }
 
@@ -77,17 +99,18 @@ void CSophia::HandleKeysHold(DWORD dt)
 	if (IsKeyDown(DIK_RIGHT))
 	{
 		// SetState(SOPHIA_STATE_WALK_RIGHT);
-		if (!directionState) {
-			gunState = 3;
-		} 
-		else
-		directionState = 1;
+		if (directionState != 3) {
+			turnRight = true;
+		}
 		ax = SOPHIA_ENGINE;
 	}
 	else if (IsKeyDown(DIK_LEFT))
 	{
 		// SetState(SOPHIA_STATE_WALK_LEFT);
-		directionState = 0;
+		if (directionState != 0) {
+			turnRight = false;
+		}
+
 		ax = -SOPHIA_ENGINE;
 	}
 	if (IsKeyDown(DIK_UP) || IsKeyDown(DIK_UP) && IsKeyDown(DIK_RIGHT))
@@ -118,11 +141,11 @@ void CSophia::HandleKeyUp(DWORD dt, int keyCode)
 {
 	if (keyCode == DIK_RIGHT) {
 		// SetState(SOPHIA_STATE_IDLE1_RIGHT);
-		ax = -FRICTION;
+		ax = -0.0001;
 	}
 	if (keyCode == DIK_LEFT) {
 		// SetState(SOPHIA_STATE_IDLE1_LEFT);
-		ax = FRICTION;
+		ax = 0.0001;
 	}
 
 	if (keyCode == DIK_UP || keyCode == DIK_DOWN)
@@ -150,6 +173,8 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 	HandleKeys(dt);
 	UpdateVelocity(dt);
 	updateWheel();
+	updateDirection();
+	updateBody();
 	flagOnAir = true;
 	Deoverlap(coObjs);
 	vector<LPCOLLISIONEVENT>* colEvents = new vector<LPCOLLISIONEVENT>();
@@ -176,7 +201,7 @@ void CSophia::UpdateVelocity(DWORD dt)
 	vx = max(vx, -vxMax);
 
 	//friction handler
-	if (directionState==1) {
+	if (directionState == 2 && turnRight) {
 		if (ax <= 0) {
 			if (flagOnAir)
 				ax = 0;
@@ -188,10 +213,33 @@ void CSophia::UpdateVelocity(DWORD dt)
 			}
 		}
 	}
-	if (directionState==0) {
+	else if (directionState == 1 && !turnRight) {
 		if (ax >= 0) {
 			if (flagOnAir)
-				ax =0;
+				ax = 0;
+			else
+				ax = FRICTION;
+			if (vx >= 0) {
+				vx = 0;
+				ax = 0;
+			}
+		}
+	}
+	else if (directionState == 3 || directionState == 1) {
+		if (ax <= 0) {
+			if (flagOnAir)
+				ax = 0;
+			else
+				ax = -FRICTION;
+			if (vx <= 0) {
+				vx = 0;
+				ax = 0;
+			}
+		}
+	} else if (directionState == 0 || directionState == 2) {
+		if (ax >= 0) {
+			if (flagOnAir)
+				ax = 0;
 			else
 				ax = FRICTION;
 			if (vx >= 0) {
