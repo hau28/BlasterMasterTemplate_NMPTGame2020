@@ -67,6 +67,7 @@ void CSophiaAnimationSystem::_ParseSection_SPRITES(string line)
 void CSophiaAnimationSystem::_ParseSection_SEQUENCES(string line)
 {
 	// Hau & Thao to do...
+
 }
 
 int CSophiaAnimationSystem::EncodeDimensions(int directionState, int gunState, int bodyState, int wheelState)

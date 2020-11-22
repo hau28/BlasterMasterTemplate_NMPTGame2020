@@ -2,7 +2,6 @@
 #include "TileArea.h"
 #include "CollisionSolver.h"
 #include "GameObjectBehaviour.h"
-
 #include "PortalLib.h"
 #include "SophiaAnimationSystem.h"
 
@@ -11,10 +10,12 @@ CSophia::CSophia(int classId, int x, int y)
 {
 	this->classId = classId;
 	SetPosition(x, y);
-
-	directionState = gunState = bodyState = wheelState = 0;
-	vyMax = 100;
+	directionState = 1;
+	gunState= wheelState = 0;
+	bodyState = 2;
+	vyMax = SOPHIA_MAX_FALL_SPEED;
 	vxMax = SOPHIA_MAX_SPEED;
+
 };
 
 #pragma region key events handling
@@ -34,23 +35,23 @@ void CSophia::HandleKeys(DWORD dt)
 	}
 }
 
+void CSophia::updateWheel() {
+
+}
+
 void CSophia::HandleKeysHold(DWORD dt)
 {
 	if (IsKeyDown(DIK_RIGHT))
 	{
 		// SetState(SOPHIA_STATE_WALK_RIGHT);
 		directionState = 1;
-
-		vx = SOPHIA_MAX_SPEED;
-		isLeft = false;
+		ax = SOPHIA_ENGINE;
 	}
 	else if (IsKeyDown(DIK_LEFT))
 	{
 		// SetState(SOPHIA_STATE_WALK_LEFT);
 		directionState = 0;
-
-		vx = -SOPHIA_MAX_SPEED;
-		isLeft = true;
+		ax = -SOPHIA_ENGINE;
 	}
 	if (IsKeyDown(DIK_UP) || IsKeyDown(DIK_UP) && IsKeyDown(DIK_RIGHT))
 	{
@@ -70,52 +71,97 @@ void CSophia::HandleKeysHold(DWORD dt)
 	if (IsKeyDown(DIK_DOWN))
 	{
 	}
+	if (IsKeyDown(DIK_X) && ground == y)
+	{
+			vy = -SOPHIA_JUMP_FORCE;
+	}
 }
 void CSophia::HandleKeyUp(DWORD dt, int keyCode)
 {
 	if (keyCode == DIK_RIGHT) {
 		// SetState(SOPHIA_STATE_IDLE1_RIGHT);
-		flagStop = true;
-		stopLeft = false;
-
-		vx = 0;
+		ax = -FRICTION;
 	}
 	if (keyCode == DIK_LEFT) {
 		// SetState(SOPHIA_STATE_IDLE1_LEFT);
-		flagStop = true;
-		stopLeft = true;
-
-		vx = 0;
+		ax = FRICTION;
 	}
 
 	if (keyCode == DIK_UP || keyCode == DIK_DOWN)
 		vy = 0;
 	if (keyCode == DIK_UP) {
-		if (!isLeft) {
-			// SetState(SOPHIA_STATE_GUNDOWN_RIGHT);
-			animationHandlers[state]->currentFrameIndex = 0;
-		}
-		if (isLeft) {
-			// SetState(SOPHIA_STATE_GUNDOWN_LEFT);
-			animationHandlers[state]->currentFrameIndex = 0;
-		}
+
 	}
 }
 
 void CSophia::HandleKeyDown(DWORD dt, int keyCode)
 {
+	/*
 	if (!flagOnAir && keyCode == DIK_X)
 	{
 		vy -= SOPHIA_JUMP_FORCE;
 	}
+	*/
 }
 #pragma endregion
 
+void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
+{
+	HandleKeys(dt);
+	UpdateVelocity(dt);
+	flagOnAir = true;
+	Deoverlap(coObjs);
+	//if (ground - y >= 30)
+		DebugOut(L"reached %f\n",ground - y);
+	vector<LPCOLLISIONEVENT>* colEvents = new vector<LPCOLLISIONEVENT>();
+	colEvents->clear();
+	CheckCollision(dt, coObjs, *colEvents);
+	HandleCollisions(dt, colEvents);
+	UpdatePosition(dt);
+	if (!flagOnAir)
+		ground = y;
+}
+
 void CSophia::UpdateVelocity(DWORD dt)
 {
-	// CuteTN Todo: Test
-	vy += SOPHIA_GRAVITY;
-	vy = min(vy, SOPHIA_MAX_FALL_SPEED);
+	//jump handler
+
+	vy += SOPHIA_GRAVITY * dt;
+	vy = min(vy, vyMax);
+
+	vx += ax * dt;
+	vx = min(vx, vxMax);
+	vx = max(vx, -vxMax);
+
+
+
+	//friction handler
+	if (directionState) {
+		if (ax < 0) {
+			if (flagOnAir)
+				ax = -FRICTION/7;
+			else
+				ax = -FRICTION;
+			if (vx <= 0) {
+				vx = 0;
+				ax = 0;
+			}
+		}
+	}
+	if (!directionState) {
+		if (ax > 0) {
+			if (flagOnAir)
+				ax = FRICTION / 5;
+			else
+				ax = FRICTION;
+			if (vx >= 0) {
+				vx = 0;
+				ax = 0;
+			}
+		}
+	}
+
+	// vx += ax
 }
 
 void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
@@ -155,15 +201,6 @@ void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 		}
 	}
 }
-
-
-void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
-{
-	HandleKeys(dt);
-	flagOnAir = true;
-	CAnimatableObject::Update(dt, coObjs);
-}
-
 void CSophia::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x + SOPHIA_BOUNDBOX_OFFSETX;

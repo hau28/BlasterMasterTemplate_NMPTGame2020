@@ -11,14 +11,331 @@
 2 4 6 4
 
 # now this is very painful, you have to assign the states for EACH sprite
-# SYNTAX: rowId   colId   direction   gun   body   wheel
+# SYNTAX:  direction   gun   body   wheel     rowId   colId  
 [SPRITES]
-
-# idle left
-0 0 0 0 0 0
-
-# idle right
-0 7 1 0 0 0
+# trai ngang nhun-nhay 0
+2 0 0 0 0 0
+# trai ngang nhun-nhay 1
+2 1 0 0 0 1
+# trai ngang nhun-nhay 2
+2 2 0 0 0 2
+# trai ngang nhun-nhay 3
+2 3 0 0 0 3
+# trai ngang nhun 0
+1 0 0 0 1 0
+# trai ngang nhun 1
+1 1 0 0 1 1
+# trai ngang nhun 2
+1 2 0 0 1 2
+# trai ngang nhun 3
+1 3 0 0 1 3
+# trai ngang bt 0
+0 0 0 0 2 0
+# trai ngang bt 1
+0 1 0 0 2 1
+# trai ngang bt 2
+0 2 0 0 2 2
+# trai ngang bt 3
+0 3 0 0 2 3
+# trai ngang nhay 0
+5 0 0 0 3 0
+# trai ngang nhay 1
+5 1 0 0 3 1
+# trai ngang nhay 2
+5 2 0 0 3 2
+# trai ngang nhay 3
+5 3 0 0 3 3
+# trai ngang xuong-xe 0
+15 1 0 0 4 0
+# trai ngang xuong-xe 1
+15 1 0 0 4 1
+# trai ngang xuong-xe 2
+15 1 0 0 4 2
+# trai ngang xuong-xe 3
+15 1 0 0 4 3
+# trai 45-do nhun-nhay 0
+7 0 0 1 0 0
+# trai 45-do nhun-nhay 1
+7 1 0 1 0 1
+# trai 45-do nhun-nhay 2
+7 2 0 1 0 2
+# trai 45-do nhun-nhay 3
+7 3 0 1 0 3
+# trai 45-do nhun 0
+7 0 0 1 1 0
+# trai 45-do nhun 1
+7 1 0 1 1 1
+# trai 45-do nhun 2
+7 2 0 1 1 2
+# trai 45-do nhun 3
+7 3 0 1 1 3
+# trai 45-do bt 0
+8 0 0 1 2 0
+# trai 45-do bt 1
+8 1 0 1 2 1
+# trai 45-do bt 2
+8 2 0 1 2 2
+# trai 45-do bt 3
+8 3 0 1 2 3
+# trai 45-do nhay 0
+9 0 0 1 3 0
+# trai 45-do nhay 1
+9 1 0 1 3 1
+# trai 45-do nhay 2
+9 2 0 1 3 2
+# trai 45-do nhay 3
+9 3 0 1 3 3
+# trai 45-do xuong-xe 0
+15 1 0 1 4 0
+# trai 45-do xuong-xe 1
+15 1 0 1 4 1
+# trai 45-do xuong-xe 2
+15 1 0 1 4 2
+# trai 45-do xuong-xe 3
+15 1 0 1 4 3
+# trai 90-do nhun-nhay 0
+13 0 0 2 0 0
+# trai 90-do nhun-nhay 1
+13 1 0 2 0 1
+# trai 90-do nhun-nhay 2
+13 2 0 2 0 2
+# trai 90-do nhun-nhay 3
+13 3 0 2 0 3
+# trai 90-do nhun 0
+12 0 0 2 1 0
+# trai 90-do nhun 1
+12 1 0 2 1 1
+# trai 90-do nhun 2
+12 2 0 2 1 2
+# trai 90-do nhun 3
+12 3 0 2 1 3
+# trai 90-do bt 0
+11 0 0 2 2 0
+# trai 90-do bt 1
+11 1 0 2 2 1
+# trai 90-do bt 2
+11 2 0 2 2 2
+# trai 90-do bt 3
+11 3 0 2 2 3
+# trai 90-do nhay 0
+14 0 0 2 3 0
+# trai 90-do nhay 1
+14 1 0 2 3 1
+# trai 90-do nhay 2
+14 2 0 2 3 2
+# trai 90-do nhay 3
+14 3 0 2 3 3
+# trai 90-do xuong-xe 0
+15 1 0 2 4 0
+# trai 90-do xuong-xe 1
+15 1 0 2 4 1
+# trai 90-do xuong-xe 2
+15 1 0 2 4 2
+# trai 90-do xuong-xe 3
+15 1 0 2 4 3
+# trai xoay nhun-nhay 0
+4 0 0 3 0 0
+# trai xoay nhun-nhay 1
+4 1 0 3 0 1
+# trai xoay nhun-nhay 2
+4 2 0 3 0 2
+# trai xoay nhun-nhay 3
+4 3 0 3 0 3
+# trai xoay nhun 0
+4 0 0 3 1 0
+# trai xoay nhun 1
+4 1 0 3 1 1
+# trai xoay nhun 2
+4 2 0 3 1 2
+# trai xoay nhun 3
+4 3 0 3 1 3
+# trai xoay bt 0
+3 0 0 3 2 0
+# trai xoay bt 1
+3 1 0 3 2 1
+# trai xoay bt 2
+3 2 0 3 2 2
+# trai xoay bt 3
+3 3 0 3 2 3
+# trai xoay nhay 0
+6 0 0 3 3 0
+# trai xoay nhay 1
+6 1 0 3 3 1
+# trai xoay nhay 2
+6 2 0 3 3 2
+# trai xoay nhay 3
+6 3 0 3 3 3
+# trai xoay xuong-xe 0
+3 0 0 3 4 0
+# trai xoay xuong-xe 1
+3 1 0 3 4 1
+# trai xoay xuong-xe 2
+3 2 0 3 4 2
+# trai xoay xuong-xe 3
+3 3 0 3 4 3
+# phai ngang nhun-nhay 0
+2 4 1 0 0 0
+# phai ngang nhun-nhay 1
+2 5 1 0 0 1
+# phai ngang nhun-nhay 2
+2 6 1 0 0 2
+# phai ngang nhun-nhay 3
+2 7 1 0 0 3
+# phai ngang nhun 0
+1 4 1 0 1 0
+# phai ngang nhun 1
+1 5 1 0 1 1
+# phai ngang nhun 2
+1 6 1 0 1 2
+# phai ngang nhun 3
+1 7 1 0 1 3
+# phai ngang bt 0
+0 4 1 0 2 0
+# phai ngang bt 1
+0 5 1 0 2 1
+# phai ngang bt 2
+0 6 1 0 2 2
+# phai ngang bt 3
+0 7 1 0 2 3
+# phai ngang nhay 0
+5 4 1 0 3 0
+# phai ngang nhay 1
+5 5 1 0 3 1
+# phai ngang nhay 2
+5 6 1 0 3 2
+# phai ngang nhay 3
+5 7 1 0 3 3
+# phai ngang xuong-xe 0
+15 0 1 0 4 0
+# phai ngang xuong-xe 1
+15 0 1 0 4 1
+# phai ngang xuong-xe 2
+15 0 1 0 4 2
+# phai ngang xuong-xe 3
+15 0 1 0 4 3
+# phai 45-do nhun-nhay 0
+7 4 1 1 0 0
+# phai 45-do nhun-nhay 1
+7 5 1 1 0 1
+# phai 45-do nhun-nhay 2
+7 6 1 1 0 2
+# phai 45-do nhun-nhay 3
+7 7 1 1 0 3
+# phai 45-do nhun 0
+7 4 1 1 1 0
+# phai 45-do nhun 1
+7 5 1 1 1 1
+# phai 45-do nhun 2
+7 6 1 1 1 2
+# phai 45-do nhun 3
+7 7 1 1 1 3
+# phai 45-do bt 0
+8 4 1 1 2 0
+# phai 45-do bt 1
+8 5 1 1 2 1
+# phai 45-do bt 2
+8 6 1 1 2 2
+# phai 45-do bt 3
+8 7 1 1 2 3
+# phai 45-do nhay 0
+9 4 1 1 3 0
+# phai 45-do nhay 1
+9 5 1 1 3 1
+# phai 45-do nhay 2
+9 6 1 1 3 2
+# phai 45-do nhay 3
+9 7 1 1 3 3
+# phai 45-do xuong-xe 0
+15 0 1 1 4 0
+# phai 45-do xuong-xe 1
+15 0 1 1 4 1
+# phai 45-do xuong-xe 2
+15 0 1 1 4 2
+# phai 45-do xuong-xe 3
+15 0 1 1 4 3
+# phai 90-do nhun-nhay 0
+13 4 1 2 0 0
+# phai 90-do nhun-nhay 1
+13 5 1 2 0 1
+# phai 90-do nhun-nhay 2
+13 6 1 2 0 2
+# phai 90-do nhun-nhay 3
+13 7 1 2 0 3
+# phai 90-do nhun 0
+12 4 1 2 1 0
+# phai 90-do nhun 1
+12 5 1 2 1 1
+# phai 90-do nhun 2
+12 6 1 2 1 2
+# phai 90-do nhun 3
+12 7 1 2 1 3
+# phai 90-do bt 0
+11 4 1 2 2 0
+# phai 90-do bt 1
+11 5 1 2 2 1
+# phai 90-do bt 2
+11 6 1 2 2 2
+# phai 90-do bt 3
+11 7 1 2 2 3
+# phai 90-do nhay 0
+14 4 1 2 3 0
+# phai 90-do nhay 1
+14 5 1 2 3 1
+# phai 90-do nhay 2
+14 6 1 2 3 2
+# phai 90-do nhay 3
+14 7 1 2 3 3
+# phai 90-do xuong-xe 0
+15 0 1 2 4 0
+# phai 90-do xuong-xe 1
+15 0 1 2 4 1
+# phai 90-do xuong-xe 2
+15 0 1 2 4 2
+# phai 90-do xuong-xe 3
+15 0 1 2 4 3
+# phai xoay nhun-nhay 0
+4 4 1 3 0 0
+# phai xoay nhun-nhay 1
+4 5 1 3 0 1
+# phai xoay nhun-nhay 2
+4 6 1 3 0 2
+# phai xoay nhun-nhay 3
+4 7 1 3 0 3
+# phai xoay nhun 0
+4 4 1 3 1 0
+# phai xoay nhun 1
+4 5 1 3 1 1
+# phai xoay nhun 2
+4 6 1 3 1 2
+# phai xoay nhun 3
+4 7 1 3 1 3
+# phai xoay bt 0
+3 4 1 3 2 0
+# phai xoay bt 1
+3 5 1 3 2 1
+# phai xoay bt 2
+3 6 1 3 2 2
+# phai xoay bt 3
+3 7 1 3 2 3
+# phai xoay nhay 0
+6 4 1 3 3 0
+# phai xoay nhay 1
+6 5 1 3 3 1
+# phai xoay nhay 2
+6 6 1 3 3 2
+# phai xoay nhay 3
+6 7 1 3 3 3
+# phai xoay xuong-xe 0
+3 4 1 3 4 0
+# phai xoay xuong-xe 1
+3 5 1 3 4 1
+# phai xoay xuong-xe 2
+3 6 1 3 4 2
+# phai xoay xuong-xe 3
+3 7 1 3 4 3
 
 # This is up to you to define
 [SEQUENCES]
+
+
+
