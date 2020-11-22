@@ -47,6 +47,7 @@ public:
     virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs);
     virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
     virtual void updateWheel();
+    virtual void updateGun();
     virtual void Render();
     int wheel = 0;
     DWORD lastTimeMoveWheel;

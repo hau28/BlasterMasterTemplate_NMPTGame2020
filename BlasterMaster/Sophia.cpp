@@ -12,7 +12,6 @@ CSophia::CSophia(int classId, int x, int y)
 	SetPosition(x, y);
 	directionState = 1;
 	gunState= wheelState = 0;
-	bodyState = 2;
 	vyMax = SOPHIA_MAX_FALL_SPEED;
 	vxMax = SOPHIA_MAX_SPEED;
 
@@ -36,7 +35,41 @@ void CSophia::HandleKeys(DWORD dt)
 }
 
 void CSophia::updateWheel() {
+	if (vx >= 0.01 && !(flagOnAir && !IsKeyDown(DIK_RIGHT))) {
+		if (GetTickCount() - lastTimeMoveWheel >= (300 - 2000 * abs(vx)) / 5) {
+			wheelState = (wheelState + 1) % 4;
+			if (wheelState % 2 == 0) {
+				if (bodyState == 2)
+					bodyState = 1;
+				else
+					if (bodyState == 1)
+						bodyState = 2;
+			}
+			lastTimeMoveWheel = GetTickCount();
+		}
+	}
+	if (vx <= -0.01 && !(flagOnAir && !IsKeyDown(DIK_LEFT))) {
+		if (GetTickCount() - lastTimeMoveWheel >= (300 - 2000 * abs(vx)) / 5) {
+			wheelState = (wheelState - 1) % 4;
+			if (wheelState % 2 == 0) {
+				if (bodyState == 2)
+					bodyState = 1;
+				else
+					if (bodyState == 1)
+						bodyState = 2;
+			}
+			lastTimeMoveWheel = GetTickCount();
+		}
+	}
+	if (vx == 0)
+		bodyState = 2;
+}
 
+void CSophia::updateGun() {
+	if (directionState) {
+		if (gunState == 3)
+			(directionState = !directionState);
+	}
 }
 
 void CSophia::HandleKeysHold(DWORD dt)
@@ -44,6 +77,10 @@ void CSophia::HandleKeysHold(DWORD dt)
 	if (IsKeyDown(DIK_RIGHT))
 	{
 		// SetState(SOPHIA_STATE_WALK_RIGHT);
+		if (!directionState) {
+			gunState = 3;
+		} 
+		else
 		directionState = 1;
 		ax = SOPHIA_ENGINE;
 	}
@@ -112,6 +149,7 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
 	HandleKeys(dt);
 	UpdateVelocity(dt);
+	updateWheel();
 	flagOnAir = true;
 	Deoverlap(coObjs);
 	vector<LPCOLLISIONEVENT>* colEvents = new vector<LPCOLLISIONEVENT>();
@@ -138,10 +176,10 @@ void CSophia::UpdateVelocity(DWORD dt)
 	vx = max(vx, -vxMax);
 
 	//friction handler
-	if (directionState) {
-		if (ax < 0) {
+	if (directionState==1) {
+		if (ax <= 0) {
 			if (flagOnAir)
-				ax = -FRICTION/7;
+				ax = 0;
 			else
 				ax = -FRICTION;
 			if (vx <= 0) {
@@ -150,10 +188,10 @@ void CSophia::UpdateVelocity(DWORD dt)
 			}
 		}
 	}
-	if (!directionState) {
-		if (ax > 0) {
+	if (directionState==0) {
+		if (ax >= 0) {
 			if (flagOnAir)
-				ax = FRICTION / 5;
+				ax =0;
 			else
 				ax = FRICTION;
 			if (vx >= 0) {
