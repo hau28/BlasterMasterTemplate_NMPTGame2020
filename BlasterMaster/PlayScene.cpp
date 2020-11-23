@@ -291,7 +291,7 @@ void CPlayScene::Update(DWORD dt)
 	cx -= game->GetScreenWidth() / 2 - 12;
 	cy -= game->GetScreenHeight() / 2 - 8;
 
-	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH)
+	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT)
 	{
 		game->GetCamPos(cx, cy);
 		if (cx + 1.5 <= width_section)
@@ -302,21 +302,33 @@ void CPlayScene::Update(DWORD dt)
 		CSophia::GetInstance()->SetPosition(x_sophia + 0.2, y_sophia);
 	}
 
-	//Need know pos of section background
+	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT)
+	{
+		game->GetCamPos(cx, cy);
+		if (cx - 1.5 + game->GetScreenWidth() >= 0)
+			cx -= 1.5;
+		else cx = -game->GetScreenWidth();
+		float x_sophia, y_sophia;
+		CSophia::GetInstance()->GetPosition(x_sophia, y_sophia);
+		CSophia::GetInstance()->SetPosition(x_sophia - 0.2, y_sophia);
+	}
 
-	if (cx < 0) cx = 0;
+	//Need know pos of section background
+	if (CGame::GetInstance()->GetState() != GameState::SECTION_SWITCH_LEFT)
+		if (cx < 0) cx = 0;
 	if (cy < 0) cy = 0;
 
 	//SANH-CAMERA
-	if (CGame::GetInstance()->GetState() != GameState::SECTION_SWITCH)
-	if (cx + game->GetScreenWidth() > width_section)
-		cx = width_section - game->GetScreenWidth();
+	if (CGame::GetInstance()->GetState() != GameState::SECTION_SWITCH_RIGHT)
+		if (cx + game->GetScreenWidth() > width_section)
+			cx = width_section - game->GetScreenWidth();
 
 	if (cy + game->GetScreenHeight() > height_section)
 		cy = height_section - game->GetScreenHeight();
 
 	CGame::GetInstance()->SetCamPos(cx,cy);
 	
+	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT)
 	if (cx >= width_section)
 	{
 		CGame::SetState(GameState::PLAY_SIDEVIEW_SOPHIA);
@@ -325,9 +337,19 @@ void CPlayScene::Update(DWORD dt)
 		float x_toPortal, y_toPortal;
 		toPortal->GetPosition(x_toPortal, y_toPortal);
 		Sections[CurrentSectionId]->pushSophia(x_toPortal+5, y_toPortal, CurrentSectionId);
-
 	}
 
+	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT)
+		if (cx + game->GetScreenWidth() <= 0)
+		{
+			DebugOut(L"SET LEFT");
+			CGame::SetState(GameState::PLAY_SIDEVIEW_SOPHIA);
+			Sections[CurrentSectionId]->deleteSophia();
+			CurrentSectionId = NextSectionId;
+			float x_toPortal, y_toPortal;
+			toPortal->GetPosition(x_toPortal, y_toPortal);
+			Sections[CurrentSectionId]->pushSophia(x_toPortal - 5, y_toPortal, CurrentSectionId);
+		}
 	Sections[CurrentSectionId]->Update(dt);
 	// CuteTN to do: switching section here
 }
@@ -337,7 +359,8 @@ void CPlayScene::Render()
 {
 	Sections[CurrentSectionId]->Render();
 	//SANH-CAMERA
-	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH)
+	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT
+		|| CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT)
 	{
 		Sections[NextSectionId]->Render(this->offset_x_SectionSwitch,this->offset_y_SectionSwitch);
 	}
@@ -356,6 +379,22 @@ void CPlayScene::set_offset(LPPORTAL fromPortal, LPPORTAL toPortal, string direc
 		this->offset_y_SectionSwitch = y_from - y_to;
 		this->offset_x_SectionSwitch = Sections[CurrentSectionId]->getBgWidth();
 	}
+
+	if (direction == "left")
+	{
+		this->offset_x_SectionSwitch = -Sections[NextSectionId]->getBgWidth();
+		this->offset_y_SectionSwitch = y_from - y_to;
+	}
+}
+
+string get_DirectionSceneSwitch(LPPORTAL portalA, LPPORTAL portalB)
+{
+	float xA, xB, yA, yB;
+
+	portalA->GetPosition(xA,yA);
+	portalB->GetPosition(xB, yB);
+	if (xA >= xB) return "right";
+	return "left";
 }
 
 void CPlayScene::handleGameEvent(LPGAME_EVENT gameEvent)
@@ -363,11 +402,19 @@ void CPlayScene::handleGameEvent(LPGAME_EVENT gameEvent)
 	//SANH-CAMERA
 	if (gameEvent->eventName == "WalkInPortalEvent")
 	{
-		CWalkInPortalEvent * temp = dynamic_cast<CWalkInPortalEvent*>(gameEvent);
+		CWalkInPortalEvent* temp = dynamic_cast<CWalkInPortalEvent*>(gameEvent);
 		NextSectionId = temp->get_toPortal()->currentSectionId;
-		CGame::SetState(GameState::SECTION_SWITCH);
+		string direct = get_DirectionSceneSwitch(temp->get_fromPortal(), temp->get_toPortal());
+		if (direct == "left")
+		{
+			CGame::SetState(GameState::SECTION_SWITCH_LEFT);
+		}
+	
+		if (direct == "right")
+			CGame::SetState(GameState::SECTION_SWITCH_RIGHT);
 
-		set_offset(temp->get_fromPortal(), temp->get_toPortal(), "right");
+
+		set_offset(temp->get_fromPortal(), temp->get_toPortal(), direct);
 		DebugOut(L"OFFSET : %f --- %f", this->offset_x_SectionSwitch, this->offset_y_SectionSwitch);
 	}
 }
