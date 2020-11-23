@@ -207,8 +207,8 @@ void CCollisionSolver::DeOverlap(LPGAMEOBJECT movableObj, LPGAMEOBJECT staticObj
 	if (IsOverlapped(movableObj, staticObj))
 	{
 		// now try moving in 4 directions
-		float dl =ceil( r1 - l2);
-		float dr =ceil( r2 - l1);
+		float dl = ceil(r1 - l2);
+		float dr = ceil(r2 - l1);
 		float dt = ceil(b1 - t2);
 		float db = ceil(b2 - t1);
 		float dmin = min(min(dl, dr), min(dt, db));

@@ -51,11 +51,18 @@ public:
 	unordered_map<int, LPSECTION> Sections;
 	int CurrentSectionId;
 
+	//SANH-CAMERA
+	int NextSectionId;
+	LPPORTAL toPortal;
+	float offset_x_SectionSwitch;
+	float offset_y_SectionSwitch;
+	void set_offset(LPPORTAL fromPortal, LPPORTAL toPortal, string direction);
+
 	//Sanh
 	LPSECTION GetCurrentSection() { return Sections[CurrentSectionId]; }
-
 	LPGAMEOBJECT GetPlayer() { return player; } 
-
+	void handleGameEvent(LPGAME_EVENT gameEvent);
+	
 	//friend class CPlayScenceKeyHandler;
 };
 
