@@ -295,9 +295,6 @@ void CPlayScene::Update(DWORD dt)
 		if (cx + 1.5 <= width_section)
 			cx += 1.5;
 		else cx = width_section;
-		float x_sophia, y_sophia;
-		CSophia::GetInstance()->GetPosition(x_sophia,y_sophia);
-		CSophia::GetInstance()->SetPosition(x_sophia + 0.2, y_sophia);
 	}
 
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT)
@@ -306,9 +303,6 @@ void CPlayScene::Update(DWORD dt)
 		if (cx - 1.5 + game->GetScreenWidth() >= 0)
 			cx -= 1.5;
 		else cx = -game->GetScreenWidth();
-		float x_sophia, y_sophia;
-		CSophia::GetInstance()->GetPosition(x_sophia, y_sophia);
-		CSophia::GetInstance()->SetPosition(x_sophia - 0.2, y_sophia);
 	}
 
 	//Need know pos of section background

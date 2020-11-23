@@ -37,7 +37,13 @@ void CSophia::HandleKeys(DWORD dt)
 
 void CSophia::updateWheel()
 {
-    if (vx >= 0.01 && !(flagOnAir && !IsKeyDown(DIK_RIGHT)))
+    bool portaling = false;
+    if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT)
+        portaling = true;
+    if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT)
+        portaling = true;
+
+    if ((vx >= 0.01 && !(flagOnAir && !IsKeyDown(DIK_RIGHT)))|| portaling)
     {
         if (GetTickCount() - lastTimeupdateWheel >= (300 - 2000 * abs(vx)) / 5)
         {
@@ -52,7 +58,7 @@ void CSophia::updateWheel()
             lastTimeupdateWheel = GetTickCount();
         }
     }
-    if (vx <= -0.01 && !(flagOnAir && !IsKeyDown(DIK_LEFT)))
+    if ((vx <= -0.01 && !(flagOnAir && !IsKeyDown(DIK_LEFT)))||portaling)
     {
         if (GetTickCount() - lastTimeupdateWheel >= (300 - 2000 * abs(vx)) / 5)
         {
@@ -210,28 +216,41 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
 void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
 {
     HandleKeys(dt);
-
     //SANH-CAMERA
+    int portaling = 0;
     if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT)
-        return;
+        portaling = 1;
     if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT)
-        return;
+        portaling = 2;
+    if (!portaling) {
+        updateGun();
+        UpdateVelocity(dt);
+        updateWheel();
+        updateDirection();
+        updateBody();
+        flagOnAir = true;
+        Deoverlap(coObjs);
+        vector<LPCOLLISIONEVENT>* colEvents = new vector<LPCOLLISIONEVENT>();
+        colEvents->clear();
+        CheckCollision(dt, coObjs, *colEvents);
+        HandleCollisions(dt, colEvents);
 
-    updateGun();
-    UpdateVelocity(dt);
-    updateWheel();
-    updateDirection();
-    updateBody();
-    flagOnAir = true;
-    Deoverlap(coObjs);
-    vector<LPCOLLISIONEVENT> *colEvents = new vector<LPCOLLISIONEVENT>();
-    colEvents->clear();
-    CheckCollision(dt, coObjs, *colEvents);
-    HandleCollisions(dt, colEvents);
-
-    UpdatePosition(dt);
-    if (!flagOnAir)
-        ground = y;
+        UpdatePosition(dt);
+        if (!flagOnAir)
+            ground = y;
+    }
+    else if (portaling==2) {
+        vx = SOPHIA_MAX_SPEED/3;
+        UpdatePosition(dt);
+        updateDirection();
+        updateWheel();
+    }
+    else {
+        vx = -SOPHIA_MAX_SPEED / 3;
+        UpdatePosition(dt);
+        updateDirection();
+        updateWheel();
+    }
 }
 
 void CSophia::UpdateVelocity(DWORD dt)
