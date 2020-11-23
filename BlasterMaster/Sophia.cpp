@@ -16,7 +16,7 @@ CSophia::CSophia(int classId, int x, int y)
 	vyMax = SOPHIA_MAX_FALL_SPEED;
 	vxMax = SOPHIA_MAX_SPEED;
 	lastTimeupdateDirection = GetTickCount();
-
+	lastTimeupdateGun = GetTickCount();
 };
 
 #pragma region key events handling
@@ -86,12 +86,41 @@ void CSophia::updateDirection() {
 	}
 }
 
+void CSophia::updateGun() {
+	if (IsKeyDown(DIK_UP)) {
+		if (gunState == 0) {
+			gunState++;
+			lastTimeupdateGun = GetTickCount();
+		}
+		else
+			if (gunState < 2) {
+				if (GetTickCount() - lastTimeupdateGun > 100) {
+					gunState++;
+					lastTimeupdateGun = GetTickCount();
+				}
+			}
+		
+	}
+	else if (!IsKeyDown(DIK_UP)) {
+		if (gunState == 2) {
+			gunState--;
+			lastTimeupdateGun = GetTickCount();
+		}
+		else
+		if (gunState > 0)
+			if (GetTickCount() - lastTimeupdateGun > 100) {
+				gunState--;
+				lastTimeupdateGun = GetTickCount();
+			}
+	}
+}
+
 void CSophia::updateBody() {
 	if (vy < -0.01)
 		bodyState = 3;
 	else if (vy > 0.01) {
-		bodyState = 0;
-	}
+		bodyState = 1;
+	} 
 }
 
 void CSophia::HandleKeysHold(DWORD dt)
@@ -131,10 +160,6 @@ void CSophia::HandleKeysHold(DWORD dt)
 	if (IsKeyDown(DIK_DOWN))
 	{
 	}
-	if (IsKeyDown(DIK_X) && ground == y)
-	{
-		vy = -SOPHIA_JUMP_FORCE;
-	}
 
 }
 void CSophia::HandleKeyUp(DWORD dt, int keyCode)
@@ -148,29 +173,23 @@ void CSophia::HandleKeyUp(DWORD dt, int keyCode)
 		ax = 0.0001;
 	}
 
-	if (keyCode == DIK_UP || keyCode == DIK_DOWN)
-		vy = 0;
-	if (keyCode == DIK_UP) {
-
-	}
 	if (vy<0 && ground-y>48.5 && keyCode == DIK_X)
 		vy = 0;
 }
 
 void CSophia::HandleKeyDown(DWORD dt, int keyCode)
 {
-	/*	
 	if (!flagOnAir && keyCode == DIK_X)
 	{
-		vy -= SOPHIA_JUMP_FORCE;
+		vy =- SOPHIA_JUMP_FORCE;
 	}
-	*/
 }
 #pragma endregion
 
 void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
 	HandleKeys(dt);
+	updateGun();
 	UpdateVelocity(dt);
 	updateWheel();
 	updateDirection();
@@ -301,7 +320,11 @@ void CSophia::Render()
 {
 	LPSPRITE sprite = CSophiaAnimationSystem::GetInstance()->GetSprite(directionState, gunState, bodyState, wheelState);
 	if(sprite)
-		sprite->Draw(x, y);
+		if (vy > 0 && bodyState == 1 && ground-y>=16) {
+			sprite->Draw(x, y-3);
+		}
+		else
+			sprite->Draw(x, y);
 }
 
 CSophia * CSophia::__instance = nullptr;

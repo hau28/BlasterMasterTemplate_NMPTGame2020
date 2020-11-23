@@ -50,10 +50,13 @@ public:
     virtual void updateWheel();
     virtual void updateDirection();
     virtual void updateBody();
+    virtual void updateGun();
     virtual void Render();
     int wheel = 0;
     DWORD lastTimeupdateWheel;
     DWORD lastTimeupdateDirection;
+    DWORD lastTimeupdateGun;
+    DWORD lastTimeUpdateBody;
     static CSophia* GetInstance();
     static CSophia* InitInstance(int classId, int x, int y, int sectionId);
 };
