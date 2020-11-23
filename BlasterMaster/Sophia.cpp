@@ -153,6 +153,11 @@ void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
 	HandleKeys(dt);
+
+	//SANH-CAMERA
+	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT) return;
+	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT) return;
+
 	flagOnAir = true;
 	CAnimatableObject::Update(dt, coObjs);
 }
