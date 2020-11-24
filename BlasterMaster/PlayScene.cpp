@@ -294,7 +294,8 @@ void CPlayScene::Update(DWORD dt)
 	float height_section = section->getBgHeight();
 	float cx, cy;
 	player->GetPosition(cx, cy);
-
+	float yPlayer = cy + 16;
+	DebugOut(L"SSSS %f", yPlayer);
 	cx = CSophia::GetInstance()->camBoxLeft + 16 * 2;
 	cy = CSophia::GetInstance()->camBoxBottom-16*3+5;
 
@@ -308,17 +309,33 @@ void CPlayScene::Update(DWORD dt)
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT)
 	{
 		game->GetCamPos(cx, cy);
-		if (cx + 2 <= width_section)
-			cx += 2;
-		else cx = width_section;
+		if ((int)cy%512>17) {
+			cy--;
+		}
+		else if ((int)cy%512<15) {
+			cy++;
+		}
+		else {
+			if (cx + 2 <= width_section)
+				cx += 2;
+			else cx = width_section;
+		}
 	}
 
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT)
 	{
 		game->GetCamPos(cx, cy);
-		if (cx - 2 + game->GetScreenWidth() >= 0)
-			cx -= 2;
-		else cx = -game->GetScreenWidth();
+		if ((int)cy % 512 > 17) {
+			cy --;
+		}
+		else if ((int)cy % 512 < 15) {
+			cy ++;
+		}
+		else {
+			if (cx - 2 + game->GetScreenWidth() >= 0)
+				cx -= 2;
+			else cx = -game->GetScreenWidth();
+		}
 	}
 
 	//Need know pos of section background
