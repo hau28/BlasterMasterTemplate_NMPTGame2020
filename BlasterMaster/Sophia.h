@@ -32,6 +32,7 @@ private:
     DWORD lastTimeupdateDirection;
     DWORD lastTimeupdateGun;
     DWORD lastTimeUpdateBody;
+    int portaling;
     virtual void updateWheel();
     virtual void updateDirection();
     virtual void updateBody();
@@ -56,7 +57,7 @@ public:
     virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
     virtual void Render();
 
-    float boxLeft, boxRight;
+    float camBoxLeft, camBoxRight,camBoxTop,camBoxBottom;
 
     static CSophia *GetInstance();
     static CSophia *InitInstance(int classId, int x, int y, int sectionId);

@@ -16,8 +16,11 @@ CSophia::CSophia(int classId, int x, int y)
     vxMax = SOPHIA_MAX_SPEED;
     lastTimeupdateDirection = GetTickCount();
     lastTimeupdateGun = GetTickCount();
-    boxLeft = x;
-    boxRight = x + 16 * 4;
+    camBoxLeft = x;
+    camBoxRight = x + 16 * 4;
+    camBoxTop = y + 32 - 16 * 6;
+    camBoxBottom = y + 32;
+    portaling = 0;
 };
 
 #pragma region key events handling
@@ -39,11 +42,6 @@ void CSophia::HandleKeys(DWORD dt)
 
 void CSophia::updateWheel()
 {
-    bool portaling = false;
-    if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT)
-        portaling = true;
-    if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT)
-        portaling = true;
 
     if ((vx >= 0.01 && !(flagOnAir && !IsKeyDown(DIK_RIGHT)))|| portaling)
     {
@@ -81,33 +79,33 @@ void CSophia::updateWheel()
 
 void CSophia::updateDirection()
 {
-    if (turnRight)
-    {
-        if (GetTickCount() - lastTimeupdateDirection > 100)
+        if (turnRight)
         {
-            if (directionState < 3)
+            if (GetTickCount() - lastTimeupdateDirection > 100)
             {
-                directionState++;
-                lastTimeupdateDirection = GetTickCount();
+                if (directionState < 3)
+                {
+                    directionState++;
+                    lastTimeupdateDirection = GetTickCount();
+                }
             }
         }
-    }
-    else
-    {
-        if (GetTickCount() - lastTimeupdateDirection > 100)
+        else
         {
-            if (directionState > 0)
+            if (GetTickCount() - lastTimeupdateDirection > 100)
             {
-                directionState--;
-                lastTimeupdateDirection = GetTickCount();
+                if (directionState > 0)
+                {
+                    directionState--;
+                    lastTimeupdateDirection = GetTickCount();
+                }
             }
         }
-    }
 }
 
 void CSophia::updateGun()
 {
-    if (IsKeyDown(DIK_UP))
+    if (IsKeyDown(DIK_UP) && !portaling)
     {
         if (gunState == 0)
         {
@@ -151,25 +149,25 @@ void CSophia::updateBody()
 
 void CSophia::HandleKeysHold(DWORD dt)
 {
-    if (IsKeyDown(DIK_RIGHT))
-    {
-        // SetState(SOPHIA_STATE_WALK_RIGHT);
-        if (directionState != 3)
+        if (IsKeyDown(DIK_RIGHT))
         {
-            turnRight = true;
+            // SetState(SOPHIA_STATE_WALK_RIGHT);
+            if (directionState != 3 && !portaling)
+            {
+                turnRight = true;
+            }
+            ax = SOPHIA_ENGINE;
         }
-        ax = SOPHIA_ENGINE;
-    }
-    else if (IsKeyDown(DIK_LEFT))
-    {
-        // SetState(SOPHIA_STATE_WALK_LEFT);
-        if (directionState != 0)
+        else if (IsKeyDown(DIK_LEFT))
         {
-            turnRight = false;
-        }
+            // SetState(SOPHIA_STATE_WALK_LEFT);
+            if (directionState != 0 && !portaling)
+            {
+                turnRight = false;
+            }
 
-        ax = -SOPHIA_ENGINE;
-    }
+            ax = -SOPHIA_ENGINE;
+        }
     if (IsKeyDown(DIK_UP) || IsKeyDown(DIK_UP) && IsKeyDown(DIK_RIGHT))
     {
         /*
@@ -217,14 +215,15 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
 
 void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
 {
-    HandleKeys(dt);
     //SANH-CAMERA
-    int portaling = 0;
+    HandleKeys(dt);
+    portaling = 0;
     if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT)
         portaling = 1;
     if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT)
         portaling = 2;
     if (!portaling) {
+
         updateGun();
         UpdateVelocity(dt);
         updateWheel();
@@ -238,25 +237,38 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
         HandleCollisions(dt, colEvents);
 
         UpdatePosition(dt);
-        if (x + 16 * 2 >= boxRight) {
-            boxRight = x + 16 * 2;
-            boxLeft = x - 16 * 2;
+
+        //update camBox
+        if (x + 16 * 2 >= camBoxRight) {
+            camBoxRight = x + 16 * 2;
+            camBoxLeft = x - 16 * 2;
         }
-        else if (x <= boxLeft) {
-            boxLeft = x;
-            boxRight = x + 16 * 4;
+        else if (x <= camBoxLeft) {
+            camBoxLeft = x;
+            camBoxRight = x + 16 * 4;
         }
+        if (y + 32 >= camBoxBottom) {
+            camBoxBottom = y + 32;
+            camBoxTop = camBoxBottom - 16 * 6;
+        }
+        if (y + 16 <= camBoxTop) {
+            camBoxTop = y + 16;
+            camBoxBottom = camBoxTop + 16 * 6;
+        }
+
         if (!flagOnAir)
             ground = y;
     }
     else if (portaling==2) {
         vx = SOPHIA_MAX_SPEED/3;
+        vy = 0;
         UpdatePosition(dt);
         updateDirection();
         updateWheel();
     }
     else {
         vx = -SOPHIA_MAX_SPEED / 3;
+        vy = 0;
         UpdatePosition(dt);
         updateDirection();
         updateWheel();
