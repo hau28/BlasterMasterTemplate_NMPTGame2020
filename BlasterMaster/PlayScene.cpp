@@ -277,14 +277,26 @@ void CPlayScene::Update(DWORD dt)
 		*/
 	
 	//Sanh code 
-	// Update camera to follow mario
+	// Update camera to follow sophia
+
+	bool isNarrowSection = false;
+	if (Sections[CurrentSectionId]->getBgHeight() <= 600)
+		isNarrowSection = true;
+
+	bool isSectionSwitch = false;
+	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT)
+		isSectionSwitch = true;
+	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT)
+		isSectionSwitch = true;
 
 	LPSECTION section = this->GetCurrentSection();
 	float width_section = section->getBgWidth();
 	float height_section = section->getBgHeight();
-	float cx, cy;
+	float cx, cy, playerX, playerY;
 	player->GetPosition(cx, cy);
-
+	cx = CSophia::GetInstance()->boxLeft;
+	player->GetPosition(playerX, playerY);
+	playerX = CSophia::GetInstance()->boxLeft;
 	CGame *game = CGame::GetInstance();
 	cx -= game->GetScreenWidth() / 2 - 12;
 	cy -= game->GetScreenHeight() / 2 - 8;
@@ -311,12 +323,36 @@ void CPlayScene::Update(DWORD dt)
 	if (cy < 0) cy = 0;
 
 	//SANH-CAMERA
+	float camx, camy;
+	if (!isSectionSwitch)
+	{
+		game->GetCamPos(camx, camy);
+		DebugOut(L"\n camx = %f, camy = %f, playerY = %f", camx, camy, playerY);
+		if (playerY - 4 * 16 <= camy)
+		{
+			camy -= 3 * 16;
+			DebugOut(L"\ncamy thay doi = %f", camy);
+		}
+		else
+			if (playerY + 4 * 16 >= camy + game->GetScreenHeight())
+				camy += 3 * 16;
+
+		cy = camy;
+	}
+
 	if (CGame::GetInstance()->GetState() != GameState::SECTION_SWITCH_RIGHT)
 		if (cx + game->GetScreenWidth() > width_section)
 			cx = width_section - game->GetScreenWidth();
 
 	if (cy + game->GetScreenHeight() > height_section)
+	{
 		cy = height_section - game->GetScreenHeight();
+		DebugOut(L"SSSS %f", cy); 
+	}
+
+	if (isNarrowSection)
+		cy = 16;
+	
 
 	CGame::GetInstance()->SetCamPos(cx,cy);
 	

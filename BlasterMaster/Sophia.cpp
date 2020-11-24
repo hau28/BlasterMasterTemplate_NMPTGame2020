@@ -16,6 +16,8 @@ CSophia::CSophia(int classId, int x, int y)
     vxMax = SOPHIA_MAX_SPEED;
     lastTimeupdateDirection = GetTickCount();
     lastTimeupdateGun = GetTickCount();
+    boxLeft = x;
+    boxRight = x + 16 * 4;
 };
 
 #pragma region key events handling
@@ -236,6 +238,14 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
         HandleCollisions(dt, colEvents);
 
         UpdatePosition(dt);
+        if (x + 16 * 2 >= boxRight) {
+            boxRight = x + 16 * 2;
+            boxLeft = x - 16 * 2;
+        }
+        else if (x <= boxLeft) {
+            boxLeft = x;
+            boxRight = x + 16 * 4;
+        }
         if (!flagOnAir)
             ground = y;
     }

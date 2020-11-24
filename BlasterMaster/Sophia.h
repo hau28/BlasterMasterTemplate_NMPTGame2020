@@ -28,6 +28,14 @@ private:
     void HandleKeyUp(DWORD dt, int keyCode);
     void HandleKeyDown(DWORD dt, int keyCode);
     void HandleKeysHold(DWORD dt);
+    DWORD lastTimeupdateWheel;
+    DWORD lastTimeupdateDirection;
+    DWORD lastTimeupdateGun;
+    DWORD lastTimeUpdateBody;
+    virtual void updateWheel();
+    virtual void updateDirection();
+    virtual void updateBody();
+    virtual void updateGun();
 
     int directionState, gunState, bodyState, wheelState;
 
@@ -44,19 +52,12 @@ private:
 public:
     virtual void UpdateVelocity(DWORD dt);
     virtual void HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent);
-
     virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs);
     virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
-    virtual void updateWheel();
-    virtual void updateDirection();
-    virtual void updateBody();
-    virtual void updateGun();
     virtual void Render();
-    int wheel = 0;
-    DWORD lastTimeupdateWheel;
-    DWORD lastTimeupdateDirection;
-    DWORD lastTimeupdateGun;
-    DWORD lastTimeUpdateBody;
+
+    float boxLeft, boxRight;
+
     static CSophia *GetInstance();
     static CSophia *InitInstance(int classId, int x, int y, int sectionId);
 };
