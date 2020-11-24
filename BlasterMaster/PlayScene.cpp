@@ -299,20 +299,19 @@ void CPlayScene::Update(DWORD dt)
 	cx = CSophia::GetInstance()->camBoxLeft + 16 * 2;
 	cy = CSophia::GetInstance()->camBoxBottom-16*3+5;
 
-
+	
 	CGame *game = CGame::GetInstance();
+	
 	cx -= game->GetScreenWidth() / 2 - 8;
 	cy -= game->GetScreenHeight() / 2 - 16;
-
-
 
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT)
 	{
 		game->GetCamPos(cx, cy);
-		if ((int)cy%512>17) {
+		if ((int)cy%512>16) {
 			cy--;
 		}
-		else if ((int)cy%512<15) {
+		else if ((int)cy%512<16) {
 			cy++;
 		}
 		else {
@@ -325,10 +324,10 @@ void CPlayScene::Update(DWORD dt)
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT)
 	{
 		game->GetCamPos(cx, cy);
-		if ((int)cy % 512 > 17) {
+		if ((int)cy % 512 > 16) {
 			cy --;
 		}
-		else if ((int)cy % 512 < 15) {
+		else if ((int)cy % 512 < 16) {
 			cy ++;
 		}
 		else {
@@ -363,7 +362,7 @@ void CPlayScene::Update(DWORD dt)
 		if (cx >= width_section)
 		{
 			CGame::SetState(GameState::PLAY_SIDEVIEW_SOPHIA);
-			cy += Sections[NextSectionId]->getBgHeight() - Sections[CurrentSectionId]->getBgHeight();
+			//cy += Sections[NextSectionId]->getBgHeight() - Sections[CurrentSectionId]->getBgHeight();
 			Sections[CurrentSectionId]->deleteSophia();
 			CurrentSectionId = NextSectionId;
 			float x_toPortal, y_toPortal;
