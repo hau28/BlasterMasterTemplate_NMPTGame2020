@@ -292,29 +292,49 @@ void CPlayScene::Update(DWORD dt)
 	LPSECTION section = this->GetCurrentSection();
 	float width_section = section->getBgWidth();
 	float height_section = section->getBgHeight();
-	float cx, cy, playerX, playerY;
+	float cx, cy;
 	player->GetPosition(cx, cy);
-	cx = CSophia::GetInstance()->boxLeft;
-	player->GetPosition(playerX, playerY);
-	playerX = CSophia::GetInstance()->boxLeft;
+	float yPlayer = cy + 16;
+	DebugOut(L"SSSS %f", yPlayer);
+	cx = CSophia::GetInstance()->camBoxLeft + 16 * 2;
+	cy = CSophia::GetInstance()->camBoxBottom-16*3+5;
+
+	
 	CGame *game = CGame::GetInstance();
-	cx -= game->GetScreenWidth() / 2 - 12;
-	cy -= game->GetScreenHeight() / 2 - 8;
+	
+	cx -= game->GetScreenWidth() / 2 - 8;
+	cy -= game->GetScreenHeight() / 2 - 16;
 
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT)
 	{
 		game->GetCamPos(cx, cy);
-		if (cx + 1.5 <= width_section)
-			cx += 1.5;
-		else cx = width_section;
+		if ((int)cy%512>16) {
+			cy--;
+		}
+		else if ((int)cy%512<16) {
+			cy++;
+		}
+		else {
+			if (cx + 2 <= width_section)
+				cx += 2;
+			else cx = width_section;
+		}
 	}
 
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT)
 	{
 		game->GetCamPos(cx, cy);
-		if (cx - 1.5 + game->GetScreenWidth() >= 0)
-			cx -= 1.5;
-		else cx = -game->GetScreenWidth();
+		if ((int)cy % 512 > 16) {
+			cy --;
+		}
+		else if ((int)cy % 512 < 16) {
+			cy ++;
+		}
+		else {
+			if (cx - 2 + game->GetScreenWidth() >= 0)
+				cx -= 2;
+			else cx = -game->GetScreenWidth();
+		}
 	}
 
 	//Need know pos of section background
@@ -322,23 +342,6 @@ void CPlayScene::Update(DWORD dt)
 		if (cx < 0) cx = 0;
 	if (cy < 0) cy = 0;
 
-	//SANH-CAMERA
-	float camx, camy;
-	if (!isSectionSwitch)
-	{
-		game->GetCamPos(camx, camy);
-		DebugOut(L"\n camx = %f, camy = %f, playerY = %f", camx, camy, playerY);
-		if (playerY - 4 * 16 <= camy)
-		{
-			camy -= 3 * 16;
-			DebugOut(L"\ncamy thay doi = %f", camy);
-		}
-		else
-			if (playerY + 4 * 16 >= camy + game->GetScreenHeight())
-				camy += 3 * 16;
-
-		cy = camy;
-	}
 
 	if (CGame::GetInstance()->GetState() != GameState::SECTION_SWITCH_RIGHT)
 		if (cx + game->GetScreenWidth() > width_section)
@@ -349,35 +352,41 @@ void CPlayScene::Update(DWORD dt)
 		cy = height_section - game->GetScreenHeight();
 		DebugOut(L"SSSS %f", cy); 
 	}
-
+	
 	if (isNarrowSection)
 		cy = 16;
-	
 
 	CGame::GetInstance()->SetCamPos(cx,cy);
 	
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT)
-	if (cx >= width_section)
-	{
-		CGame::SetState(GameState::PLAY_SIDEVIEW_SOPHIA);
-		Sections[CurrentSectionId]->deleteSophia();
-		CurrentSectionId = NextSectionId;
-		float x_toPortal, y_toPortal;
-		toPortal->GetPosition(x_toPortal, y_toPortal);
-		Sections[CurrentSectionId]->pushSophia(x_toPortal+5, y_toPortal, CurrentSectionId);
-	}
+		if (cx >= width_section)
+		{
+			CGame::SetState(GameState::PLAY_SIDEVIEW_SOPHIA);
+			//cy += Sections[NextSectionId]->getBgHeight() - Sections[CurrentSectionId]->getBgHeight();
+			Sections[CurrentSectionId]->deleteSophia();
+			CurrentSectionId = NextSectionId;
+			float x_toPortal, y_toPortal;
+			toPortal->GetPosition(x_toPortal, y_toPortal);
+			Sections[CurrentSectionId]->pushSophia(x_toPortal + 5, y_toPortal, CurrentSectionId);
+			game->SetCamPos(0, cy);
+		}
 
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT)
 		if (cx + game->GetScreenWidth() <= 0)
 		{
 			DebugOut(L"SET LEFT");
 			CGame::SetState(GameState::PLAY_SIDEVIEW_SOPHIA);
+			cx = Sections[NextSectionId]->getBgWidth() - game->GetScreenWidth();
+			cy -= Sections[CurrentSectionId]->getBgHeight() - Sections[NextSectionId]->getBgHeight();
+
 			Sections[CurrentSectionId]->deleteSophia();
 			CurrentSectionId = NextSectionId;
 			float x_toPortal, y_toPortal;
 			toPortal->GetPosition(x_toPortal, y_toPortal);
 			Sections[CurrentSectionId]->pushSophia(x_toPortal - 5, y_toPortal, CurrentSectionId);
+			game->SetCamPos(cx, cy);
 		}
+
 	Sections[CurrentSectionId]->Update(dt);
 	// CuteTN to do: switching section here
 }
