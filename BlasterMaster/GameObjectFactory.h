@@ -8,6 +8,7 @@
 #include "Sophia.h"
 #include "Worm.h"
 #include "Portal.h"
+#include "JasonSideview.h"
 
 /// <summary>
 /// The Abstract factory for creating game objects

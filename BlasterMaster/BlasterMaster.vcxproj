@@ -71,8 +71,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>E:\Apps\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Apps\Lib\x86;E:\Apps\Lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;E:\Apps\Include;D:\Program Files %28x86%29\Include;d3dx9.h;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\Apps\Lib\x86;E:\Apps\Lib\x64;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib;D:\Program Files %28x86%29\Lib\x86;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;D:\Program Files %28x86%29\Include;d3dx9.h;$(IncludePath)</IncludePath>
@@ -145,6 +145,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GameEvent.cpp" />
     <ClCompile Include="GameObjectBehaviour.cpp" />
+    <ClCompile Include="JasonSideview.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="PortalLib.cpp" />
     <ClCompile Include="SophiaAnimationSystem.cpp" />
@@ -173,6 +174,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="GameEvent.h" />
     <ClInclude Include="GameObjectBehaviour.h" />
+    <ClInclude Include="JasonSideview.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="PortalLib.h" />
     <ClInclude Include="SophiaAnimationSystem.h" />

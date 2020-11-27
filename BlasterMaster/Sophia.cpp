@@ -4,6 +4,7 @@
 #include "GameObjectBehaviour.h"
 #include "PortalLib.h"
 #include "SophiaAnimationSystem.h"
+#include "JasonSideview.h"
 
 CSophia::CSophia(int classId, int x, int y)
 {
@@ -141,11 +142,11 @@ void CSophia::updateGun()
 
 void CSophia::updateBody()
 {
-    if (vy < -0.01)
-        bodyState = 3;
-    else if (vy > 0.01)
-    {
-        bodyState = 1;
+    if (flagOnAir) {
+        if (vy < 0)
+            bodyState = 3;
+        else if (vy > 0 && ground-y>1)
+            bodyState = 1;
     }
 }
 
@@ -211,6 +212,10 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
     if (!flagOnAir && keyCode == DIK_X)
     {
         vy = -SOPHIA_JUMP_FORCE;
+    }
+    if (keyCode == DIK_0)
+    {
+       
     }
 }
 #pragma endregion

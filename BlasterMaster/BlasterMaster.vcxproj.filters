@@ -76,6 +76,7 @@
     </ClCompile>
     <ClCompile Include="WalkInPortalEvent.cpp" />
     <ClCompile Include="SophiaAnimationSystem.cpp" />
+    <ClCompile Include="JasonSideview.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -152,6 +153,7 @@
     </ClInclude>
     <ClInclude Include="WalkInPortalEvent.h" />
     <ClInclude Include="SophiaAnimationSystem.h" />
+    <ClInclude Include="JasonSideview.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="AnimationCore">

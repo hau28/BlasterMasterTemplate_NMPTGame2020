@@ -32,7 +32,7 @@ public:
 	void _ParseSection_COLLISION_BOXES(string line);
 	void _ParseSection_SECTIONS(string line);
 	void _ParseSection_CLASSES(string line);
-	void _ParseSection_OBJECTS(string line);
+	void (string line);
 	
 
 	unordered_map<int, LPSECTION> Sections;
