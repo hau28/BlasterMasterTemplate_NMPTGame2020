@@ -8,6 +8,12 @@ CJasonSideview* CJasonSideview::__instance = nullptr;
 CJasonSideview::CJasonSideview()
 {
     classId = CLASS_JASONSIDEVIEW;
+    
+    SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
+
+    // CuteTN Note: DIRTY AF
+    LPOBJECT_ANIMATIONS objAnims = CObjectAnimationsLib::GetInstance()->Get(JASONSIDEVIEW_ANIMATIONS);
+    animationHandlers = objAnims->GenerateAnimationHanlders();
 }
 
 CJasonSideview::CJasonSideview(int classId, int x, int y, int animsId) : CAnimatableObject::CAnimatableObject(classId, x, y, animsId)
@@ -141,6 +147,7 @@ CJasonSideview* CJasonSideview::GetInstance()
 CJasonSideview* CJasonSideview::InitInstance(int x, int y, int sectionId)
 {
     GetInstance();
+    __instance->SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
     __instance->SetPosition(x, y);
     __instance->currentSectionId = sectionId;
 

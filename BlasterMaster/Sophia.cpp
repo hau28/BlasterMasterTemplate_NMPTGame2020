@@ -5,6 +5,7 @@
 #include "PortalLib.h"
 #include "SophiaAnimationSystem.h"
 #include "JasonSideview.h"
+#include "JasonJumpOutEvent.h"
 
 CSophia::CSophia(int classId, int x, int y)
 {
@@ -213,9 +214,8 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
     }
     if (keyCode == DIK_RSHIFT)
     {
-        CJasonSideview::InitInstance(x, y, currentSectionId);
-        CGame::SetState(GameState::PLAY_SIDEVIEW_JASON);
-        DebugOut(L"wft\n");
+        CJasonJumpOutEvent* jasonJumpOutEvent = new CJasonJumpOutEvent(x, y, currentSectionId);
+        CGame::AddGameEvent(jasonJumpOutEvent);
     }
 }
 #pragma endregion
@@ -223,7 +223,11 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
 void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
 {
     //SANH-CAMERA
-    HandleKeys(dt);
+
+    // dirty demo
+    if (CGame::GetInstance()->GetState() == GameState::PLAY_SIDEVIEW_SOPHIA)
+        HandleKeys(dt);
+
     portaling = 0;
     if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT)
         portaling = 1;

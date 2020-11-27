@@ -40,7 +40,9 @@ void CSection::Render()
 	RenderBackground();
 
 	for (auto obj : Objects)
+	{
 		obj->Render();
+	}
 }
 
 void CSection::RenderBackground()

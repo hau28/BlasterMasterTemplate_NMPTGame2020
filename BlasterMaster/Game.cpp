@@ -2,6 +2,8 @@
 #include "PlayScene.h"
 #include "Utils.h"
 
+#include "JasonJumpOutEvent.h"
+
 CGame * CGame::__instance = nullptr;
 
 GameState CGame::state = GameState::PLAY_SIDEVIEW_SOPHIA;
@@ -275,6 +277,14 @@ void CGame::HandleGameEvent(LPGAME_EVENT gameEvent)
 		DebugOut(L"EVENT WALKINTOPORTAL");
 		LPPLAYSCENE scene =  dynamic_cast<LPPLAYSCENE>(CGame::GetInstance()->GetCurrentScene());
 		scene->handleGameEvent(gameEvent);
+	}
+
+	if (gameEvent->eventName == "JasonJumpOutEvent")
+	{
+		CJasonJumpOutEvent* castedEvent = dynamic_cast<CJasonJumpOutEvent*>(gameEvent);
+
+		CJasonSideview::InitInstance(castedEvent->x, castedEvent->y, castedEvent->sectionId);
+		SetState(GameState::PLAY_SIDEVIEW_JASON);
 	}
 }
 

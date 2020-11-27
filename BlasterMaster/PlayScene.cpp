@@ -428,7 +428,7 @@ string get_DirectionSceneSwitch(LPPORTAL portalA, LPPORTAL portalB)
 {
 	float xA, xB, yA, yB;
 
-	portalA->GetPosition(xA,yA);
+	portalA->GetPosition(xA, yA);
 	portalB->GetPosition(xB, yB);
 	if (xA >= xB) return "right";
 	return "left";

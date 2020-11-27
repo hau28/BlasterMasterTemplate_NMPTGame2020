@@ -52,7 +52,7 @@ void CAnimatableObject::UpdatePosition(DWORD dt)
 }
 
 void CAnimatableObject::Render()
-{
+{	
 	animationHandlers[state]->Render(x, y);
 	animationHandlers[state]->Update();
 }
