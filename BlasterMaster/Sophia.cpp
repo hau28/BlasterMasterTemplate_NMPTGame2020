@@ -211,9 +211,11 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
     {
         vy = -SOPHIA_JUMP_FORCE;
     }
-    if (keyCode == DIK_0)
+    if (keyCode == DIK_RSHIFT)
     {
-       
+        CJasonSideview::InitInstance(x, y, currentSectionId);
+        CGame::SetState(GameState::PLAY_SIDEVIEW_JASON);
+        DebugOut(L"wft\n");
     }
 }
 #pragma endregion
