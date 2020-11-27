@@ -228,6 +228,25 @@ CGameObject* CGame::GetCurrentPlayer()
 void CGame::SetState(GameState newState)
 {
 	// CuteTN to do: prepare for new game state here
+	if (newState == GameState::PLAY_SIDEVIEW_JASON)
+	{
+		// add Jason to current section
+		auto scene = dynamic_cast<LPPLAYSCENE>(CGame::GetInstance()->GetCurrentScene());
+
+		if (scene != nullptr)
+		{
+			scene->SetPlayer(CJasonSideview::GetInstance());
+
+			// Thy cute
+			LPSECTION section = scene->GetCurrentSection();
+
+			if (section == nullptr)
+				return;
+
+			section->Objects.push_back(CJasonSideview::GetInstance());
+		}
+	}
+
 	state = newState;
 }
 

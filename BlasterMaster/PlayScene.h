@@ -61,6 +61,7 @@ public:
 	//Sanh
 	LPSECTION GetCurrentSection() { return Sections[CurrentSectionId]; }
 	LPGAMEOBJECT GetPlayer() { return player; } 
+	void SetPlayer(LPGAMEOBJECT newPlayer) { player = newPlayer; }
 	void handleGameEvent(LPGAME_EVENT gameEvent);
 	
 	//friend class CPlayScenceKeyHandler;
