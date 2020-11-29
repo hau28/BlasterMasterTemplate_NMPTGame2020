@@ -199,8 +199,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	if (obj == nullptr)
 		DebugOut(L"[ERROR] Cannot create object with object Id: %d\n", obj_ID);
-
-
+	else
 	Sections[sectionId]->Objects.push_back(obj);
 }
 
@@ -280,7 +279,7 @@ void CPlayScene::Update(DWORD dt)
 	// Update camera to follow sophia
 
 	bool isNarrowSection = false;
-	if (Sections[CurrentSectionId]->getBgHeight() <= 600)
+	if (Sections[CurrentSectionId]->getBgHeight() <= 400)
 		isNarrowSection = true;
 
 	bool isSectionSwitch = false;
@@ -295,9 +294,8 @@ void CPlayScene::Update(DWORD dt)
 	float cx, cy;
 	player->GetPosition(cx, cy);
 	float yPlayer = cy + 16;
-	DebugOut(L"SSSS %f", yPlayer);
 	cx = CSophia::GetInstance()->camBoxLeft + 16 * 2;
-	cy = CSophia::GetInstance()->camBoxBottom-16*3+5;
+	cy = CSophia::GetInstance()->camBoxBottom-16*3;
 
 	
 	CGame *game = CGame::GetInstance();
@@ -308,10 +306,10 @@ void CPlayScene::Update(DWORD dt)
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT)
 	{
 		game->GetCamPos(cx, cy);
-		if ((int)cy%512>16) {
+		if ((int)round(cy)%256>16) {
 			cy--;
 		}
-		else if ((int)cy%512<16) {
+		else if ((int)round(cy)%256<16) {
 			cy++;
 		}
 		else {
@@ -324,10 +322,10 @@ void CPlayScene::Update(DWORD dt)
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT)
 	{
 		game->GetCamPos(cx, cy);
-		if ((int)cy % 512 > 16) {
+		if ((int)cy % 256 > 16) {
 			cy --;
 		}
-		else if ((int)cy % 512 < 16) {
+		else if ((int)cy % 256 < 16) {
 			cy ++;
 		}
 		else {
@@ -350,7 +348,6 @@ void CPlayScene::Update(DWORD dt)
 	if (cy + game->GetScreenHeight() > height_section)
 	{
 		cy = height_section - game->GetScreenHeight();
-		DebugOut(L"SSSS %f", cy); 
 	}
 	
 	if (isNarrowSection)
@@ -362,29 +359,36 @@ void CPlayScene::Update(DWORD dt)
 		if (cx >= width_section)
 		{
 			CGame::SetState(GameState::PLAY_SIDEVIEW_SOPHIA);
-			//cy += Sections[NextSectionId]->getBgHeight() - Sections[CurrentSectionId]->getBgHeight();
+			float x_toPortal, y_toPortal, x_fromPortal, y_fromPortal;
+			toPortal->GetPosition(x_toPortal, y_toPortal);
+			fromPortal->GetPosition(x_fromPortal, y_fromPortal);
+
 			Sections[CurrentSectionId]->deleteSophia();
 			CurrentSectionId = NextSectionId;
-			float x_toPortal, y_toPortal;
 			toPortal->GetPosition(x_toPortal, y_toPortal);
 			Sections[CurrentSectionId]->pushSophia(x_toPortal + 5, y_toPortal, CurrentSectionId);
+			cy += y_toPortal - y_fromPortal;
 			game->SetCamPos(0, cy);
+			CSophia::GetInstance()->init_camBox();
+			DebugOut(L"\n R cx = %f, cy = %f", cx, cy);
 		}
 
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT)
 		if (cx + game->GetScreenWidth() <= 0)
 		{
-			DebugOut(L"SET LEFT");
 			CGame::SetState(GameState::PLAY_SIDEVIEW_SOPHIA);
 			cx = Sections[NextSectionId]->getBgWidth() - game->GetScreenWidth();
-			cy -= Sections[CurrentSectionId]->getBgHeight() - Sections[NextSectionId]->getBgHeight();
+			float x_toPortal, y_toPortal, x_fromPortal, y_fromPortal;
+			toPortal->GetPosition(x_toPortal, y_toPortal);
+			fromPortal->GetPosition(x_fromPortal, y_fromPortal);
 
+			cy += y_toPortal - y_fromPortal;
 			Sections[CurrentSectionId]->deleteSophia();
 			CurrentSectionId = NextSectionId;
-			float x_toPortal, y_toPortal;
-			toPortal->GetPosition(x_toPortal, y_toPortal);
 			Sections[CurrentSectionId]->pushSophia(x_toPortal - 5, y_toPortal, CurrentSectionId);
+			CSophia::GetInstance()->init_camBox();
 			game->SetCamPos(cx, cy);
+			DebugOut(L"\n L cx = %f, cy = %f", cx, cy);
 		}
 
 	Sections[CurrentSectionId]->Update(dt);
@@ -405,12 +409,12 @@ void CPlayScene::Render()
 
 void CPlayScene::set_offset(LPPORTAL fromPortal, LPPORTAL toPortal, string direction)
 {
+	this->fromPortal = fromPortal;
 	this->toPortal = toPortal;
 	float x_from, y_from, x_to, y_to;
 	fromPortal->GetPosition(x_from, y_from);
 	toPortal->GetPosition(x_to, y_to);
 
-	DebugOut(L"\nx_from : %f, y_from : %f", x_from, y_from);
 	if (direction == "right")
 	{
 		this->offset_y_SectionSwitch = y_from - y_to;
@@ -452,7 +456,6 @@ void CPlayScene::handleGameEvent(LPGAME_EVENT gameEvent)
 
 
 		set_offset(temp->get_fromPortal(), temp->get_toPortal(), direct);
-		DebugOut(L"OFFSET : %f --- %f", this->offset_x_SectionSwitch, this->offset_y_SectionSwitch);
 	}
 }
 

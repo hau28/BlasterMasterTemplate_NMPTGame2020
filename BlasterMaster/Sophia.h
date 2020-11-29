@@ -59,6 +59,7 @@ public:
 
     float camBoxLeft, camBoxRight,camBoxTop,camBoxBottom;
 
+    void init_camBox();
     static CSophia *GetInstance();
     static CSophia *InitInstance(int classId, int x, int y, int sectionId);
 };

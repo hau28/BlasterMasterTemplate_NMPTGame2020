@@ -53,6 +53,7 @@ public:
 
 	//SANH-CAMERA
 	int NextSectionId;
+	LPPORTAL fromPortal;
 	LPPORTAL toPortal;
 	float offset_x_SectionSwitch;
 	float offset_y_SectionSwitch;

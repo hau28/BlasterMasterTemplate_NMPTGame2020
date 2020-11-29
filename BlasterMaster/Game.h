@@ -32,6 +32,7 @@ class CGameObject;
 class CGame
 {
 	static GameState state;
+	static GameState flagState;
 
 	static CGame * __instance;
 	HWND hWnd;									// Window handle
@@ -103,11 +104,14 @@ public:
 	/// </summary>
 	CGameObject* GetCurrentPlayer();
 
-	void SetCamPos(float x, float y) { cam_x = x; cam_y = y; }
+	void SetCamPos(float x, float y) { cam_x =  x; cam_y = y; }
 	void GetCamPos(float &x, float &y) { x = cam_x; y = cam_y; }
 
 	static GameState GetState() { return state; };
 	static void SetState(GameState newState);
+
+	static GameState GetFlagState() { return flagState; };
+	static void SetFlagState(GameState newState) { flagState = newState; };
 
 	static void AddGameEvent(LPGAME_EVENT gameEvent);
 	static void HandleGameEvents();

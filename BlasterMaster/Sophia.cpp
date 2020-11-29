@@ -24,6 +24,14 @@ CSophia::CSophia(int classId, int x, int y)
     portaling = 0;
 };
 
+void CSophia::init_camBox()
+{
+    camBoxLeft = x;
+    camBoxRight = x + 16 * 4;
+    camBoxTop = y + 32 - 16 * 6;
+    camBoxBottom = y + 32;
+}
+
 #pragma region key events handling
 
 void CSophia::HandleKeys(DWORD dt)
@@ -256,8 +264,8 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
             camBoxBottom = y + 32;
             camBoxTop = camBoxBottom - 16 * 6;
         }
-        if (y + 16 <= camBoxTop) {
-            camBoxTop = y + 16;
+        if (y - 16 <= camBoxTop) {
+            camBoxTop = y - 16;
             camBoxBottom = camBoxTop + 16 * 6;
         }
 
