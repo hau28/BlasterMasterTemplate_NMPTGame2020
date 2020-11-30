@@ -2,15 +2,16 @@
 #include "TileArea.h"
 #include "CollisionSolver.h"
 #include "GameObjectBehaviour.h"
+#include "Sophia.h"
 
+#include <algorithm>
+#include <assert.h>
 CJasonSideview* CJasonSideview::__instance = nullptr;
 
 CJasonSideview::CJasonSideview()
 {
     classId = CLASS_JASONSIDEVIEW;
-    
     SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
-
     // CuteTN Note: DIRTY AF
     LPOBJECT_ANIMATIONS objAnims = CObjectAnimationsLib::GetInstance()->Get(JASONSIDEVIEW_ANIMATIONS);
     animationHandlers = objAnims->GenerateAnimationHanlders();
@@ -21,7 +22,6 @@ CJasonSideview::CJasonSideview(int classId, int x, int y, int animsId) : CAnimat
     SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
 };
 
-
 #pragma region key events handling
 
 void CJasonSideview::HandleKeys(DWORD dt)
@@ -29,6 +29,7 @@ void CJasonSideview::HandleKeys(DWORD dt)
 	HandleKeysHold(dt);
 
 	auto keyEvents = NewKeyEvents();
+
 	for (auto e : keyEvents)
 	{
 		int keyCode = e->GetKeyCode();
@@ -37,44 +38,141 @@ void CJasonSideview::HandleKeys(DWORD dt)
 		else
 			HandleKeyUp(dt, keyCode);
 	}
+
 }
 
 void CJasonSideview::HandleKeysHold(DWORD dt)
 {
-	if (IsKeyDown(DIK_RIGHT))
-	{
-        SetState(JASONSIDEVIEW_STATE_WALK_RIGHT);
-	}
-    else if (IsKeyDown(DIK_LEFT))
+    
+    if (IsKeyDown(DIK_RIGHT))
     {
-        SetState(JASONSIDEVIEW_STATE_WALK_LEFT);
+        Jason_turnRight = true;
+
+        if (flag_keydown)
+        {
+            SetState(JASONSIDEVIEW_STATE_CRAWL_RIGHT);
+            animationHandlers[state]->startLoopIndex = 0;
+        }
+        else
+        {
+            SetState(JASONSIDEVIEW_STATE_WALK_RIGHT);
+            animationHandlers[state]->startLoopIndex = 0;
+        }
+
+        if (flag_keydown && vy==0)
+            vx = JASONSIDEVIEW_VX / 2;
+        else
+            vx = JASONSIDEVIEW_VX;
+
+    };
+
+    if (IsKeyDown(DIK_LEFT))
+    {
+        Jason_turnRight = false; 
+
+        if (flag_keydown)
+        {
+            SetState(JASONSIDEVIEW_STATE_CRAWL_LEFT);
+            animationHandlers[state]->startLoopIndex = 0;
+        }
+        else
+        {
+            SetState(JASONSIDEVIEW_STATE_WALK_LEFT);
+            animationHandlers[state]->startLoopIndex = 0;
+        }
+
+        if (flag_keydown && vy == 0 && !flagOnAir)
+            vx = -JASONSIDEVIEW_VX / 2;
+        else
+            vx = -JASONSIDEVIEW_VX;
+
     }
-	if (IsKeyDown(DIK_UP))
-	{
-	
-	}
-	if (IsKeyDown(DIK_DOWN))
-	{
-	
-	}
 }
 void CJasonSideview::HandleKeyUp(DWORD dt, int keyCode)
 {
-	if (keyCode == DIK_RIGHT || keyCode == DIK_LEFT)
-		vx = 0;
+    if (keyCode == DIK_RIGHT || keyCode == DIK_LEFT)
+    {
+        vx = 0;
+
+        /*if (keyCode == DIK_RIGHT && flag_keydown != true && !IsKeyDown(DIK_X))
+        {
+            Jason_turnRight == true;
+            SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
+        }
+        else
+            if (keyCode == DIK_LEFT && flag_keydown != true && !IsKeyDown(DIK_X))
+            {
+                Jason_turnRight == false;
+                SetState(JASONSIDEVIEW_STATE_IDLE_LEFT);
+            };*/
+
+        if (keyCode == DIK_RIGHT && flag_keydown == true)
+        {
+            Jason_turnRight == true;
+            SetState(JASONSIDEVIEW_STATE_CRAWL_RIGHT);
+            animationHandlers[state]->startLoopIndex = 1;
+        }
+        else
+            if (keyCode == DIK_LEFT && flag_keydown == true)
+            {
+                Jason_turnRight == false;
+                SetState(JASONSIDEVIEW_STATE_CRAWL_LEFT);
+                animationHandlers[state]->startLoopIndex = 1;
+            }
+    }
 
 	if (keyCode == DIK_UP || keyCode == DIK_DOWN)
 		vy = 0;
 }
+
 void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)
 {
+    if (keyCode == DIK_RIGHT || keyCode == DIK_LEFT)
+        vx = 0;
+
+    if (keyCode == DIK_DOWN && vy == 0)
+    {
+        flag_keydown = true;
+
+        if (Jason_turnRight)
+        {
+            SetState(JASONSIDEVIEW_STATE_CRAWL_RIGHT);
+            animationHandlers[state]->startLoopIndex = 1;
+        }
+        else
+        {
+            SetState(JASONSIDEVIEW_STATE_CRAWL_LEFT);
+            animationHandlers[state]->startLoopIndex = 1;
+        }
+    }
+
+    if (keyCode == DIK_UP && flag_keydown)
+    {
+        vy = 0;
+        flag_keydown = false;
+
+        if (Jason_turnRight)
+            SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
+        else
+            SetState(JASONSIDEVIEW_STATE_IDLE_LEFT);
+    } 
+
+    if (keyCode == DIK_X && !flagOnAir && !flag_keydown)
+    {
+        vx = 0;
+        vy -= JASONSIDEVIEW_JUMP_SPEED_Y;
+
+        if (Jason_turnRight)
+            SetState(JASONSIDEVIEW_STATE_JUMP_RIGHT);
+        else
+            SetState(JASONSIDEVIEW_STATE_JUMP_LEFT);
+        
+    }
 }
-
-
 
 void CJasonSideview::UpdateVelocity(DWORD dt)
 {
-    vy += JASONSIDEVIEW_GRAVITY * dt;
+
 }
 
 void CJasonSideview::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
@@ -128,10 +226,24 @@ void CJasonSideview::GetBoundingBox(float& left, float& top, float& right, float
 void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
     HandleKeys(dt);
-
-
-
+    vy += JASONSIDEVIEW_GRAVITY * dt;
+    flagOnAir = true;
     CAnimatableObject::Update(dt, coObjs);
+
+    if (flagOnAir && Jason_turnRight)
+        SetState(JASONSIDEVIEW_STATE_JUMP_RIGHT);
+
+    if (flagOnAir && !Jason_turnRight)
+        SetState(JASONSIDEVIEW_STATE_JUMP_LEFT);
+
+    if (vy == 0 && vx == 0 && !flag_keydown)
+    {
+        if (Jason_turnRight)
+            SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
+        else
+            SetState(JASONSIDEVIEW_STATE_IDLE_LEFT);
+    }
+
 }
 
 CJasonSideview* CJasonSideview::GetInstance()
