@@ -3,9 +3,10 @@
 #include "Sophia.h"
 #include "CollisionSolver.h"
 
-CSection::CSection(int bgTextureId)
+CSection::CSection(int bgTextureId, int fgTextureId)
 {
 	this->backgroundTextureId = bgTextureId;
+	this->foregroundTextureId = fgTextureId;
 
 	LPDIRECT3DTEXTURE9 backgroundTexture = CTextures::GetInstance()->Get(backgroundTextureId);
 
@@ -60,15 +61,17 @@ void CSection::Update(DWORD dt)
 void CSection::Render()
 {
 	// CuteTN Note: the order of rendering would be implemented here :)
-	RenderBackground();
+	RenderTexture(backgroundTextureId);
 
 	for (auto obj : Objects)
 		obj->Render();
+
+	RenderTexture(foregroundTextureId);
 }
 
-void CSection::RenderBackground()
+void CSection::RenderTexture(int textureId)
 {
-	LPDIRECT3DTEXTURE9 backgroundTexture = CTextures::GetInstance()->Get(backgroundTextureId);
+	LPDIRECT3DTEXTURE9 backgroundTexture = CTextures::GetInstance()->Get(textureId);
 	CGame::GetInstance()->Draw(0, 0, backgroundTexture, 0, 0, bgWidth, bgHeight);
 }
 
@@ -76,15 +79,17 @@ void CSection::RenderBackground()
 void CSection::Render(float offset_x, float offset_y)
 {
 	// CuteTN Note: the order of rendering would be implemented here :)
-	RenderBackground(offset_x, offset_y);
+	RenderTexture(backgroundTextureId, offset_x, offset_y);
 
 	for (auto obj : Objects)
 		obj->Render();
+
+	RenderTexture(foregroundTextureId, offset_x, offset_y);
 }
 
-void CSection::RenderBackground(float offset_x, float offset_y)
+void CSection::RenderTexture(int textureId, float offset_x, float offset_y)
 {
-	LPDIRECT3DTEXTURE9 backgroundTexture = CTextures::GetInstance()->Get(backgroundTextureId);
+	LPDIRECT3DTEXTURE9 backgroundTexture = CTextures::GetInstance()->Get(textureId);
 	CGame::GetInstance()->Draw(offset_x, offset_y, backgroundTexture, 0, 0, bgWidth, bgHeight);
 }
 
