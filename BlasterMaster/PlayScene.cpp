@@ -374,7 +374,7 @@ void CPlayScene::Update(DWORD dt)
 			Sections[CurrentSectionId]->deleteSophia();
 			CurrentSectionId = NextSectionId;
 			toPortal->GetPosition(x_toPortal, y_toPortal);
-			Sections[CurrentSectionId]->pushSophia(x_toPortal + 5, y_toPortal, CurrentSectionId);
+			Sections[CurrentSectionId]->pushSophia(x_toPortal, y_toPortal, CurrentSectionId);
 			cy += y_toPortal - y_fromPortal;
 			game->SetCamPos(0, cy);
 			CSophia::GetInstance()->init_camBox();
@@ -393,7 +393,7 @@ void CPlayScene::Update(DWORD dt)
 			cy += y_toPortal - y_fromPortal;
 			Sections[CurrentSectionId]->deleteSophia();
 			CurrentSectionId = NextSectionId;
-			Sections[CurrentSectionId]->pushSophia(x_toPortal - 5, y_toPortal, CurrentSectionId);
+			Sections[CurrentSectionId]->pushSophia(x_toPortal, y_toPortal, CurrentSectionId);
 			CSophia::GetInstance()->init_camBox();
 			game->SetCamPos(cx, cy);
 			DebugOut(L"\n L cx = %f, cy = %f", cx, cy);

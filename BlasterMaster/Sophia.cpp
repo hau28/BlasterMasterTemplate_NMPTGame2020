@@ -29,7 +29,7 @@ void CSophia::init_camBox()
     camBoxLeft = x;
     camBoxRight = x + 16 * 4;
     camBoxTop = y + 32 - 16 * 6;
-    camBoxBottom = y + 32;
+    camBoxBottom = y + 32 - 1; //Sanh can't explain to you about magic number -1
 }
 
 #pragma region key events handling
