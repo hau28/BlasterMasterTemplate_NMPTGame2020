@@ -32,6 +32,7 @@ private:
     bool flagOnAir = false;
     bool Jason_turnRight = true;
     bool flag_keydown = false;
+    bool flag_jumpwalk;
     //bool Jasonn_crawl = false;
 
     //vector<int> Jason_idleLeftStates = { SOPHIA_STATE_IDLE_LEFT,SOPHIA_STATE_IDLE1_LEFT,SOPHIA_STATE_IDLE2_LEFT,SOPHIA_STATE_IDLE3_LEFT };
@@ -46,6 +47,7 @@ public:
 
     static CJasonSideview* GetInstance();
     static CJasonSideview* InitInstance(int x, int y, int sectionId);
+
 };
 
 typedef CJasonSideview* LPJASONSIDEVIEW;
