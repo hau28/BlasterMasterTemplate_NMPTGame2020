@@ -393,6 +393,14 @@ void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
         case CLASS_TILE_PORTAL:
         {
+            // CuteTN Note: if the player is on air, do not invoke walk in portal event
+            // instead, portal behave just like a blockable tile
+            if (flagOnAir)
+            {
+                CGameObjectBehaviour::GetBlocked(dt, coEvent);
+                break;
+            }
+
             LPPORTAL fromPortal = dynamic_cast<LPPORTAL>(obj);
             LPPORTAL toPortal = CPortalLib::GetInstance()->Get(fromPortal->associatedPortalId);
 

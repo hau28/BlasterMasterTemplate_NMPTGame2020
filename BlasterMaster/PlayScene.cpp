@@ -142,12 +142,20 @@ void CPlayScene::_ParseSection_SECTIONS(string line)
 	if (tokens.size() < 2) return; // skip invalid lines
 
 	int section_ID = atoi(tokens[0].c_str());
-	int texture_ID = atoi(tokens[1].c_str());
+	int background_ID = atoi(tokens[1].c_str());
+	int foreground_ID = atoi(tokens[2].c_str());
 
-	LPDIRECT3DTEXTURE9 background = CTextures::GetInstance()->Get(texture_ID);
-	if (background == nullptr)
+	LPDIRECT3DTEXTURE9 tempTxture = CTextures::GetInstance()->Get(background_ID);
+	if (tempTxture == nullptr)
 	{
-		DebugOut(L"[ERROR] Backgound of section %d not found!\n", texture_ID);
+		DebugOut(L"[ERROR] Background of section %d not found!\n", section_ID);
+		return;
+	}
+
+	tempTxture = CTextures::GetInstance()->Get(foreground_ID);
+	if (tempTxture == nullptr)
+	{
+		DebugOut(L"[ERROR] Foreground of section %d not found!\n", section_ID);
 		return;
 	}
 
@@ -157,7 +165,7 @@ void CPlayScene::_ParseSection_SECTIONS(string line)
 		CurrentSectionId = section_ID;
 
 	//Add section
-	this->Sections[section_ID] = new CSection(texture_ID);
+	this->Sections[section_ID] = new CSection(background_ID, foreground_ID);
 }
 
 void CPlayScene::_ParseSection_CLASSES(string line)
