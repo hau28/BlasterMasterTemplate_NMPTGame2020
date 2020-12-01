@@ -1,6 +1,7 @@
 #include "Section.h"
 #include "TileArea.h"
 #include "Sophia.h"
+#include "CollisionSolver.h"
 
 CSection::CSection(int bgTextureId)
 {
@@ -14,6 +15,25 @@ CSection::CSection(int bgTextureId)
 
 	bgWidth = surfaceDesc.Width;
 	bgHeight = surfaceDesc.Height;
+}
+
+bool checkObjInCamera(LPGAMEOBJECT obj)
+{
+	if (obj->classId == CLASS_SOPHIA || obj->classId == CLASS_JASONSIDEVIEW)
+		return true; // Sanh Fix bug section switch
+
+	//Point A is point left top 
+	//Point B is point right bottom
+	float Ax, Bx, Ay, By;
+	CGame::GetInstance()->GetCamPos(Ax, Ay);
+
+	Bx = Ax + CGame::GetInstance()->GetScreenWidth();
+	By = Ay + CGame::GetInstance()->GetScreenHeight();
+
+	float oL, oR, oT, oB;
+	float tL, tT, tR, tB;
+	obj->GetBoundingBox(oL, oT, oR, oB);
+	return CCollisionSolver::IsOverlapped(Ax, Ay, Bx, By, oL, oT, oR, oB, tL, tT, tR, tB);
 }
 
 void CSection::Update(DWORD dt)
@@ -30,7 +50,10 @@ void CSection::Update(DWORD dt)
 		if (dynamic_cast<LPTILE_AREA>(obj))
 			obj->Update(dt, nullptr);
 		else
+		{
+			if (checkObjInCamera(obj))
 			obj->Update(dt, &Objects);
+		}
 	}
 }
 
