@@ -261,69 +261,41 @@ void CPlayScene::Load()
 
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
-
-void CPlayScene::Update(DWORD dt)
+void CPlayScene::CreatePosCameraFollowPlayer(float& cx, float& cy)
 {
-	/*
-	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
-	// TO-DO: This is a "dirty" way, need a more organized way 
-
-	vector<LPGAMEOBJECT> coObjects;
-	for (size_t i = 1; i < objects.size(); i++)
-	{
-		coObjects.push_back(objects[i]);
-	}
-
-	for (size_t i = 0; i < objects.size(); i++)
-	{
-		objects[i]->Update(dt, &coObjects);
-	}
-
-	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
-	// if (player == nullptr) return; 
-		*/
-	
-	//Sanh code 
-	// Update camera to follow sophia
-
-	bool isNarrowSection = false;
-	if (Sections[CurrentSectionId]->getBgHeight() <= 400)
-		isNarrowSection = true;
-
-	bool isSectionSwitch = false;
-	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT)
-		isSectionSwitch = true;
-	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT)
-		isSectionSwitch = true;
-
 	LPSECTION section = this->GetCurrentSection();
 	float width_section = section->getBgWidth();
 	float height_section = section->getBgHeight();
-	float cx, cy;
 	player->GetPosition(cx, cy);
 	float yPlayer = cy + 16;
 	cx = CSophia::GetInstance()->camBoxLeft + 16 * 2;
-	cy = CSophia::GetInstance()->camBoxBottom-16*3;
+	cy = CSophia::GetInstance()->camBoxBottom - 16 * 3;
 
-	
-	CGame *game = CGame::GetInstance();
-	
+	CGame* game = CGame::GetInstance();
+
+	float top, left, right, bottom;
+	CSophia::GetInstance()->GetBoundingBox(left,top,right,bottom);
 	cx -= game->GetScreenWidth() / 2 - 8;
 	cy -= game->GetScreenHeight() / 2 - 16;
+}
+
+void CPlayScene::MoveCameraBeforeSwitchSection(float & cx, float & cy)
+{
+	CGame* game = CGame::GetInstance();
 
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT)
 	{
 		game->GetCamPos(cx, cy);
-		if ((int)round(cy)%256>16) {
+		if ((int)round(cy) % 256 > 16) {
 			cy--;
 		}
-		else if ((int)round(cy)%256<16) {
+		else if ((int)round(cy) % 256 < 16) {
 			cy++;
 		}
 		else {
-			if (cx + 2 <= width_section)
+			if (cx + 2 <= Sections[CurrentSectionId]->getBgWidth())
 				cx += 2;
-			else cx = width_section;
+			else cx = Sections[CurrentSectionId]->getBgWidth();
 		}
 	}
 
@@ -331,10 +303,10 @@ void CPlayScene::Update(DWORD dt)
 	{
 		game->GetCamPos(cx, cy);
 		if ((int)cy % 256 > 16) {
-			cy --;
+			cy--;
 		}
 		else if ((int)cy % 256 < 16) {
-			cy ++;
+			cy++;
 		}
 		else {
 			if (cx - 2 + game->GetScreenWidth() >= 0)
@@ -342,8 +314,15 @@ void CPlayScene::Update(DWORD dt)
 			else cx = -game->GetScreenWidth();
 		}
 	}
+}
 
-	//Need know pos of section background
+void CPlayScene::PreventCameraOverBoundingBox(float& cx, float& cy)
+{
+	LPSECTION section = this->GetCurrentSection();
+	float width_section = section->getBgWidth();
+	float height_section = section->getBgHeight();
+	CGame* game = CGame::GetInstance();
+
 	if (CGame::GetInstance()->GetState() != GameState::SECTION_SWITCH_LEFT)
 		if (cx < 0) cx = 0;
 	if (cy < 0) cy = 0;
@@ -357,12 +336,18 @@ void CPlayScene::Update(DWORD dt)
 	{
 		cy = height_section - game->GetScreenHeight();
 	}
-	
-	if (isNarrowSection)
-		cy = 16;
+}
 
-	CGame::GetInstance()->SetCamPos(cx,cy);
-	
+void CPlayScene::ResetGameStateAfterSwichtSection()
+{
+	float cx, cy;
+	LPSECTION section = this->GetCurrentSection();
+	float width_section = section->getBgWidth();
+	float height_section = section->getBgHeight();
+	CGame* game = CGame::GetInstance();
+	game->GetCamPos(cx, cy);
+
+
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT)
 		if (cx >= width_section)
 		{
@@ -398,6 +383,67 @@ void CPlayScene::Update(DWORD dt)
 			game->SetCamPos(cx, cy);
 			DebugOut(L"\n L cx = %f, cy = %f", cx, cy);
 		}
+}
+
+bool CPlayScene::isSectionSwitch()
+{
+	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT)
+		return true;
+	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT)
+		return true;
+	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT_JASON)
+		return true;
+	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT_JASON)
+		return true;
+	return false;
+}
+
+void CPlayScene::Update(DWORD dt)
+{
+	/*
+	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
+	// TO-DO: This is a "dirty" way, need a more organized way 
+
+	vector<LPGAMEOBJECT> coObjects;
+	for (size_t i = 1; i < objects.size(); i++)
+	{
+		coObjects.push_back(objects[i]);
+	}
+
+	for (size_t i = 0; i < objects.size(); i++)
+	{
+		objects[i]->Update(dt, &coObjects);
+	}
+
+	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
+	// if (player == nullptr) return; 
+		*/
+	
+	//Sanh code 
+	// Update camera to follow sophia
+
+	bool isNarrowSection = false;
+	if (Sections[CurrentSectionId]->getBgHeight() <= 400)
+		isNarrowSection = true;
+
+	bool isSectionSwitch = CPlayScene::isSectionSwitch();
+
+	float cx, cy;
+	CreatePosCameraFollowPlayer(cx, cy);
+
+	if (isSectionSwitch)
+		MoveCameraBeforeSwitchSection(cx, cy);
+	
+	PreventCameraOverBoundingBox(cx, cy);
+	
+	//Fixed position cy = 16 with narrow section
+	if (isNarrowSection)
+		cy = 16;
+
+	CGame::GetInstance()->SetCamPos(cx,cy);
+	
+	if (isSectionSwitch)
+		ResetGameStateAfterSwichtSection();
 
 	Sections[CurrentSectionId]->Update(dt);
 	// CuteTN to do: switching section here
@@ -440,7 +486,7 @@ string get_DirectionSceneSwitch(LPPORTAL portalA, LPPORTAL portalB)
 {
 	float xA, xB, yA, yB;
 
-	portalA->GetPosition(xA,yA);
+	portalA->GetPosition(xA, yA);
 	portalB->GetPosition(xB, yB);
 	if (xA >= xB) return "right";
 	return "left";
@@ -456,13 +502,17 @@ void CPlayScene::handleGameEvent(LPGAME_EVENT gameEvent)
 		string direct = get_DirectionSceneSwitch(temp->get_fromPortal(), temp->get_toPortal());
 		if (direct == "left")
 		{
-			CGame::SetState(GameState::SECTION_SWITCH_LEFT);
+			if (CGame::GetInstance()->GetState() == GameState::PLAY_SIDEVIEW_JASON)
+				CGame::SetState(GameState::SECTION_SWITCH_LEFT_JASON);
+			else CGame::SetState(GameState::SECTION_SWITCH_LEFT);
 		}
 	
 		if (direct == "right")
-			CGame::SetState(GameState::SECTION_SWITCH_RIGHT);
-
-
+		{
+			if (CGame::GetInstance()->GetState() == GameState::PLAY_SIDEVIEW_JASON)
+				CGame::SetState(GameState::SECTION_SWITCH_RIGHT_JASON);
+			else CGame::SetState(GameState::SECTION_SWITCH_RIGHT);
+		}
 		set_offset(temp->get_fromPortal(), temp->get_toPortal(), direct);
 	}
 }

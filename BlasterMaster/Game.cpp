@@ -2,6 +2,8 @@
 #include "PlayScene.h"
 #include "Utils.h"
 
+#include "JasonJumpOutEvent.h"
+
 CGame * CGame::__instance = nullptr;
 
 GameState CGame::state = GameState::PLAY_SIDEVIEW_SOPHIA;
@@ -228,6 +230,31 @@ CGameObject* CGame::GetCurrentPlayer()
 void CGame::SetState(GameState newState)
 {
 	// CuteTN to do: prepare for new game state here
+	if (newState == GameState::PLAY_SIDEVIEW_JASON)
+	{
+		DebugOut(L"\nSTATE JASON");
+		// add Jason to current section
+		auto scene = dynamic_cast<LPPLAYSCENE>(CGame::GetInstance()->GetCurrentScene());
+
+		if (scene != nullptr)
+		{
+			scene->SetPlayer(CJasonSideview::GetInstance());
+
+			// Thy cute
+			LPSECTION section = scene->GetCurrentSection();
+
+			if (section == nullptr)
+				return;
+
+			section->Objects.push_back(CJasonSideview::GetInstance());
+		}
+	}
+
+	if (newState == GameState::PLAY_SIDEVIEW_SOPHIA) DebugOut(L"\nSTATE SOPHIA");
+	if (newState == GameState::SECTION_SWITCH_LEFT) DebugOut(L"\nSTATE SOPHIA LEFT");
+	if (newState == GameState::SECTION_SWITCH_RIGHT) DebugOut(L"\nSTATE SOPHIA RIGHT");
+	if (newState == GameState::SECTION_SWITCH_LEFT_JASON) DebugOut(L"\nSTATE JASON LEFT");
+	if (newState == GameState::SECTION_SWITCH_RIGHT_JASON) DebugOut(L"\nSTATE SOPHIA RIGHT");
 	state = newState;
 }
 
@@ -256,6 +283,14 @@ void CGame::HandleGameEvent(LPGAME_EVENT gameEvent)
 		DebugOut(L"EVENT WALKINTOPORTAL");
 		LPPLAYSCENE scene =  dynamic_cast<LPPLAYSCENE>(CGame::GetInstance()->GetCurrentScene());
 		scene->handleGameEvent(gameEvent);
+	}
+
+	if (gameEvent->eventName == "JasonJumpOutEvent")
+	{
+		CJasonJumpOutEvent* castedEvent = dynamic_cast<CJasonJumpOutEvent*>(gameEvent);
+
+		CJasonSideview::InitInstance(castedEvent->x, castedEvent->y, castedEvent->sectionId);
+		SetState(GameState::PLAY_SIDEVIEW_JASON);
 	}
 }
 

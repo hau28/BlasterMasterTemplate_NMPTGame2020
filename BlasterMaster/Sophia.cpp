@@ -5,6 +5,7 @@
 #include "PortalLib.h"
 #include "SophiaAnimationSystem.h"
 #include "JasonSideview.h"
+#include "JasonJumpOutEvent.h"
 
 CSophia::CSophia(int classId, int x, int y)
 {
@@ -36,16 +37,32 @@ void CSophia::init_camBox()
 
 void CSophia::HandleKeys(DWORD dt)
 {
-    HandleKeysHold(dt);
-
-    auto keyEvents = NewKeyEvents();
-    for (auto e : keyEvents)
+    //SANH-SWITCH SECTION
+    if (CGame::GetInstance()->GetState() == GameState::PLAY_SIDEVIEW_SOPHIA)
     {
-        int keyCode = e->GetKeyCode();
-        if (e->IsDown())
-            HandleKeyDown(dt, keyCode);
-        else
-            HandleKeyUp(dt, keyCode);
+        HandleKeysHold(dt);
+
+        auto keyEvents = NewKeyEvents();
+        for (auto e : keyEvents)
+        {
+            int keyCode = e->GetKeyCode();
+            if (e->IsDown())
+                HandleKeyDown(dt, keyCode);
+            else
+                HandleKeyUp(dt, keyCode);
+        }
+    }
+    //SANH - Only allow handleKeyUp when sophia switch section
+    if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT ||
+        CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT)
+    {
+        auto keyEvents = NewKeyEvents();
+        for (auto e : keyEvents)
+        {
+            int keyCode = e->GetKeyCode();
+            if (!e->IsDown())
+              HandleKeyUp(dt, keyCode);
+        }
     }
 }
 
@@ -219,9 +236,10 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
     {
         vy = -SOPHIA_JUMP_FORCE;
     }
-    if (keyCode == DIK_0)
+    if (keyCode == DIK_RSHIFT)
     {
-       
+        CJasonJumpOutEvent* jasonJumpOutEvent = new CJasonJumpOutEvent(x, y, currentSectionId);
+        CGame::AddGameEvent(jasonJumpOutEvent);
     }
 }
 #pragma endregion
@@ -229,7 +247,10 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
 void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
 {
     //SANH-CAMERA
+
+    // dirty demo
     HandleKeys(dt);
+
     portaling = 0;
     if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT)
         portaling = 1;

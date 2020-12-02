@@ -145,6 +145,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GameEvent.cpp" />
     <ClCompile Include="GameObjectBehaviour.cpp" />
+    <ClCompile Include="JasonJumpOutEvent.cpp" />
     <ClCompile Include="JasonSideview.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="PortalLib.cpp" />
@@ -174,6 +175,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="GameEvent.h" />
     <ClInclude Include="GameObjectBehaviour.h" />
+    <ClInclude Include="JasonJumpOutEvent.h" />
     <ClInclude Include="JasonSideview.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="PortalLib.h" />
