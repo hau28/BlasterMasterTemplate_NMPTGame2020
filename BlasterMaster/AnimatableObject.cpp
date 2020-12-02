@@ -37,6 +37,22 @@ void CAnimatableObject::CheckCollision(DWORD dt, vector<LPGAMEOBJECT>* coObjs, v
 	CCollisionSolver::CalcPotentialCollisions(this, coObjs, coEvents, dt);
 }
 
+void CAnimatableObject::HandleCollisionWithWalls(DWORD dt, vector<LPCOLLISIONEVENT>* coEvents)
+{
+	for (auto event_ : *coEvents)
+	{
+		if (event_->otherObject->classId == CLASS_TILE_BLOCKABLE && event_->nx != 0)
+		{
+			//if(this->classId == CLASS_SOPHIA)
+			//	DebugOut(L"CuteTN debug: wall collided %d, nx %f, ny %f\n", GetTickCount(), event_->nx, event_->ny);
+
+			event_->ny = 0;
+			event_->rdx = 0;
+			HandleCollision(dt, event_);
+		}
+	}
+}
+
 void CAnimatableObject::HandleCollisions(DWORD dt, vector<LPCOLLISIONEVENT>* coEvents)
 {
 	for (auto event_ : *coEvents)
@@ -44,6 +60,9 @@ void CAnimatableObject::HandleCollisions(DWORD dt, vector<LPCOLLISIONEVENT>* coE
 		HandleCollision(dt, event_);
 	}
 }
+
+
+
 
 void CAnimatableObject::UpdatePosition(DWORD dt)
 {
@@ -64,6 +83,11 @@ void CAnimatableObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 
 	vector<LPCOLLISIONEVENT>* colEvents = new vector<LPCOLLISIONEVENT>();
 	colEvents->clear();
+
+	// CuteTN note: handle collision with walls first to avoid a AABB bug (the bad way)
+	CheckCollision(dt, coObjs, *colEvents);
+	HandleCollisionWithWalls(dt, colEvents);
+
 	CheckCollision(dt, coObjs, *colEvents);
 	HandleCollisions(dt, colEvents);
 

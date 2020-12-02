@@ -1,4 +1,5 @@
 #include "GameObjectBehaviour.h"
+#include "CollisionSolver.h"
 
 void CGameObjectBehaviour::GetBlocked(DWORD dt, LPCOLLISIONEVENT coEvent)
 {
@@ -26,4 +27,10 @@ void CGameObjectBehaviour::GetBlocked(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 	movableObj->SetPosition(x, y);
 	movableObj->SetSpeed(vx, vy);
+
+	// direction to deoverlap
+	float doX, doY;
+	CCollisionSolver::DeOverlap(movableObj, blockableObj, doX, doY);
+
+	movableObj->SetPosition(x + doX, y + doY);
 }

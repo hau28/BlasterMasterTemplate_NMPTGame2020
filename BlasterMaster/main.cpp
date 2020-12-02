@@ -1,16 +1,3 @@
-/* =============================================================
-	INTRODUCTION TO GAME PROGRAMMING SE102
-	
-	SAMPLE 05 - SCENCE MANAGER
-
-	This sample illustrates how to:
-
-		1/ Implement a scence manager 
-		2/ Load scene from "database", add/edit/remove scene without changing code 
-		3/ Dynamically move between scenes without hardcode logic 
-		
-================================================================ */
-
 #pragma once
 #include <windows.h>
 #include <d3d9.h>
@@ -28,6 +15,7 @@
 #define SCREEN_HEIGHT 260
 
 #define MAX_FRAME_RATE 120
+#define MAX_TIME_PER_FRAME 20
 
 CGame *game = CGame::GetInstance();
 
@@ -163,6 +151,8 @@ int Run()
 		if (dt >= tickPerFrame)
 		{
 			frameStart = now;
+			if (dt > MAX_TIME_PER_FRAME)
+				dt = MAX_TIME_PER_FRAME;
 
 			/// Input - Update - Render
 			CGame::GetInstance()->ProcessKeyboard();
