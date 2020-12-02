@@ -59,7 +59,7 @@ void CJasonSideview::HandleKeysHold(DWORD dt)
             animationHandlers[state]->startLoopIndex = 0;
         }
 
-        if (flag_keydown && vy==0)
+        if (flag_keydown && vy == 0 && !flagOnAir)
             vx = JASONSIDEVIEW_VX / 2;
         else
             vx = JASONSIDEVIEW_VX;
@@ -96,7 +96,7 @@ void CJasonSideview::HandleKeyUp(DWORD dt, int keyCode)
 
         if (flagOnAir)
         {
-            ax = -0.0003;   
+            ax = JASONSIDEVIEW_AX;
             flag_jumpwalk = true;
         }
         else 
