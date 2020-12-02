@@ -58,23 +58,6 @@ void CSection::Update(DWORD dt)
 	}
 }
 
-void CSection::Render()
-{
-	// CuteTN Note: the order of rendering would be implemented here :)
-	RenderTexture(backgroundTextureId);
-
-	for (auto obj : Objects)
-		obj->Render();
-
-	RenderTexture(foregroundTextureId);
-}
-
-void CSection::RenderTexture(int textureId)
-{
-	LPDIRECT3DTEXTURE9 backgroundTexture = CTextures::GetInstance()->Get(textureId);
-	CGame::GetInstance()->Draw(0, 0, backgroundTexture, 0, 0, bgWidth, bgHeight);
-}
-
 //SANH-CAMERA:
 void CSection::Render(float offset_x, float offset_y)
 {
@@ -82,7 +65,7 @@ void CSection::Render(float offset_x, float offset_y)
 	RenderTexture(backgroundTextureId, offset_x, offset_y);
 
 	for (auto obj : Objects)
-		obj->Render();
+		obj->Render(offset_x, offset_y);
 
 	RenderTexture(foregroundTextureId, offset_x, offset_y);
 }

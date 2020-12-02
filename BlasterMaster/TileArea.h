@@ -20,7 +20,7 @@ public:
 
     virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
     virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs) {};
-    virtual void Render();
+    virtual void Render(float offsetX, float offsetY);
 };
 
 typedef CTileArea* LPTILE_AREA;

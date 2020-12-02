@@ -56,6 +56,6 @@ public:
 
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs);
 
-	virtual void Render();
+	virtual void Render(float offsetX, float offsetY);
 };
 

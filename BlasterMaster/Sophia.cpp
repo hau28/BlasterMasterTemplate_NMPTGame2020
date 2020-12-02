@@ -426,16 +426,16 @@ void CSophia::GetBoundingBox(float &left, float &top, float &right, float &botto
     bottom = top + SOPHIA_BOUNDBOX_HEIGHT;
 }
 
-void CSophia::Render()
+void CSophia::Render(float offsetX, float offsetY)
 {
     LPSPRITE sprite = CSophiaAnimationSystem::GetInstance()->GetSprite(directionState, gunState, bodyState, wheelState);
     if (sprite)
         if (vy > 0 && bodyState == 1 && ground - y >= 16)
         {
-            sprite->Draw(x, y - 3);
+            sprite->Draw(x + offsetX, y - 3 + offsetY);
         }
         else
-            sprite->Draw(x, y);
+            sprite->Draw(x + offsetX, y + offsetY);
 }
 
 CSophia *CSophia::__instance = nullptr;

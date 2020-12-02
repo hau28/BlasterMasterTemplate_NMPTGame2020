@@ -70,9 +70,9 @@ void CAnimatableObject::UpdatePosition(DWORD dt)
 	this->y += this->vy * dt;
 }
 
-void CAnimatableObject::Render()
+void CAnimatableObject::Render(float offsetX, float offsetY)
 {
-	animationHandlers[state]->Render(x, y);
+	animationHandlers[state]->Render(x + offsetX, y + offsetY);
 	animationHandlers[state]->Update();
 }
 
