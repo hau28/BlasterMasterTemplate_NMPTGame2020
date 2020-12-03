@@ -451,6 +451,8 @@ void CPlayScene::Update(DWORD dt)
 	
 	//Sanh code 
 	// Update camera to follow sophia
+	
+	CGame::GetInstance()->SetState(CGame::GetInstance()->GetState());
 
 	bool isNarrowSection = false;
 	if (Sections[CurrentSectionId]->getBgHeight() <= 400)

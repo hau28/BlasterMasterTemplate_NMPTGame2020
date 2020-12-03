@@ -229,10 +229,19 @@ CGameObject* CGame::GetCurrentPlayer()
 
 void CGame::SetState(GameState newState)
 {
+	if (newState == GameState::PLAY_SIDEVIEW_JASON) DebugOut(L"\nSTATE JASON");
+	if (newState == GameState::PLAY_SIDEVIEW_SOPHIA) DebugOut(L"\nSTATE SOPHIA");
+	if (newState == GameState::SECTION_SWITCH_LEFT) DebugOut(L"\nSTATE SOPHIA LEFT");
+	if (newState == GameState::SECTION_SWITCH_RIGHT) DebugOut(L"\nSTATE SOPHIA RIGHT");
+	if (newState == GameState::SECTION_SWITCH_LEFT_JASON) DebugOut(L"\nSTATE JASON LEFT");
+	if (newState == GameState::SECTION_SWITCH_RIGHT_JASON) DebugOut(L"\nSTATE JASON RIGHT");
+
+	if (newState == CGame::state)
+		return;
+
 	// CuteTN to do: prepare for new game state here
 	if (newState == GameState::PLAY_SIDEVIEW_JASON)
 	{
-		DebugOut(L"\nSTATE JASON");
 		// add Jason to current section
 		auto scene = dynamic_cast<LPPLAYSCENE>(CGame::GetInstance()->GetCurrentScene());
 
@@ -243,18 +252,11 @@ void CGame::SetState(GameState newState)
 			// Thy cute
 			LPSECTION section = scene->GetCurrentSection();
 
-			if (section == nullptr)
-				return;
-
-			section->Objects.push_back(CJasonSideview::GetInstance());
+			if (section != nullptr)
+				section->Objects.push_back(CJasonSideview::GetInstance());
 		}
 	}
 
-	if (newState == GameState::PLAY_SIDEVIEW_SOPHIA) DebugOut(L"\nSTATE SOPHIA");
-	if (newState == GameState::SECTION_SWITCH_LEFT) DebugOut(L"\nSTATE SOPHIA LEFT");
-	if (newState == GameState::SECTION_SWITCH_RIGHT) DebugOut(L"\nSTATE SOPHIA RIGHT");
-	if (newState == GameState::SECTION_SWITCH_LEFT_JASON) DebugOut(L"\nSTATE JASON LEFT");
-	if (newState == GameState::SECTION_SWITCH_RIGHT_JASON) DebugOut(L"\nSTATE SOPHIA RIGHT");
 	state = newState;
 }
 

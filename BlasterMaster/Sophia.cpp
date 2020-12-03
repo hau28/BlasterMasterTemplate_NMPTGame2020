@@ -437,7 +437,7 @@ void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
             LPGAME_EVENT newEvent = new CWalkInPortalEvent("WalkInPortalEvent", fromPortal, toPortal);
             CGame::GetInstance()->AddGameEvent(newEvent);
             // to do: create an event to CGame, let CGame handle switching section
-            DebugOut(L"To portal %d of section %d\n", toPortal->associatedPortalId, toPortal->currentSectionId);
+            DebugOut(L"Sophia to portal %d of section %d\n", toPortal->associatedPortalId, toPortal->currentSectionId);
         }
         }
     }
