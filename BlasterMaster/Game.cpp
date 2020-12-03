@@ -1,7 +1,7 @@
 #include "Game.h"
 #include "PlayScene.h"
 #include "Utils.h"
-
+#include <math.h> 
 #include "JasonJumpOutEvent.h"
 
 CGame * CGame::__instance = nullptr;
@@ -66,12 +66,12 @@ void CGame::Init(HWND hWnd)
 
 void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha, bool flipX, int rotate, float offset_x, float offset_y)
 {
-	int width = (int)(right - left);
-	int height = (int)(bottom - top);
+	int width = round(right - left);
+	int height = round(bottom - top);
 	int scale = 1;
-	D3DXVECTOR2 center = D3DXVECTOR2((int)(flipX ? (width / 2) * scale - width * scale : (width / 2) * scale), (int)((height / 2) * scale));
-	D3DXVECTOR2 translate = D3DXVECTOR2((int)(flipX ? x + width * scale - cam_x - offset_x : x - cam_x - offset_x), (int)(y - cam_y - offset_y));
-	D3DXVECTOR2 scaling = D3DXVECTOR2((int)((flipX) ? -scale : scale), scale);
+	D3DXVECTOR2 center = D3DXVECTOR2(round(flipX ? (width / 2) * scale - width * scale : (width / 2) * scale), round((height / 2) * scale));
+	D3DXVECTOR2 translate = D3DXVECTOR2(round(flipX ? x + width * scale - cam_x - offset_x : x - cam_x - offset_x), round(y - cam_y - offset_y));
+	D3DXVECTOR2 scaling = D3DXVECTOR2(round((flipX) ? -scale : scale), scale);
 	float angle = rotate * 1.5707963268;
 	RECT r;
 	r.left = left;
@@ -240,7 +240,8 @@ void CGame::SetState(GameState newState)
 		return;
 
 	// CuteTN to do: prepare for new game state here
-	if (newState == GameState::PLAY_SIDEVIEW_JASON)
+	//SANH-SECTION 
+	if (newState == GameState::PLAY_SIDEVIEW_JASON && CGame::GetInstance()->GetCurrentPlayer()->classId != CLASS_JASONSIDEVIEW )
 	{
 		// add Jason to current section
 		auto scene = dynamic_cast<LPPLAYSCENE>(CGame::GetInstance()->GetCurrentScene());

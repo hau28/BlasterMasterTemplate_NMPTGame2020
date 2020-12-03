@@ -35,6 +35,9 @@ void CJasonSideview::init_camBox()
     camBoxRight  = camBoxLeft + 16* 4;
     camBoxBottom = centerPointY + 16 * 2;
     camBoxTop = camBoxBottom - 16 * 4;
+    
+    vx *= 3;
+    vy = 0;
 }
 
 #pragma region key events handling
@@ -306,7 +309,7 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
         CGame::GetInstance()->GetState() != GameState::SECTION_SWITCH_RIGHT_JASON)
     {
         UpdateVelocity(dt);
-
+            
         Deoverlap(coObjs);
 
         vector<LPCOLLISIONEVENT>* colEvents = new vector<LPCOLLISIONEVENT>();
@@ -319,8 +322,6 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
         CheckCollision(dt, coObjs, *colEvents);
         HandleCollisions(dt, colEvents);
     }
-    else
-        DebugOut(L"LOL %d\n", CGame::GetState());
 
     // SANH update cambox camera
     if (x + 16 >= camBoxRight) {
@@ -365,7 +366,6 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
         else
             SetState(JASONSIDEVIEW_STATE_IDLE_LEFT);
     }
-
 
     UpdatePosition(dt);
 

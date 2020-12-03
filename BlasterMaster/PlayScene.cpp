@@ -384,7 +384,7 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			Sections[CurrentSectionId]->deleteJasonSideview();
 			CurrentSectionId = NextSectionId;
 			toPortal->GetPosition(x_toPortal, y_toPortal);
-			Sections[CurrentSectionId]->pushJasonSideview(x_toPortal, y_toPortal, CurrentSectionId);
+			Sections[CurrentSectionId]->pushJasonSideview(x_toPortal, y_toPortal+16, CurrentSectionId);
 			game->SetCamPos(0, cy);
 			CJasonSideview::GetInstance()->init_camBox();
 		}
@@ -409,7 +409,7 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			CGame::SetState(GameState::PLAY_SIDEVIEW_JASON);
 			Sections[CurrentSectionId]->deleteJasonSideview();
 			CurrentSectionId = NextSectionId;
-			Sections[CurrentSectionId]->pushJasonSideview(x_toPortal, y_toPortal, CurrentSectionId);
+			Sections[CurrentSectionId]->pushJasonSideview(x_toPortal, y_toPortal+16, CurrentSectionId);
 			game->SetCamPos(cx, cy);
 			CJasonSideview::GetInstance()->init_camBox();
 		}
@@ -452,7 +452,7 @@ void CPlayScene::Update(DWORD dt)
 	//Sanh code 
 	// Update camera to follow sophia
 	
-	CGame::GetInstance()->SetState(CGame::GetInstance()->GetState());
+	//CGame::GetInstance()->SetState(CGame::GetInstance()->GetState());
 
 	bool isNarrowSection = false;
 	if (Sections[CurrentSectionId]->getBgHeight() <= 400)
@@ -486,8 +486,7 @@ void CPlayScene::Render()
 {
 	Sections[CurrentSectionId]->Render();
 	//SANH-CAMERA
-	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT
-		|| CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT)
+	if (CPlayScene::isSectionSwitch())
 	{
 		Sections[NextSectionId]->Render(this->offset_x_SectionSwitch,this->offset_y_SectionSwitch);
 	}
@@ -512,6 +511,8 @@ void CPlayScene::set_offset(LPPORTAL fromPortal, LPPORTAL toPortal, string direc
 		this->offset_x_SectionSwitch = -Sections[NextSectionId]->getBgWidth();
 		this->offset_y_SectionSwitch = y_from - y_to;
 	}
+
+	DebugOut(L"\n offx = %f, offy = %f", offset_x_SectionSwitch, offset_y_SectionSwitch);
 }
 
 string get_DirectionSceneSwitch(LPPORTAL portalA, LPPORTAL portalB)
