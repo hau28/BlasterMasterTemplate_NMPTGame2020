@@ -20,25 +20,55 @@ CJasonSideview::CJasonSideview()
 CJasonSideview::CJasonSideview(int classId, int x, int y, int animsId) : CAnimatableObject::CAnimatableObject(classId, x, y, animsId)
 {
     SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
+    init_camBox();
 };
+
+void CJasonSideview::init_camBox()
+{
+    //Init CamBox Jason must not to lag camera (original position camera)   
+    float cameraX, cameraY;
+    CGame::GetInstance()->GetCamPos(cameraX, cameraY);
+    float centerPointX = cameraX + CGame::GetInstance()->GetScreenWidth() / 2;
+    float centerPointY = cameraY + CGame::GetInstance()->GetScreenHeight() / 2;
+
+    camBoxLeft = centerPointX - 16*2;
+    camBoxRight  = camBoxLeft + 16* 4;
+    camBoxBottom = centerPointY + 16 * 2;
+    camBoxTop = camBoxBottom - 16 * 4;
+}
 
 #pragma region key events handling
 
 void CJasonSideview::HandleKeys(DWORD dt)
 {
-	HandleKeysHold(dt);
+    if (CGame::GetInstance()->GetState() == GameState::PLAY_SIDEVIEW_JASON)
+    {
+        HandleKeysHold(dt);
 
-	auto keyEvents = NewKeyEvents();
+        auto keyEvents = NewKeyEvents();
 
-	for (auto e : keyEvents)
-	{
-		int keyCode = e->GetKeyCode();
-		if (e->IsDown())
-			HandleKeyDown(dt, keyCode);
-		else
-			HandleKeyUp(dt, keyCode);
-	}
+        for (auto e : keyEvents)
+        {
+            int keyCode = e->GetKeyCode();
+            if (e->IsDown())
+                HandleKeyDown(dt, keyCode);
+            else
+                HandleKeyUp(dt, keyCode);
+        }
+    }
+    else 
+        if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT_JASON ||
+            CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT_JASON)
+        {
+            auto keyEvents = NewKeyEvents();
 
+            for (auto e : keyEvents)
+            {
+                int keyCode = e->GetKeyCode();
+                if (!e->IsDown())
+                    HandleKeyUp(dt, keyCode);
+            }
+        }
 }
 
 void CJasonSideview::HandleKeysHold(DWORD dt)
@@ -235,6 +265,9 @@ void CJasonSideview::GetBoundingBox(float& left, float& top, float& right, float
 
 void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
+    if (CGame::GetInstance()->GetCurrentPlayer()->classId == CLASS_SOPHIA)
+        return;
+
     HandleKeys(dt);
 
     // dơ lắm cơ mà fix sau đi :((( 
@@ -269,12 +302,45 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 
     CAnimatableObject::Update(dt, coObjs);
 
+    // SANH update cambox camera
+    if (x + 16 >= camBoxRight) {
+        camBoxRight = x + 16;
+        camBoxLeft = camBoxRight - 16 * 4;
+    }
+    else if (x <= camBoxLeft) {
+        camBoxLeft = x;
+        camBoxRight = x + 16 * 4;
+    }
+    if (y + 16 >= camBoxBottom) {
+        camBoxBottom = y + 16;
+        camBoxTop = camBoxBottom - 16 * 4;
+    }
+    if (y<= camBoxTop) {
+        camBoxTop = y;
+        camBoxBottom = camBoxTop + 16 * 4;
+    }
+    
+    //Push vx when jason switch section --- Sanh
+    if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT_JASON)
+    {
+        vx = -JASONSIDEVIEW_VX / 3;
+        vy = 0;
+    }
+    if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT_JASON)
+    {
+        vx = JASONSIDEVIEW_VX / 3;
+        vy = 0;
+    }
+
     if (flagOnAir && Jason_turnRight)
         SetState(JASONSIDEVIEW_STATE_JUMP_RIGHT);
 
     if (flagOnAir && !Jason_turnRight)
         SetState(JASONSIDEVIEW_STATE_JUMP_LEFT);
 
+    if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT_JASON &&
+        CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT_JASON)
+        return;
     if (vy == 0 && vx == 0 && !flag_keydown)
     {
         if (Jason_turnRight)
@@ -301,7 +367,7 @@ CJasonSideview* CJasonSideview::InitInstance(int x, int y, int sectionId)
     __instance->SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
     __instance->SetPosition(x, y);
     __instance->currentSectionId = sectionId;
-
+ 
     return __instance;
 }
 

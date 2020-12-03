@@ -266,24 +266,29 @@ void CPlayScene::CreatePosCameraFollowPlayer(float& cx, float& cy)
 	LPSECTION section = this->GetCurrentSection();
 	float width_section = section->getBgWidth();
 	float height_section = section->getBgHeight();
-	player->GetPosition(cx, cy);
-	float yPlayer = cy + 16;
-	cx = CSophia::GetInstance()->camBoxLeft + 16 * 2;
-	cy = CSophia::GetInstance()->camBoxBottom - 16 * 3;
-
 	CGame* game = CGame::GetInstance();
-
-	float top, left, right, bottom;
-	CSophia::GetInstance()->GetBoundingBox(left,top,right,bottom);
-	cx -= game->GetScreenWidth() / 2 - 8;
-	cy -= game->GetScreenHeight() / 2 - 16;
+	if (player->classId == CLASS_SOPHIA)
+	{
+		cx = CSophia::GetInstance()->camBoxLeft + 16 * 2;
+		cy = CSophia::GetInstance()->camBoxBottom - 16 * 3;
+		cx -= game->GetScreenWidth() / 2 - 8;
+		cy -= game->GetScreenHeight() / 2 - 16;
+	}
+	if (player->classId == CLASS_JASONSIDEVIEW)
+	{
+		cx = CJasonSideview::GetInstance()->camBoxLeft + 16*2;
+		cy = CJasonSideview::GetInstance()->camBoxBottom - 16*2;
+		cx -= game->GetScreenWidth() / 2;
+		cy -= game->GetScreenHeight() / 2;
+	}
 }
 
 void CPlayScene::MoveCameraBeforeSwitchSection(float & cx, float & cy)
 {
 	CGame* game = CGame::GetInstance();
 
-	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT)
+	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT ||
+		CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT_JASON)
 	{
 		game->GetCamPos(cx, cy);
 		if ((int)round(cy) % 256 > 16) {
@@ -299,7 +304,8 @@ void CPlayScene::MoveCameraBeforeSwitchSection(float & cx, float & cy)
 		}
 	}
 
-	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT)
+	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT ||
+		CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT_JASON)
 	{
 		game->GetCamPos(cx, cy);
 		if ((int)cy % 256 > 16) {
@@ -323,12 +329,14 @@ void CPlayScene::PreventCameraOverBoundingBox(float& cx, float& cy)
 	float height_section = section->getBgHeight();
 	CGame* game = CGame::GetInstance();
 
-	if (CGame::GetInstance()->GetState() != GameState::SECTION_SWITCH_LEFT)
+	if (CGame::GetInstance()->GetState() != GameState::SECTION_SWITCH_LEFT &&
+		CGame::GetInstance()->GetState() != GameState::SECTION_SWITCH_LEFT_JASON)
 		if (cx < 0) cx = 0;
 	if (cy < 0) cy = 0;
 
 
-	if (CGame::GetInstance()->GetState() != GameState::SECTION_SWITCH_RIGHT)
+	if (CGame::GetInstance()->GetState() != GameState::SECTION_SWITCH_RIGHT &&
+		CGame::GetInstance()->GetState() != GameState::SECTION_SWITCH_RIGHT_JASON)
 		if (cx + game->GetScreenWidth() > width_section)
 			cx = width_section - game->GetScreenWidth();
 
@@ -347,41 +355,63 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 	CGame* game = CGame::GetInstance();
 	game->GetCamPos(cx, cy);
 
+	//
+	float x_toPortal, y_toPortal, x_fromPortal, y_fromPortal;
+	toPortal->GetPosition(x_toPortal, y_toPortal);
+	fromPortal->GetPosition(x_fromPortal, y_fromPortal);
 
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT)
 		if (cx >= width_section)
 		{
-			CGame::SetState(GameState::PLAY_SIDEVIEW_SOPHIA);
-			float x_toPortal, y_toPortal, x_fromPortal, y_fromPortal;
-			toPortal->GetPosition(x_toPortal, y_toPortal);
-			fromPortal->GetPosition(x_fromPortal, y_fromPortal);
-
+			cx = Sections[NextSectionId]->getBgWidth() - game->GetScreenWidth();
+			cy += y_toPortal - y_fromPortal;
+			CGame::SetState(GameState::PLAY_SIDEVIEW_SOPHIA);			
 			Sections[CurrentSectionId]->deleteSophia();
 			CurrentSectionId = NextSectionId;
 			toPortal->GetPosition(x_toPortal, y_toPortal);
 			Sections[CurrentSectionId]->pushSophia(x_toPortal, y_toPortal, CurrentSectionId);
-			cy += y_toPortal - y_fromPortal;
 			game->SetCamPos(0, cy);
 			CSophia::GetInstance()->init_camBox();
-			DebugOut(L"\n R cx = %f, cy = %f", cx, cy);
+			DebugOut(L"\ncx == %f, cy == %f",x_toPortal, y_toPortal);
+		}
+
+	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT_JASON)
+		if (cx >= width_section)
+		{
+			cx = Sections[NextSectionId]->getBgWidth() - game->GetScreenWidth();
+			cy += y_toPortal - y_fromPortal;
+			CGame::SetState(GameState::PLAY_SIDEVIEW_JASON);
+			Sections[CurrentSectionId]->deleteJasonSideview();
+			CurrentSectionId = NextSectionId;
+			toPortal->GetPosition(x_toPortal, y_toPortal);
+			Sections[CurrentSectionId]->pushJasonSideview(x_toPortal, y_toPortal, CurrentSectionId);
+			game->SetCamPos(0, cy);
+			CJasonSideview::GetInstance()->init_camBox();
 		}
 
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT)
 		if (cx + game->GetScreenWidth() <= 0)
 		{
-			CGame::SetState(GameState::PLAY_SIDEVIEW_SOPHIA);
 			cx = Sections[NextSectionId]->getBgWidth() - game->GetScreenWidth();
-			float x_toPortal, y_toPortal, x_fromPortal, y_fromPortal;
-			toPortal->GetPosition(x_toPortal, y_toPortal);
-			fromPortal->GetPosition(x_fromPortal, y_fromPortal);
-
 			cy += y_toPortal - y_fromPortal;
+			CGame::SetState(GameState::PLAY_SIDEVIEW_SOPHIA);
 			Sections[CurrentSectionId]->deleteSophia();
 			CurrentSectionId = NextSectionId;
 			Sections[CurrentSectionId]->pushSophia(x_toPortal, y_toPortal, CurrentSectionId);
-			CSophia::GetInstance()->init_camBox();
 			game->SetCamPos(cx, cy);
-			DebugOut(L"\n L cx = %f, cy = %f", cx, cy);
+			CSophia::GetInstance()->init_camBox();
+		}
+	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT_JASON)
+		if (cx + game->GetScreenWidth() <= 0)
+		{
+			cx = Sections[NextSectionId]->getBgWidth() - game->GetScreenWidth();
+			cy += y_toPortal - y_fromPortal;
+			CGame::SetState(GameState::PLAY_SIDEVIEW_JASON);
+			Sections[CurrentSectionId]->deleteJasonSideview();
+			CurrentSectionId = NextSectionId;
+			Sections[CurrentSectionId]->pushJasonSideview(x_toPortal, y_toPortal, CurrentSectionId);
+			game->SetCamPos(cx, cy);
+			CJasonSideview::GetInstance()->init_camBox();
 		}
 }
 

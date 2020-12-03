@@ -27,6 +27,9 @@ public:
 	void deleteSophia();
 	void pushSophia(float x, float y, int sectionID);
 
+	void deleteJasonSideview();
+	void pushJasonSideview(float x, float y, int sectionID);
+
 	vector<CGameObject*> Objects;
 };
 

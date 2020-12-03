@@ -247,6 +247,9 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
 void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
 {
     //SANH-CAMERA
+    //don't allow update when player is jason
+    if (CGame::GetInstance()->GetCurrentPlayer()->classId == CLASS_JASONSIDEVIEW)
+        return;
 
     // dirty demo
     HandleKeys(dt);
@@ -292,7 +295,7 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
         }
         if (y - 16 <= camBoxTop) {
             camBoxTop = y - 16;
-            camBoxBottom = camBoxTop + 16 * 6;
+            camBoxBottom = camBoxTop + 16 * 6;                                                                          
         }
 
         if (!flagOnAir)

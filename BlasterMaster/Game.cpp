@@ -280,7 +280,6 @@ void CGame::HandleGameEvent(LPGAME_EVENT gameEvent)
 	//SANH-CAMERA: Set new state when event switch section happens 
 	if (gameEvent->eventName == "WalkInPortalEvent")
 	{
-		DebugOut(L"EVENT WALKINTOPORTAL");
 		LPPLAYSCENE scene =  dynamic_cast<LPPLAYSCENE>(CGame::GetInstance()->GetCurrentScene());
 		scene->handleGameEvent(gameEvent);
 	}
@@ -291,6 +290,8 @@ void CGame::HandleGameEvent(LPGAME_EVENT gameEvent)
 
 		CJasonSideview::InitInstance(castedEvent->x, castedEvent->y, castedEvent->sectionId);
 		SetState(GameState::PLAY_SIDEVIEW_JASON);
+		//SANH-CAMERA
+		CJasonSideview::GetInstance()->init_camBox();
 	}
 }
 

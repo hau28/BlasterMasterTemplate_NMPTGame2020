@@ -78,18 +78,28 @@ void CAnimatableObject::Render(float offsetX, float offsetY)
 
 void CAnimatableObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
-	UpdateVelocity(dt);
-	Deoverlap(coObjs);
+	//dirty code Sanh 
+	if (CGame::GetInstance()->GetState() != GameState::SECTION_SWITCH_LEFT_JASON &&
+		CGame::GetInstance()->GetState() != GameState::SECTION_SWITCH_RIGHT_JASON)
+	{
+		UpdateVelocity(dt);
 
-	vector<LPCOLLISIONEVENT>* colEvents = new vector<LPCOLLISIONEVENT>();
-	colEvents->clear();
+		Deoverlap(coObjs);
 
-	// CuteTN note: handle collision with walls first to avoid a AABB bug (the bad way)
-	CheckCollision(dt, coObjs, *colEvents);
-	HandleCollisionWithWalls(dt, colEvents);
+		vector<LPCOLLISIONEVENT>* colEvents = new vector<LPCOLLISIONEVENT>();
+		colEvents->clear();
 
-	CheckCollision(dt, coObjs, *colEvents);
-	HandleCollisions(dt, colEvents);
+		// CuteTN note: handle collision with walls first to avoid a AABB bug (the bad way)
+		CheckCollision(dt, coObjs, *colEvents);
+		HandleCollisionWithWalls(dt, colEvents);
 
-	UpdatePosition(dt);
+		CheckCollision(dt, coObjs, *colEvents);
+		HandleCollisions(dt, colEvents);
+
+		UpdatePosition(dt);
+	}
+	else
+	{
+		UpdatePosition(dt);
+	}
 }

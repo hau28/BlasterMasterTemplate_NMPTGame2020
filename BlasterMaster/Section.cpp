@@ -2,6 +2,7 @@
 #include "TileArea.h"
 #include "Sophia.h"
 #include "CollisionSolver.h"
+#include "JasonSideview.h"
 
 CSection::CSection(int bgTextureId, int fgTextureId)
 {
@@ -95,4 +96,23 @@ void CSection::pushSophia(float x, float y, int sectionID)
 	CSophia::GetInstance()->SetPosition(x, y);
 	CSophia::GetInstance()->currentSectionId = sectionID;
 	Objects.push_back(CSophia::GetInstance());
+}
+
+void CSection::deleteJasonSideview()
+{
+	int index = -1;
+	for (int i = 0; i < Objects.size(); i++)
+		if (Objects[i]->classId == CLASS_JASONSIDEVIEW)
+		{
+			index = i;
+			break;
+		}
+	Objects.erase(Objects.begin() + index);
+}
+
+void CSection::pushJasonSideview(float x, float y, int sectionID)
+{
+	CJasonSideview::GetInstance()->SetPosition(x, y);
+	CJasonSideview::GetInstance()->currentSectionId = sectionID;
+	Objects.push_back(CJasonSideview::GetInstance());
 }
