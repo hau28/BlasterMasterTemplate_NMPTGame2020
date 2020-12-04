@@ -62,6 +62,7 @@ void CPanda::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 		switch (tileArea->classId)
 		{
 		case CLASS_TILE_BLOCKABLE:
+		case CLASS_TILE_PORTAL:
 		{
 			CGameObjectBehaviour::GetBlocked(dt, coEvent);
 			break;

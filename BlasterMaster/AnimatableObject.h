@@ -40,6 +40,11 @@ public:
 	/// why? Checking these collision first to hot fix a collision bug just like in the old Mario template
 	virtual void HandleCollisionWithWalls(DWORD dt, vector<LPCOLLISIONEVENT>* coEvents);
 
+	/// <para> CuteTN note:  </para>
+	/// this function handle check all the collision with blockable tiles
+	/// why? This is more priority than any other game objects
+	virtual void HandleCollisionWithBlockableTiles(DWORD dt, vector<LPCOLLISIONEVENT>* coEvents);
+
 	/// <summary>
 	/// Handle all the collision events
 	/// Only update velocity and acceleration
@@ -47,6 +52,11 @@ public:
 	/// <param name="dt"></param>
 	/// <param name="coObjs"></param>
 	virtual void HandleCollisions(DWORD dt, vector<LPCOLLISIONEVENT>* coEvents);
+
+	/// <summary>
+	/// Handle interacting with everything, including collision (check+handle), overlapping (check+handle)...
+	/// </summary>
+	virtual void ResolveInteractions(DWORD dt, vector<LPGAMEOBJECT>* coObjs);
 
 	/// <summary>
 	/// Update position base on velocity

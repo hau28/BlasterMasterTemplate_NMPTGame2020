@@ -311,17 +311,7 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
     {
         UpdateVelocity(dt);
             
-        Deoverlap(coObjs);
-
-        vector<LPCOLLISIONEVENT>* colEvents = new vector<LPCOLLISIONEVENT>();
-        colEvents->clear();
-
-        // CuteTN note: handle collision with walls first to avoid a AABB bug (the bad way)
-        CheckCollision(dt, coObjs, *colEvents);
-        HandleCollisionWithWalls(dt, colEvents);
-
-        CheckCollision(dt, coObjs, *colEvents);
-        HandleCollisions(dt, colEvents);
+        ResolveInteractions(dt, coObjs);
     }
 
     // SANH update cambox camera

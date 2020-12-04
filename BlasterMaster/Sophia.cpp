@@ -267,16 +267,8 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
         updateDirection();
         updateBody();
         flagOnAir = true;
-        Deoverlap(coObjs);
-        vector<LPCOLLISIONEVENT>* colEvents = new vector<LPCOLLISIONEVENT>();
-        colEvents->clear();
 
-		// CuteTN note: handle collision with walls first to avoid a AABB bug (the bad way)
-        CheckCollision(dt, coObjs, *colEvents);
-        HandleCollisionWithWalls(dt, colEvents);
-
-        CheckCollision(dt, coObjs, *colEvents);
-        HandleCollisions(dt, colEvents);
+        ResolveInteractions(dt, coObjs);
 
         UpdatePosition(dt);
 
