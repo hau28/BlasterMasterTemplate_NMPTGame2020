@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include <time.h>  
 
-
 CPanda::CPanda(int classId, int x, int y, int animsId) : CEnemy::CEnemy(classId, x, y, animsId)
 {
 	SetState(PANDA_STATE_WALK_RIGHT);
@@ -25,22 +24,15 @@ void CPanda::UpdateVelocity(DWORD dt)
 {
 	float Xplayer, Yplayer;
 	CGame::GetInstance()->GetCurrentPlayer()->GetPosition(Xplayer, Yplayer);
-	if (abs(Xplayer - x) <= 20)
+
+	if (isGoingToPlayer && !flagOnAir)
 	{
-		srand(time(NULL));
-		int random = rand() % 2;
-		if (random == 0 && vx < 0)
-			vx = PANDA_MOVE_SPEED;
-		else
-			if (random == 1 && vx > 0)
-				vx = -PANDA_MOVE_SPEED;
-	}
-	else
 		if (Xplayer > x)
 			vx = PANDA_MOVE_SPEED;
 		else
-			if (Xplayer < x)
-				vx = -PANDA_MOVE_SPEED;
+		if (Xplayer < x)
+			vx = -PANDA_MOVE_SPEED;
+	}
 
 	vy += PANDA_GRAVITY;
 	vy = min(vy, PANDA_MAX_FALL_SPEED);
@@ -68,6 +60,21 @@ void CPanda::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 		}
 		}
 	}
+}
+
+void CPanda::checkDeoverlapPlayer()
+{
+	float boundPlayerLeft, boundPlayerTop, boundPlayerRight, boundPlayerBottom;
+	float boundPandaLeft, boundPandaTop, boundPandaRight, boundPandaBottom;
+	CGame::GetInstance()->GetCurrentPlayer()->GetBoundingBox(boundPlayerLeft, boundPlayerTop, boundPandaRight, boundPandaBottom);
+	this->GetBoundingBox(boundPandaLeft,boundPandaTop,boundPandaRight,boundPandaBottom);
+
+	//if (!(boundPandaRight < boundPlayerLeft || boundPlayerRight < boundPandaLeft))
+	//{
+	//	int direct = rand() % 2;
+	//	float 
+	//}
+
 }
 
 void CPanda::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)

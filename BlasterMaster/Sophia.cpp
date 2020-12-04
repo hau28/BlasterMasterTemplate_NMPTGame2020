@@ -236,7 +236,7 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
     {
         vy = -SOPHIA_JUMP_FORCE;
     }
-    if (keyCode == DIK_RSHIFT)
+    if (!flagOnAir &&  keyCode == DIK_RSHIFT)
     {
         CJasonJumpOutEvent* jasonJumpOutEvent = new CJasonJumpOutEvent(x, y, currentSectionId);
         CGame::AddGameEvent(jasonJumpOutEvent);

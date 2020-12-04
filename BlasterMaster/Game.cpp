@@ -1,8 +1,13 @@
 #include "Game.h"
 #include "PlayScene.h"
+#include "IntroScene.h"
 #include "Utils.h"
 #include <math.h> 
 #include "JasonJumpOutEvent.h"
+
+#define ID_SCENE_INTRO 1
+#define ID_SCENE_PLAY 2
+#define ID_SCENE_END 3
 
 CGame * CGame::__instance = nullptr;
 
@@ -332,7 +337,14 @@ void CGame::_ParseSection_SCENES(string line)
 	int id = atoi(tokens[0].c_str());
 	LPCWSTR path = ToLPCWSTR(tokens[1]);
 
-	LPSCENE scene = new CPlayScene(id, path);
+	LPSCENE scene = NULL;
+
+	if (id == ID_SCENE_PLAY)
+		scene = new CPlayScene(id, path);
+
+	if (id == ID_SCENE_INTRO)
+		scene = new CIntroScene(id, path);
+
 	scenes[id] = scene;
 }
 

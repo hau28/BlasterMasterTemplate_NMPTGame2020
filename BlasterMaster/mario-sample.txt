@@ -2,4 +2,5 @@
 start	1
 #scene list
 [SCENES]
-1	SideviewScene.txt
+1	IntroScene.txt
+2	SideviewScene.txt

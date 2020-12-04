@@ -78,6 +78,9 @@
     <ClCompile Include="Panda.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="IntroScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -155,6 +158,9 @@
     <ClInclude Include="JasonJumpOutEvent.h" />
     <ClInclude Include="Panda.h">
       <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroScene.h">
+      <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
