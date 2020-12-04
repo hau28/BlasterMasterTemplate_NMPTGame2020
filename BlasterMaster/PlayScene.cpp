@@ -454,6 +454,10 @@ void CPlayScene::Update(DWORD dt)
 	
 	//CGame::GetInstance()->SetState(CGame::GetInstance()->GetState());
 
+	//float sophiaX, sophiaY;
+	//CSophia::GetInstance()->GetPosition(sophiaX, sophiaY);
+	//DebugOut(L"\n Sophia x = %f, y = %f",sophiaX,sophiaY);
+
 	bool isNarrowSection = false;
 	if (Sections[CurrentSectionId]->getBgHeight() <= 400)
 		isNarrowSection = true;

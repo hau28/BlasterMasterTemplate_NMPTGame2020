@@ -3,6 +3,7 @@
 #include "CollisionSolver.h"
 #include "GameObjectBehaviour.h"
 #include "Sophia.h"
+#include "PlayScene.h"
 
 #include <algorithm>
 #include <assert.h>
@@ -33,8 +34,8 @@ void CJasonSideview::init_camBox()
 
     camBoxLeft = centerPointX - 16*2;
     camBoxRight  = camBoxLeft + 16* 4;
-    camBoxBottom = centerPointY + 16 * 2;
-    camBoxTop = camBoxBottom - 16 * 4;
+    camBoxBottom = centerPointY + 16*2;
+    camBoxTop = camBoxBottom - 16 * 6;
     
     vx *= 3;
     vy = 0;
@@ -334,23 +335,11 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
     }
     if (y + 16 >= camBoxBottom) {
         camBoxBottom = y + 16;
-        camBoxTop = camBoxBottom - 16 * 4;
+        camBoxTop = camBoxBottom - 16 * 6;
     }
     if (y<= camBoxTop) {
         camBoxTop = y;
-        camBoxBottom = camBoxTop + 16 * 4;
-    }
-    
-    //Push vx when jason switch section --- Sanh
-    if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT_JASON)
-    {
-        vx = -JASONSIDEVIEW_VX / 3;
-        vy = 0;
-    }
-    if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT_JASON)
-    {
-        vx = JASONSIDEVIEW_VX / 3;
-        vy = 0;
+        camBoxBottom = camBoxTop + 16 * 6;
     }
 
     if (flagOnAir && Jason_turnRight)
@@ -365,6 +354,20 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
             SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
         else
             SetState(JASONSIDEVIEW_STATE_IDLE_LEFT);
+    }
+
+    //Push vx when jason switch section --- Sanh
+    if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT_JASON)
+    {
+        vx = -JASONSIDEVIEW_VX / 3;
+        vy = 0;
+        SetState(JASONSIDEVIEW_STATE_WALK_LEFT);
+    }
+    if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT_JASON)
+    {
+        vx = JASONSIDEVIEW_VX / 3;
+        vy = 0;
+        SetState(JASONSIDEVIEW_STATE_WALK_RIGHT);
     }
 
     UpdatePosition(dt);

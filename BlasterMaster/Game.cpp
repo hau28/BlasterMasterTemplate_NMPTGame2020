@@ -255,6 +255,8 @@ void CGame::SetState(GameState newState)
 
 			if (section != nullptr)
 				section->Objects.push_back(CJasonSideview::GetInstance());
+
+			CSophia::GetInstance()->roundPosition();
 		}
 	}
 

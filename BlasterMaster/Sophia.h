@@ -2,6 +2,7 @@
 #include "AnimatableObject.h"
 #include <queue>
 #include "WalkInPortalEvent.h"
+#include <math.h>
 
 // 8 23 31 39
 
@@ -58,7 +59,7 @@ public:
     virtual void Render(float offsetX, float offsetY);
 
     float camBoxLeft, camBoxRight,camBoxTop,camBoxBottom;
-
+    void roundPosition() { x = round(x); y = round(y); }
     void init_camBox();
     static CSophia *GetInstance();
     static CSophia *InitInstance(int classId, int x, int y, int sectionId);
