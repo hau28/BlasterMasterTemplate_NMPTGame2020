@@ -208,7 +208,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	if (obj == nullptr)
 		DebugOut(L"[ERROR] Cannot create object with object Id: %d\n", obj_ID);
 	else
-	Sections[sectionId]->Objects.push_back(obj);
+	{
+		obj->objectId = obj_ID;
+		Sections[sectionId]->Objects.push_back(obj);
+	}
 }
 
 void CPlayScene::Load()
