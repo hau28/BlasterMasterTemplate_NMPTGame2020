@@ -53,9 +53,6 @@
     <ClCompile Include="Sophia.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="Worm.cpp">
-      <Filter>GameObjects</Filter>
-    </ClCompile>
     <ClCompile Include="CollisionSolver.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
@@ -78,6 +75,9 @@
     <ClCompile Include="SophiaAnimationSystem.cpp" />
     <ClCompile Include="JasonSideview.cpp" />
     <ClCompile Include="JasonJumpOutEvent.cpp" />
+    <ClCompile Include="Panda.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -131,9 +131,6 @@
     <ClInclude Include="Sophia.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="Worm.h">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="CollisionSolver.h">
       <Filter>Utilities</Filter>
     </ClInclude>
@@ -156,6 +153,9 @@
     <ClInclude Include="SophiaAnimationSystem.h" />
     <ClInclude Include="JasonSideview.h" />
     <ClInclude Include="JasonJumpOutEvent.h" />
+    <ClInclude Include="Panda.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="AnimationCore">

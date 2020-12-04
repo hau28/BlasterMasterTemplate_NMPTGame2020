@@ -20,9 +20,9 @@ LPGAMEOBJECT CGameObjectFactory::Create(int classId, map<string, string> propert
 		GetAnimatableObjectProps(properties, x, y, animsId, sectionId);
 		result = new CFloater(classId, x, y, animsId);
 		break;
-	case CLASS_WORM:
+	case CLASS_PANDA:
 		GetAnimatableObjectProps(properties, x, y, animsId, sectionId);
-		result = new CWorm(classId, x, y, animsId);
+		result = new CPanda(classId, x, y, animsId);
 		break;
 	case CLASS_SOPHIA:
 		GetAnimatableObjectProps(properties, x, y, animsId, sectionId);

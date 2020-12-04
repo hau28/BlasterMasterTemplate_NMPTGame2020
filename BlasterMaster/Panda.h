@@ -3,16 +3,16 @@
 
 // bound 8 12 23 18
 
-const int WORM_BOUNDBOX_WIDTH = 15;
-const int WORM_BOUNDBOX_HEIGHT = 6;
-const int WORM_BOUNDBOX_OFFSETX = 8;
-const int WORM_BOUNDBOX_OFFSETY = 12;
+const int PANDA_BOUNDBOX_WIDTH = 15;
+const int PANDA_BOUNDBOX_HEIGHT = 6;
+const int PANDA_BOUNDBOX_OFFSETX = 8;
+const int PANDA_BOUNDBOX_OFFSETY = 12;
 
-const float WORM_GRAVITY = 0.001f;
-const float WORM_MAX_FALL_SPEED = 0.01f;
-const float WORM_MOVE_SPEED = 0.01f;
+const float PANDA_GRAVITY = 0.001f;
+const float PANDA_MAX_FALL_SPEED = 0.01f;
+const float PANDA_MOVE_SPEED = 0.01f;
 
-class CWorm :
+class CPanda :
     public CEnemy
 {
 private:
@@ -20,8 +20,8 @@ private:
     bool flagOnAir = true;
 
 public:
-    CWorm() {};
-    CWorm(int classId, int x, int y, int animsId);
+    CPanda() {};
+    CPanda(int classId, int x, int y, int animsId);
     
     virtual void UpdateVelocity(DWORD dt);
     virtual void HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent);
@@ -30,4 +30,4 @@ public:
     virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs);
 };
 
-typedef CWorm* LPWORM;
+typedef CPanda* LPPANDA;

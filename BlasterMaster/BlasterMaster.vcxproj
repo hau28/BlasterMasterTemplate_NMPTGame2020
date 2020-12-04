@@ -166,7 +166,7 @@
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="WalkInPortalEvent.cpp" />
-    <ClCompile Include="Worm.cpp" />
+    <ClCompile Include="Panda.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimatableObject.h" />
@@ -196,7 +196,7 @@
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Textures.h" />
     <ClInclude Include="WalkInPortalEvent.h" />
-    <ClInclude Include="Worm.h" />
+    <ClInclude Include="Panda.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
