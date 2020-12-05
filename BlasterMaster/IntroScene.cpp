@@ -2,6 +2,7 @@
 #include "Textures.h"
 #include "Sprites.h"
 #include "Animations.h"
+#include "Utils.h"
 
 #define SCENE_SECTION_UNKNOWN -1
 #define SCENE_SECTION_TEXTURES 2
@@ -13,9 +14,34 @@
 
 #define ID_STATE_TITLE 2300
 #define ID_STATE_FILMINTRO 2301
+#define ID_STATE_SOPHIADOWNGROUND 2302
 
 CIntroScene::CIntroScene(int id, LPCWSTR filePath, int startupSectionId) : CScene(id, filePath)
 {
+	CGame::GetInstance()->SetCamPos(0, 0);
+	this->state = ID_STATE_TITLE;
+}
+void CIntroScene::HandleKeyEnter()
+{
+	auto keyEvents = NewKeyEvents();
+	for (auto e : keyEvents)
+	{
+		int keyCode = e->GetKeyCode();
+		if (keyCode == DIK_X && e->IsDown())
+		{
+			DebugOut(L"22");
+			switch (state)
+			{
+			case ID_STATE_TITLE:
+				setState(ID_STATE_SOPHIADOWNGROUND);
+				break;
+			case ID_STATE_FILMINTRO:
+				setState(ID_STATE_TITLE);
+			default:
+				break;
+			}
+		}
+	}
 }
 
 void CIntroScene::Load()
@@ -61,12 +87,54 @@ void CIntroScene::Load()
 }
 void CIntroScene::Update(DWORD dt)
 {
-	CGame::GetInstance()->SetCamPos(0, 0);
-	animationHandlers[ID_STATE_FILMINTRO]->Update();
+	HandleKeyEnter();
+	switch (state)
+	{
+	case (ID_STATE_TITLE):
+		if (animationHandlers[state]->currentFrameIndex == animationHandlers[state]->animation->GetNumberOfFrames()-1)
+			isTitleFinished = true;
+		isIntroFinished = isFilmFinished = false;
+		break;
+	case (ID_STATE_FILMINTRO):
+		if (animationHandlers[state]->currentFrameIndex == animationHandlers[state]->animation->GetNumberOfFrames()-1)
+			isFilmFinished = true;
+		isIntroFinished = isTitleFinished = false;
+		break;
+	case (ID_STATE_SOPHIADOWNGROUND):
+		if (animationHandlers[state]->currentFrameIndex == animationHandlers[state]->animation->GetNumberOfFrames()-1)
+			isIntroFinished = true;
+		isTitleFinished = isFilmFinished = false;
+		break;
+	default:
+		break;
+	}
+
+	animationHandlers[state]->Update();
+
+	switch (state)
+	{
+	case (ID_STATE_TITLE):
+		if (isTitleFinished && animationHandlers[state]->currentFrameIndex == animationHandlers[state]->startLoopIndex)
+			setState(ID_STATE_FILMINTRO);
+		isIntroFinished = isTitleFinished = isFilmFinished = false;
+		break;
+	case (ID_STATE_FILMINTRO):
+		if (isFilmFinished && animationHandlers[state]->currentFrameIndex == animationHandlers[state]->startLoopIndex)
+			setState(ID_STATE_TITLE);
+		isIntroFinished = isTitleFinished = isFilmFinished = false;
+		break;
+	case (ID_STATE_SOPHIADOWNGROUND):
+		if (isIntroFinished && animationHandlers[state]->currentFrameIndex == animationHandlers[state]->animation->GetNumberOfFrames())
+			//SWITCH PLAY SCENE
+			isIntroFinished = isTitleFinished = isFilmFinished = false;
+		break;
+	default:
+		break;
+	}
 }
 void CIntroScene::Render()
 {
-	animationHandlers[ID_STATE_FILMINTRO]->Render(0, 0);
+	animationHandlers[state]->Render(0, 0);
 }
 void CIntroScene::Unload()
 {
