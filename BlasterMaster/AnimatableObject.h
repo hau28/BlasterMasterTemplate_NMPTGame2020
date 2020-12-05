@@ -20,11 +20,15 @@ public:
 	/// <param name="dt"></param>
 	virtual void UpdateVelocity(DWORD dt) = 0;
 
+	virtual void HandleOverlap(LPGAMEOBJECT overlappedObj) = 0;
+	virtual void CheckOverlaps(vector<LPGAMEOBJECT>* coObjs, vector<LPGAMEOBJECT>& overlappedObjs);
+	virtual void HandleOverlaps(vector<LPGAMEOBJECT>* overlappedObjs);
+
 	/// <summary>
 	/// set the position to move the enemy a bit so that it won't hit the blockable walls
 	/// </summary>
 	/// <param name="coObjs"></param>
-	virtual void Deoverlap(vector<LPGAMEOBJECT>* coObjs);
+	virtual void DeoverlapWithBlockableTiles(vector<LPGAMEOBJECT>* coObjs);
 
 	/// <summary>
 	/// check and filter out all the collision events that happen in the current frame

@@ -58,6 +58,11 @@ void CShip::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 	}
 }
 
+void CShip::HandleOverlap(LPGAMEOBJECT overlappedObj)
+{
+	// Chibi cute
+}
+
 void CShip::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x + SHIP_BOUNDBOX_OFFSETX;

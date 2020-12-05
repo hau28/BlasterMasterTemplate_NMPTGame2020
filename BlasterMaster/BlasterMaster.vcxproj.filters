@@ -71,14 +71,24 @@
     <ClCompile Include="PortalLib.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="WalkInPortalEvent.cpp" />
-    <ClCompile Include="SophiaAnimationSystem.cpp" />
-    <ClCompile Include="JasonSideview.cpp" />
-    <ClCompile Include="JasonJumpOutEvent.cpp" />
     <ClCompile Include="Panda.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="Ship.cpp" />
+    <ClCompile Include="JasonJumpOutEvent.cpp">
+      <Filter>GameEvents</Filter>
+    </ClCompile>
+    <ClCompile Include="WalkInPortalEvent.cpp">
+      <Filter>GameEvents</Filter>
+    </ClCompile>
+    <ClCompile Include="JasonSideview.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Ship.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="SophiaAnimationSystem.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -150,14 +160,24 @@
     <ClInclude Include="PortalLib.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="WalkInPortalEvent.h" />
-    <ClInclude Include="SophiaAnimationSystem.h" />
-    <ClInclude Include="JasonSideview.h" />
-    <ClInclude Include="JasonJumpOutEvent.h" />
     <ClInclude Include="Panda.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="Ship.h" />
+    <ClInclude Include="JasonJumpOutEvent.h">
+      <Filter>GameEvents</Filter>
+    </ClInclude>
+    <ClInclude Include="WalkInPortalEvent.h">
+      <Filter>GameEvents</Filter>
+    </ClInclude>
+    <ClInclude Include="JasonSideview.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Ship.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="SophiaAnimationSystem.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="AnimationCore">
@@ -174,6 +194,9 @@
     </Filter>
     <Filter Include="Scenes">
       <UniqueIdentifier>{3e4fe505-fff7-463f-b1af-e0e83220d906}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEvents">
+      <UniqueIdentifier>{10854e85-0fc8-4edd-9870-195b739c9937}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
