@@ -5,10 +5,7 @@ LPGAMEOBJECT CGameObjectFactory::Create(int classId, map<string, string> propert
 	LPGAMEOBJECT result = nullptr;
 	sectionId = -1;
 
-	// CuteTN Todo...
-	// not yet have any game object, so leave this here until we can finally add it...
-	
-	int x, y, width, height, animsId, portalId;
+	int x, y, width, height, animsId, portalId, initLeft, rotation;
 
 	switch (classId)
 	{
@@ -16,26 +13,38 @@ LPGAMEOBJECT CGameObjectFactory::Create(int classId, map<string, string> propert
 		GetAnimatableObjectProps(properties, x, y, animsId, sectionId);
 		result = new CDome(classId, x, y, animsId);
 		break;
+
 	case CLASS_FLOATER1:
 		GetAnimatableObjectProps(properties, x, y, animsId, sectionId);
 		result = new CFloater(classId, x, y, animsId);
 		break;
+
 	case CLASS_PANDA:
 		GetAnimatableObjectProps(properties, x, y, animsId, sectionId);
 		result = new CPanda(classId, x, y, animsId);
 		break;
+
+	case CLASS_SHIP:
+		GetAnimatableObjectProps(properties, x, y, animsId, sectionId);
+		initLeft = atoi(properties["InitLeft"].c_str());
+		result = new CShip(classId, x, y, initLeft, animsId);
+		break;
+
 	case CLASS_SOPHIA:
 		GetAnimatableObjectProps(properties, x, y, animsId, sectionId);
 		result = CSophia::InitInstance(classId, x, y, sectionId);
 		break;
+
 	case CLASS_TILE_BLOCKABLE:
 		GetTileAreaObjectProps(properties, x, y, width, height, sectionId);
 		result = new CTileArea(classId, x, y, width, height, sectionId);
 		break;
+
 	case CLASS_TILE_PORTAL:
 		GetPortalProps(properties, x, y, width, height, sectionId, portalId);
 		result = new CPortal(classId, x, y, width, height, sectionId, portalId);
 		break;
+
 	default:
 		return nullptr;
 		break;
@@ -68,5 +77,4 @@ void CGameObjectFactory::GetPortalProps(map<string, string> properties, int& x, 
 {
 	GetTileAreaObjectProps(properties, x, y, width, height, sectionId);
 	associatedPortalId = atoi(properties["Portal"].c_str());
-
 }

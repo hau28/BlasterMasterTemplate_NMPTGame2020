@@ -78,6 +78,7 @@
     <ClCompile Include="Panda.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="Ship.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -156,6 +157,7 @@
     <ClInclude Include="Panda.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
+    <ClInclude Include="Ship.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="AnimationCore">
