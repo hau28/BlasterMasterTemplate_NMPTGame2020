@@ -404,7 +404,7 @@ void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
         {
         case CLASS_TILE_BLOCKABLE:
         {
-            CGameObjectBehaviour::GetBlocked(dt, coEvent);
+            CGameObjectBehaviour::BlockObject(dt, coEvent);
 
             if (coEvent->ny < 0)
                 flagOnAir = false;
@@ -418,7 +418,7 @@ void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
             // instead, portal behave just like a blockable tile
             if (flagOnAir)
             {
-                CGameObjectBehaviour::GetBlocked(dt, coEvent);
+                CGameObjectBehaviour::BlockObject(dt, coEvent);
                 break;
             }
 
