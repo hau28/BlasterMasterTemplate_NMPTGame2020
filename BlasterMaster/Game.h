@@ -17,8 +17,6 @@
 
 #define DIRECTINPUT_VERSION 0x0800
 
-
-
 using namespace std;
 
 #define KEYBOARD_BUFFER_SIZE 1024
@@ -67,6 +65,13 @@ class CGame
 	static vector<LPGAME_EVENT> gameEvents;
 
 public:
+	//Background Color
+	static D3DCOLOR BackgroundColor;
+	static void setBackGroundColor(int R, int G, int B)
+	{
+		BackgroundColor = D3DCOLOR_XRGB(R, G, B);
+	}
+
 	void InitKeyboard();
 	// void SetKeyHandler(LPKEYEVENTHANDLER handler) { keyHandler = handler; }
 	void Init(HWND hWnd);

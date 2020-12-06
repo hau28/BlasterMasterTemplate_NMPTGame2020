@@ -1,6 +1,7 @@
 [SETTINGS]
-start	1
+start	3
 #scene list
 [SCENES]
 1	IntroScene.txt
 2	SideviewScene.txt
+3	EndingScene.txt

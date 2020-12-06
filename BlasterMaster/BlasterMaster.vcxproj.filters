@@ -74,13 +74,16 @@
     <ClCompile Include="WalkInPortalEvent.cpp" />
     <ClCompile Include="SophiaAnimationSystem.cpp" />
     <ClCompile Include="JasonSideview.cpp" />
-    <ClCompile Include="JasonJumpOutEvent.cpp" />
     <ClCompile Include="Panda.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="IntroScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="EndingScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="JasonJumpOutEvent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -160,6 +163,9 @@
       <Filter>GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="IntroScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="EndingScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>

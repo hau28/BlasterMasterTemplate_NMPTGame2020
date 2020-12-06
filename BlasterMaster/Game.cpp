@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "PlayScene.h"
 #include "IntroScene.h"
+#include "EndingScene.h"
 #include "Utils.h"
 #include <math.h> 
 #include "JasonJumpOutEvent.h"
@@ -12,6 +13,7 @@
 CGame * CGame::__instance = nullptr;
 
 GameState CGame::state = GameState::PLAY_SIDEVIEW_SOPHIA;
+D3DCOLOR CGame::BackgroundColor = D3DCOLOR_XRGB(255, 255, 255);
 
 vector<LPGAME_EVENT> CGame::gameEvents;
 
@@ -344,6 +346,9 @@ void CGame::_ParseSection_SCENES(string line)
 
 	if (id == ID_SCENE_INTRO)
 		scene = new CIntroScene(id, path);
+	
+	if (id == ID_SCENE_END)
+		scene = new CEndingScene(id, path);
 
 	scenes[id] = scene;
 }

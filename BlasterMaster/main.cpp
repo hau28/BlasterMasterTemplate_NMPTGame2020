@@ -10,7 +10,7 @@
 #define WINDOW_CLASS_NAME L"SampleWindow"
 #define MAIN_WINDOW_TITLE L"BLASTER MASTER - GAME DO STUDIO"
 
-#define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 255, 200)
+#define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 255, 255)
 #define SCREEN_WIDTH 271
 #define SCREEN_HEIGHT 260
 #define MAX_FRAME_RATE 120
@@ -54,7 +54,7 @@ void Render()
 	if (d3ddv->BeginScene())
 	{
 		// Clear back buffer with a color
-		d3ddv->ColorFill(bb, nullptr, BACKGROUND_COLOR);
+		d3ddv->ColorFill(bb, nullptr, CGame::GetInstance()->BackgroundColor);
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 

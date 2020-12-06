@@ -1,4 +1,4 @@
-#include "IntroScene.h"
+#include "EndingScene.h"
 #include "Textures.h"
 #include "Sprites.h"
 #include "Animations.h"
@@ -11,17 +11,47 @@
 #define SCENE_SECTION_STATE_ANIMATION	5
 #define SCENE_OBJECT_ANIMATION	6
 #define MAX_SCENE_LINE 1024
+#define WIDTH_FROG 511
 
-#define ID_STATE_TITLE 2300
-#define ID_STATE_FILMINTRO 2301
-#define ID_STATE_SOPHIADOWNGROUND 2302
+#define ID_STATE_FROG 3301
+#define ID_STATE_MOUNTAIN 3302
+#define ID_STATE_CREDIT 3303
 
-CIntroScene::CIntroScene(int id, LPCWSTR filePath, int startupSectionId) : CScene(id, filePath)
+#define ID_ENDING_SCENE 3401
+#define ID_MOUNTAIN 3402
+
+CEndingScene::CEndingScene(int id, LPCWSTR filePath, int startupSectionId) : CScene(id, filePath)
 {
 	CGame::GetInstance()->SetCamPos(0, 0);
-	this->state = ID_STATE_TITLE;
+	setState(StateEnding::PEACE);
 }
-void CIntroScene::HandleKeyEnter()
+
+void CEndingScene::setState(StateEnding state)
+{
+	this->state = state;
+	switch (state)
+	{
+	case StateEnding::PEACE:
+		ID_STATE = ID_STATE_FROG;
+		break;
+	case StateEnding::EARTHQUAKE:
+		ID_STATE = ID_STATE_FROG;
+		MountainX = 122;
+		MountainY = 112;
+		break;
+	case StateEnding::FILM:
+		ID_STATE = ID_STATE_FROG;
+		break;
+	case StateEnding::CREDIT:
+		ID_STATE = ID_STATE_FROG;
+		break;
+	default:
+		ID_STATE = ID_STATE_FROG;
+		break;
+	}
+}
+
+void CEndingScene::HandleKeyEnter()
 {
 	auto keyEvents = NewKeyEvents();
 	for (auto e : keyEvents)
@@ -31,11 +61,15 @@ void CIntroScene::HandleKeyEnter()
 		{
 			switch (state)
 			{
-			case ID_STATE_TITLE:
-				setState(ID_STATE_SOPHIADOWNGROUND);
+			case StateEnding::PEACE:
+				setState(StateEnding::EARTHQUAKE);
 				break;
-			case ID_STATE_FILMINTRO:
-				setState(ID_STATE_TITLE);
+			case StateEnding::EARTHQUAKE:
+				setState(StateEnding::FILM);
+				break;
+			case StateEnding::FILM:
+				setState(StateEnding::CREDIT);
+				break;
 			default:
 				break;
 			}
@@ -43,7 +77,7 @@ void CIntroScene::HandleKeyEnter()
 	}
 }
 
-void CIntroScene::Load()
+void CEndingScene::Load()
 {
 	DebugOut(L"[INFO] Start loading INTRO SCENE resources from : %s \n", sceneFilePath);
 
@@ -81,66 +115,83 @@ void CIntroScene::Load()
 
 	DebugOut(L"[INFO] Done loading INTRO scene resources %s\n", sceneFilePath);
 
-	LPOBJECT_ANIMATIONS objAnims = CObjectAnimationsLib::GetInstance()->Get(2400);
-	animationHandlers = objAnims->GenerateAnimationHanlders();
+	LPOBJECT_ANIMATIONS objAnims = CObjectAnimationsLib::GetInstance()->Get(ID_ENDING_SCENE);
+	Film = objAnims->GenerateAnimationHanlders();
+
+	objAnims = CObjectAnimationsLib::GetInstance()->Get(ID_MOUNTAIN);
+	Mountain = objAnims->GenerateAnimationHanlders();
 }
-void CIntroScene::Update(DWORD dt)
+void CEndingScene::Update(DWORD dt)
 {
 	HandleKeyEnter();
-	switch (state)
+	
+	//earthquake
+	if (state == StateEnding::PEACE)
 	{
-	case (ID_STATE_TITLE):
-		if (animationHandlers[state]->currentFrameIndex == animationHandlers[state]->animation->GetNumberOfFrames()-1)
-			isTitleFinished = true;
-		isIntroFinished = isFilmFinished = false;
-		break;
-	case (ID_STATE_FILMINTRO):
-		if (animationHandlers[state]->currentFrameIndex == animationHandlers[state]->animation->GetNumberOfFrames()-1)
-			isFilmFinished = true;
-		isIntroFinished = isTitleFinished = false;
-		break;
-	case (ID_STATE_SOPHIADOWNGROUND):
-		if (animationHandlers[state]->currentFrameIndex == animationHandlers[state]->animation->GetNumberOfFrames()-1)
-			isIntroFinished = true;
-		isTitleFinished = isFilmFinished = false;
-		break;
-	default:
-		break;
+		MountainX = 122;
+		MountainY = 112;
+
+		if (Mountain[ID_STATE_MOUNTAIN]->currentFrameIndex == 1)
+			setState(StateEnding::EARTHQUAKE);
+		Mountain[ID_STATE_MOUNTAIN]->Update();
 	}
 
-	animationHandlers[state]->Update();
-
-	switch (state)
+	if (state == StateEnding::EARTHQUAKE)
 	{
-	case (ID_STATE_TITLE):
-		if (isTitleFinished && animationHandlers[state]->currentFrameIndex == animationHandlers[state]->startLoopIndex)
-			setState(ID_STATE_FILMINTRO);
-		isIntroFinished = isTitleFinished = isFilmFinished = false;
-		break;
-	case (ID_STATE_FILMINTRO):
-		if (isFilmFinished && animationHandlers[state]->currentFrameIndex == animationHandlers[state]->startLoopIndex)
-			setState(ID_STATE_TITLE);
-		isIntroFinished = isTitleFinished = isFilmFinished = false;
-		break;
-	case (ID_STATE_SOPHIADOWNGROUND):
-		if (isIntroFinished && animationHandlers[state]->currentFrameIndex == animationHandlers[state]->animation->GetNumberOfFrames())
-			//SWITCH PLAY SCENE
-			isIntroFinished = isTitleFinished = isFilmFinished = false;
-		break;
-	default:
-		break;
+		float cx, cy;
+		CGame::GetInstance()->GetCamPos(cx, cy);
+		
+		if (Film[ID_STATE]->currentFrameIndex != flag_EarthQuake)
+		{
+			flag_EarthQuake = Film[ID_STATE]->currentFrameIndex;
+			if (cy == 0) cy = 2;
+			else cy = 0;
+		}
+
+		CGame::GetInstance()->SetCamPos(cx, cy);
 	}
-}
-void CIntroScene::Render()
-{
-	animationHandlers[state]->Render(0, 0);
-}
-void CIntroScene::Unload()
-{
 
+	if (state == StateEnding::FILM)
+	{
+		float cx, cy;
+		CGame::GetInstance()->GetCamPos(cx,cy);
+		if (cx + 1 + CGame::GetInstance()->GetScreenWidth() >= WIDTH_FROG)
+			cx = WIDTH_FROG - CGame::GetInstance()->GetScreenWidth();
+		else cx += 1;
+		CGame::GetInstance()->SetCamPos(cx, cy);
+	}
+
+	if (state == StateEnding::CREDIT)
+	{
+
+	}
+
+	Film[ID_STATE]->Update();
+}
+void CEndingScene::Render()
+{
+	if (state == StateEnding::EARTHQUAKE)
+	{
+		Mountain[ID_STATE_MOUNTAIN]->Render(MountainX, MountainY);
+		MountainY += 0.25;
+		if (MountainY >= 150)
+		{
+			setState(StateEnding::FILM);
+			float cx, cy;
+			CGame::GetInstance()->GetCamPos(cx, cy);
+			CGame::GetInstance()->SetCamPos(0, cy);
+		}
+	}
+	if (state == StateEnding::PEACE)
+		Mountain[ID_STATE_MOUNTAIN]->Render(MountainX, MountainY);
+
+	Film[ID_STATE]->Render(0, 0);
+}
+void CEndingScene::Unload()
+{
 }
 
-void CIntroScene::_ParseSection_TEXTURES(string line)
+void CEndingScene::_ParseSection_TEXTURES(string line)
 {
 	vector<string> tokens = split(line);
 
@@ -158,7 +209,7 @@ void CIntroScene::_ParseSection_TEXTURES(string line)
 
 	CTextures::GetInstance()->Add(texID, path.c_str(), D3DCOLOR_XRGB(R, G, B));
 }
-void CIntroScene::_ParseSection_SPRITES(string line)
+void CEndingScene::_ParseSection_SPRITES(string line)
 {
 	vector<string> tokens = split(line);
 
@@ -180,7 +231,7 @@ void CIntroScene::_ParseSection_SPRITES(string line)
 
 	CSpriteLib::GetInstance()->Add(ID, l, t, r, b, tex);
 }
-void CIntroScene::_ParseSection_ANIMATIONS(string line)
+void CEndingScene::_ParseSection_ANIMATIONS(string line)
 {
 	vector<string> tokens = split(line);
 
@@ -202,7 +253,7 @@ void CIntroScene::_ParseSection_ANIMATIONS(string line)
 
 	CAnimationLib::GetInstance()->Add(ani_id, ani);
 }
-void CIntroScene::_ParseSection_STATE_ANIMATION(string line)
+void CEndingScene::_ParseSection_STATE_ANIMATION(string line)
 {
 	//Sanh
 	vector<string> tokens = split(line);
@@ -221,7 +272,7 @@ void CIntroScene::_ParseSection_STATE_ANIMATION(string line)
 	CAnimationHandlersLib::GetInstance()->Add(state_id, ani, flipX, flipY, rotate);
 	DebugOut(L"[INFO] Added StateId %d, animId %d, flipX %d, flipY %d, rotate %d\n", state_id, ani_id, flipX, flipY, rotate);
 }
-void CIntroScene::_ParseSection_OBJECT_ANIMATIONS(string line)
+void CEndingScene::_ParseSection_OBJECT_ANIMATIONS(string line)
 {
 	vector<string> tokens = split(line);
 
@@ -239,3 +290,4 @@ void CIntroScene::_ParseSection_OBJECT_ANIMATIONS(string line)
 	// Add to lib
 	CObjectAnimationsLib::GetInstance()->Add(objectAni_id, objAni);
 }
+
