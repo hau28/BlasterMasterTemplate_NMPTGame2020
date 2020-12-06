@@ -69,8 +69,12 @@ void CGame::Init(HWND hWnd)
 	OutputDebugString(L"[INFO] InitGame done;\n");
 }
 
-void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha, bool flipX, int rotate, float offset_x, float offset_y)
+void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha, bool flipX, int rotate, float offset_x, float offset_y, int modifyR, int modifyG, int modifyB)
 {
+	// cutetn debug
+	if(modifyR != 255)
+		DebugOut(L"\nRGB: %d %d %d", modifyR, modifyG, modifyB);
+
 	int width = round(right - left);
 	int height = round(bottom - top);
 	int scale = 1;
@@ -94,7 +98,7 @@ void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 		&translate
 	);
 	spriteHandler->SetTransform(&matrix);
-	spriteHandler->Draw(texture, &r, NULL, NULL, D3DCOLOR_ARGB(alpha, 255, 255, 255));
+	spriteHandler->Draw(texture, &r, NULL, NULL, D3DCOLOR_ARGB(alpha, modifyR, modifyG, modifyB));
 }
 
 int CGame::IsKeyDown(int KeyCode)
