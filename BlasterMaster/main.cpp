@@ -1,16 +1,3 @@
-/* =============================================================
-	INTRODUCTION TO GAME PROGRAMMING SE102
-	
-	SAMPLE 05 - SCENCE MANAGER
-
-	This sample illustrates how to:
-
-		1/ Implement a scence manager 
-		2/ Load scene from "database", add/edit/remove scene without changing code 
-		3/ Dynamically move between scenes without hardcode logic 
-		
-================================================================ */
-
 #pragma once
 #include <windows.h>
 #include <d3d9.h>
@@ -21,13 +8,13 @@
 #include "Utils.h"
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
-#define MAIN_WINDOW_TITLE L"SAMPLE 05 - SCENCE MANAGER"
+#define MAIN_WINDOW_TITLE L"BLASTER MASTER - GAME DO STUDIO"
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 255, 200)
-#define SCREEN_WIDTH 400
+#define SCREEN_WIDTH 271
 #define SCREEN_HEIGHT 260
-
 #define MAX_FRAME_RATE 120
+#define MAX_TIME_PER_FRAME 20
 
 CGame *game = CGame::GetInstance();
 
@@ -163,6 +150,8 @@ int Run()
 		if (dt >= tickPerFrame)
 		{
 			frameStart = now;
+			if (dt > MAX_TIME_PER_FRAME)
+				dt = MAX_TIME_PER_FRAME;
 
 			/// Input - Update - Render
 			CGame::GetInstance()->ProcessKeyboard();
@@ -186,7 +175,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	game->Load(L"mario-sample.txt");
 
-	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH*2, SCREEN_HEIGHT*2, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
+	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH*2.5, SCREEN_HEIGHT*2.5, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
 
 	Run();
 

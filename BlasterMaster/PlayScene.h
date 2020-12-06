@@ -53,11 +53,17 @@ public:
 
 	//SANH-CAMERA
 	int NextSectionId;
+	LPPORTAL fromPortal;
 	LPPORTAL toPortal;
 	float offset_x_SectionSwitch;
 	float offset_y_SectionSwitch;
 	void set_offset(LPPORTAL fromPortal, LPPORTAL toPortal, string direction);
-
+	//SANH - REFACTOR CODE UPDATE FUNCTION
+	void CreatePosCameraFollowPlayer(float& cx, float& cy);
+	void MoveCameraBeforeSwitchSection(float & cx, float & cy);
+	void PreventCameraOverBoundingBox(float& cx, float& cy);
+	void ResetGameStateAfterSwichtSection();
+	bool isSectionSwitch();
 	//Sanh
 	LPSECTION GetCurrentSection() { return Sections[CurrentSectionId]; }
 	LPGAMEOBJECT GetPlayer() { return player; } 

@@ -9,24 +9,26 @@ class CSection
 private:
 	// int sectionId;					we may not need this
 	int backgroundTextureId;
+	int foregroundTextureId;
 	// LPSCENE scene;					why we need to know its scene anyway?
 	int bgWidth, bgHeight;
 
 public:
 	CSection() {};
-	CSection(int bgTextureId);
+	CSection(int bgTextureId, int fgTextureId);
 
 	int getBgWidth() { return bgWidth; };
 	int getBgHeight() { return bgHeight; };
-	void RenderBackground();
 	void Update(DWORD dt);
-	void Render();
 
 	//SANH-CAMERA
-	void Render(float offset_x, float offset_y);
-	void RenderBackground(float offset_x, float offset_y);
+	void Render(float offset_x = 0, float offset_y = 0);
+	void RenderTexture(int textureId, float offset_x = 0, float offset_y = 0);
 	void deleteSophia();
 	void pushSophia(float x, float y, int sectionID);
+
+	void deleteJasonSideview();
+	void pushJasonSideview(float x, float y, int sectionID);
 
 	vector<CGameObject*> Objects;
 };

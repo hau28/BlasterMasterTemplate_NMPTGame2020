@@ -146,6 +146,7 @@
     <ClCompile Include="GameEvent.cpp" />
     <ClCompile Include="GameObjectBehaviour.cpp" />
     <ClCompile Include="JasonJumpInEvent.cpp" />
+    <ClCompile Include="IntroScene.cpp" />
     <ClCompile Include="JasonJumpOutEvent.cpp" />
     <ClCompile Include="JasonSideview.cpp" />
     <ClCompile Include="Portal.cpp" />
@@ -167,7 +168,7 @@
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="WalkInPortalEvent.cpp" />
-    <ClCompile Include="Worm.cpp" />
+    <ClCompile Include="Panda.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimatableObject.h" />
@@ -177,6 +178,7 @@
     <ClInclude Include="GameEvent.h" />
     <ClInclude Include="GameObjectBehaviour.h" />
     <ClInclude Include="JasonJumpInEvent.h" />
+    <ClInclude Include="IntroScene.h" />
     <ClInclude Include="JasonJumpOutEvent.h" />
     <ClInclude Include="JasonSideview.h" />
     <ClInclude Include="Portal.h" />
@@ -198,7 +200,7 @@
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Textures.h" />
     <ClInclude Include="WalkInPortalEvent.h" />
-    <ClInclude Include="Worm.h" />
+    <ClInclude Include="Panda.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

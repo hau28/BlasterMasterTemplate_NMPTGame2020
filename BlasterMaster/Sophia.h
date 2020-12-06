@@ -2,6 +2,7 @@
 #include "AnimatableObject.h"
 #include <queue>
 #include "WalkInPortalEvent.h"
+#include <math.h>
 
 // 8 23 31 39
 
@@ -55,10 +56,11 @@ public:
     virtual void HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent);
     virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs);
     virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
-    virtual void Render();
+    virtual void Render(float offsetX, float offsetY);
 
     float camBoxLeft, camBoxRight,camBoxTop,camBoxBottom;
-
+    void roundPosition() { x = round(x); y = round(y); }
+    void init_camBox();
     static CSophia *GetInstance();
     static CSophia *InitInstance(int classId, int x, int y, int sectionId);
 };

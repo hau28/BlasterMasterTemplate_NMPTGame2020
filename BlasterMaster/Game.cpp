@@ -1,8 +1,13 @@
 #include "Game.h"
 #include "PlayScene.h"
+#include "IntroScene.h"
 #include "Utils.h"
-
+#include <math.h> 
 #include "JasonJumpOutEvent.h"
+
+#define ID_SCENE_INTRO 1
+#define ID_SCENE_PLAY 2
+#define ID_SCENE_END 3
 
 CGame * CGame::__instance = nullptr;
 
@@ -66,8 +71,8 @@ void CGame::Init(HWND hWnd)
 
 void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha, bool flipX, int rotate, float offset_x, float offset_y)
 {
-	int width = (int)(right - left);
-	int height = (int)(bottom - top);
+	int width = round(right - left);
+	int height = round(bottom - top);
 	int scale = 1;
 	D3DXVECTOR2 center = D3DXVECTOR2((int)(flipX ? (width / 2) * scale - width * scale : (width / 2) * scale), (int)((height / 2) * scale));
 	D3DXVECTOR2 translate = D3DXVECTOR2((int)(flipX ? x + width * scale - cam_x - offset_x : x - cam_x - offset_x), (int)(y - cam_y - offset_y));
@@ -229,8 +234,19 @@ CGameObject* CGame::GetCurrentPlayer()
 
 void CGame::SetState(GameState newState)
 {
+	if (newState == GameState::PLAY_SIDEVIEW_JASON) DebugOut(L"\nSTATE JASON");
+	if (newState == GameState::PLAY_SIDEVIEW_SOPHIA) DebugOut(L"\nSTATE SOPHIA");
+	if (newState == GameState::SECTION_SWITCH_LEFT) DebugOut(L"\nSTATE SOPHIA LEFT");
+	if (newState == GameState::SECTION_SWITCH_RIGHT) DebugOut(L"\nSTATE SOPHIA RIGHT");
+	if (newState == GameState::SECTION_SWITCH_LEFT_JASON) DebugOut(L"\nSTATE JASON LEFT");
+	if (newState == GameState::SECTION_SWITCH_RIGHT_JASON) DebugOut(L"\nSTATE JASON RIGHT");
+
+	if (newState == CGame::state)
+		return;
+
 	// CuteTN to do: prepare for new game state here
-	if (newState == GameState::PLAY_SIDEVIEW_JASON)
+	//SANH-SECTION 
+	if (newState == GameState::PLAY_SIDEVIEW_JASON && CGame::GetInstance()->GetCurrentPlayer()->classId != CLASS_JASONSIDEVIEW )
 	{
 		// add Jason to current section
 		auto scene = dynamic_cast<LPPLAYSCENE>(CGame::GetInstance()->GetCurrentScene());
@@ -242,10 +258,10 @@ void CGame::SetState(GameState newState)
 			// Thy cute
 			LPSECTION section = scene->GetCurrentSection();
 
-			if (section == nullptr)
-				return;
+			if (section != nullptr)
+				section->Objects.push_back(CJasonSideview::GetInstance());
 
-			section->Objects.push_back(CJasonSideview::GetInstance());
+			CSophia::GetInstance()->roundPosition();
 		}
 	}
 
@@ -274,7 +290,6 @@ void CGame::HandleGameEvent(LPGAME_EVENT gameEvent)
 	//SANH-CAMERA: Set new state when event switch section happens 
 	if (gameEvent->eventName == "WalkInPortalEvent")
 	{
-		DebugOut(L"EVENT WALKINTOPORTAL");
 		LPPLAYSCENE scene =  dynamic_cast<LPPLAYSCENE>(CGame::GetInstance()->GetCurrentScene());
 		scene->handleGameEvent(gameEvent);
 	}
@@ -285,6 +300,8 @@ void CGame::HandleGameEvent(LPGAME_EVENT gameEvent)
 
 		CJasonSideview::InitInstance(castedEvent->x, castedEvent->y, castedEvent->sectionId);
 		SetState(GameState::PLAY_SIDEVIEW_JASON);
+		//SANH-CAMERA
+		CJasonSideview::GetInstance()->init_camBox();
 	}
 }
 
@@ -320,7 +337,14 @@ void CGame::_ParseSection_SCENES(string line)
 	int id = atoi(tokens[0].c_str());
 	LPCWSTR path = ToLPCWSTR(tokens[1]);
 
-	LPSCENE scene = new CPlayScene(id, path);
+	LPSCENE scene = NULL;
+
+	if (id == ID_SCENE_PLAY)
+		scene = new CPlayScene(id, path);
+
+	if (id == ID_SCENE_INTRO)
+		scene = new CIntroScene(id, path);
+
 	scenes[id] = scene;
 }
 

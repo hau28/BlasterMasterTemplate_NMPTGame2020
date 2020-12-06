@@ -84,7 +84,7 @@ public:
 	/// <para> Render this game object to user screen </para>
 	/// <para> WARNING 1: this could cover other game objects and causes visual bugs. The order of rendering is important, too </para>
 	/// </summary>
-	virtual void Render() = 0;
+	virtual void Render(float offsetX, float offsetY) = 0;
 
 	~CGameObject();
 };

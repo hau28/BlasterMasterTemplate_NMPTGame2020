@@ -2,6 +2,8 @@
 
 void CCollisionSolver::CalcPotentialCollisions(LPGAMEOBJECT thisObject, vector<CGameObject*>* coObjects, vector<LPCOLLISIONEVENT>& coEvents, DWORD dt)
 {
+	coEvents.clear();
+
 	if (coObjects == nullptr)
 		return;
 

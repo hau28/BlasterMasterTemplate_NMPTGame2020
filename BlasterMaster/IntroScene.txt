@@ -1,0 +1,124 @@
+[TEXTURES]
+#ID	FilePath
+2000	.\textures\OthersScene\TitleWhite.png
+2001	.\textures\OthersScene\TitleBlue.png
+
+2002	.\textures\OthersScene\FilmIntro\FilmIntro1.png
+2003	.\textures\OthersScene\FilmIntro\FilmIntro2.png
+2004	.\textures\OthersScene\FilmIntro\FilmIntro3.png
+2005	.\textures\OthersScene\FilmIntro\FilmIntro4.png
+2006	.\textures\OthersScene\FilmIntro\FilmIntro5.png
+2007	.\textures\OthersScene\FilmIntro\FilmIntro6.png
+2008	.\textures\OthersScene\FilmIntro\FilmIntro7.png
+2009	.\textures\OthersScene\FilmIntro\FilmIntro8.png
+2010	.\textures\OthersScene\FilmIntro\FilmIntro9.png
+2011	.\textures\OthersScene\FilmIntro\FilmIntro10.png
+2012	.\textures\OthersScene\FilmIntro\FilmIntro11.png
+2013	.\textures\OthersScene\FilmIntro\FilmIntro12.png
+2014	.\textures\OthersScene\FilmIntro\FilmIntro13.png
+2015	.\textures\OthersScene\FilmIntro\FilmIntro14.png
+2016	.\textures\OthersScene\FilmIntro\FilmIntro15.png
+2017	.\textures\OthersScene\FilmIntro\FilmIntro16.png
+2018	.\textures\OthersScene\FilmIntro\FilmIntro17.png
+2019	.\textures\OthersScene\FilmIntro\FilmIntro18.png
+2020	.\textures\OthersScene\FilmIntro\FilmIntro19.png
+2021	.\textures\OthersScene\FilmIntro\FilmIntro20.png
+2022	.\textures\OthersScene\FilmIntro\FilmIntro21.png
+2023	.\textures\OthersScene\FilmIntro\FilmIntro22.png
+2024	.\textures\OthersScene\FilmIntro\FilmIntro23.png
+2025	.\textures\OthersScene\FilmIntro\FilmIntro24.png
+2026	.\textures\OthersScene\FilmIntro\FilmIntro25.png
+2027	.\textures\OthersScene\FilmIntro\FilmIntro26.png
+2028	.\textures\OthersScene\FilmIntro\FilmIntro27.png
+2029	.\textures\OthersScene\FilmIntro\FilmIntro28.png
+2030	.\textures\OthersScene\FilmIntro\FilmIntro29.png
+2031	.\textures\OthersScene\FilmIntro\FilmIntro30.png
+2032	.\textures\OthersScene\FilmIntro\FilmIntro31.png
+2033	.\textures\OthersScene\FilmIntro\FilmIntro32.png
+2034	.\textures\OthersScene\FilmIntro\FilmIntro33.png
+2035	.\textures\OthersScene\FilmIntro\FilmIntro34.png
+2036	.\textures\OthersScene\FilmIntro\FilmIntro35.png
+2037	.\textures\OthersScene\FilmIntro\FilmIntro36.png
+2038	.\textures\OthersScene\FilmIntro\FilmIntro37.png
+
+2051 	.\textures\OthersScene\SophiaDownGround\SophiaEnterGround1.png
+2052 	.\textures\OthersScene\SophiaDownGround\SophiaEnterGround2.png
+2053 	.\textures\OthersScene\SophiaDownGround\SophiaEnterGround3.png
+2054 	.\textures\OthersScene\SophiaDownGround\SophiaEnterGround4.png
+2055 	.\textures\OthersScene\SophiaDownGround\SophiaEnterGround5.png
+2056 	.\textures\OthersScene\SophiaDownGround\SophiaEnterGround6.png
+2057 	.\textures\OthersScene\SophiaDownGround\SophiaEnterGround7.png
+2058 	.\textures\OthersScene\SophiaDownGround\SophiaEnterGround8.png
+2059 	.\textures\OthersScene\SophiaDownGround\SophiaEnterGround9.png
+2060 	.\textures\OthersScene\SophiaDownGround\SophiaEnterGround10.png
+2061 	.\textures\OthersScene\AfterDie\Left2.png
+
+[SPRITES]
+#ID	TextureId	left	top	right	bottom
+2100	2000		0	0	256	240
+2101	2001		0	0	256	240
+2102	2002		0	0	272	260
+2103	2003		0	0	272	260
+2104	2004		0	0	272	260
+2105	2005		0	0	272	260
+2106	2006		0	0	272	260
+2107	2007		0	0	272	260
+2108	2008		0	0	272	260
+2109	2009		0	0	272	260
+2110	2010		0	0	272	260
+2111	2011		0	0	272	260
+2112	2012		0	0	272	260
+2113	2013		0	0	272	260
+2114	2014		0	0	272	260
+2115	2015		0	0	272	260
+2116	2016		0	0	272	260
+2117	2017		0	0	272	260
+2118	2018		0	0	272	260
+2119	2019		0	0	272	260
+2120	2020		0	0	272	260
+2121	2021		0	0	272	260
+2122	2022		0	0	272	260
+2123	2023		0	0	272	260
+2124	2024		0	0	272	260
+2125	2025		0	0	272	260
+2126	2026		0	0	272	260
+2127	2027		0	0	272	260
+2128	2028		0	0	272	260
+2129	2029		0	0	272	260
+2130	2030		0	0	272	260
+2131	2031		0	0	272	260
+2132	2032		0	0	272	260
+2133	2033		0	0	272	260
+2134	2034		0	0	272	260
+2135	2035		0	0	272	260
+2136	2036		0	0	272	260
+2137	2037		0	0	272	260
+2138	2038		0	0	272	260
+
+2151	2051		0	0	256	224
+2152	2052		0	0	256	224
+2153	2053		0	0	256	224
+2154	2054		0	0	256	224
+2155	2055		0	0	256	224
+2156	2056		0	0	256	224
+2157	2057		0	0	256	224
+2158	2058		0	0	256	224
+2159	2059		0	0	256	224
+2160	2060		0	0	256	224
+2161	2061		0	0	256	224
+
+[ANIMATIONS]
+#ID	SpriteId1	Duration1	SpriteId2	Duration2	...
+2200	2100 100 2101 100 2100 100 2101	100 2100 100 2101 100 2100 100 2101 100 2100 100 2101 100 2100 100 2101	5000
+2201	2102 50 2103 50 2104 50 2105 4000 2104 50 2103 50 2102 50 2106 50 2107 50 2108 50 2109 4000 2108 50 2107 50 2106 50 2110 50 2111 50 2112 50 2113 4000 2112 50 2111 50 2110 50 2114 50 2115 50 2116 50 2117 1000 2118 1000 2119 1000 2120 50 2121 50 2122 50 2123 50  2124 50 2125 50 2126 4000 2125 50 2124 50 2123 50 2127 50 2128 50 2129 50 2130 4000 2129 50 2128 50 2127 50 2131 50 2132 50 2133 50 2134 4000 2133 50 2132 50 2131 50 2135 50 2136 50 2137 50 2138 4000 2137 50 2136 50 2135 50
+2202	2151 100 2152 100 2151 100 2152 100 2151 100 2152 100 2151 100 2152 100 2153 100 2154 100 2155 100 2155 100 2156 100 2157 100 2158 100 2159 100 2160 100 2161 4000
+
+[STATE_ANIMATIONS]
+#ID	AnimId	FlipX	FlipY	TimesR90
+2300	2200	0	0	0
+2301	2201	0	0	0
+2302	2202	0	0	0
+
+[OBJECT_ANIMATIONS]
+#ID	StateAnimId1	StateAnimId2	...
+2400	2300		2301		2302

@@ -1,10 +1,13 @@
 #include "Section.h"
 #include "TileArea.h"
 #include "Sophia.h"
+#include "CollisionSolver.h"
+#include "JasonSideview.h"
 
-CSection::CSection(int bgTextureId)
+CSection::CSection(int bgTextureId, int fgTextureId)
 {
 	this->backgroundTextureId = bgTextureId;
+	this->foregroundTextureId = fgTextureId;
 
 	LPDIRECT3DTEXTURE9 backgroundTexture = CTextures::GetInstance()->Get(backgroundTextureId);
 
@@ -14,6 +17,25 @@ CSection::CSection(int bgTextureId)
 
 	bgWidth = surfaceDesc.Width;
 	bgHeight = surfaceDesc.Height;
+}
+
+bool checkObjInCamera(LPGAMEOBJECT obj)
+{
+	if (obj->classId == CLASS_SOPHIA || obj->classId == CLASS_JASONSIDEVIEW)
+		return true; // Sanh Fix bug section switch
+
+	//Point A is point left top 
+	//Point B is point right bottom
+	float Ax, Bx, Ay, By;
+	CGame::GetInstance()->GetCamPos(Ax, Ay);
+
+	Bx = Ax + CGame::GetInstance()->GetScreenWidth();
+	By = Ay + CGame::GetInstance()->GetScreenHeight();
+
+	float oL, oR, oT, oB;
+	float tL, tT, tR, tB;
+	obj->GetBoundingBox(oL, oT, oR, oB);
+	return CCollisionSolver::IsOverlapped(Ax, Ay, Bx, By, oL, oT, oR, oB, tL, tT, tR, tB);
 }
 
 void CSection::Update(DWORD dt)
@@ -30,40 +52,28 @@ void CSection::Update(DWORD dt)
 		if (dynamic_cast<LPTILE_AREA>(obj))
 			obj->Update(dt, nullptr);
 		else
+		{
+			if (checkObjInCamera(obj))
 			obj->Update(dt, &Objects);
+		}
 	}
-}
-
-void CSection::Render()
-{
-	// CuteTN Note: the order of rendering would be implemented here :)
-	RenderBackground();
-
-	for (auto obj : Objects)
-	{
-		obj->Render();
-	}
-}
-
-void CSection::RenderBackground()
-{
-	LPDIRECT3DTEXTURE9 backgroundTexture = CTextures::GetInstance()->Get(backgroundTextureId);
-	CGame::GetInstance()->Draw(0, 0, backgroundTexture, 0, 0, bgWidth, bgHeight);
 }
 
 //SANH-CAMERA:
 void CSection::Render(float offset_x, float offset_y)
 {
 	// CuteTN Note: the order of rendering would be implemented here :)
-	RenderBackground(offset_x, offset_y);
+	RenderTexture(backgroundTextureId, offset_x, offset_y);
 
 	for (auto obj : Objects)
-		obj->Render();
+		obj->Render(offset_x, offset_y);
+
+	RenderTexture(foregroundTextureId, offset_x, offset_y);
 }
 
-void CSection::RenderBackground(float offset_x, float offset_y)
+void CSection::RenderTexture(int textureId, float offset_x, float offset_y)
 {
-	LPDIRECT3DTEXTURE9 backgroundTexture = CTextures::GetInstance()->Get(backgroundTextureId);
+	LPDIRECT3DTEXTURE9 backgroundTexture = CTextures::GetInstance()->Get(textureId);
 	CGame::GetInstance()->Draw(offset_x, offset_y, backgroundTexture, 0, 0, bgWidth, bgHeight);
 }
 
@@ -86,4 +96,23 @@ void CSection::pushSophia(float x, float y, int sectionID)
 	CSophia::GetInstance()->SetPosition(x, y);
 	CSophia::GetInstance()->currentSectionId = sectionID;
 	Objects.push_back(CSophia::GetInstance());
+}
+
+void CSection::deleteJasonSideview()
+{
+	int index = -1;
+	for (int i = 0; i < Objects.size(); i++)
+		if (Objects[i]->classId == CLASS_JASONSIDEVIEW)
+		{
+			index = i;
+			break;
+		}
+	Objects.erase(Objects.begin() + index);
+}
+
+void CSection::pushJasonSideview(float x, float y, int sectionID)
+{
+	CJasonSideview::GetInstance()->SetPosition(x, y);
+	CJasonSideview::GetInstance()->currentSectionId = sectionID;
+	Objects.push_back(CJasonSideview::GetInstance());
 }

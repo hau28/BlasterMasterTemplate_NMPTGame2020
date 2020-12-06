@@ -49,6 +49,11 @@ public:
     static CJasonSideview* GetInstance();
     static CJasonSideview* InitInstance(int x, int y, int sectionId);
 
+    //SANH-BOUNDINGBOX JASON
+    float camBoxLeft, camBoxRight, camBoxTop, camBoxBottom;
+
+    void init_camBox();
+
 };
 
 typedef CJasonSideview* LPJASONSIDEVIEW;

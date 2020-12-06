@@ -25,20 +25,44 @@ CSophia::CSophia(int classId, int x, int y)
     portaling = 0;
 };
 
+void CSophia::init_camBox()
+{
+    camBoxLeft = x;
+    camBoxRight = x + 16 * 4;
+    camBoxTop = y + 32 - 16 * 6;
+    camBoxBottom = y + 32 - 1; //Sanh can't explain to you about magic number -1
+}
+
 #pragma region key events handling
 
 void CSophia::HandleKeys(DWORD dt)
 {
-    HandleKeysHold(dt);
-
-    auto keyEvents = NewKeyEvents();
-    for (auto e : keyEvents)
+    //SANH-SWITCH SECTION
+    if (CGame::GetInstance()->GetState() == GameState::PLAY_SIDEVIEW_SOPHIA)
     {
-        int keyCode = e->GetKeyCode();
-        if (e->IsDown())
-            HandleKeyDown(dt, keyCode);
-        else
-            HandleKeyUp(dt, keyCode);
+        HandleKeysHold(dt);
+
+        auto keyEvents = NewKeyEvents();
+        for (auto e : keyEvents)
+        {
+            int keyCode = e->GetKeyCode();
+            if (e->IsDown())
+                HandleKeyDown(dt, keyCode);
+            else
+                HandleKeyUp(dt, keyCode);
+        }
+    }
+    //SANH - Only allow handleKeyUp when sophia switch section
+    if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT ||
+        CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT)
+    {
+        auto keyEvents = NewKeyEvents();
+        for (auto e : keyEvents)
+        {
+            int keyCode = e->GetKeyCode();
+            if (!e->IsDown())
+              HandleKeyUp(dt, keyCode);
+        }
     }
 }
 
@@ -212,7 +236,7 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
     {
         vy = -SOPHIA_JUMP_FORCE;
     }
-    if (keyCode == DIK_RSHIFT)
+    if (!flagOnAir &&  keyCode == DIK_RSHIFT)
     {
         CJasonJumpOutEvent* jasonJumpOutEvent = new CJasonJumpOutEvent(x, y, currentSectionId);
         CGame::AddGameEvent(jasonJumpOutEvent);
@@ -223,10 +247,12 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
 void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
 {
     //SANH-CAMERA
+    //don't allow update when player is jason
+    if (CGame::GetInstance()->GetCurrentPlayer()->classId == CLASS_JASONSIDEVIEW)
+        return;
 
     // dirty demo
-    if (CGame::GetInstance()->GetState() == GameState::PLAY_SIDEVIEW_SOPHIA)
-        HandleKeys(dt);
+    HandleKeys(dt);
 
     portaling = 0;
     if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT)
@@ -244,6 +270,11 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
         Deoverlap(coObjs);
         vector<LPCOLLISIONEVENT>* colEvents = new vector<LPCOLLISIONEVENT>();
         colEvents->clear();
+
+		// CuteTN note: handle collision with walls first to avoid a AABB bug (the bad way)
+        CheckCollision(dt, coObjs, *colEvents);
+        HandleCollisionWithWalls(dt, colEvents);
+
         CheckCollision(dt, coObjs, *colEvents);
         HandleCollisions(dt, colEvents);
 
@@ -262,9 +293,9 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
             camBoxBottom = y + 32;
             camBoxTop = camBoxBottom - 16 * 6;
         }
-        if (y + 16 <= camBoxTop) {
-            camBoxTop = y + 16;
-            camBoxBottom = camBoxTop + 16 * 6;
+        if (y - 16 <= camBoxTop) {
+            camBoxTop = y - 16;
+            camBoxBottom = camBoxTop + 16 * 6;                                                                          
         }
 
         if (!flagOnAir)
@@ -391,6 +422,14 @@ void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
         case CLASS_TILE_PORTAL:
         {
+            // CuteTN Note: if the player is on air, do not invoke walk in portal event
+            // instead, portal behave just like a blockable tile
+            if (flagOnAir)
+            {
+                CGameObjectBehaviour::GetBlocked(dt, coEvent);
+                break;
+            }
+
             LPPORTAL fromPortal = dynamic_cast<LPPORTAL>(obj);
             LPPORTAL toPortal = CPortalLib::GetInstance()->Get(fromPortal->associatedPortalId);
 
@@ -398,7 +437,7 @@ void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
             LPGAME_EVENT newEvent = new CWalkInPortalEvent("WalkInPortalEvent", fromPortal, toPortal);
             CGame::GetInstance()->AddGameEvent(newEvent);
             // to do: create an event to CGame, let CGame handle switching section
-            DebugOut(L"To portal %d of section %d\n", toPortal->associatedPortalId, toPortal->currentSectionId);
+            DebugOut(L"Sophia to portal %d of section %d\n", toPortal->associatedPortalId, toPortal->currentSectionId);
         }
         }
     }
@@ -411,16 +450,16 @@ void CSophia::GetBoundingBox(float &left, float &top, float &right, float &botto
     bottom = top + SOPHIA_BOUNDBOX_HEIGHT;
 }
 
-void CSophia::Render()
+void CSophia::Render(float offsetX, float offsetY)
 {
     LPSPRITE sprite = CSophiaAnimationSystem::GetInstance()->GetSprite(directionState, gunState, bodyState, wheelState);
     if (sprite)
         if (vy > 0 && bodyState == 1 && ground - y >= 16)
         {
-            sprite->Draw(x, y - 3);
+            sprite->Draw(x + offsetX, y - 3 + offsetY);
         }
         else
-            sprite->Draw(x, y);
+            sprite->Draw(x + offsetX, y + offsetY);
 }
 
 CSophia *CSophia::__instance = nullptr;

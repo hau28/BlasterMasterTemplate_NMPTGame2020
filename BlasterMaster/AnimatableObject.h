@@ -35,6 +35,11 @@ public:
 
 	virtual void HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent) = 0;
 
+	/// <para> CuteTN note:  </para>
+	/// this function handle check all the collision with wall object (blockable that was collided horizontally
+	/// why? Checking these collision first to hot fix a collision bug just like in the old Mario template
+	virtual void HandleCollisionWithWalls(DWORD dt, vector<LPCOLLISIONEVENT>* coEvents);
+
 	/// <summary>
 	/// Handle all the collision events
 	/// Only update velocity and acceleration
@@ -51,6 +56,6 @@ public:
 
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs);
 
-	virtual void Render();
+	virtual void Render(float offsetX, float offsetY);
 };
 

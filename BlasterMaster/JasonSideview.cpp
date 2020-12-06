@@ -3,6 +3,7 @@
 #include "CollisionSolver.h"
 #include "GameObjectBehaviour.h"
 #include "Sophia.h"
+#include "PlayScene.h"
 
 #include <algorithm>
 #include <assert.h>
@@ -20,25 +21,58 @@ CJasonSideview::CJasonSideview()
 CJasonSideview::CJasonSideview(int classId, int x, int y, int animsId) : CAnimatableObject::CAnimatableObject(classId, x, y, animsId)
 {
     SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
+    init_camBox();
 };
+
+void CJasonSideview::init_camBox()
+{
+    //Init CamBox Jason must not to lag camera (original position camera)   
+    float cameraX, cameraY;
+    CGame::GetInstance()->GetCamPos(cameraX, cameraY);
+    float centerPointX = cameraX + CGame::GetInstance()->GetScreenWidth() / 2;
+    float centerPointY = cameraY + CGame::GetInstance()->GetScreenHeight() / 2;
+
+    camBoxLeft = centerPointX - 16*2;
+    camBoxRight  = camBoxLeft + 16* 4;
+    camBoxBottom = centerPointY + 16*2;
+    camBoxTop = camBoxBottom - 16 * 6;
+    
+    vx *= 3;
+    vy = 0;
+}
 
 #pragma region key events handling
 
 void CJasonSideview::HandleKeys(DWORD dt)
 {
-	HandleKeysHold(dt);
+    if (CGame::GetInstance()->GetState() == GameState::PLAY_SIDEVIEW_JASON)
+    {
+        HandleKeysHold(dt);
 
-	auto keyEvents = NewKeyEvents();
+        auto keyEvents = NewKeyEvents();
 
-	for (auto e : keyEvents)
-	{
-		int keyCode = e->GetKeyCode();
-		if (e->IsDown())
-			HandleKeyDown(dt, keyCode);
-		else
-			HandleKeyUp(dt, keyCode);
-	}
+        for (auto e : keyEvents)
+        {
+            int keyCode = e->GetKeyCode();
+            if (e->IsDown())
+                HandleKeyDown(dt, keyCode);
+            else
+                HandleKeyUp(dt, keyCode);
+        }
+    }
+    else 
+        if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT_JASON ||
+            CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT_JASON)
+        {
+            auto keyEvents = NewKeyEvents();
 
+            for (auto e : keyEvents)
+            {
+                int keyCode = e->GetKeyCode();
+                if (!e->IsDown())
+                    HandleKeyUp(dt, keyCode);
+            }
+        }
 }
 
 void CJasonSideview::HandleKeysHold(DWORD dt)
@@ -98,6 +132,7 @@ void CJasonSideview::HandleKeyUp(DWORD dt, int keyCode)
         {
             ax = JASONSIDEVIEW_AX;
             flag_jumpwalk = true;
+            flag_keydown = false;
         }
         else 
             vx = 0; 
@@ -116,7 +151,7 @@ void CJasonSideview::HandleKeyUp(DWORD dt, int keyCode)
             };
         }
 
-        if (flag_keydown)
+        if (flag_keydown && !flagOnAir)
         {
             if (keyCode == DIK_RIGHT)
             {
@@ -219,7 +254,7 @@ void CJasonSideview::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
             LPGAME_EVENT newEvent = new CWalkInPortalEvent("WalkInPortalEvent", fromPortal, toPortal);
             CGame::GetInstance()->AddGameEvent(newEvent);
             // to do: create an event to CGame, let CGame handle switching section
-            DebugOut(L"To portal %d of section %d\n", toPortal->associatedPortalId, toPortal->currentSectionId);
+            DebugOut(L"Jason to portal %d of section %d, tick %d\n", toPortal->associatedPortalId, toPortal->currentSectionId, GetTickCount());
         }
         }
     }
@@ -235,6 +270,11 @@ void CJasonSideview::GetBoundingBox(float& left, float& top, float& right, float
 
 void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
+    // CuteTN note: we may need to refactor this function
+
+    if (CGame::GetInstance()->GetCurrentPlayer()->classId == CLASS_SOPHIA)
+        return;
+
     HandleKeys(dt);
 
     // dơ lắm cơ mà fix sau đi :((( 
@@ -267,7 +307,41 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
     vy += JASONSIDEVIEW_GRAVITY * dt;
     flagOnAir = true;
 
-    CAnimatableObject::Update(dt, coObjs);
+    if (CGame::GetInstance()->GetState() != GameState::SECTION_SWITCH_LEFT_JASON &&
+        CGame::GetInstance()->GetState() != GameState::SECTION_SWITCH_RIGHT_JASON)
+    {
+        UpdateVelocity(dt);
+            
+        Deoverlap(coObjs);
+
+        vector<LPCOLLISIONEVENT>* colEvents = new vector<LPCOLLISIONEVENT>();
+        colEvents->clear();
+
+        // CuteTN note: handle collision with walls first to avoid a AABB bug (the bad way)
+        CheckCollision(dt, coObjs, *colEvents);
+        HandleCollisionWithWalls(dt, colEvents);
+
+        CheckCollision(dt, coObjs, *colEvents);
+        HandleCollisions(dt, colEvents);
+    }
+
+    // SANH update cambox camera
+    if (x + 16 >= camBoxRight) {
+        camBoxRight = x + 16;
+        camBoxLeft = camBoxRight - 16 * 4;
+    }
+    else if (x <= camBoxLeft) {
+        camBoxLeft = x;
+        camBoxRight = x + 16 * 4;
+    }
+    if (y + 16 >= camBoxBottom) {
+        camBoxBottom = y + 16;
+        camBoxTop = camBoxBottom - 16 * 6;
+    }
+    if (y<= camBoxTop) {
+        camBoxTop = y;
+        camBoxBottom = camBoxTop + 16 * 6;
+    }
 
     if (flagOnAir && Jason_turnRight)
         SetState(JASONSIDEVIEW_STATE_JUMP_RIGHT);
@@ -284,6 +358,23 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
     }
 
     //if (CCollisionSolver::IsOverlapped(CJasonSideview,))
+
+    //Push vx when jason switch section --- Sanh
+    if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT_JASON)
+    {
+        vx = -JASONSIDEVIEW_VX / 3;
+        vy = 0;
+        SetState(JASONSIDEVIEW_STATE_WALK_LEFT);
+    }
+    if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT_JASON)
+    {
+        vx = JASONSIDEVIEW_VX / 3;
+        vy = 0;
+        SetState(JASONSIDEVIEW_STATE_WALK_RIGHT);
+    }
+
+    UpdatePosition(dt);
+
 }
 
 CJasonSideview* CJasonSideview::GetInstance()
@@ -302,7 +393,7 @@ CJasonSideview* CJasonSideview::InitInstance(int x, int y, int sectionId)
     __instance->SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
     __instance->SetPosition(x, y);
     __instance->currentSectionId = sectionId;
-
+ 
     return __instance;
 }
 
