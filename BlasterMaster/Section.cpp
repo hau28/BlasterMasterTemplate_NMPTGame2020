@@ -66,7 +66,9 @@ void CSection::Render(float offset_x, float offset_y)
 	RenderTexture(backgroundTextureId, offset_x, offset_y);
 
 	for (auto obj : Objects)
+	{
 		obj->Render(offset_x, offset_y);
+	}
 
 	RenderTexture(foregroundTextureId, offset_x, offset_y);
 }

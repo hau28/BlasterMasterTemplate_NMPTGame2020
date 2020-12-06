@@ -27,9 +27,9 @@ LPANIMATION_FRAME CAnimation::GetFrame(int frameIndex)
 	return frames[frameIndex];
 }
 
-void CAnimation::Render(int currentFrameIndex, float x, float y, int alpha, bool flipX, int rotate)
+void CAnimation::Render(int currentFrameIndex, float x, float y, int alpha, bool flipX, int rotate, int modifyR, int modifyG, int modifyB)
 {
-	frames[currentFrameIndex]->GetSprite()->Draw(x, y, alpha, flipX, rotate);
+	frames[currentFrameIndex]->GetSprite()->Draw(x, y, alpha, flipX, rotate, modifyR, modifyG, modifyB);
 }
 
 
@@ -51,10 +51,10 @@ CAnimationHandler::CAnimationHandler(LPANIMATION animation, bool flipX, bool fli
 	Reset(); 
 }
 
-void CAnimationHandler::Render(float x, float y, int alpha)
+void CAnimationHandler::Render(float x, float y, int alpha, int modifyR, int modifyG, int modifyB)
 {
 	LPANIMATION_FRAME frame = animation->GetFrame(currentFrameIndex);
-	animation->Render(currentFrameIndex, x, y, alpha, flipX, timesRotate90);
+	animation->Render(currentFrameIndex, x, y, alpha, flipX, timesRotate90, modifyR, modifyG, modifyB);
 }
 
 void CAnimationHandler::ToNextFrame()

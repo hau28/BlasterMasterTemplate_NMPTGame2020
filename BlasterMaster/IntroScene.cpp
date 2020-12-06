@@ -3,6 +3,8 @@
 #include "Sprites.h"
 #include "Animations.h"
 #include "Utils.h"
+#include <stdlib.h>    
+#include <time.h>  
 
 #define SCENE_SECTION_UNKNOWN -1
 #define SCENE_SECTION_TEXTURES 2
@@ -86,7 +88,12 @@ void CIntroScene::Load()
 }
 void CIntroScene::Update(DWORD dt)
 {
-	HandleKeyEnter();
+	//Nhap nhay background
+	int R = rand() % 256;
+	int G = rand() % 256;
+	int B = rand() % 256;
+	CGame::GetInstance()->setBackGroundColor(R, G, B);
+ 	HandleKeyEnter();
 	switch (state)
 	{
 	case (ID_STATE_TITLE):
@@ -114,18 +121,27 @@ void CIntroScene::Update(DWORD dt)
 	{
 	case (ID_STATE_TITLE):
 		if (isTitleFinished && animationHandlers[state]->currentFrameIndex == animationHandlers[state]->startLoopIndex)
+		{
 			setState(ID_STATE_FILMINTRO);
+			animationHandlers[state]->Reset();
+		}
 		isIntroFinished = isTitleFinished = isFilmFinished = false;
 		break;
 	case (ID_STATE_FILMINTRO):
 		if (isFilmFinished && animationHandlers[state]->currentFrameIndex == animationHandlers[state]->startLoopIndex)
+		{
+			animationHandlers[state]->Reset();
 			setState(ID_STATE_TITLE);
+		}
 		isIntroFinished = isTitleFinished = isFilmFinished = false;
 		break;
 	case (ID_STATE_SOPHIADOWNGROUND):
-		if (isIntroFinished && animationHandlers[state]->currentFrameIndex == animationHandlers[state]->animation->GetNumberOfFrames())
-			//SWITCH PLAY SCENE
-			isIntroFinished = isTitleFinished = isFilmFinished = false;
+		if (isIntroFinished && animationHandlers[state]->currentFrameIndex == animationHandlers[state]->startLoopIndex)
+		{
+			animationHandlers[state]->Reset();
+			CGame::GetInstance()->SwitchScene(ID_SCENE_END);
+		}
+		isIntroFinished = isTitleFinished = isFilmFinished = false;
 		break;
 	default:
 		break;

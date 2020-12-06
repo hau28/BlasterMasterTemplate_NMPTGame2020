@@ -18,10 +18,10 @@ CSpriteLib* CSpriteLib::GetInstance()
 	return __instance;
 }
 
-void CSprite::Draw(float x, float y, int alpha, bool flipX, int rotate)
+void CSprite::Draw(float x, float y, int alpha, bool flipX, int rotate, int modifyR, int modifyG, int modifyB)
 {
 	CGame * game = CGame::GetInstance();
-	game->Draw(x, y, texture, left, top, right, bottom, alpha, flipX, rotate);
+	game->Draw(x, y, texture, left, top, right, bottom, alpha, flipX, rotate, 0, 0, modifyR, modifyG, modifyB);
 }
 
 void CSpriteLib::Add(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex)

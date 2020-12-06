@@ -24,6 +24,7 @@ CEndingScene::CEndingScene(int id, LPCWSTR filePath, int startupSectionId) : CSc
 {
 	CGame::GetInstance()->SetCamPos(0, 0);
 	setState(StateEnding::PEACE);
+	CGame::GetInstance()->setBackGroundColor(255,255,255);
 }
 
 void CEndingScene::setState(StateEnding state)
@@ -79,6 +80,10 @@ void CEndingScene::HandleKeyEnter()
 
 void CEndingScene::Load()
 {
+	CGame::GetInstance()->SetCamPos(0, 0);
+	setState(StateEnding::PEACE);
+	CGame::GetInstance()->setBackGroundColor(255, 255, 255);
+
 	DebugOut(L"[INFO] Start loading INTRO SCENE resources from : %s \n", sceneFilePath);
 
 	ifstream f;
