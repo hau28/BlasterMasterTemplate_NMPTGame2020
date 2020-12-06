@@ -69,6 +69,11 @@ void CGame::Init(HWND hWnd)
 
 void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha, bool flipX, int rotate, float offset_x, float offset_y, int modifyR, int modifyG, int modifyB)
 {
+	//Hau test
+	modifyR = 100;
+	modifyB = 100;
+	modifyG = 100;
+
 	// cutetn debug
 	if(modifyR != 255)
 		DebugOut(L"\nRGB: %d %d %d", modifyR, modifyG, modifyB);

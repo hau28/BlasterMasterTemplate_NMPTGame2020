@@ -172,6 +172,9 @@ void CEndingScene::Update(DWORD dt)
 	}
 
 	Film[ID_STATE]->Update();
+
+	//Hau test vo day
+	
 }
 void CEndingScene::Render()
 {
