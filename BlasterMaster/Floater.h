@@ -14,7 +14,7 @@ class CFloater : public CEnemy
 {
 public:
     CFloater() {};
-    CFloater(int classId, int x, int y, int animsId);
+    CFloater(int classId, int x, int y, int sectionId, int animsId);
     
     virtual void UpdateVelocity(DWORD dt) {};
     virtual void HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent) {};

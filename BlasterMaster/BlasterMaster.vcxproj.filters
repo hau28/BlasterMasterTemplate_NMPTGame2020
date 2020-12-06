@@ -89,6 +89,8 @@
     <ClCompile Include="SophiaAnimationSystem.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="CreateObjectEvent.cpp" />
+    <ClCompile Include="RemoveObjectEvent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -178,6 +180,8 @@
     <ClInclude Include="SophiaAnimationSystem.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
+    <ClInclude Include="CreateObjectEvent.h" />
+    <ClInclude Include="RemoveObjectEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="AnimationCore">

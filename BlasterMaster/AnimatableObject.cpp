@@ -3,10 +3,11 @@
 #include "TileArea.h"
 #include "CollisionSolver.h"
 
-CAnimatableObject::CAnimatableObject(int classId, int x, int y, int objAnimsId)
+CAnimatableObject::CAnimatableObject(int classId, int x, int y, int sectionId, int objAnimsId)
 {
 	this->classId = classId;
 	SetPosition(x, y);
+	this->currentSectionId = sectionId;
 
 	LPOBJECT_ANIMATIONS objAnims = CObjectAnimationsLib::GetInstance()->Get(objAnimsId);
 	animationHandlers = objAnims->GenerateAnimationHanlders();

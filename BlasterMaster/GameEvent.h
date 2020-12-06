@@ -7,7 +7,8 @@ class CGameEvent
 	std::string eventName;
 	CGameEvent() {};
 	CGameEvent(std::string event) { this->eventName = event; }
-	virtual void virtualfunc() = 0;
+
+	virtual ~CGameEvent() {};
 };
 
 typedef CGameEvent* LPGAME_EVENT;

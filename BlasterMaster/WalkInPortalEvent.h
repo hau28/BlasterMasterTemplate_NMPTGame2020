@@ -9,6 +9,13 @@ class CWalkInPortalEvent : public CGameEvent
 
 public:
 	CWalkInPortalEvent() {}
+	//CWalkInPortalEvent(const CWalkInPortalEvent& gameEvent) 
+	//{
+	//	eventName = gameEvent.eventName;
+	//	fromPortal = gameEvent.fromPortal;
+	//	toPortal = gameEvent.toPortal;
+	//}
+
 	CWalkInPortalEvent(string event, LPPORTAL portal1, LPPORTAL portal2)
 	{
 		this->eventName = event;
@@ -17,6 +24,5 @@ public:
 	}
 	LPPORTAL get_toPortal() { return toPortal; };
 	LPPORTAL get_fromPortal() { return fromPortal; };
-	void virtualfunc() {};
 };
 

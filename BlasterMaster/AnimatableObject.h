@@ -9,7 +9,7 @@ public:
 	CObjectAnimationHanlders animationHandlers;
 
 	CAnimatableObject() {};
-	CAnimatableObject(int classId, int x, int y, int animsId);
+	CAnimatableObject(int classId, int x, int y, int sectionId, int animsId);
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) = 0;
 

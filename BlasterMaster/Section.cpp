@@ -116,3 +116,32 @@ void CSection::pushJasonSideview(float x, float y, int sectionID)
 	CJasonSideview::GetInstance()->currentSectionId = sectionID;
 	Objects.push_back(CJasonSideview::GetInstance());
 }
+
+void CSection::addObject(LPGAMEOBJECT obj)
+{
+	if (!obj)
+		return;
+
+	Objects.push_back(obj);
+}
+
+/// <summary>
+/// CuteTN Note: Copied from Sanh's function :)
+/// </summary>
+/// <param name="obj"></param>
+/// <param name="deleteAfterRemoving"></param>
+void CSection::removeObject(LPGAMEOBJECT obj, bool deleteAfterRemoving)
+{
+	if (!obj)
+		return;
+
+	for (int i = 0; i < Objects.size(); i++)
+		if (Objects[i] == obj)
+		{
+			if(deleteAfterRemoving)
+				delete Objects[i];
+
+			Objects.erase(Objects.begin() + i);
+			break;
+		}
+}

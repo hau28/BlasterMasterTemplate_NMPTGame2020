@@ -1,6 +1,6 @@
 #include "Dome.h"
 
-CDome::CDome(int classId, int x, int y, int animsId): CEnemy::CEnemy(classId, x, y, animsId) 
+CDome::CDome(int classId, int x, int y, int sectionId, int animsId): CEnemy::CEnemy(classId, x, y, sectionId, animsId) 
 {
 	SetState(DOME_STATE_UP);
 };

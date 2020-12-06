@@ -1,5 +1,8 @@
 #include "PlayScene.h"
 
+#include "CreateObjectEvent.h"
+#include "RemoveObjectEvent.h"
+
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath, int startupSectionId) : CScene(id, filePath)
@@ -554,6 +557,26 @@ void CPlayScene::handleGameEvent(LPGAME_EVENT gameEvent)
 			else CGame::SetState(GameState::SECTION_SWITCH_RIGHT);
 		}
 		set_offset(temp->get_fromPortal(), temp->get_toPortal(), direct);
+	}
+	
+	// CuteTN - Add objects
+	CCreateObjectEvent* createObjEvent = dynamic_cast<CCreateObjectEvent*>(gameEvent);
+	if (createObjEvent)
+	{ 
+		int sectionId = createObjEvent->gameObject->currentSectionId;
+		
+		if(Sections[sectionId])
+			Sections[sectionId]->addObject(createObjEvent->gameObject);
+	}
+
+	// CuteTN - Remove objects
+	CRemoveObjectEvent* removeObjEvent = dynamic_cast<CRemoveObjectEvent*>(gameEvent);
+	if (removeObjEvent)
+	{
+		int sectionId = removeObjEvent->gameObject->currentSectionId;
+
+		if(Sections[sectionId])
+			Sections[sectionId]->removeObject(removeObjEvent->gameObject, removeObjEvent->toBeDeleted);
 	}
 }
 

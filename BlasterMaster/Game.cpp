@@ -3,6 +3,8 @@
 #include "Utils.h"
 #include <math.h> 
 #include "JasonJumpOutEvent.h"
+#include "CreateObjectEvent.h"
+#include "RemoveObjectEvent.h"
 
 CGame * CGame::__instance = nullptr;
 
@@ -297,6 +299,14 @@ void CGame::HandleGameEvent(LPGAME_EVENT gameEvent)
 		SetState(GameState::PLAY_SIDEVIEW_JASON);
 		//SANH-CAMERA
 		CJasonSideview::GetInstance()->init_camBox();
+	}
+
+	// CuteTN Note: dynamic cast is surely better than magic strings, I'll change from here
+	if (dynamic_cast<CCreateObjectEvent*>(gameEvent) || dynamic_cast<CRemoveObjectEvent*>(gameEvent))
+	{
+		LPPLAYSCENE scene = dynamic_cast<LPPLAYSCENE>(CGame::GetInstance()->GetCurrentScene());
+		if(scene)
+			scene->handleGameEvent(gameEvent);
 	}
 }
 

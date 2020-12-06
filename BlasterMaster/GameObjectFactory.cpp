@@ -11,26 +11,27 @@ LPGAMEOBJECT CGameObjectFactory::Create(int classId, map<string, string> propert
 	{
 	case CLASS_DOME:
 		GetAnimatableObjectProps(properties, x, y, animsId, sectionId);
-		result = new CDome(classId, x, y, animsId);
+		result = new CDome(classId, x, y, sectionId, animsId);
 		break;
 
 	case CLASS_FLOATER1:
 		GetAnimatableObjectProps(properties, x, y, animsId, sectionId);
-		result = new CFloater(classId, x, y, animsId);
+		result = new CFloater(classId, x, y, sectionId, animsId);
 		break;
 
 	case CLASS_PANDA:
 		GetAnimatableObjectProps(properties, x, y, animsId, sectionId);
-		result = new CPanda(classId, x, y, animsId);
+		result = new CPanda(classId, x, y, sectionId, animsId);
 		break;
 
 	case CLASS_SHIP:
 		GetAnimatableObjectProps(properties, x, y, animsId, sectionId);
 		initLeft = atoi(properties["InitLeft"].c_str());
-		result = new CShip(classId, x, y, initLeft, animsId);
+		result = new CShip(classId, x, y, sectionId, initLeft, animsId);
 		break;
 
 	case CLASS_SOPHIA:
+		// CuteTN Note: maybe refactor the order of parameters...
 		GetAnimatableObjectProps(properties, x, y, animsId, sectionId);
 		result = CSophia::InitInstance(classId, x, y, sectionId);
 		break;
