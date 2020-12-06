@@ -130,3 +130,12 @@ void CAnimatableObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 
 	UpdatePosition(dt);
 }
+
+CAnimatableObject::~CAnimatableObject()
+{
+	for (auto x : animationHandlers)
+		delete x.second;
+
+	animationHandlers.clear();
+}
+
