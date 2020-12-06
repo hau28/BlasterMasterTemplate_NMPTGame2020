@@ -8,7 +8,6 @@
 #include "Goomba.h"
 #include "Portal.h"
 #include "Brick.h"
-
 CMario::CMario(float x, float y) : CGameObject()
 {
 	level = MARIO_LEVEL_BIG;

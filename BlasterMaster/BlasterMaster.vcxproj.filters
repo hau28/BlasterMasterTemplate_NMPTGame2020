@@ -78,6 +78,7 @@
     <ClCompile Include="SophiaAnimationSystem.cpp" />
     <ClCompile Include="JasonSideview.cpp" />
     <ClCompile Include="JasonJumpOutEvent.cpp" />
+    <ClCompile Include="JasonJumpInEvent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -156,6 +157,7 @@
     <ClInclude Include="SophiaAnimationSystem.h" />
     <ClInclude Include="JasonSideview.h" />
     <ClInclude Include="JasonJumpOutEvent.h" />
+    <ClInclude Include="JasonJumpInEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="AnimationCore">

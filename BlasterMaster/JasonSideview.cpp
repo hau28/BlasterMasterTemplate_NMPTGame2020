@@ -240,7 +240,7 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
     // dơ lắm cơ mà fix sau đi :((( 
     if (vx == 0) flag_jumpwalk = false;
 
-    if (flag_jumpwalk && !flagOnAir) {
+    if (flag_jumpwalk && !flagOnAir ) {
         if (Jason_turnRight) 
         {
             SetState(JASONSIDEVIEW_STATE_WALK_RIGHT);
@@ -283,6 +283,7 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
             SetState(JASONSIDEVIEW_STATE_IDLE_LEFT);
     }
 
+    //if (CCollisionSolver::IsOverlapped(CJasonSideview,))
 }
 
 CJasonSideview* CJasonSideview::GetInstance()
