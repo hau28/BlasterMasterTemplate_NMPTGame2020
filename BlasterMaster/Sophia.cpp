@@ -23,6 +23,9 @@ CSophia::CSophia(int classId, int x, int y)
     camBoxTop = y + 32 - 16 * 6;
     camBoxBottom = y + 32;
     portaling = 0;
+    
+    // CuteTN Test
+    // SetModifyColor(255, 0, 255);
 };
 
 void CSophia::init_camBox()
@@ -241,6 +244,10 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
         CJasonJumpOutEvent* jasonJumpOutEvent = new CJasonJumpOutEvent(x, y, currentSectionId);
         CGame::AddGameEvent(jasonJumpOutEvent);
     }
+    //SANH_SWITCH SCENE
+    //Help Sanh fastly test switch scene
+    if (keyCode == DIK_SPACE)
+        CGame::GetInstance()->SwitchScene(ID_SCENE_END);
 }
 #pragma endregion
 
@@ -448,10 +455,10 @@ void CSophia::Render(float offsetX, float offsetY)
     if (sprite)
         if (vy > 0 && bodyState == 1 && ground - y >= 16)
         {
-            sprite->Draw(x + offsetX, y - 3 + offsetY);
+            sprite->Draw(x + offsetX, y - 3 + offsetY, 255, false, 0, modifyR, modifyG, modifyB);
         }
         else
-            sprite->Draw(x + offsetX, y + offsetY);
+            sprite->Draw(x + offsetX, y + offsetY, 255, false, 0, modifyR, modifyG, modifyB);
 }
 
 CSophia *CSophia::__instance = nullptr;

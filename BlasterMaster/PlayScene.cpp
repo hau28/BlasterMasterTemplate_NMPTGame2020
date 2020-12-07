@@ -41,8 +41,8 @@ void CPlayScene::_ParseSection_TEXTURES(string line)
 	//int B = atoi(tokens[4].c_str());
 
 	int R = 254;
-	int G = 254;
-	int B = 254;
+	int G = 0;
+	int B = 0;
 
 	CTextures::GetInstance()->Add(texID, path.c_str(), D3DCOLOR_XRGB(R, G, B));
 }

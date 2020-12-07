@@ -16,8 +16,9 @@
 #include <fstream>
 
 #define DIRECTINPUT_VERSION 0x0800
-
-
+#define ID_SCENE_INTRO 1
+#define ID_SCENE_PLAY 2
+#define ID_SCENE_END 3
 
 using namespace std;
 
@@ -67,6 +68,13 @@ class CGame
 	static vector<LPGAME_EVENT> gameEvents;
 
 public:
+	//Background Color
+	static D3DCOLOR BackgroundColor;
+	static void setBackGroundColor(int R, int G, int B)
+	{
+		BackgroundColor = D3DCOLOR_XRGB(R, G, B);
+	}
+
 	void InitKeyboard();
 	// void SetKeyHandler(LPKEYEVENTHANDLER handler) { keyHandler = handler; }
 	void Init(HWND hWnd);
@@ -80,8 +88,8 @@ public:
 	/// <param name="alpha">the transparency</param>
 	/// <param name="flipX"></param>
 	/// <param name="rotate">times to rotate 90 degre clockwise</param>
-	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha = 255, bool flipX = false, int rotate = 0, float offset_x = 0, float offset_y = 0);
-
+	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha = 255, bool flipX = false, int rotate = 0, float offset_x = 0, float offset_y = 0, int modifyR = 255, int modifyG = 255, int modifyB = 255);
+	 
 	int IsKeyDown(int KeyCode);
 	void ProcessKeyboard();
 	vector<CCustomKeyEvent*> CustomKeyEvents; // Just like keyEvents, but friendlier to use :)

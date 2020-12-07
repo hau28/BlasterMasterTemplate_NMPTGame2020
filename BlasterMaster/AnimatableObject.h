@@ -5,11 +5,18 @@
 class CAnimatableObject :
     public CGameObject
 {
+protected:
+	int modifyR = 255;
+	int modifyG = 255;
+	int modifyB = 255;
+
 public:
 	CObjectAnimationHanlders animationHandlers;
 
 	CAnimatableObject() {};
 	CAnimatableObject(int classId, int x, int y, int sectionId, int animsId);
+
+	virtual void SetModifyColor(int r, int g, int b);
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) = 0;
 

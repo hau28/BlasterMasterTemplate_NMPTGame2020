@@ -144,6 +144,7 @@
     <ClCompile Include="CollisionSolver.cpp" />
     <ClCompile Include="Consts.h" />
     <ClCompile Include="CreateObjectEvent.cpp" />
+    <ClCompile Include="EndingScene.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GameEvent.cpp" />
     <ClCompile Include="GameObjectBehaviour.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="Animations.h" />
     <ClInclude Include="Mine.h" />
     <ClInclude Include="CollisionSolver.h" />
+    <ClInclude Include="EndingScene.h" />
     <ClInclude Include="CreateObjectEvent.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="GameEvent.h" />

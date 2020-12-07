@@ -32,6 +32,13 @@ void CAnimatableObject::HandleOverlaps(vector<LPGAMEOBJECT>* overlappedObjs)
 		HandleOverlap(obj);
 }
 
+void CAnimatableObject::SetModifyColor(int r, int g, int b)
+{
+	modifyR = r;
+	modifyG = g;
+	modifyB = b;
+}
+
 void CAnimatableObject::DeoverlapWithBlockableTiles(vector<LPGAMEOBJECT>* coObjs)
 {
 	for(auto obj : *coObjs)
@@ -118,7 +125,7 @@ void CAnimatableObject::UpdatePosition(DWORD dt)
 
 void CAnimatableObject::Render(float offsetX, float offsetY)
 {
-	animationHandlers[state]->Render(x + offsetX, y + offsetY);
+	animationHandlers[state]->Render(x + offsetX, y + offsetY, 255, modifyR, modifyG, modifyB);
 	animationHandlers[state]->Update();
 }
 
