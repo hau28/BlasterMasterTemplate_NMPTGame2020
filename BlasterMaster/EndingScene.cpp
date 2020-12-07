@@ -3,6 +3,10 @@
 #include "Sprites.h"
 #include "Animations.h"
 #include "Utils.h"
+#include <stdlib.h>    
+#include <time.h>  
+#include <algorithm>
+#include <string> 
 
 #define SCENE_SECTION_UNKNOWN -1
 #define SCENE_SECTION_TEXTURES 2
@@ -15,15 +19,19 @@
 
 #define ID_STATE_FROG 3301
 #define ID_STATE_MOUNTAIN 3302
-#define ID_STATE_CREDIT 3303
+#define ID_STATE_RED 3303
+#define ID_STATE_CREDIT 3304
+#define ID_STATE_DRAGON 3306
 
 #define ID_ENDING_SCENE 3401
 #define ID_MOUNTAIN 3402
+#define ID_RED_SCENE 3403
+#define ID_CREDIT 3404
 
 CEndingScene::CEndingScene(int id, LPCWSTR filePath, int startupSectionId) : CScene(id, filePath)
 {
 	CGame::GetInstance()->SetCamPos(0, 0);
-	setState(StateEnding::PEACE);
+	setState(StateEnding::RED);
 	CGame::GetInstance()->setBackGroundColor(255,255,255);
 }
 
@@ -32,7 +40,13 @@ void CEndingScene::setState(StateEnding state)
 	this->state = state;
 	switch (state)
 	{
+	case StateEnding::RED:
+		MountainX = 122;
+		MountainY = 112;
+		ID_STATE = ID_STATE_RED;
+		break;
 	case StateEnding::PEACE:
+		MountainY = 0;
 		ID_STATE = ID_STATE_FROG;
 		break;
 	case StateEnding::EARTHQUAKE:
@@ -41,9 +55,14 @@ void CEndingScene::setState(StateEnding state)
 		MountainY = 112;
 		break;
 	case StateEnding::FILM:
+		timer = 0;
 		ID_STATE = ID_STATE_FROG;
 		break;
 	case StateEnding::CREDIT:
+		CGame::GetInstance()->SetCamPos(0, 0);
+		CGame::GetInstance()->setBackGroundColor(0, 0, 0);
+		posLetterX = 90;
+		posLetterY = 300;
 		ID_STATE = ID_STATE_FROG;
 		break;
 	default:
@@ -81,7 +100,7 @@ void CEndingScene::HandleKeyEnter()
 void CEndingScene::Load()
 {
 	CGame::GetInstance()->SetCamPos(0, 0);
-	setState(StateEnding::PEACE);
+	setState(StateEnding::RED);
 	CGame::GetInstance()->setBackGroundColor(255, 255, 255);
 
 	DebugOut(L"[INFO] Start loading INTRO SCENE resources from : %s \n", sceneFilePath);
@@ -125,14 +144,23 @@ void CEndingScene::Load()
 
 	objAnims = CObjectAnimationsLib::GetInstance()->Get(ID_MOUNTAIN);
 	Mountain = objAnims->GenerateAnimationHanlders();
+
+	objAnims = CObjectAnimationsLib::GetInstance()->Get(ID_RED_SCENE);
+	Red = objAnims->GenerateAnimationHanlders();
+
+	objAnims = CObjectAnimationsLib::GetInstance()->Get(ID_CREDIT);
+	Credit = objAnims->GenerateAnimationHanlders();
+
+	init_MapLetter();
+	init_LetterCredit();
+	setState(StateEnding::RED);
 }
 void CEndingScene::Update(DWORD dt)
 {
-	HandleKeyEnter();
-	
-	//earthquake
-	if (state == StateEnding::PEACE)
+	if (state == StateEnding::RED)
 	{
+		Red[ID_STATE_RED]->Update();
+		
 		MountainX = 122;
 		MountainY = 112;
 
@@ -141,59 +169,100 @@ void CEndingScene::Update(DWORD dt)
 		Mountain[ID_STATE_MOUNTAIN]->Update();
 	}
 
+	HandleKeyEnter();
+
 	if (state == StateEnding::EARTHQUAKE)
 	{
-		float cx, cy;
-		CGame::GetInstance()->GetCamPos(cx, cy);
-		
-		if (Film[ID_STATE]->currentFrameIndex != flag_EarthQuake)
+		MountainY += 0.25;
+		if (MountainY >= 160)
 		{
-			flag_EarthQuake = Film[ID_STATE]->currentFrameIndex;
+			setState(StateEnding::PEACE);
+			float cx, cy;
+			CGame::GetInstance()->GetCamPos(cx, cy);
+			CGame::GetInstance()->SetCamPos(0, cy);
+		}
+	}
+
+	if (state == StateEnding::EARTHQUAKE)
+	{
+		//so dirty
+		if (Film[ID_STATE_FROG]->currentFrameIndex != flag_EarthQuake)
+		{
+			float cx, cy;
+			CGame::GetInstance()->GetCamPos(cx, cy);
 			if (cy == 0) cy = 2;
 			else cy = 0;
+			CGame::GetInstance()->SetCamPos(cx, cy);
+			flag_EarthQuake = Film[ID_STATE_FROG]->currentFrameIndex;
 		}
+		Film[ID_STATE_FROG]->Update();
+	}
 
-		CGame::GetInstance()->SetCamPos(cx, cy);
+	if (state == StateEnding::PEACE)
+	{
+		MountainY += 1;
+		if ((int)MountainY % 10 == 0)
+		{
+			R = rand() % 100 + 156;
+			G = rand() % 100 + 156;
+			B = rand() % 100 + 156;
+		}
+		if (MountainY >= 40)
+			R = G = B = 255;
+		if (MountainY >= 200)
+			setState(StateEnding::FILM);
 	}
 
 	if (state == StateEnding::FILM)
 	{
 		float cx, cy;
+		timer += 1;
 		CGame::GetInstance()->GetCamPos(cx,cy);
 		if (cx + 1 + CGame::GetInstance()->GetScreenWidth() >= WIDTH_FROG)
 			cx = WIDTH_FROG - CGame::GetInstance()->GetScreenWidth();
 		else cx += 1;
 		CGame::GetInstance()->SetCamPos(cx, cy);
+		Film[ID_STATE_FROG]->Update();
+
+		if (timer >= 500)
+			setState(StateEnding::CREDIT);
 	}
 
 	if (state == StateEnding::CREDIT)
 	{
 
 	}
-
-	Film[ID_STATE]->Update();
-
-	//Hau test vo day
-	
 }
 void CEndingScene::Render()
 {
+
+	if (state == StateEnding::RED)
+	{
+		Mountain[ID_STATE_MOUNTAIN]->Render(MountainX, MountainY);
+		Red[ID_STATE_RED]->Render(0, 0);
+	}
+
 	if (state == StateEnding::EARTHQUAKE)
 	{
 		Mountain[ID_STATE_MOUNTAIN]->Render(MountainX, MountainY);
-		MountainY += 0.25;
-		if (MountainY >= 150)
-		{
-			setState(StateEnding::FILM);
-			float cx, cy;
-			CGame::GetInstance()->GetCamPos(cx, cy);
-			CGame::GetInstance()->SetCamPos(0, cy);
-		}
+		Red[ID_STATE_RED]->Render(0, 0);
 	}
-	if (state == StateEnding::PEACE)
-		Mountain[ID_STATE_MOUNTAIN]->Render(MountainX, MountainY);
 
-	Film[ID_STATE]->Render(0, 0);
+	if (state == StateEnding::PEACE)
+	{
+		Film[ID_STATE_FROG]->Render(0, 0, 255, R, G, B);
+	}
+
+	if (state == StateEnding::FILM)
+		Film[ID_STATE_FROG]->Render(0, 0);
+
+	if (state == StateEnding::CREDIT)
+	{
+		move_Camera();
+		render_DragonFollowCamera();
+		render_LetterCredit();
+	}
+
 }
 void CEndingScene::Unload()
 {
@@ -299,3 +368,122 @@ void CEndingScene::_ParseSection_OBJECT_ANIMATIONS(string line)
 	CObjectAnimationsLib::GetInstance()->Add(objectAni_id, objAni);
 }
 
+//Tool Credit
+void CEndingScene::init_MapLetter() 
+{
+	mapLetter['!'] = 3310;
+	mapLetter['0'] = 3311;
+	mapLetter['1'] = 3312;
+	mapLetter['2'] = 3313;
+	mapLetter['3'] = 3314;
+	mapLetter['4'] = 3315;
+	mapLetter['5'] = 3316;
+	mapLetter['6'] = 3317;
+	mapLetter['7'] = 3318;
+	mapLetter['8'] = 3319;
+	mapLetter['9'] = 3320;
+	mapLetter['a'] = 3321;
+	mapLetter['b'] = 3322;
+	mapLetter['c'] = 3323;
+	mapLetter['d'] = 3324;
+	mapLetter['e'] = 3325;
+	mapLetter['f'] = 3326;
+	mapLetter['g'] = 3327;
+	mapLetter['h'] = 3328;
+	mapLetter['i'] = 3329;
+	mapLetter['j'] = 3330;
+	mapLetter['k'] = 3331;
+	mapLetter['l'] = 3332;
+	mapLetter['m'] = 3333;
+	mapLetter['n'] = 3334;
+	mapLetter['o'] = 3335;
+	mapLetter['p'] = 3336;
+	mapLetter['q'] = 3337;
+	mapLetter['r'] = 3338;
+	mapLetter['s'] = 3339;
+	mapLetter['t'] = 3340;
+	mapLetter['u'] = 3341;
+	mapLetter['v'] = 3342;
+	mapLetter['w'] = 3343;
+	mapLetter['x'] = 3344;
+	mapLetter['y'] = 3345;
+	mapLetter['z'] = 3346;
+}
+
+void CEndingScene::init_LetterCredit()
+{
+	CGame::GetInstance()->SetCamPos(0, 0);
+	posLetterX = 90;
+	posLetterY = 300;
+	ifstream f;
+	f.open(L"CREDIT.txt");
+
+	// current resource section flag
+	int section = SCENE_SECTION_UNKNOWN;
+
+	char str[MAX_SCENE_LINE];
+	while (f.getline(str, MAX_SCENE_LINE))
+	{
+		string line(str);
+		add_LineCredit(line);
+	}
+
+	f.close();
+
+	DebugOut(L"\n[INFO] Done loading CREDIT resources");
+}
+void CEndingScene::add_LineCredit(string line)
+{	
+	posLetterX = 90;
+	std::transform(line.begin(), line.end(), line.begin(), ::tolower);
+	for (int i = 0; i < line.length(); i++)
+	{
+			char ch = line[i];
+			if (ch == ' ')
+				posLetterX += 5;
+			else
+			if (!checkValidLetter(ch))
+				posLetterX += 10;
+			else
+			{
+				posLetterX += 10;
+				DebugOut(L"\n lx %f ly %f", posLetterX, posLetterY);
+				Letter item(posLetterX, posLetterY, ch);
+				Paragraph.push_back(item);
+			}
+	}
+	posLetterY += 10;
+}
+
+void CEndingScene::render_DragonFollowCamera()
+{
+	float cx, cy;
+	CGame::GetInstance()->GetCamPos(cx, cy);
+	Credit[ID_STATE_DRAGON]->Render(cx, cy);
+}
+void CEndingScene::render_LetterCredit()
+{
+	for (int i = 0; i < Paragraph.size(); i++)
+	{
+		Letter item = Paragraph[i];
+		int id = mapLetter[item.letter];
+		Credit[id]->Render(item.x, item.y);
+	}
+}
+void CEndingScene::move_Camera()
+{
+	float cx, cy;
+	CGame::GetInstance()->GetCamPos(cx, cy);
+	if (cy >= 1000)
+		return;
+	CGame::GetInstance()->SetCamPos(cx, cy + 0.5);
+}
+
+bool CEndingScene::checkValidLetter(char & ch)
+{
+	if (ch >= 'a' && ch <= 'z')
+		return true;
+	if (ch >= '0' && ch <= '9')
+		return true;
+	return false;
+}
