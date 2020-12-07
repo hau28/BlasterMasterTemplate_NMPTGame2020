@@ -18,7 +18,9 @@ class CPanda :
 private:
     bool flagDead = false;
     bool flagOnAir = true;
-
+    float destinationX;
+    bool isGoingToPlayer = true;
+    void checkDeoverlapPlayer();
 public:
     CPanda() {};
     CPanda(int classId, int x, int y, int sectionId, int animsId);

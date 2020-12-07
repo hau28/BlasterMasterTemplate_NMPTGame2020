@@ -46,6 +46,16 @@ LPGAMEOBJECT CGameObjectFactory::Create(int classId, map<string, string> propert
 		result = new CPortal(classId, x, y, width, height, sectionId, portalId);
 		break;
 
+	case CLASS_MINE:
+		GetAnimatableObjectProps(properties, x, y, animsId, sectionId);
+		result = new CMine(classId, x, y, sectionId, animsId);	
+		break;
+
+	case CLASS_SKULL:
+		GetAnimatableObjectProps(properties, x, y, animsId, sectionId);
+		result = new CSkull(classId, x, y, sectionId, animsId);
+		break;
+
 	default:
 		return nullptr;
 		break;

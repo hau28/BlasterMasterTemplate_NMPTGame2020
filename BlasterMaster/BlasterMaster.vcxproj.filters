@@ -1,6 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <ClCompile Include="AnimatableObject.cpp" />
+    <ClCompile Include="Animations.cpp" />
+    <ClCompile Include="CollisionSolver.cpp" />
+    <ClCompile Include="Consts.h" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="GameEvent.cpp" />
+    <ClCompile Include="GameObjectBehaviour.cpp" />
+    <ClCompile Include="JasonJumpInEvent.cpp" />
+    <ClCompile Include="IntroScene.cpp" />
+    <ClCompile Include="JasonJumpOutEvent.cpp" />
+    <ClCompile Include="JasonSideview.cpp" />
+    <ClCompile Include="Portal.cpp" />
+    <ClCompile Include="PortalLib.cpp" />
+    <ClCompile Include="Ship.cpp" />
+    <ClCompile Include="SophiaAnimationSystem.cpp" />
+    <ClCompile Include="TileArea.cpp" />
+    <ClCompile Include="CustomKeyEvent.cpp" />
+    <ClCompile Include="Dome.cpp" />
+    <ClCompile Include="Floater.cpp" />
+    <ClCompile Include="GameObjectFactory.cpp" />
+    <ClCompile Include="Section.cpp" />
+    <ClCompile Include="Sophia.cpp" />
+    <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Animations.cpp">
       <Filter>AnimationCore</Filter>

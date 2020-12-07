@@ -1,10 +1,17 @@
 #include "Game.h"
 #include "PlayScene.h"
+#include "IntroScene.h"
 #include "Utils.h"
 #include <math.h> 
 #include "JasonJumpOutEvent.h"
 #include "CreateObjectEvent.h"
 #include "RemoveObjectEvent.h"
+#include "JasonJumpInEvent.h"
+#include "Section.h"
+
+#define ID_SCENE_INTRO 1
+#define ID_SCENE_PLAY 2
+#define ID_SCENE_END 3
 
 CGame * CGame::__instance = nullptr;
 
@@ -255,10 +262,7 @@ void CGame::SetState(GameState newState)
 			// Thy cute
 			LPSECTION section = scene->GetCurrentSection();
 
-			if (section != nullptr)
-				section->Objects.push_back(CJasonSideview::GetInstance());
-
-			CSophia::GetInstance()->roundPosition();
+			CSophia::GetInstance()->roundPositionX();
 		}
 	}
 
@@ -274,7 +278,9 @@ void CGame::HandleGameEvents()
 {
 	// CuteTN Note: may need fixing
 	for (auto e : gameEvents)
+	{
 		HandleGameEvent(e);
+	}
 
 	gameEvents.clear();
 }
@@ -295,10 +301,29 @@ void CGame::HandleGameEvent(LPGAME_EVENT gameEvent)
 	{
 		CJasonJumpOutEvent* castedEvent = dynamic_cast<CJasonJumpOutEvent*>(gameEvent);
 
-		CJasonSideview::InitInstance(castedEvent->x, castedEvent->y, castedEvent->sectionId);
 		SetState(GameState::PLAY_SIDEVIEW_JASON);
+
+		auto scene = dynamic_cast<LPPLAYSCENE>(CGame::GetInstance()->GetCurrentScene());
+		scene->SetPlayer(CJasonSideview::GetInstance());
+		LPSECTION section = scene->GetCurrentSection();
+		
+		if (section != nullptr)
+			section->pushJasonSideview(castedEvent->x, castedEvent->y, castedEvent->sectionId);
+
 		//SANH-CAMERA
 		CJasonSideview::GetInstance()->init_camBox();
+	}
+
+	if (gameEvent->eventName == "JasonJumpInEvent")
+	{
+		auto scene = dynamic_cast<LPPLAYSCENE>(CGame::GetInstance()->GetCurrentScene());
+        scene->SetPlayer(CSophia::GetInstance());
+		LPSECTION section = scene->GetCurrentSection();
+
+		section->deleteJasonSideview();
+		SetState(GameState::PLAY_SIDEVIEW_SOPHIA);
+		
+		CSophia::GetInstance()->init_camBox();
 	}
 
 	// CuteTN Note: dynamic cast is surely better than magic strings, I'll change from here
@@ -342,7 +367,14 @@ void CGame::_ParseSection_SCENES(string line)
 	int id = atoi(tokens[0].c_str());
 	LPCWSTR path = ToLPCWSTR(tokens[1]);
 
-	LPSCENE scene = new CPlayScene(id, path);
+	LPSCENE scene = NULL;
+
+	if (id == ID_SCENE_PLAY)
+		scene = new CPlayScene(id, path);
+
+	if (id == ID_SCENE_INTRO)
+		scene = new CIntroScene(id, path);
+
 	scenes[id] = scene;
 }
 

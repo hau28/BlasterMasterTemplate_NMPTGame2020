@@ -206,7 +206,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	
 	// add portal to library
 	if (class_ID == CLASS_TILE_PORTAL)
+	{
 		CPortalLib::GetInstance()->Add(obj_ID, dynamic_cast<LPPORTAL>(obj));
+		DebugOut(L"[INFO] Add Portal to Lib: %d of section %d", obj_ID, obj->currentSectionId);
+	}
 
 	if (obj == nullptr)
 		DebugOut(L"[ERROR] Cannot create object with object Id: %d\n", obj_ID);
@@ -578,6 +581,8 @@ void CPlayScene::handleGameEvent(LPGAME_EVENT gameEvent)
 		if(Sections[sectionId])
 			Sections[sectionId]->removeObject(removeObjEvent->gameObject, removeObjEvent->toBeDeleted);
 	}
+
+	DebugOut(L"current section %d\n", CurrentSectionId);
 }
 
 /*

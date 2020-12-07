@@ -62,9 +62,12 @@ public:
 
     float camBoxLeft, camBoxRight,camBoxTop,camBoxBottom;
     void roundPosition() { x = round(x); y = round(y); }
+    void roundPositionX() { x = round(x); }
+
     void init_camBox();
     static CSophia *GetInstance();
     static CSophia *InitInstance(int classId, int x, int y, int sectionId);
+
 };
 
 typedef CSophia *LPSOPHIA;

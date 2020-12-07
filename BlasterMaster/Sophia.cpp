@@ -1,4 +1,4 @@
-#include "Sophia.h"
+﻿#include "Sophia.h"
 #include "TileArea.h"
 #include "CollisionSolver.h"
 #include "GameObjectBehaviour.h"
@@ -236,7 +236,7 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
     {
         vy = -SOPHIA_JUMP_FORCE;
     }
-    if (keyCode == DIK_RSHIFT)
+    if (!flagOnAir &&  keyCode == DIK_RSHIFT)
     {
         CJasonJumpOutEvent* jasonJumpOutEvent = new CJasonJumpOutEvent(x, y, currentSectionId);
         CGame::AddGameEvent(jasonJumpOutEvent);
@@ -429,7 +429,7 @@ void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
             LPGAME_EVENT newEvent = new CWalkInPortalEvent("WalkInPortalEvent", fromPortal, toPortal);
             CGame::GetInstance()->AddGameEvent(newEvent);
             // to do: create an event to CGame, let CGame handle switching section
-            DebugOut(L"Sophia to portal %d of section %d\n", toPortal->associatedPortalId, toPortal->currentSectionId);
+            DebugOut(L"Sophia to portal %d of section %d\n", fromPortal->associatedPortalId, toPortal->currentSectionId);
         }
         }
     }
