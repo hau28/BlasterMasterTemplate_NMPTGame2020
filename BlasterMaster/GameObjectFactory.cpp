@@ -14,7 +14,7 @@ LPGAMEOBJECT CGameObjectFactory::Create(int classId, map<string, string> propert
 		result = new CDome(classId, x, y, sectionId, animsId);
 		break;
 
-	case CLASS_FLOATER1:
+	case CLASS_FLOATER:
 		GetAnimatableObjectProps(properties, x, y, animsId, sectionId);
 		result = new CFloater(classId, x, y, sectionId, animsId);
 		break;
