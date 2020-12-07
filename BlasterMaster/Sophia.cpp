@@ -171,29 +171,43 @@ void CSophia::updateBody()
         else if (vy > 0 && ground-y>1)
             bodyState = 1;
     }
+
+    if (flag_JasonJumpOut) 
+    {
+        bodyState = 4;
+        if (GetTickCount() - lastTimeupdateGun > 200)
+        {
+            bodyState = 2;
+            lastTimeupdateGun = GetTickCount();
+            //flag_JasonJumpOut = false;
+        }
+  
+    }
 }
 
 void CSophia::HandleKeysHold(DWORD dt)
 {
-        if (IsKeyDown(DIK_RIGHT))
-        {
-            // SetState(SOPHIA_STATE_WALK_RIGHT);
-            if (directionState != 3 && !portaling)
-            {
-                turnRight = true;
-            }
-            ax = SOPHIA_ENGINE;
-        }
-        else if (IsKeyDown(DIK_LEFT))
-        {
-            // SetState(SOPHIA_STATE_WALK_LEFT);
-            if (directionState != 0 && !portaling)
-            {
-                turnRight = false;
-            }
 
-            ax = -SOPHIA_ENGINE;
+    if (IsKeyDown(DIK_RIGHT))
+    {
+        // SetState(SOPHIA_STATE_WALK_RIGHT);
+        if (directionState != 3 && !portaling)
+        {
+            turnRight = true;
         }
+        ax = SOPHIA_ENGINE;
+    }
+    else if (IsKeyDown(DIK_LEFT))
+    {
+        // SetState(SOPHIA_STATE_WALK_LEFT);
+        if (directionState != 0 && !portaling)
+        {
+            turnRight = false;
+        }
+
+        ax = -SOPHIA_ENGINE;
+    }
+
     if (IsKeyDown(DIK_UP) || IsKeyDown(DIK_UP) && IsKeyDown(DIK_RIGHT))
     {
         /*
@@ -236,8 +250,12 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
     {
         vy = -SOPHIA_JUMP_FORCE;
     }
-    if (!flagOnAir &&  keyCode == DIK_RSHIFT)
+    if (/*!flagOnAir && */ keyCode == DIK_RSHIFT)
     {
+
+        flag_JasonJumpOut = true;
+        updateBody();
+        
         CJasonJumpOutEvent* jasonJumpOutEvent = new CJasonJumpOutEvent(x, y, currentSectionId);
         CGame::AddGameEvent(jasonJumpOutEvent);
     }
@@ -248,8 +266,12 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
 {
     //SANH-CAMERA
     //don't allow update when player is jason
-    if (CGame::GetInstance()->GetCurrentPlayer()->classId == CLASS_JASONSIDEVIEW)
+    if (CGame::GetInstance()->GetCurrentPlayer()->classId == CLASS_JASONSIDEVIEW && bodyState == 2)
+    {
+        flag_JasonJumpOut = false;
         return;
+    }
+        
 
     // dirty demo
     HandleKeys(dt);
@@ -266,6 +288,7 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
         updateWheel();
         updateDirection();
         updateBody();
+        
         flagOnAir = true;
 
         ResolveInteractions(dt, coObjs);

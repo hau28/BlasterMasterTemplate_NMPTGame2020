@@ -45,11 +45,13 @@ private:
     bool flagDead = 0;
     float ground;
     bool turnRight;
+    
 
     CSophia(){};
     CSophia(int classId, int x, int y);
 
     static CSophia *__instance;
+    bool flag_JasonJumpOut;
 
 public:
     virtual void UpdateVelocity(DWORD dt);
@@ -67,7 +69,7 @@ public:
     void init_camBox();
     static CSophia *GetInstance();
     static CSophia *InitInstance(int classId, int x, int y, int sectionId);
-
+    
 };
 
 typedef CSophia *LPSOPHIA;

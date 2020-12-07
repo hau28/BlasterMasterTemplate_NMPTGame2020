@@ -217,13 +217,12 @@ void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)
         
     }
 
-    if (keyCode == DIK_RSHIFT)
+    if (keyCode == DIK_RSHIFT && !flagOnAir)
     {
-        if (CCollisionSolver::IsOverlapped(CSophia::GetInstance(), __instance)) 
+        if (CCollisionSolver::IsTouchingSophia(CSophia::GetInstance(), __instance)) 
         {
             CJasonJumpInEvent* jasonJumpInEvent = new CJasonJumpInEvent(x, y, currentSectionId);
             CGame::AddGameEvent(jasonJumpInEvent);
-           // jasonJumpInEvent->deleteJasonSideview();
         }
     }
 }

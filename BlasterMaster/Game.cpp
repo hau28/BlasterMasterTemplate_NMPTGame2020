@@ -295,6 +295,7 @@ void CGame::HandleGameEvent(LPGAME_EVENT gameEvent)
 
 	if (gameEvent->eventName == "JasonJumpOutEvent")
 	{
+		
 		CJasonJumpOutEvent* castedEvent = dynamic_cast<CJasonJumpOutEvent*>(gameEvent);
 
 		SetState(GameState::PLAY_SIDEVIEW_JASON);
@@ -315,7 +316,6 @@ void CGame::HandleGameEvent(LPGAME_EVENT gameEvent)
 		auto scene = dynamic_cast<LPPLAYSCENE>(CGame::GetInstance()->GetCurrentScene());
         scene->SetPlayer(CSophia::GetInstance());
 		LPSECTION section = scene->GetCurrentSection();
-
 		section->deleteJasonSideview();
 		SetState(GameState::PLAY_SIDEVIEW_SOPHIA);
 		

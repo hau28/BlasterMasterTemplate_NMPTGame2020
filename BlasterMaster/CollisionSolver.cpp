@@ -186,12 +186,25 @@ bool CCollisionSolver::IsOverlapped(LPGAMEOBJECT obj1, LPGAMEOBJECT obj2, float&
 	return IsOverlapped(l1, t1, r1, b1, l2, t2, r2, b2, l, t, r, b);
 }
 
+bool CCollisionSolver::IsTouchingSophia (LPGAMEOBJECT obj1, LPGAMEOBJECT obj2)
+{
+	float l1, t1, r1, b1;
+	float l2, t2, r2, b2;
+
+	obj1->GetBoundingBox(l1, t1, r1, b1);
+	obj2->GetBoundingBox(l2, t2, r2, b2);
+
+	return
+		l1 <= l2 &&
+		r1 >= r2;
+}
 
 bool CCollisionSolver::IsOverlapped(LPGAMEOBJECT obj1, LPGAMEOBJECT obj2)
 {
 	float l, r, t, b;
 	return IsOverlapped(obj1, obj2, l, t, r, b);
 }
+
 
 void CCollisionSolver::DeOverlap(LPGAMEOBJECT movableObj, LPGAMEOBJECT staticObj, float& dx, float& dy)
 {
