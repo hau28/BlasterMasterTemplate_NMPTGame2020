@@ -3,9 +3,9 @@
 #include "GameObjectBehaviour.h"
 
 
-CSkull::CSkull(int classId, int x, int y, int animsId) : CEnemy::CEnemy(classId, x, y, animsId)
+CSkull::CSkull(int classId, int x, int y, int sectionId, int animsId) : CEnemy::CEnemy(classId, x, y, sectionId, animsId)
 {
-
+	SetState(SKULL_STATE_FLY_LEFT);
 }
 
 void CSkull::UpdateVelocity(DWORD dt)

@@ -23,7 +23,7 @@ private:
     void checkDeoverlapPlayer();
 public:
     CPanda() {};
-    CPanda(int classId, int x, int y, int animsId);
+    CPanda(int classId, int x, int y, int sectionId, int animsId);
     
     virtual void UpdateVelocity(DWORD dt);
     virtual void HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent);

@@ -1,6 +1,0 @@
-[SETTINGS]
-start	2
-#scene list
-[SCENES]
-1	IntroScene.txt
-2	SideviewScene.txt

@@ -15,7 +15,6 @@ public:
     void GetSize(int& width, int& height);
 
     CTileArea() {}
-    CTileArea(int classId, int x, int y, int width, int height);
     CTileArea(int classId, int x, int y, int width, int height, int sectionId);
 
     virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);

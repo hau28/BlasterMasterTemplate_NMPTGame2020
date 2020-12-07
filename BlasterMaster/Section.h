@@ -30,6 +30,10 @@ public:
 	void deleteJasonSideview();
 	void pushJasonSideview(float x, float y, int sectionID);
 
+	// Nghia Add and remove object.
+	void addObject(LPGAMEOBJECT obj);
+	void removeObject(LPGAMEOBJECT obj, bool deleteAfterRemoving);
+
 	vector<CGameObject*> Objects;
 };
 

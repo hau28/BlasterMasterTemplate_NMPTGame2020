@@ -11,6 +11,7 @@
 #include "Portal.h"
 #include "JasonSideview.h"
 #include "Mine.h"
+#include "Skull.h"
 
 /// <summary>
 /// The Abstract factory for creating game objects

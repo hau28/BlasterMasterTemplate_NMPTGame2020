@@ -12,7 +12,7 @@ class CSkull : public CEnemy
 
 public:
     CSkull() {};
-    CSkull(int classId, int x, int y, int animsId);
+    CSkull(int classId, int x, int y, int sectionId, int animsId);
 
     virtual void UpdateVelocity(DWORD dt);
     virtual void HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent);

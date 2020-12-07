@@ -12,7 +12,7 @@ class CMine : public CEnemy
 
 public:
     CMine() {};
-    CMine(int classId, int x, int y, int animsId);
+    CMine(int classId, int x, int y, int sectionId, int animsId);
 
     virtual void UpdateVelocity(DWORD dt);
     virtual void HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent);

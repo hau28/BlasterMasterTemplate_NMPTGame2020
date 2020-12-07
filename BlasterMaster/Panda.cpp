@@ -5,7 +5,8 @@
 #include <stdlib.h>
 #include <time.h>  
 
-CPanda::CPanda(int classId, int x, int y, int animsId) : CEnemy::CEnemy(classId, x, y, animsId)
+
+CPanda::CPanda(int classId, int x, int y, int sectionId, int animsId) : CEnemy::CEnemy(classId, x, y, sectionId, animsId)
 {
 	SetState(PANDA_STATE_WALK_RIGHT);
 	vyMax = PANDA_MAX_FALL_SPEED;

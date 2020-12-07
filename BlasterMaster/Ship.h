@@ -17,7 +17,7 @@ private:
 
 public:
     CShip() {};
-    CShip(int classId, int x, int y, int initLeft, int animsId);
+    CShip(int classId, int x, int y, int sectionId, int initLeft, int animsId);
 
     virtual void UpdateVelocity(DWORD dt);
     virtual void HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent);

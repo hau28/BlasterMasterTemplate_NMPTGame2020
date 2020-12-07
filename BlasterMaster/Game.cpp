@@ -1,19 +1,19 @@
 #include "Game.h"
 #include "PlayScene.h"
 #include "IntroScene.h"
+#include "EndingScene.h"
 #include "Utils.h"
 #include <math.h> 
 #include "JasonJumpOutEvent.h"
+#include "CreateObjectEvent.h"
+#include "RemoveObjectEvent.h"
 #include "JasonJumpInEvent.h"
 #include "Section.h"
-
-#define ID_SCENE_INTRO 1
-#define ID_SCENE_PLAY 2
-#define ID_SCENE_END 3
 
 CGame * CGame::__instance = nullptr;
 
 GameState CGame::state = GameState::PLAY_SIDEVIEW_SOPHIA;
+D3DCOLOR CGame::BackgroundColor = D3DCOLOR_XRGB(255, 255, 255);
 
 vector<LPGAME_EVENT> CGame::gameEvents;
 
@@ -71,8 +71,12 @@ void CGame::Init(HWND hWnd)
 	OutputDebugString(L"[INFO] InitGame done;\n");
 }
 
-void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha, bool flipX, int rotate, float offset_x, float offset_y)
+void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha, bool flipX, int rotate, float offset_x, float offset_y, int modifyR, int modifyG, int modifyB)
 {
+	// cutetn debug
+	if(modifyR != 255)
+		DebugOut(L"\nRGB: %d %d %d", modifyR, modifyG, modifyB);
+
 	int width = round(right - left);
 	int height = round(bottom - top);
 	int scale = 1;
@@ -96,7 +100,7 @@ void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 		&translate
 	);
 	spriteHandler->SetTransform(&matrix);
-	spriteHandler->Draw(texture, &r, NULL, NULL, D3DCOLOR_ARGB(alpha, 255, 255, 255));
+	spriteHandler->Draw(texture, &r, NULL, NULL, D3DCOLOR_ARGB(alpha, modifyR, modifyG, modifyB));
 }
 
 int CGame::IsKeyDown(int KeyCode)
@@ -276,7 +280,9 @@ void CGame::HandleGameEvents()
 {
 	// CuteTN Note: may need fixing
 	for (auto e : gameEvents)
+	{
 		HandleGameEvent(e);
+	}
 
 	gameEvents.clear();
 }
@@ -321,6 +327,14 @@ void CGame::HandleGameEvent(LPGAME_EVENT gameEvent)
 		
 		CSophia::GetInstance()->init_camBox();
 	}
+
+	// CuteTN Note: dynamic cast is surely better than magic strings, I'll change from here
+	if (dynamic_cast<CCreateObjectEvent*>(gameEvent) || dynamic_cast<CRemoveObjectEvent*>(gameEvent))
+	{
+		LPPLAYSCENE scene = dynamic_cast<LPPLAYSCENE>(CGame::GetInstance()->GetCurrentScene());
+		if(scene)
+			scene->handleGameEvent(gameEvent);
+	}
 }
 
 CGame *CGame::GetInstance()
@@ -362,6 +376,9 @@ void CGame::_ParseSection_SCENES(string line)
 
 	if (id == ID_SCENE_INTRO)
 		scene = new CIntroScene(id, path);
+	
+	if (id == ID_SCENE_END)
+		scene = new CEndingScene(id, path);
 
 	scenes[id] = scene;
 }

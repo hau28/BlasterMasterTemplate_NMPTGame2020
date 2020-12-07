@@ -2,6 +2,10 @@
 #include "TileArea.h"
 #include "GameObjectBehaviour.h"
 
+#include "Floater.h"
+#include "CreateObjectEvent.h"
+#include "RemoveObjectEvent.h"
+
 void CShip::UpdateState()
 {
 	if (vx < 0)
@@ -10,7 +14,7 @@ void CShip::UpdateState()
 		SetState(SHIP_STATE_FLY_RIGHT);
 }
 
-CShip::CShip(int classId, int x, int y, int initLeft, int animsId) : CEnemy::CEnemy(classId, x, y, animsId)
+CShip::CShip(int classId, int x, int y, int sectionId, int initLeft, int animsId) : CEnemy::CEnemy(classId, x, y, sectionId, animsId)
 {
 	vx = SHIP_MOVE_SPEED;
 	vy = 0;

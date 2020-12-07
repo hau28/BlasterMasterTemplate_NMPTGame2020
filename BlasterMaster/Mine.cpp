@@ -3,7 +3,7 @@
 #include "GameObjectBehaviour.h"
 
 
-CMine::CMine(int classId, int x, int y, int animsId) : CEnemy::CEnemy(classId, x, y, animsId)
+CMine::CMine(int classId, int x, int y, int sectionId, int animsId) : CEnemy::CEnemy(classId, x, y, sectionId, animsId)
 {
 	SetState(MINE_STATE_LIVE);
 }

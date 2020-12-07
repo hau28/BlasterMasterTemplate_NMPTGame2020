@@ -19,7 +19,7 @@ CJasonSideview::CJasonSideview()
     animationHandlers = objAnims->GenerateAnimationHanlders();
 }
 
-CJasonSideview::CJasonSideview(int classId, int x, int y, int animsId) : CAnimatableObject::CAnimatableObject(classId, x, y, animsId)
+CJasonSideview::CJasonSideview(int classId, int x, int y, int animsId) : CAnimatableObject::CAnimatableObject(classId, x, y, -1, animsId)
 {
     SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
     init_camBox();

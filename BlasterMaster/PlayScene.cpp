@@ -1,5 +1,8 @@
 #include "PlayScene.h"
 
+#include "CreateObjectEvent.h"
+#include "RemoveObjectEvent.h"
+
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath, int startupSectionId) : CScene(id, filePath)
@@ -38,8 +41,8 @@ void CPlayScene::_ParseSection_TEXTURES(string line)
 	//int B = atoi(tokens[4].c_str());
 
 	int R = 254;
-	int G = 254;
-	int B = 254;
+	int G = 0;
+	int B = 0;
 
 	CTextures::GetInstance()->Add(texID, path.c_str(), D3DCOLOR_XRGB(R, G, B));
 }
@@ -203,7 +206,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	
 	// add portal to library
 	if (class_ID == CLASS_TILE_PORTAL)
+	{
 		CPortalLib::GetInstance()->Add(obj_ID, dynamic_cast<LPPORTAL>(obj));
+		DebugOut(L"[INFO] Add Portal to Lib: %d of section %d", obj_ID, obj->currentSectionId);
+	}
 
 	if (obj == nullptr)
 		DebugOut(L"[ERROR] Cannot create object with object Id: %d\n", obj_ID);
@@ -555,6 +561,28 @@ void CPlayScene::handleGameEvent(LPGAME_EVENT gameEvent)
 		}
 		set_offset(temp->get_fromPortal(), temp->get_toPortal(), direct);
 	}
+	
+	// CuteTN - Add objects
+	CCreateObjectEvent* createObjEvent = dynamic_cast<CCreateObjectEvent*>(gameEvent);
+	if (createObjEvent)
+	{ 
+		int sectionId = createObjEvent->gameObject->currentSectionId;
+		
+		if(Sections[sectionId])
+			Sections[sectionId]->addObject(createObjEvent->gameObject);
+	}
+
+	// CuteTN - Remove objects
+	CRemoveObjectEvent* removeObjEvent = dynamic_cast<CRemoveObjectEvent*>(gameEvent);
+	if (removeObjEvent)
+	{
+		int sectionId = removeObjEvent->gameObject->currentSectionId;
+
+		if(Sections[sectionId])
+			Sections[sectionId]->removeObject(removeObjEvent->gameObject, removeObjEvent->toBeDeleted);
+	}
+
+	DebugOut(L"current section %d\n", CurrentSectionId);
 }
 
 /*
