@@ -32,8 +32,9 @@ private:
 
     bool flagOnAir = false;
     bool Jason_turnRight = true;
-    bool flag_keydown = false;
+    bool flag_jasoncrawl = false;
     bool flag_jumpwalk;
+    bool flag_jumpin;
     //bool Jasonn_crawl = false;
 
     //vector<int> Jason_idleLeftStates = { SOPHIA_STATE_IDLE_LEFT,SOPHIA_STATE_IDLE1_LEFT,SOPHIA_STATE_IDLE2_LEFT,SOPHIA_STATE_IDLE3_LEFT };
@@ -42,9 +43,11 @@ private:
 public:     
     virtual void UpdateVelocity(DWORD dt);
     virtual void HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent);
+    virtual void HandleOverlap(LPGAMEOBJECT overlappedObj) {};
 
     virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
     virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs);
+    virtual void Render(float offsetX, float offsetY);
 
     static CJasonSideview* GetInstance();
     static CJasonSideview* InitInstance(int x, int y, int sectionId);
@@ -53,7 +56,7 @@ public:
     float camBoxLeft, camBoxRight, camBoxTop, camBoxBottom;
 
     void init_camBox();
-
+    
 };
 
 typedef CJasonSideview* LPJASONSIDEVIEW;

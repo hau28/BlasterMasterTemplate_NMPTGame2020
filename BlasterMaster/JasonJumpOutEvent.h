@@ -1,5 +1,6 @@
 #pragma once
 #include "GameEvent.h"
+
 class CJasonJumpOutEvent : public CGameEvent
 {
 public:

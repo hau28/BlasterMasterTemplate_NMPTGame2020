@@ -7,8 +7,10 @@
 #include "TileArea.h"
 #include "Sophia.h"
 #include "Panda.h"
+#include "Ship.h"
 #include "Portal.h"
 #include "JasonSideview.h"
+#include "Mine.h"
 
 /// <summary>
 /// The Abstract factory for creating game objects

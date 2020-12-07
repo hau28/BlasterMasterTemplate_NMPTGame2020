@@ -12,7 +12,26 @@ CAnimatableObject::CAnimatableObject(int classId, int x, int y, int objAnimsId)
 	animationHandlers = objAnims->GenerateAnimationHanlders();
 }
 
-void CAnimatableObject::Deoverlap(vector<LPGAMEOBJECT>* coObjs)
+void CAnimatableObject::CheckOverlaps(vector<LPGAMEOBJECT>* coObjs, vector<LPGAMEOBJECT>& overlappedObjs)
+{
+	overlappedObjs.clear();
+
+	for (auto obj : *coObjs)
+	{
+		if (CCollisionSolver::IsOverlapped(this, obj))
+		{
+			overlappedObjs.push_back(obj);
+		}
+	}
+}
+
+void CAnimatableObject::HandleOverlaps(vector<LPGAMEOBJECT>* overlappedObjs)
+{
+	for (auto obj : *overlappedObjs)
+		HandleOverlap(obj);
+}
+
+void CAnimatableObject::DeoverlapWithBlockableTiles(vector<LPGAMEOBJECT>* coObjs)
 {
 	for(auto obj : *coObjs)
 		if (dynamic_cast<LPTILE_AREA>(obj))
@@ -43,11 +62,19 @@ void CAnimatableObject::HandleCollisionWithWalls(DWORD dt, vector<LPCOLLISIONEVE
 	{
 		if (event_->otherObject->classId == CLASS_TILE_BLOCKABLE && event_->nx != 0)
 		{
-			//if(this->classId == CLASS_SOPHIA)
-			//	DebugOut(L"CuteTN debug: wall collided %d, nx %f, ny %f\n", GetTickCount(), event_->nx, event_->ny);
-
 			event_->ny = 0;
 			event_->rdx = 0;
+			HandleCollision(dt, event_);
+		}
+	}
+}
+
+void CAnimatableObject::HandleCollisionWithBlockableTiles(DWORD dt, vector<LPCOLLISIONEVENT>* coEvents)
+{
+	for (auto event_ : *coEvents)
+	{
+		if (event_->otherObject->classId == CLASS_TILE_BLOCKABLE)
+		{
 			HandleCollision(dt, event_);
 		}
 	}
@@ -61,8 +88,26 @@ void CAnimatableObject::HandleCollisions(DWORD dt, vector<LPCOLLISIONEVENT>* coE
 	}
 }
 
+void CAnimatableObject::ResolveInteractions(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
+{
+	DeoverlapWithBlockableTiles(coObjs);
 
+	vector<LPCOLLISIONEVENT>* colEvents = new vector<LPCOLLISIONEVENT>();
 
+	// CuteTN note: handle collision with walls first to avoid a AABB bug (the bad way)
+	CheckCollision(dt, coObjs, *colEvents);
+	HandleCollisionWithWalls(dt, colEvents);
+
+	CheckCollision(dt, coObjs, *colEvents);
+	HandleCollisionWithBlockableTiles(dt, colEvents);
+
+	CheckCollision(dt, coObjs, *colEvents);
+	HandleCollisions(dt, colEvents);
+
+	vector<LPGAMEOBJECT>* overlappedObjs = new vector<LPGAMEOBJECT>();
+	CheckOverlaps(coObjs, *overlappedObjs);
+	HandleOverlaps(overlappedObjs);
+}
 
 void CAnimatableObject::UpdatePosition(DWORD dt)
 {
@@ -80,17 +125,7 @@ void CAnimatableObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
 	UpdateVelocity(dt);
 
-	Deoverlap(coObjs);
-
-	vector<LPCOLLISIONEVENT>* colEvents = new vector<LPCOLLISIONEVENT>();
-	colEvents->clear();
-
-	// CuteTN note: handle collision with walls first to avoid a AABB bug (the bad way)
-	CheckCollision(dt, coObjs, *colEvents);
-	HandleCollisionWithWalls(dt, colEvents);
-
-	CheckCollision(dt, coObjs, *colEvents);
-	HandleCollisions(dt, colEvents);
+	ResolveInteractions(dt, coObjs);
 
 	UpdatePosition(dt);
 }

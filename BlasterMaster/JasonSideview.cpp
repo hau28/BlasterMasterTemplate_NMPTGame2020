@@ -7,6 +7,7 @@
 
 #include <algorithm>
 #include <assert.h>
+#include "JasonJumpInEvent.h"
 CJasonSideview* CJasonSideview::__instance = nullptr;
 
 CJasonSideview::CJasonSideview()
@@ -82,7 +83,7 @@ void CJasonSideview::HandleKeysHold(DWORD dt)
     {
         Jason_turnRight = true;
 
-        if (flag_keydown)
+        if (flag_jasoncrawl)
         {
             SetState(JASONSIDEVIEW_STATE_CRAWL_RIGHT);
             animationHandlers[state]->startLoopIndex = 0;
@@ -93,7 +94,7 @@ void CJasonSideview::HandleKeysHold(DWORD dt)
             animationHandlers[state]->startLoopIndex = 0;
         }
 
-        if (flag_keydown && vy == 0 && !flagOnAir)
+        if (flag_jasoncrawl && vy == 0 && !flagOnAir)
             vx = JASONSIDEVIEW_VX / 2;
         else
             vx = JASONSIDEVIEW_VX;
@@ -104,7 +105,7 @@ void CJasonSideview::HandleKeysHold(DWORD dt)
     {
         Jason_turnRight = false; 
 
-        if (flag_keydown)
+        if (flag_jasoncrawl)
         {
             SetState(JASONSIDEVIEW_STATE_CRAWL_LEFT);
             animationHandlers[state]->startLoopIndex = 0;
@@ -115,7 +116,7 @@ void CJasonSideview::HandleKeysHold(DWORD dt)
             animationHandlers[state]->startLoopIndex = 0;
         }
 
-        if (flag_keydown && vy == 0 && !flagOnAir)
+        if (flag_jasoncrawl && vy == 0 && !flagOnAir)
             vx = -JASONSIDEVIEW_VX / 2;
         else
             vx = -JASONSIDEVIEW_VX;
@@ -132,12 +133,12 @@ void CJasonSideview::HandleKeyUp(DWORD dt, int keyCode)
         {
             ax = JASONSIDEVIEW_AX;
             flag_jumpwalk = true;
-            flag_keydown = false;
+            flag_jasoncrawl = false;
         }
         else 
             vx = 0; 
 
-        if (!flag_keydown && !IsKeyDown(DIK_X))
+        if (!flag_jasoncrawl && !IsKeyDown(DIK_X))
         {
             if (keyCode == DIK_RIGHT)
             {
@@ -151,12 +152,14 @@ void CJasonSideview::HandleKeyUp(DWORD dt, int keyCode)
             };
         }
 
-        if (flag_keydown && !flagOnAir)
+        if (flag_jasoncrawl && !flagOnAir)
         {
             if (keyCode == DIK_RIGHT)
             {
                 Jason_turnRight == true;
-                animationHandlers[state]->startLoopIndex = 1;
+
+                /*animationHandlers[state]->currentFrameIndex = 1;
+                animationHandlers[state]->startLoopIndex = 1;*/
             }
             else
             {
@@ -177,7 +180,7 @@ void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)
 
     if (keyCode == DIK_DOWN && vy == 0)
     {
-        flag_keydown = true;
+        flag_jasoncrawl = true;
 
         if (Jason_turnRight)
         {
@@ -191,10 +194,10 @@ void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)
         }
     }
 
-    if (keyCode == DIK_UP && flag_keydown)
+    if (keyCode == DIK_UP && flag_jasoncrawl)
     {
         vy = 0;
-        flag_keydown = false;
+        flag_jasoncrawl = false;
 
         if (Jason_turnRight)
             SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
@@ -202,7 +205,7 @@ void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)
             SetState(JASONSIDEVIEW_STATE_IDLE_LEFT);
     } 
 
-    if (keyCode == DIK_X && !flagOnAir && !flag_keydown)
+    if (keyCode == DIK_X && !flagOnAir && !flag_jasoncrawl)
     {
         vx = 0;
         vy -= JASONSIDEVIEW_JUMP_SPEED_Y;
@@ -212,6 +215,16 @@ void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)
         else
             SetState(JASONSIDEVIEW_STATE_JUMP_LEFT);
         
+    }
+
+    if (keyCode == DIK_RSHIFT)
+    {
+        if (CCollisionSolver::IsOverlapped(CSophia::GetInstance(), __instance)) 
+        {
+            CJasonJumpInEvent* jasonJumpInEvent = new CJasonJumpInEvent(x, y, currentSectionId);
+            CGame::AddGameEvent(jasonJumpInEvent);
+           // jasonJumpInEvent->deleteJasonSideview();
+        }
     }
 }
 
@@ -237,7 +250,7 @@ void CJasonSideview::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
         {
         case CLASS_TILE_BLOCKABLE:
         {
-            CGameObjectBehaviour::GetBlocked(dt, coEvent);
+            CGameObjectBehaviour::BlockObject(dt, coEvent);
 
             if (coEvent->ny < 0)
                 flagOnAir = false;
@@ -271,7 +284,6 @@ void CJasonSideview::GetBoundingBox(float& left, float& top, float& right, float
 void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
     // CuteTN note: we may need to refactor this function
-
     if (CGame::GetInstance()->GetCurrentPlayer()->classId == CLASS_SOPHIA)
         return;
 
@@ -312,17 +324,7 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
     {
         UpdateVelocity(dt);
             
-        Deoverlap(coObjs);
-
-        vector<LPCOLLISIONEVENT>* colEvents = new vector<LPCOLLISIONEVENT>();
-        colEvents->clear();
-
-        // CuteTN note: handle collision with walls first to avoid a AABB bug (the bad way)
-        CheckCollision(dt, coObjs, *colEvents);
-        HandleCollisionWithWalls(dt, colEvents);
-
-        CheckCollision(dt, coObjs, *colEvents);
-        HandleCollisions(dt, colEvents);
+        ResolveInteractions(dt, coObjs);
     }
 
     // SANH update cambox camera
@@ -349,15 +351,13 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
     if (flagOnAir && !Jason_turnRight)
         SetState(JASONSIDEVIEW_STATE_JUMP_LEFT);
 
-    if (vy == 0 && vx == 0 && !flag_keydown)
+    if (vy == 0 && vx == 0 && !flag_jasoncrawl)
     {
         if (Jason_turnRight)
             SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
         else
             SetState(JASONSIDEVIEW_STATE_IDLE_LEFT);
     }
-
-    //if (CCollisionSolver::IsOverlapped(CJasonSideview,))
 
     //Push vx when jason switch section --- Sanh
     if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT_JASON)
@@ -375,6 +375,18 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 
     UpdatePosition(dt);
 
+}
+
+void CJasonSideview::Render(float offsetX, float offsetY)
+{
+    animationHandlers[state]->Render(x + offsetX, y + offsetY);
+
+    if (!IsKeyDown(DIK_LEFT) && state == JASONSIDEVIEW_STATE_CRAWL_LEFT)
+        ;
+    else if (!IsKeyDown(DIK_RIGHT) && state == JASONSIDEVIEW_STATE_CRAWL_RIGHT)
+        ;
+    else
+        animationHandlers[state]->Update();
 }
 
 CJasonSideview* CJasonSideview::GetInstance()

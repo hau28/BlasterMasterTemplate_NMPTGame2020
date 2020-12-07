@@ -1,188 +1,74 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Animations.cpp">
-      <Filter>AnimationCore</Filter>
-    </ClCompile>
-    <ClCompile Include="Textures.cpp">
-      <Filter>AnimationCore</Filter>
-    </ClCompile>
-    <ClCompile Include="Sprites.cpp">
-      <Filter>AnimationCore</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Utils.cpp">
-      <Filter>Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="CustomKeyEvent.cpp">
-      <Filter>Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayScene.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObjectFactory.cpp">
-      <Filter>GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Section.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="Floater.cpp">
-      <Filter>GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Dome.cpp">
-      <Filter>GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="TileArea.cpp">
-      <Filter>GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>GameManagers</Filter>
-    </ClCompile>
-    <ClCompile Include="AnimatableObject.cpp">
-      <Filter>GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Sophia.cpp">
-      <Filter>GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionSolver.cpp">
-      <Filter>Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="Consts.h">
-      <Filter>Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEvent.cpp">
-      <Filter>GameManagers</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObjectBehaviour.cpp">
-      <Filter>GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Portal.cpp">
-      <Filter>GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="PortalLib.cpp">
-      <Filter>GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="WalkInPortalEvent.cpp" />
-    <ClCompile Include="SophiaAnimationSystem.cpp" />
-    <ClCompile Include="JasonSideview.cpp" />
-    <ClCompile Include="JasonJumpOutEvent.cpp" />
+    <ClCompile Include="AnimatableObject.cpp" />
+    <ClCompile Include="Animations.cpp" />
+    <ClCompile Include="CollisionSolver.cpp" />
+    <ClCompile Include="Consts.h" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="GameEvent.cpp" />
+    <ClCompile Include="GameObjectBehaviour.cpp" />
     <ClCompile Include="JasonJumpInEvent.cpp" />
-    <ClCompile Include="Panda.cpp">
-      <Filter>GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="IntroScene.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
+    <ClCompile Include="IntroScene.cpp" />
+    <ClCompile Include="JasonJumpOutEvent.cpp" />
+    <ClCompile Include="JasonSideview.cpp" />
+    <ClCompile Include="Portal.cpp" />
+    <ClCompile Include="PortalLib.cpp" />
+    <ClCompile Include="Ship.cpp" />
+    <ClCompile Include="SophiaAnimationSystem.cpp" />
+    <ClCompile Include="TileArea.cpp" />
+    <ClCompile Include="CustomKeyEvent.cpp" />
+    <ClCompile Include="Dome.cpp" />
+    <ClCompile Include="Floater.cpp" />
+    <ClCompile Include="GameObjectFactory.cpp" />
+    <ClCompile Include="Section.cpp" />
+    <ClCompile Include="Sophia.cpp" />
+    <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="PlayScene.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Sprites.cpp" />
+    <ClCompile Include="Textures.cpp" />
+    <ClCompile Include="WalkInPortalEvent.cpp" />
+    <ClCompile Include="Panda.cpp" />
+    <ClCompile Include="Mine.cpp" />
+    <ClCompile Include="Skull.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Animations.h">
-      <Filter>AnimationCore</Filter>
-    </ClInclude>
-    <ClInclude Include="Sprites.h">
-      <Filter>AnimationCore</Filter>
-    </ClInclude>
-    <ClInclude Include="Textures.h">
-      <Filter>AnimationCore</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>GameManagers</Filter>
-    </ClInclude>
-    <ClInclude Include="Utils.h">
-      <Filter>Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="CustomKeyEvent.h">
-      <Filter>Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayScene.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObjectFactory.h">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Section.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Floater.h">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Dome.h">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="TileArea.h">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimatableObject.h">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Sophia.h">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionSolver.h">
-      <Filter>Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="GameState.h">
-      <Filter>GameManagers</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEvent.h">
-      <Filter>GameManagers</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObjectBehaviour.h">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Portal.h">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="PortalLib.h">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="WalkInPortalEvent.h" />
-    <ClInclude Include="SophiaAnimationSystem.h" />
-    <ClInclude Include="JasonSideview.h" />
-    <ClInclude Include="JasonJumpOutEvent.h" />
-<<<<<<< HEAD
+    <ClInclude Include="AnimatableObject.h" />
+    <ClInclude Include="Animations.h" />
+    <ClInclude Include="CollisionSolver.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="GameEvent.h" />
+    <ClInclude Include="GameObjectBehaviour.h" />
     <ClInclude Include="JasonJumpInEvent.h" />
-=======
-    <ClInclude Include="Panda.h">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="IntroScene.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
->>>>>>> b758247bb2d681255bcfd7a610ef4a4abd3800a9
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="AnimationCore">
-      <UniqueIdentifier>{5e8e09b2-c946-4041-99df-33b73767c5be}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameManagers">
-      <UniqueIdentifier>{28e6045e-7aba-497a-917f-0d10788cd93b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObjects">
-      <UniqueIdentifier>{25febc18-dede-49ab-be38-8c31e48550b9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utilities">
-      <UniqueIdentifier>{4e47022e-2904-4187-bd61-6c3c99113fe4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scenes">
-      <UniqueIdentifier>{3e4fe505-fff7-463f-b1af-e0e83220d906}</UniqueIdentifier>
-    </Filter>
+    <ClInclude Include="IntroScene.h" />
+    <ClInclude Include="JasonJumpOutEvent.h" />
+    <ClInclude Include="JasonSideview.h" />
+    <ClInclude Include="Portal.h" />
+    <ClInclude Include="PortalLib.h" />
+    <ClInclude Include="Ship.h" />
+    <ClInclude Include="SophiaAnimationSystem.h" />
+    <ClInclude Include="TileArea.h" />
+    <ClInclude Include="CustomKeyEvent.h" />
+    <ClInclude Include="Dome.h" />
+    <ClInclude Include="Floater.h" />
+    <ClInclude Include="GameObjectFactory.h" />
+    <ClInclude Include="GameState.h" />
+    <ClInclude Include="Section.h" />
+    <ClInclude Include="Sophia.h" />
+    <ClInclude Include="Utils.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="PlayScene.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="Sprites.h" />
+    <ClInclude Include="Textures.h" />
+    <ClInclude Include="WalkInPortalEvent.h" />
+    <ClInclude Include="Panda.h" />
+    <ClInclude Include="Mine.h" />
+    <ClInclude Include="Skull.h" />
   </ItemGroup>
 </Project>

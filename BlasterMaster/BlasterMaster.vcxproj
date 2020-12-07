@@ -140,6 +140,7 @@
   <ItemGroup>
     <ClCompile Include="AnimatableObject.cpp" />
     <ClCompile Include="Animations.cpp" />
+    <ClCompile Include="Mine.cpp" />
     <ClCompile Include="CollisionSolver.cpp" />
     <ClCompile Include="Consts.h" />
     <ClCompile Include="Enemy.cpp" />
@@ -151,6 +152,8 @@
     <ClCompile Include="JasonSideview.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="PortalLib.cpp" />
+    <ClCompile Include="Ship.cpp" />
+    <ClCompile Include="Skull.cpp" />
     <ClCompile Include="SophiaAnimationSystem.cpp" />
     <ClCompile Include="TileArea.cpp" />
     <ClCompile Include="CustomKeyEvent.cpp" />
@@ -173,6 +176,7 @@
   <ItemGroup>
     <ClInclude Include="AnimatableObject.h" />
     <ClInclude Include="Animations.h" />
+    <ClInclude Include="Mine.h" />
     <ClInclude Include="CollisionSolver.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="GameEvent.h" />
@@ -183,6 +187,8 @@
     <ClInclude Include="JasonSideview.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="PortalLib.h" />
+    <ClInclude Include="Ship.h" />
+    <ClInclude Include="Skull.h" />
     <ClInclude Include="SophiaAnimationSystem.h" />
     <ClInclude Include="TileArea.h" />
     <ClInclude Include="CustomKeyEvent.h" />

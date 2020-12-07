@@ -20,11 +20,15 @@ public:
 	/// <param name="dt"></param>
 	virtual void UpdateVelocity(DWORD dt) = 0;
 
+	virtual void HandleOverlap(LPGAMEOBJECT overlappedObj) = 0;
+	virtual void CheckOverlaps(vector<LPGAMEOBJECT>* coObjs, vector<LPGAMEOBJECT>& overlappedObjs);
+	virtual void HandleOverlaps(vector<LPGAMEOBJECT>* overlappedObjs);
+
 	/// <summary>
 	/// set the position to move the enemy a bit so that it won't hit the blockable walls
 	/// </summary>
 	/// <param name="coObjs"></param>
-	virtual void Deoverlap(vector<LPGAMEOBJECT>* coObjs);
+	virtual void DeoverlapWithBlockableTiles(vector<LPGAMEOBJECT>* coObjs);
 
 	/// <summary>
 	/// check and filter out all the collision events that happen in the current frame
@@ -40,6 +44,11 @@ public:
 	/// why? Checking these collision first to hot fix a collision bug just like in the old Mario template
 	virtual void HandleCollisionWithWalls(DWORD dt, vector<LPCOLLISIONEVENT>* coEvents);
 
+	/// <para> CuteTN note:  </para>
+	/// this function handle check all the collision with blockable tiles
+	/// why? This is more priority than any other game objects
+	virtual void HandleCollisionWithBlockableTiles(DWORD dt, vector<LPCOLLISIONEVENT>* coEvents);
+
 	/// <summary>
 	/// Handle all the collision events
 	/// Only update velocity and acceleration
@@ -47,6 +56,11 @@ public:
 	/// <param name="dt"></param>
 	/// <param name="coObjs"></param>
 	virtual void HandleCollisions(DWORD dt, vector<LPCOLLISIONEVENT>* coEvents);
+
+	/// <summary>
+	/// Handle interacting with everything, including collision (check+handle), overlapping (check+handle)...
+	/// </summary>
+	virtual void ResolveInteractions(DWORD dt, vector<LPGAMEOBJECT>* coObjs);
 
 	/// <summary>
 	/// Update position base on velocity

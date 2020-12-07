@@ -45,6 +45,7 @@ protected:
 public: 
 	int currentSectionId = 0;
 	int classId;
+	int objectId;
 
 	CGameObject();
 

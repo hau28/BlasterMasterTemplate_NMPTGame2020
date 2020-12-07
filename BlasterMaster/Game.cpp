@@ -4,6 +4,8 @@
 #include "Utils.h"
 #include <math.h> 
 #include "JasonJumpOutEvent.h"
+#include "JasonJumpInEvent.h"
+#include "Section.h"
 
 #define ID_SCENE_INTRO 1
 #define ID_SCENE_PLAY 2
@@ -258,10 +260,7 @@ void CGame::SetState(GameState newState)
 			// Thy cute
 			LPSECTION section = scene->GetCurrentSection();
 
-			if (section != nullptr)
-				section->Objects.push_back(CJasonSideview::GetInstance());
-
-			CSophia::GetInstance()->roundPosition();
+			CSophia::GetInstance()->roundPositionX();
 		}
 	}
 
@@ -298,10 +297,29 @@ void CGame::HandleGameEvent(LPGAME_EVENT gameEvent)
 	{
 		CJasonJumpOutEvent* castedEvent = dynamic_cast<CJasonJumpOutEvent*>(gameEvent);
 
-		CJasonSideview::InitInstance(castedEvent->x, castedEvent->y, castedEvent->sectionId);
 		SetState(GameState::PLAY_SIDEVIEW_JASON);
+
+		auto scene = dynamic_cast<LPPLAYSCENE>(CGame::GetInstance()->GetCurrentScene());
+		scene->SetPlayer(CJasonSideview::GetInstance());
+		LPSECTION section = scene->GetCurrentSection();
+		
+		if (section != nullptr)
+			section->pushJasonSideview(castedEvent->x, castedEvent->y, castedEvent->sectionId);
+
 		//SANH-CAMERA
 		CJasonSideview::GetInstance()->init_camBox();
+	}
+
+	if (gameEvent->eventName == "JasonJumpInEvent")
+	{
+		auto scene = dynamic_cast<LPPLAYSCENE>(CGame::GetInstance()->GetCurrentScene());
+        scene->SetPlayer(CSophia::GetInstance());
+		LPSECTION section = scene->GetCurrentSection();
+
+		section->deleteJasonSideview();
+		SetState(GameState::PLAY_SIDEVIEW_SOPHIA);
+		
+		CSophia::GetInstance()->init_camBox();
 	}
 }
 
