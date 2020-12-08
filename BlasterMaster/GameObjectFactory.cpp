@@ -30,6 +30,12 @@ LPGAMEOBJECT CGameObjectFactory::Create(int classId, map<string, string> propert
 		result = new CShip(classId, x, y, sectionId, initLeft, animsId);
 		break;
 
+	case CLASS_JUMPER:
+		GetAnimatableObjectProps(properties, x, y, animsId, sectionId);
+		initLeft = atoi(properties["InitLeft"].c_str());
+		result = new CJumper(classId, x, y, sectionId, initLeft, animsId);
+		break;
+
 	case CLASS_SOPHIA:
 		// CuteTN Note: maybe refactor the order of parameters...
 		GetAnimatableObjectProps(properties, x, y, animsId, sectionId);
@@ -55,6 +61,8 @@ LPGAMEOBJECT CGameObjectFactory::Create(int classId, map<string, string> propert
 		GetAnimatableObjectProps(properties, x, y, animsId, sectionId);
 		result = new CSkull(classId, x, y, sectionId, animsId);
 		break;
+
+
 
 	default:
 		return nullptr;

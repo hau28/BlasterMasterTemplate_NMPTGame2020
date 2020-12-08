@@ -396,6 +396,7 @@ void CSophia::UpdateVelocity(DWORD dt)
 
 void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 {
+
     if (coEvent == nullptr)
         return;
     if (coEvent->otherObject == this)
@@ -415,6 +416,7 @@ void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
             if (coEvent->ny < 0)
                 flagOnAir = false;
+
 
             break;
         }

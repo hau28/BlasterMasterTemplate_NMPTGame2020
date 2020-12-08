@@ -12,6 +12,7 @@
 #include "JasonSideview.h"
 #include "Mine.h"
 #include "Skull.h"
+#include "Jumper.h"
 
 /// <summary>
 /// The Abstract factory for creating game objects

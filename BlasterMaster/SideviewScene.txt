@@ -400,7 +400,7 @@
 336 135	Section 302	X 320	Y 832	Width 32	Height 80	
 337 135	Section 302	X 416	Y 864	Width 96	Height 32	
 338 135	Section 302	X 160	Y 928	Width 256	Height 32	
-339 135	Section 302	X 0	Y 992	Width 112	Height 32	
+339 135	Section 302	X 0	Y 1008	Width 112	Height 16	
 340 135	Section 302	X 0	Y 992	Width 160	Height 16	
 341 135	Section 302	X 144	Y 1008	Width 16	Height 16	
 342 135	Section 302	X 256	Y 960	Width 32	Height 80	

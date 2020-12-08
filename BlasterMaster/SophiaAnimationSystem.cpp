@@ -61,7 +61,6 @@ void CSophiaAnimationSystem::_ParseSection_SPRITES(string line)
 	LPSPRITE sprite = new CSprite(id, l, t, r, b, texSophia);
 	sprites[id] = sprite;
 
-	DebugOut(L"Sophia sprite added with id: %d = (%d, %d, %d, %d)\n", id, directionState, gunState, bodyState, wheelState);
 }
 
 void CSophiaAnimationSystem::_ParseSection_SEQUENCES(string line)
