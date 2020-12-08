@@ -9,6 +9,8 @@
 #include "RemoveObjectEvent.h"
 #include "JasonJumpInEvent.h"
 #include "Section.h"
+#include "SwitchSceneEvent.h"
+
 
 CGame * CGame::__instance = nullptr;
 
@@ -326,6 +328,12 @@ void CGame::HandleGameEvent(LPGAME_EVENT gameEvent)
 		SetState(GameState::PLAY_SIDEVIEW_SOPHIA);
 		
 		CSophia::GetInstance()->init_camBox();
+	}
+
+	if (dynamic_cast<SwitchSceneEvent*>(gameEvent) || dynamic_cast<SwitchSceneEvent*>(gameEvent))
+	{
+		SwitchSceneEvent* event = dynamic_cast<SwitchSceneEvent*>(gameEvent);
+		CGame::GetInstance()->SwitchScene(event->getIDNextScene());
 	}
 
 	// CuteTN Note: dynamic cast is surely better than magic strings, I'll change from here

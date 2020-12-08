@@ -162,6 +162,7 @@
     <ClCompile Include="Ship.cpp" />
     <ClCompile Include="Skull.cpp" />
     <ClCompile Include="SophiaAnimationSystem.cpp" />
+    <ClCompile Include="SwitchSceneEvent.cpp" />
     <ClCompile Include="TileArea.cpp" />
     <ClCompile Include="CustomKeyEvent.cpp" />
     <ClCompile Include="Dome.cpp" />
@@ -204,6 +205,7 @@
     <ClInclude Include="Ship.h" />
     <ClInclude Include="Skull.h" />
     <ClInclude Include="SophiaAnimationSystem.h" />
+    <ClInclude Include="SwitchSceneEvent.h" />
     <ClInclude Include="TileArea.h" />
     <ClInclude Include="CustomKeyEvent.h" />
     <ClInclude Include="Dome.h" />

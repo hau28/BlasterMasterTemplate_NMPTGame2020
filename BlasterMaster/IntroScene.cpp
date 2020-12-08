@@ -5,6 +5,8 @@
 #include "Utils.h"
 #include <stdlib.h>    
 #include <time.h>  
+#include "SwitchSceneEvent.h"
+#include "GameEvent.h"
 
 #define SCENE_SECTION_UNKNOWN -1
 #define SCENE_SECTION_TEXTURES 2
@@ -139,7 +141,9 @@ void CIntroScene::Update(DWORD dt)
 		if (isIntroFinished && animationHandlers[state]->currentFrameIndex == animationHandlers[state]->startLoopIndex)
 		{
 			animationHandlers[state]->Reset();
-			CGame::GetInstance()->SwitchScene(ID_SCENE_END);
+			//CGame::GetInstance()->SwitchScene(ID_SCENE_END);
+			CGameEvent* event = new SwitchSceneEvent(ID_SCENE_PLAY);
+			CGame::AddGameEvent(event);
 		}
 		isIntroFinished = isTitleFinished = isFilmFinished = false;
 		break;

@@ -8,6 +8,7 @@
 #include "JasonJumpOutEvent.h"
 #include "CreateObjectEvent.h"
 #include "Bullet_Sophia.h"
+#include "SwitchSceneEvent.h"
 
 CSophia::CSophia(int classId, int x, int y)
 {
@@ -249,7 +250,10 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
     //SANH_SWITCH SCENE
     //Help Sanh fastly test switch scene
     if (keyCode == DIK_SPACE)
-        CGame::GetInstance()->SwitchScene(ID_SCENE_END);
+    {
+        CGameEvent* event = new SwitchSceneEvent(ID_SCENE_END);
+        CGame::AddGameEvent(event);
+    }
 
     // CuteTN Bullet
     if (keyCode == DIK_C)
