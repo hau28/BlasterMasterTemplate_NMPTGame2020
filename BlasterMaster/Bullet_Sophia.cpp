@@ -47,15 +47,7 @@ void CBullet_Sophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 		case CLASS_TILE_PORTAL:
 		{
 			CGameObjectBehaviour::BlockObject(dt, coEvent);
-
-			CRemoveObjectEvent* re = new CRemoveObjectEvent(this);
-			CGame::AddGameEvent(re);
-
-			CExplosion_SmallSideview* explosion = new CExplosion_SmallSideview(x, y, currentSectionId);
-
-			CCreateObjectEvent* ce = new CCreateObjectEvent(explosion);
-			CGame::AddGameEvent(ce);
-
+			Explode(new CExplosion_SmallSideview());
 			break;
 		}
 		}
@@ -64,7 +56,32 @@ void CBullet_Sophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 void CBullet_Sophia::HandleOverlap(LPGAMEOBJECT overlappedObj)
 {
-	// nothing
+	// CuteTN Todo: overlap with enemies?
+	// nothing YET
+}
+
+void CBullet_Sophia::CalcExplosionCenterPos(float& explosionX, float& explosionY)
+{
+	float l, r, t, b;
+	GetBoundingBox(l, t, r, b);
+	CGameObjectBehaviour::CalcBoundingBoxCenter(this, explosionX, explosionY);
+
+	switch (state)
+	{
+	case BULLET_SOPHIA_SIDEVIEW_STATE_UP:
+		explosionY = t;
+		break;
+	
+	case BULLET_SOPHIA_SIDEVIEW_STATE_LEFT:
+		explosionX = l;
+		break;
+
+	case BULLET_SOPHIA_SIDEVIEW_STATE_RIGHT:
+		explosionX = r;
+		break;
+	}
+
+
 }
 
 void CBullet_Sophia::GetBoundingBox(float& left, float& top, float& right, float& bottom)

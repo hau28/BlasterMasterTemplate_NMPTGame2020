@@ -1,5 +1,9 @@
 #include "Explosion_SmallSideview.h"
 
+CExplosion_SmallSideview::CExplosion_SmallSideview() : CExplosion(-1, -1, -1, SMALL_EXPLOSION_SIDEVIEW_ANIMATIONS)
+{
+}
+
 CExplosion_SmallSideview::CExplosion_SmallSideview(int x, int y, int sectionId) : CExplosion(x, y, sectionId, SMALL_EXPLOSION_SIDEVIEW_ANIMATIONS)
 {
 	SetState(SMALL_EXPLOSION_STATE);

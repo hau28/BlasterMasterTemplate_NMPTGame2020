@@ -18,6 +18,18 @@ void CExplosion::HandleOverlap(LPGAMEOBJECT overlappedObj)
 {
 }
 
+void CExplosion::ResolveInteractions(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
+{
+	vector<LPCOLLISIONEVENT>* colEvents = new vector<LPCOLLISIONEVENT>();
+
+	CheckCollision(dt, coObjs, *colEvents);
+	HandleCollisions(dt, colEvents);
+
+	vector<LPGAMEOBJECT>* overlappedObjs = new vector<LPGAMEOBJECT>();
+	CheckOverlaps(coObjs, *overlappedObjs);
+	HandleOverlaps(overlappedObjs);
+}
+
 void CExplosion::Render(float offsetX, float offsetY)
 {
 	animationHandlers[state]->Render(x + offsetX, y + offsetY, 255, modifyR, modifyG, modifyB);

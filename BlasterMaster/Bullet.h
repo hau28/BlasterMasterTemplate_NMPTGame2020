@@ -1,5 +1,7 @@
 #pragma once
 #include "AnimatableObject.h"
+#include "Explosion.h"
+
 class CBullet : public CAnimatableObject
 {
 protected:
@@ -14,6 +16,14 @@ public:
     virtual void HandleOverlap(LPGAMEOBJECT overlappedObj) = 0;
 
     virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) = 0;
+
+    virtual void CalcExplosionCenterPos(float& explosionX, float& explosionY);
+
+    /// <summary>
+    /// <para> explosion: only passed in to know the type of explosion to create. </para>
+    /// <para> this function would set the exploding position itself </para>
+    /// </summary>
+    virtual void Explode(LPEXPLOSION explosion);
 };
 
 typedef CBullet* LPBULLET;
