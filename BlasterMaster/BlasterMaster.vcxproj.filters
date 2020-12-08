@@ -120,6 +120,7 @@
     <ClCompile Include="EndingScene.cpp" />
     <ClCompile Include="Skull.cpp" />
     <ClCompile Include="Jumper.cpp" />
+    <ClCompile Include="Orb.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -217,6 +218,7 @@
     <ClInclude Include="IntroScene.h" />
     <ClInclude Include="Skull.h" />
     <ClInclude Include="Jumper.h" />
+    <ClInclude Include="Orb.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="AnimationCore">

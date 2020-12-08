@@ -153,6 +153,7 @@
     <ClCompile Include="IntroScene.cpp" />
     <ClCompile Include="JasonJumpOutEvent.cpp" />
     <ClCompile Include="JasonSideview.cpp" />
+    <ClCompile Include="Orb.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="PortalLib.cpp" />
     <ClCompile Include="RemoveObjectEvent.cpp" />
@@ -192,6 +193,7 @@
     <ClInclude Include="IntroScene.h" />
     <ClInclude Include="JasonJumpOutEvent.h" />
     <ClInclude Include="JasonSideview.h" />
+    <ClInclude Include="Orb.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="PortalLib.h" />
     <ClInclude Include="RemoveObjectEvent.h" />

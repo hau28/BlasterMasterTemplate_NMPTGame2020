@@ -28,6 +28,10 @@ CSophia::CSophia(int classId, int x, int y)
     // SetModifyColor(255, 0, 255);
 };
 
+void CSophia::setGunState(int state) {
+    gunState = state;
+}
+
 void CSophia::init_camBox()
 {
     camBoxLeft = x;
