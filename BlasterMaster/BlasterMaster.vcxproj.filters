@@ -24,7 +24,6 @@
     <ClCompile Include="Section.cpp" />
     <ClCompile Include="Sophia.cpp" />
     <ClCompile Include="Utils.cpp" />
-    <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Animations.cpp">
@@ -123,6 +122,10 @@
     <ClCompile Include="Bullet_Sophia.cpp" />
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="Explosion_SmallSideview.cpp" />
+    <ClCompile Include="Game.cpp">
+      <Filter>GameManagers</Filter>
+    </ClCompile>
+    <ClCompile Include="SwitchSceneEvent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -223,6 +226,7 @@
     <ClInclude Include="Bullet_Sophia.h" />
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="Explosion_SmallSideview.h" />
+    <ClInclude Include="SwitchSceneEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="AnimationCore">
