@@ -36,6 +36,19 @@ void CSophia::init_camBox()
     camBoxBottom = y + 32 - 1; //Sanh can't explain to you about magic number -1
 }
 
+void CSophia::init_camBox_FollowCamera()
+{
+    float cameraX, cameraY;
+    CGame::GetInstance()->GetCamPos(cameraX, cameraY);
+    float centerPointX = cameraX + CGame::GetInstance()->GetScreenWidth() / 2 + 8;
+    float centerPointY = cameraY + CGame::GetInstance()->GetScreenHeight() / 2  + 16;
+
+    camBoxLeft = centerPointX - 16 * 2;
+    camBoxRight = camBoxLeft + 16 * 5;
+    camBoxBottom = centerPointY + 16 * 3;
+    camBoxTop = camBoxBottom - 16 * 6;
+}
+
 #pragma region key events handling
 
 void CSophia::HandleKeys(DWORD dt)
@@ -177,6 +190,7 @@ void CSophia::updateBody()
 
     if (flag_JasonJumpOut) 
     {
+        //jasonJumpIn();
         bodyState = 4;
         if (GetTickCount() - lastTimeupdateGun > 200)
         {
@@ -255,12 +269,14 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
     }
     if (/*!flagOnAir && */ keyCode == DIK_RSHIFT)
     {
-
         flag_JasonJumpOut = true;
         updateBody();
         
         CJasonJumpOutEvent* jasonJumpOutEvent = new CJasonJumpOutEvent(x, y, currentSectionId);
         CGame::AddGameEvent(jasonJumpOutEvent);
+        //CSophia::GetInstance()->init_camBox_FollowCamera();
+        vx = 0;
+        ax = 0;
     }
     //SANH_SWITCH SCENE
     //Help Sanh fastly test switch scene
@@ -273,13 +289,12 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
 {
     //SANH-CAMERA
     //don't allow update when player is jason
+
     if (CGame::GetInstance()->GetCurrentPlayer()->classId == CLASS_JASONSIDEVIEW && bodyState == 2)
     {
         flag_JasonJumpOut = false;
         return;
     }
-        
-
     // dirty demo
     HandleKeys(dt);
 
@@ -291,16 +306,16 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
     if (!portaling) {
 
         updateGun();
-        UpdateVelocity(dt);
+        UpdateVelocity(dt);//
         updateWheel();
         updateDirection();
         updateBody();
         
         flagOnAir = true;
 
-        ResolveInteractions(dt, coObjs);
+        ResolveInteractions(dt, coObjs);//
 
-        UpdatePosition(dt);
+        UpdatePosition(dt);//
 
         //update camBox
         if (x + 16 * 2 >= camBoxRight) {

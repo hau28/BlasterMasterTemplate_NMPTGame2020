@@ -62,11 +62,14 @@ public:
     virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
     virtual void Render(float offsetX, float offsetY);
 
+    void jasonJumpIn();
+
     float camBoxLeft, camBoxRight,camBoxTop,camBoxBottom;
     void roundPosition() { x = round(x); y = round(y); }
     void roundPositionX() { x = round(x); }
 
     void init_camBox();
+    void init_camBox_FollowCamera();
     static CSophia *GetInstance();
     static CSophia *InitInstance(int classId, int x, int y, int sectionId);
     

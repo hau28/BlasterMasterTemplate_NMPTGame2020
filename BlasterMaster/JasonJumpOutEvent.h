@@ -22,5 +22,7 @@ public:
 	/// Jason initial section Id
 	/// </summary>
 	int sectionId;
+
+	bool turnRight;
 };
 

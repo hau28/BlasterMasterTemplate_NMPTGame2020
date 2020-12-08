@@ -315,6 +315,7 @@ void CGame::HandleGameEvent(LPGAME_EVENT gameEvent)
 
 		//SANH-CAMERA
 		CJasonSideview::GetInstance()->init_camBox();
+		//CJasonSideview::GetState(ja)
 	}
 
 	if (gameEvent->eventName == "JasonJumpInEvent")
@@ -324,8 +325,8 @@ void CGame::HandleGameEvent(LPGAME_EVENT gameEvent)
 		LPSECTION section = scene->GetCurrentSection();
 		section->deleteJasonSideview();
 		SetState(GameState::PLAY_SIDEVIEW_SOPHIA);
-		
-		CSophia::GetInstance()->init_camBox();
+		//CSophia::GetInstance()->init_camBox();
+		CSophia::GetInstance()->init_camBox_FollowCamera();
 	}
 
 	// CuteTN Note: dynamic cast is surely better than magic strings, I'll change from here

@@ -221,6 +221,7 @@ void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)
     {
         if (CCollisionSolver::IsTouchingSophia(CSophia::GetInstance(), __instance)) 
         {
+            vx = 0;
             CJasonJumpInEvent* jasonJumpInEvent = new CJasonJumpInEvent(x, y, currentSectionId);
             CGame::AddGameEvent(jasonJumpInEvent);
         }
@@ -247,27 +248,27 @@ void CJasonSideview::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
         switch (tileArea->classId)
         {
-        case CLASS_TILE_BLOCKABLE:
-        {
-            CGameObjectBehaviour::BlockObject(dt, coEvent);
+            case CLASS_TILE_BLOCKABLE:
+            {
+                CGameObjectBehaviour::BlockObject(dt, coEvent);
 
-            if (coEvent->ny < 0)
-                flagOnAir = false;
+                if (coEvent->ny < 0)
+                    flagOnAir = false;
 
-            break;
-        }
+                break;
+            }
 
-        case CLASS_TILE_PORTAL:
-        {
-            LPPORTAL fromPortal = dynamic_cast<LPPORTAL>(obj);
-            LPPORTAL toPortal = CPortalLib::GetInstance()->Get(fromPortal->associatedPortalId);
+            case CLASS_TILE_PORTAL:
+            {
+                LPPORTAL fromPortal = dynamic_cast<LPPORTAL>(obj);
+                LPPORTAL toPortal = CPortalLib::GetInstance()->Get(fromPortal->associatedPortalId);
 
-            // Sanh code from here!
-            LPGAME_EVENT newEvent = new CWalkInPortalEvent("WalkInPortalEvent", fromPortal, toPortal);
-            CGame::GetInstance()->AddGameEvent(newEvent);
-            // to do: create an event to CGame, let CGame handle switching section
-            DebugOut(L"Jason to portal %d of section %d, tick %d\n", toPortal->associatedPortalId, toPortal->currentSectionId, GetTickCount());
-        }
+                // Sanh code from here!
+                LPGAME_EVENT newEvent = new CWalkInPortalEvent("WalkInPortalEvent", fromPortal, toPortal);
+                CGame::GetInstance()->AddGameEvent(newEvent);
+                // to do: create an event to CGame, let CGame handle switching section
+                DebugOut(L"Jason to portal %d of section %d, tick %d\n", toPortal->associatedPortalId, toPortal->currentSectionId, GetTickCount());
+            }
         }
     }
 }
@@ -327,19 +328,19 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
     }
 
     // SANH update cambox camera
-    if (x + 16 >= camBoxRight) {
+    if (x + 16 > camBoxRight) {
         camBoxRight = x + 16;
         camBoxLeft = camBoxRight - 16 * 4;
     }
-    else if (x <= camBoxLeft) {
+    else if (x < camBoxLeft) {
         camBoxLeft = x;
         camBoxRight = x + 16 * 4;
     }
-    if (y + 16 >= camBoxBottom) {
+    if (y + 16 > camBoxBottom) {
         camBoxBottom = y + 16;
         camBoxTop = camBoxBottom - 16 * 6;
     }
-    if (y<= camBoxTop) {
+    if (y< camBoxTop) {
         camBoxTop = y;
         camBoxBottom = camBoxTop + 16 * 6;
     }
