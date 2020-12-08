@@ -6,6 +6,8 @@
 #include "SophiaAnimationSystem.h"
 #include "JasonSideview.h"
 #include "JasonJumpOutEvent.h"
+#include "CreateObjectEvent.h"
+#include "Bullet_Sophia.h"
 
 CSophia::CSophia(int classId, int x, int y)
 {
@@ -248,6 +250,22 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
     //Help Sanh fastly test switch scene
     if (keyCode == DIK_SPACE)
         CGame::GetInstance()->SwitchScene(ID_SCENE_END);
+
+    // CuteTN Bullet
+    if (keyCode == DIK_C)
+    {
+        float dx, dy, cx, cy;
+        GetGunDirection(dx, dy);
+
+        LPBULLET_SOPHIA bullet = new CBullet_Sophia(x, y, currentSectionId, dx, dy);
+
+        // set the bullet center equals to Sophia center
+        CGameObjectBehaviour::CalcBoundingBoxCenter(this, cx, cy);
+        CGameObjectBehaviour::SetBoundingBoxCenter(bullet, cx + SOPHIA_GUN_OFFSETX_FROM_CENTER, cy + SOPHIA_GUN_OFFSETY_FROM_CENTER);
+
+        CCreateObjectEvent* e = new CCreateObjectEvent(bullet);
+        CGame::AddGameEvent(e);
+    }
 }
 #pragma endregion
 
@@ -479,4 +497,17 @@ CSophia *CSophia::InitInstance(int classId, int x, int y, int sectionId)
     __instance->currentSectionId = sectionId;
 
     return __instance;
+}
+
+void CSophia::GetGunDirection(float& dirX, float& dirY)
+{
+    if (gunState == 2)
+    {
+        dirX = 0;
+        dirY = -1;
+        return;
+    }
+
+    dirY = 0;
+    dirX = directionState <= 1 ? -1 : 1;
 }

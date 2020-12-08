@@ -11,6 +11,9 @@ CAnimatableObject::CAnimatableObject(int classId, int x, int y, int sectionId, i
 
 	LPOBJECT_ANIMATIONS objAnims = CObjectAnimationsLib::GetInstance()->Get(objAnimsId);
 	animationHandlers = objAnims->GenerateAnimationHanlders();
+
+	// set the initial state to avoid stupid allocation bug
+	state = animationHandlers.begin()->first;
 }
 
 void CAnimatableObject::CheckOverlaps(vector<LPGAMEOBJECT>* coObjs, vector<LPGAMEOBJECT>& overlappedObjs)

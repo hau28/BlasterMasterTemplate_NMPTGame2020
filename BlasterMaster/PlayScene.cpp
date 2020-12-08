@@ -581,8 +581,6 @@ void CPlayScene::handleGameEvent(LPGAME_EVENT gameEvent)
 		if(Sections[sectionId])
 			Sections[sectionId]->removeObject(removeObjEvent->gameObject, removeObjEvent->toBeDeleted);
 	}
-
-	DebugOut(L"current section %d\n", CurrentSectionId);
 }
 
 /*

@@ -47,5 +47,7 @@ public:
 	/// <para> ie (x,y) and (nx,ny) has the same direction but |(nx,ny)| = 0 </para>
 	/// </summary>
 	static void NormalizeVector2(float x, float y, float& nx, float& ny);
+
+	static void TransformBoundBox(float offsetX, float offsetY, float width, float height, float spriteWidth, float spriteHeight, float& newOffsetX, float& newOffsetY, float& newWidth, float& newHeight, bool flipX, bool flipY);
 };
 

@@ -1,0 +1,25 @@
+#pragma once
+#include "Bullet.h"
+
+const float BULLET_SOPHIA_SPEED = 0.2f;
+
+class CBullet_Sophia : public CBullet
+{
+    // 0 10 23 13
+    const int BULLET_SOPHIA_BOUNDBOX_WIDTH = 24;
+    const int BULLET_SOPHIA_BOUNDBOX_HEIGHT = 4;
+    const int BULLET_SOPHIA_BOUNDBOX_OFFSETX = 0;
+    const int BULLET_SOPHIA_BOUNDBOX_OFFSETY = 9;
+
+public:
+    CBullet_Sophia() {};
+
+    CBullet_Sophia(int x, int y, int sectionId, int dirX, int dirY);
+
+    virtual void UpdateVelocity(DWORD dt);
+    virtual void HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent);
+    virtual void HandleOverlap(LPGAMEOBJECT overlappedObj);
+
+    virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+};
+typedef CBullet_Sophia* LPBULLET_SOPHIA;

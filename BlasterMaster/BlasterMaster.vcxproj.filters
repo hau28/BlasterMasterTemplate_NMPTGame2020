@@ -116,6 +116,13 @@
     </ClCompile>
     <ClCompile Include="CreateObjectEvent.cpp" />
     <ClCompile Include="RemoveObjectEvent.cpp" />
+    <ClCompile Include="Mine.cpp" />
+    <ClCompile Include="EndingScene.cpp" />
+    <ClCompile Include="Skull.cpp" />
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Bullet_Sophia.cpp" />
+    <ClCompile Include="Explosion.cpp" />
+    <ClCompile Include="Explosion_SmallSideview.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -207,6 +214,15 @@
     </ClInclude>
     <ClInclude Include="CreateObjectEvent.h" />
     <ClInclude Include="RemoveObjectEvent.h" />
+    <ClInclude Include="Mine.h" />
+    <ClInclude Include="EndingScene.h" />
+    <ClInclude Include="JasonJumpInEvent.h" />
+    <ClInclude Include="IntroScene.h" />
+    <ClInclude Include="Skull.h" />
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Bullet_Sophia.h" />
+    <ClInclude Include="Explosion.h" />
+    <ClInclude Include="Explosion_SmallSideview.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="AnimationCore">

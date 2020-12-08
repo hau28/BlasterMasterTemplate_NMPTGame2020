@@ -140,6 +140,10 @@
   <ItemGroup>
     <ClCompile Include="AnimatableObject.cpp" />
     <ClCompile Include="Animations.cpp" />
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Bullet_Sophia.cpp" />
+    <ClCompile Include="Explosion_SmallSideview.cpp" />
+    <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="Mine.cpp" />
     <ClCompile Include="CollisionSolver.cpp" />
     <ClCompile Include="Consts.h" />
@@ -179,6 +183,10 @@
   <ItemGroup>
     <ClInclude Include="AnimatableObject.h" />
     <ClInclude Include="Animations.h" />
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Bullet_Sophia.h" />
+    <ClInclude Include="Explosion_SmallSideview.h" />
+    <ClInclude Include="Explosion.h" />
     <ClInclude Include="Mine.h" />
     <ClInclude Include="CollisionSolver.h" />
     <ClInclude Include="EndingScene.h" />

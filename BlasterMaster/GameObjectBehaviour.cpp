@@ -102,3 +102,21 @@ void CGameObjectBehaviour::NormalizeVector2(float x, float y, float& nx, float& 
 	nx = x / d;
 	ny = y / d;
 }
+
+void CGameObjectBehaviour::TransformBoundBox(float offsetX, float offsetY, float width, float height, float spriteWidth, float spriteHeight, float& newOffsetX, float& newOffsetY, float& newWidth, float& newHeight, bool flipX, bool flipY)
+{
+	newOffsetX = offsetX;
+	newOffsetY = offsetY;
+	newWidth = width;
+	newHeight = height;
+
+	if (flipX)
+	{
+		newOffsetX = spriteWidth - offsetX - width;
+	}
+
+	if (flipY)
+	{
+		newOffsetY = spriteHeight - offsetY - height;
+	}
+}
