@@ -69,10 +69,17 @@ void CSection::Render(float offset_x, float offset_y)
 
 	for (auto obj : Objects)
 	{
-		obj->Render(offset_x, offset_y);
+		if(obj->isHiddenByForeground)
+			obj->Render(offset_x, offset_y);
 	}
 
 	RenderTexture(foregroundTextureId, offset_x, offset_y);
+
+	for (auto obj : Objects)
+	{
+		if (!obj->isHiddenByForeground)
+			obj->Render(offset_x, offset_y);
+	}
 }
 
 void CSection::RenderTexture(int textureId, float offset_x, float offset_y)

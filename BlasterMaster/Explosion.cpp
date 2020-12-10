@@ -10,7 +10,7 @@ CExplosion::CExplosion(int classId, int x, int y, int sectionId, int animsId) : 
 CExplosion::CExplosion(int classId, int x, int y, int sectionId) : CAnimatableObject(classId, x, y, sectionId, ChooseAnimationsId(classId))
 {
 	ax = ay = vx = vy = 0;
-	int animsId = ChooseAnimationsId(classId);
+	this->isHiddenByForeground = false;
 }
 
 int CExplosion::ChooseAnimationsId(int classId)

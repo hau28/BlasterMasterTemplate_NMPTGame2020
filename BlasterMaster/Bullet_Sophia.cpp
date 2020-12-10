@@ -85,10 +85,25 @@ void CBullet_Sophia::GetBoundingBox(float& left, float& top, float& right, float
 {
 	if (state != BULLET_SOPHIA_SIDEVIEW_STATE_UP)
 	{
-		left = x + BULLET_SOPHIA_BOUNDBOX_OFFSETX;
-		right = left + BULLET_SOPHIA_BOUNDBOX_WIDTH;
-		top = y + BULLET_SOPHIA_BOUNDBOX_OFFSETY;
-		bottom = top + BULLET_SOPHIA_BOUNDBOX_HEIGHT;
+		float offsetX, offsetY, width, height;
+		offsetX = BULLET_SOPHIA_BOUNDBOX_OFFSETX;
+		offsetY = BULLET_SOPHIA_BOUNDBOX_OFFSETY;
+		width = BULLET_SOPHIA_BOUNDBOX_WIDTH;
+		height = BULLET_SOPHIA_BOUNDBOX_HEIGHT;
+
+		if (state == BULLET_SOPHIA_SIDEVIEW_STATE_RIGHT)
+		{
+			CGameObjectBehaviour::TransformBoundBox(
+				BULLET_SOPHIA_BOUNDBOX_OFFSETX, BULLET_SOPHIA_BOUNDBOX_OFFSETY, BULLET_SOPHIA_BOUNDBOX_WIDTH, BULLET_SOPHIA_BOUNDBOX_HEIGHT,
+				BULLET_SOPHIA_SPRITE_WIDTH, BULLET_SOPHIA_SPRITE_HEIGHT,
+				offsetX, offsetY, width, height, true, false
+			);
+		}
+
+		left = x + offsetX;
+		right = left + width;
+		top = y + offsetY;
+		bottom = top + height;
 	}
 	else
 	{
