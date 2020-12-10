@@ -1,5 +1,8 @@
 #include "GameObjectBehaviour.h"
 #include "CollisionSolver.h"
+#include "Explosion.h"
+#include "CreateObjectEvent.h"
+#include "RemoveObjectEvent.h"
 
 void CGameObjectBehaviour::BlockObject(DWORD dt, LPCOLLISIONEVENT coEvent)
 {
@@ -120,3 +123,41 @@ void CGameObjectBehaviour::TransformBoundBox(float offsetX, float offsetY, float
 		newOffsetY = spriteHeight - offsetY - height;
 	}
 }
+
+void CGameObjectBehaviour::CreateExplosion(int explosionClassId, int x, int y, int sectionId)
+{
+	LPEXPLOSION explosion = new CExplosion(explosionClassId, x, y, sectionId);
+	CCreateObjectEvent* ce = new CCreateObjectEvent(explosion);
+	CGame::AddGameEvent(ce);
+}
+
+void CGameObjectBehaviour::Explode(LPGAMEOBJECT obj, int explosionClassId, int x, int y)
+{
+	if (!obj)
+		return;
+
+	CRemoveObjectEvent* re = new CRemoveObjectEvent(obj);
+	CGame::AddGameEvent(re);
+	
+	CreateExplosion(explosionClassId, x, y, obj->currentSectionId);
+}
+
+void CGameObjectBehaviour::ExplodeAtCenter(LPGAMEOBJECT obj, int explosionClassId)
+{
+	if (!obj)
+		return;
+
+	float objCenterX, objCenterY;
+	CalcBoundingBoxCenter(obj, objCenterX, objCenterY);
+
+	// this is to get the position...
+	LPEXPLOSION temp = new CExplosion(explosionClassId);
+	SetBoundingBoxCenter(temp, objCenterX, objCenterY);
+	float x, y;
+	temp->GetPosition(x, y);
+	delete temp;
+
+	Explode(obj, explosionClassId, x, y);
+}
+
+

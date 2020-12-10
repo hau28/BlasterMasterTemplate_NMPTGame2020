@@ -4,7 +4,6 @@
 #include "TileArea.h"
 #include "CreateObjectEvent.h"
 #include "RemoveObjectEvent.h"
-#include "Explosion_SmallSideview.h"
 
 CBullet_Sophia::CBullet_Sophia(int x, int y, int sectionId, int dirX, int dirY) : CBullet(x, y, sectionId, BULLET_SOPHIA_SIDEVIEW_ANIMATIONS, true)
 {
@@ -47,7 +46,7 @@ void CBullet_Sophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 		case CLASS_TILE_PORTAL:
 		{
 			CGameObjectBehaviour::BlockObject(dt, coEvent);
-			Explode(new CExplosion_SmallSideview());
+			Explode(CLASS_SMALL_EXPLOSION_SIDEVIEW);
 			break;
 		}
 		}
@@ -80,8 +79,6 @@ void CBullet_Sophia::CalcExplosionCenterPos(float& explosionX, float& explosionY
 		explosionX = r;
 		break;
 	}
-
-
 }
 
 void CBullet_Sophia::GetBoundingBox(float& left, float& top, float& right, float& bottom)

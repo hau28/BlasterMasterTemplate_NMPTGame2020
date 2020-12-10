@@ -14,23 +14,19 @@ void CBullet::CalcExplosionCenterPos(float& explosionCenterX, float& explosionCe
 	CGameObjectBehaviour::CalcBoundingBoxCenter(this, explosionCenterX, explosionCenterY);
 }
 
-void CBullet::Explode(LPEXPLOSION explosion)
+void CBullet::Explode(int explosionClassId)
 {
-	CRemoveObjectEvent* re = new CRemoveObjectEvent(this);
-	CGame::AddGameEvent(re);
-
-	explosion->currentSectionId = this->currentSectionId;
 	float explosionCenterX, explosionCenterY;
-
 	CalcExplosionCenterPos(explosionCenterX, explosionCenterY);
-	CGameObjectBehaviour::SetBoundingBoxCenter(explosion, explosionCenterX, explosionCenterY);
 
-	float l, t, r, b;
-	explosion->GetBoundingBox(l, t, r, b);
-	DebugOut(L"wtf is this %f %f %f", l, explosionCenterX, r);
+	// this is to get the position...
+	LPEXPLOSION temp = new CExplosion(explosionClassId);
+	CGameObjectBehaviour::SetBoundingBoxCenter(temp, explosionCenterX, explosionCenterY);
+	float x, y;
+	temp->GetPosition(x, y);
+	delete temp;
 
-	CCreateObjectEvent* ce = new CCreateObjectEvent(explosion);
-	CGame::AddGameEvent(ce);
+	CGameObjectBehaviour::Explode(this, explosionClassId, x, y);
 }
 
 

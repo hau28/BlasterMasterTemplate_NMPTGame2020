@@ -1,10 +1,33 @@
 #include "Explosion.h"
 #include "RemoveObjectEvent.h"
 
-CExplosion::CExplosion(int x, int y, int sectionId, int animsId) : CAnimatableObject::CAnimatableObject(-1, x, y, sectionId, animsId)
+#pragma region init
+
+CExplosion::CExplosion(int classId, int x, int y, int sectionId, int animsId) : CAnimatableObject(classId, x, y, sectionId, classId)
 {
-	vx = vy = 0;
 }
+
+CExplosion::CExplosion(int classId, int x, int y, int sectionId) : CAnimatableObject(classId, x, y, sectionId, ChooseAnimationsId(classId))
+{
+	ax = ay = vx = vy = 0;
+	int animsId = ChooseAnimationsId(classId);
+}
+
+int CExplosion::ChooseAnimationsId(int classId)
+{
+	switch (classId)
+	{
+	case CLASS_SMALL_EXPLOSION_SIDEVIEW:
+		return SMALL_EXPLOSION_SIDEVIEW_ANIMATIONS;
+	case CLASS_LARGE_EXPLOSION_SIDEVIEW:
+		return LARGE_EXPLOSION_SIDEVIEW_ANIMATIONS;
+	default:
+		DebugOut(L"[ERROR] Explosion Animation Id for class Id %d is not defined", classId);
+		return 0;
+	}
+}
+
+#pragma endregion
 
 void CExplosion::UpdateVelocity(DWORD dt)
 {
@@ -28,6 +51,14 @@ void CExplosion::ResolveInteractions(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 	vector<LPGAMEOBJECT>* overlappedObjs = new vector<LPGAMEOBJECT>();
 	CheckOverlaps(coObjs, *overlappedObjs);
 	HandleOverlaps(overlappedObjs);
+}
+
+void CExplosion::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+{
+	left = x + EXPLOSION_BOUNDBOX_OFFSETX;
+	right = left + EXPLOSION_BOUNDBOX_WIDTH;
+	top = y + EXPLOSION_BOUNDBOX_OFFSETY;
+	bottom = top + EXPLOSION_BOUNDBOX_HEIGHT;
 }
 
 void CExplosion::Render(float offsetX, float offsetY)
