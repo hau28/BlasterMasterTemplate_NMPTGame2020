@@ -23,6 +23,8 @@ CShip::CShip(int classId, int x, int y, int sectionId, int initLeft, int animsId
 		vx = -vx;
 
 	UpdateState();
+	
+	singleShootTimer = new CTimer(this, 10, true);
 }
 
 void CShip::UpdateVelocity(DWORD dt)
@@ -67,12 +69,27 @@ void CShip::HandleOverlap(LPGAMEOBJECT overlappedObj)
 	// Chibi cute
 }
 
+void CShip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
+{
+	singleShootTimer->Update(dt);
+
+	CAnimatableObject::Update(dt, coObjs);
+}
+
 void CShip::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x + SHIP_BOUNDBOX_OFFSETX;
 	right = left + SHIP_BOUNDBOX_WIDTH;
 	top = y + SHIP_BOUNDBOX_OFFSETY;
 	bottom = top + SHIP_BOUNDBOX_HEIGHT;
+}
+
+void CShip::HandleTimerTick(LPTIMER sender)
+{
+	if (sender == singleShootTimer)
+	{
+		Shoot();
+	}
 }
 
 

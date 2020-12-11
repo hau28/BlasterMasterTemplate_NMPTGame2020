@@ -130,6 +130,8 @@
     <ClCompile Include="Skull.cpp" />
     <ClCompile Include="Jumper.cpp" />
     <ClCompile Include="Orb.cpp" />
+    <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="ITimeTrackable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -237,6 +239,8 @@
     <ClInclude Include="Skull.h" />
     <ClInclude Include="Jumper.h" />
     <ClInclude Include="Orb.h" />
+    <ClInclude Include="Timer.h" />
+    <ClInclude Include="ITimeTrackable.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="AnimationCore">

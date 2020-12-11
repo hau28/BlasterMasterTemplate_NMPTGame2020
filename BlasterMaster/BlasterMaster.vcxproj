@@ -171,6 +171,8 @@
     <ClCompile Include="GameObjectFactory.cpp" />
     <ClCompile Include="Section.cpp" />
     <ClCompile Include="Sophia.cpp" />
+    <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="ITimeTrackable.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -216,6 +218,8 @@
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Section.h" />
     <ClInclude Include="Sophia.h" />
+    <ClInclude Include="Timer.h" />
+    <ClInclude Include="ITimeTrackable.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
