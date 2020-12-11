@@ -2,9 +2,9 @@
 #include "TileArea.h"
 #include "GameObjectBehaviour.h"
 
-#include "Floater.h"
 #include "CreateObjectEvent.h"
 #include "RemoveObjectEvent.h"
+#include "Bullet_Ship.h"
 
 void CShip::UpdateState()
 {
@@ -24,7 +24,8 @@ CShip::CShip(int classId, int x, int y, int sectionId, int initLeft, int animsId
 
 	UpdateState();
 	
-	singleShootTimer = new CTimer(this, 10, true);
+	singleShotTimer = new CTimer(this, DELAY_BETWEEN_SHOTS, SHOT_PER_SHOOTING_PHASE);
+	shootPhaseTimer = new CTimer(this, DELAY_BETWEEN_SHOOTING_PHASES);
 }
 
 void CShip::UpdateVelocity(DWORD dt)
@@ -69,9 +70,19 @@ void CShip::HandleOverlap(LPGAMEOBJECT overlappedObj)
 	// Chibi cute
 }
 
+void CShip::ShootPlayer()
+{
+	float dirX, dirY; // direction to the player
+	CGameObjectBehaviour::CalcDirecttionToPlayer(this, dirX, dirY);
+
+	CBullet_Ship* bullet = new CBullet_Ship(0, 0, 0, dirX, dirY);
+	CGameObjectBehaviour::CreateObjectAtCenterOfAnother(bullet, this);
+}
+
 void CShip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
-	singleShootTimer->Update(dt);
+	singleShotTimer->Update(dt);
+	shootPhaseTimer->Update(dt);
 
 	CAnimatableObject::Update(dt, coObjs);
 }
@@ -86,12 +97,13 @@ void CShip::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 
 void CShip::HandleTimerTick(LPTIMER sender)
 {
-	if (sender == singleShootTimer)
+	if (sender == singleShotTimer)
 	{
-		Shoot();
+		ShootPlayer();
+	}
+
+	if (sender == shootPhaseTimer)
+	{
+		singleShotTimer->Start();
 	}
 }
-
-
-
-

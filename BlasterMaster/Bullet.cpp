@@ -9,6 +9,8 @@ CBullet::CBullet(int classId, int x, int y, int sectionId, bool isFriendly) : CA
 	this->isFriendly = isFriendly;
 	this->isHiddenByForeground = false;
 	this->isDestroyedWhenOffScreen = true;
+
+	SetBoundingBoxInfo(classId);
 }
 
 int CBullet::ChooseAnimationsId(int classId)
@@ -32,6 +34,40 @@ int CBullet::ChooseAnimationsId(int classId)
 	}
 }
 
+void CBullet::SetBoundingBoxInfo(int classId)
+{
+	switch (classId)
+	{
+	case CLASS_SMALL_PINK_BULLET:
+		// 6 6 9 9
+		boundingBoxOffsetX = 6;
+		boundingBoxOffsetY = 6;
+		boundingBoxWidth = 4;
+		boundingBoxHeight = 4;
+		break;
+
+	case CLASS_MEDIUM_PINK_BULLET:
+		// 5 5 10 10
+		boundingBoxOffsetX = 5;
+		boundingBoxOffsetY = 5;
+		boundingBoxWidth = 6;
+		boundingBoxHeight = 6;
+		break;
+
+	case CLASS_LARGE_PINK_BULLET:
+	case CLASS_LARGE_GRAY_BULLET:
+		// 4 4 11 11
+		boundingBoxOffsetX = 4;
+		boundingBoxOffsetY = 4;
+		boundingBoxWidth = 8;
+		boundingBoxHeight = 8;
+		break;
+
+	default:
+		break;
+	}
+}
+
 void CBullet::CalcExplosionCenterPos(float& explosionCenterX, float& explosionCenterY)
 {
 	CGameObjectBehaviour::CalcBoundingBoxCenter(this, explosionCenterX, explosionCenterY);
@@ -50,6 +86,14 @@ void CBullet::Explode(int explosionClassId)
 	delete temp;
 
 	CGameObjectBehaviour::Explode(this, explosionClassId, x, y);
+}
+
+void CBullet::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+{
+	left = x + boundingBoxOffsetX;
+	right = left + boundingBoxWidth;
+	top = y + boundingBoxOffsetY;
+	bottom = top + boundingBoxHeight;
 }
 
 

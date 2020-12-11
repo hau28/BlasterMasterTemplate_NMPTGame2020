@@ -164,6 +164,17 @@ void CGameObjectBehaviour::CreateObject(LPGAMEOBJECT obj)
 	CGame::AddGameEvent(ce);
 }
 
+void CGameObjectBehaviour::CreateObjectAtCenterOfAnother(LPGAMEOBJECT newObj, LPGAMEOBJECT fromObj)
+{
+	float centerX, centerY;
+	CalcBoundingBoxCenter(fromObj, centerX, centerY);
+
+	SetBoundingBoxCenter(newObj, centerX, centerY);
+	newObj->currentSectionId = fromObj->currentSectionId;
+
+	CreateObject(newObj);
+}
+
 void CGameObjectBehaviour::RemoveObject(LPGAMEOBJECT obj, bool isDestroyAfterRemove)
 {
 	CRemoveObjectEvent* re = new CRemoveObjectEvent(obj, isDestroyAfterRemove);

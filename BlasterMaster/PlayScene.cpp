@@ -208,7 +208,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	if (class_ID == CLASS_TILE_PORTAL)
 	{
 		CPortalLib::GetInstance()->Add(obj_ID, dynamic_cast<LPPORTAL>(obj));
-		DebugOut(L"[INFO] Add Portal to Lib: %d of section %d", obj_ID, obj->currentSectionId);
+		DebugOut(L"[INFO] Add Portal to Lib: %d of section %d\n", obj_ID, obj->currentSectionId);
 	}
 
 	if (obj == nullptr)

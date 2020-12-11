@@ -4,6 +4,12 @@
 
 class CBullet : public CAnimatableObject
 {
+private:
+    float boundingBoxOffsetX = 0;
+    float boundingBoxOffsetY = 0;
+    float boundingBoxWidth = 0;
+    float boundingBoxHeight = 0;
+
 protected:
     CBullet() {};
     CBullet(int classId, int x, int y, int sectionId, bool isFriendly);
@@ -11,12 +17,13 @@ protected:
 public:
     bool isFriendly = false;
     int ChooseAnimationsId(int classId);
+    void SetBoundingBoxInfo(int classId);
 
     virtual void UpdateVelocity(DWORD dt) = 0;
     virtual void HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent) = 0;
     virtual void HandleOverlap(LPGAMEOBJECT overlappedObj) = 0;
 
-    virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) = 0;
+    virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 
     virtual void CalcExplosionCenterPos(float& explosionX, float& explosionY);
 

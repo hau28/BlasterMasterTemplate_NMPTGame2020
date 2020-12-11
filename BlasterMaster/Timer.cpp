@@ -1,15 +1,31 @@
 #include "Timer.h"
 
-CTimer::CTimer(ITimeTrackable* tracker, int interval, bool enableRepeat)
+CTimer::CTimer(ITimeTrackable* tracker, int interval)
 {
 	this->tracker = tracker;
 	this->interval = interval;
-	this->enableRepeat = enableRepeat;
+	this->enableRepeatForever = true;
+	this->repeatTimes = 1;
+
+	Reset();
+}
+
+CTimer::CTimer(ITimeTrackable* tracker, int interval, int repeatTimes)
+{
+	this->tracker = tracker;
+	this->interval = interval;
+	this->enableRepeatForever = false;
+	this->repeatTimes = repeatTimes;
+
+	Reset();
 }
 
 void CTimer::Update(int dt)
 {
 	if (!isRunning)
+		return;
+
+	if (!enableRepeatForever && repeatTimesLeft == 0)
 		return;
 
 	if (timeElapsed < interval)
@@ -22,10 +38,12 @@ void CTimer::Update(int dt)
 		{
 			tracker->HandleTimerTick(this);
 			lastFrameTicked = true;
-		}
+			
+			if(!enableRepeatForever)
+				repeatTimesLeft--;
 
-		if (enableRepeat)
-			Reset();
+			ResetClock();
+		}
 	}
 }
 
@@ -40,10 +58,16 @@ void CTimer::Continue()
 	isRunning = true;
 }
 
-void CTimer::Reset()
+void CTimer::ResetClock()
 {
 	lastFrameTicked = false;
 	timeElapsed = 0;
+}
+
+void CTimer::Reset()
+{
+	repeatTimesLeft = repeatTimes;
+	ResetClock();
 }
 
 void CTimer::Stop()

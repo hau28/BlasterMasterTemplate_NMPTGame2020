@@ -140,6 +140,7 @@
   <ItemGroup>
     <ClCompile Include="AnimatableObject.cpp" />
     <ClCompile Include="Animations.cpp" />
+    <ClCompile Include="Bullet_Ship.cpp" />
     <ClCompile Include="Jumper.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Bullet_Sophia.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="AnimatableObject.h" />
     <ClInclude Include="Animations.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Bullet_Ship.h" />
     <ClInclude Include="Bullet_Sophia.h" />
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="Jumper.h" />

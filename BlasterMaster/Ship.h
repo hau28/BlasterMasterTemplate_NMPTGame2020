@@ -14,15 +14,16 @@ const float SHIP_MOVE_SPEED = 0.04f;
 class CShip : public CEnemy, public ITimeTrackable
 {
 private:
-    const int SHOOT_PER_SHOOTING_PHASE = 4;
+    const int SHOT_PER_SHOOTING_PHASE = 4;
+    const int DELAY_BETWEEN_SHOOTING_PHASES = 2500;
+    const int DELAY_BETWEEN_SHOTS = 300;
 
     void UpdateState();
 
-    int shootPhase;
-    
-
-    LPTIMER singleShootTimer;
-    void Shoot() { DebugOut(L"\nhihi %d\n"); }
+    int shotRemaining;
+    LPTIMER shootPhaseTimer;
+    LPTIMER singleShotTimer;
+    void ShootPlayer();
 
 public:
     CShip() {};
