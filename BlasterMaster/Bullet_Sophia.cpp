@@ -5,7 +5,7 @@
 #include "CreateObjectEvent.h"
 #include "RemoveObjectEvent.h"
 
-CBullet_Sophia::CBullet_Sophia(int x, int y, int sectionId, int dirX, int dirY) : CBullet(x, y, sectionId, BULLET_SOPHIA_SIDEVIEW_ANIMATIONS, true)
+CBullet_Sophia::CBullet_Sophia(int x, int y, int sectionId, int dirX, int dirY) : CBullet(CLASS_SOPHIA_BULLET, x, y, sectionId, true)
 {
 	// normalize the direction vector
 	float nx, ny;

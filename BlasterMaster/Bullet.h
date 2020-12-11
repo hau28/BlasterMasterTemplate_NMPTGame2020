@@ -6,10 +6,11 @@ class CBullet : public CAnimatableObject
 {
 protected:
     CBullet() {};
-    CBullet(int x, int y, int sectionId, int animsId, bool isFriendly);
+    CBullet(int classId, int x, int y, int sectionId, bool isFriendly);
 
 public:
     bool isFriendly = false;
+    int ChooseAnimationsId(int classId);
 
     virtual void UpdateVelocity(DWORD dt) = 0;
     virtual void HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent) = 0;
