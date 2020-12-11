@@ -16,6 +16,8 @@
 
 using namespace std;
 
+class CGameObject;
+
 void DebugOut(wchar_t *fmt, ...);
 
 vector<string> split(string line, string delimeter = "\t");
@@ -35,3 +37,5 @@ int IsKeyDown(int KeyCode);
 /// CuteTN Note: Putting NewKeyEvents into CGame Class is a really really bad idea.
 /// So I provide a shortcut to adapt it :^) which makes things worst... but easier to use
 std::vector<CCustomKeyEvent*> NewKeyEvents();
+
+bool checkObjInCamera(CGameObject* obj, float extendOffset = 0);

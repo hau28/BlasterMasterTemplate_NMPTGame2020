@@ -75,10 +75,6 @@ void CGame::Init(HWND hWnd)
 
 void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha, bool flipX, int rotate, float offset_x, float offset_y, int modifyR, int modifyG, int modifyB)
 {
-	// cutetn debug
-	if(modifyR != 255)
-		DebugOut(L"\nRGB: %d %d %d", modifyR, modifyG, modifyB);
-
 	int width = round(right - left);
 	int height = round(bottom - top);
 	int scale = 1;
@@ -286,6 +282,10 @@ void CGame::HandleGameEvents()
 		HandleGameEvent(e);
 	}
 
+	for (auto e : gameEvents)
+	{
+		delete e;
+	}
 	gameEvents.clear();
 }
 

@@ -31,6 +31,10 @@ CSophia::CSophia(int classId, int x, int y)
     // SetModifyColor(255, 0, 255);
 };
 
+void CSophia::setGunState(int state) {
+    gunState = state;
+}
+
 void CSophia::init_camBox()
 {
     camBoxLeft = x;
@@ -267,8 +271,7 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
         CGameObjectBehaviour::CalcBoundingBoxCenter(this, cx, cy);
         CGameObjectBehaviour::SetBoundingBoxCenter(bullet, cx + SOPHIA_GUN_OFFSETX_FROM_CENTER, cy + SOPHIA_GUN_OFFSETY_FROM_CENTER);
 
-        CCreateObjectEvent* e = new CCreateObjectEvent(bullet);
-        CGame::AddGameEvent(e);
+        CGameObjectBehaviour::CreateObject(bullet);
     }
 }
 #pragma endregion
@@ -418,6 +421,7 @@ void CSophia::UpdateVelocity(DWORD dt)
 
 void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 {
+
     if (coEvent == nullptr)
         return;
     if (coEvent->otherObject == this)
@@ -437,6 +441,7 @@ void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
             if (coEvent->ny < 0)
                 flagOnAir = false;
+
 
             break;
         }
