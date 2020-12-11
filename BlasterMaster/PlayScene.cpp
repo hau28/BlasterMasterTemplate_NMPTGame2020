@@ -381,6 +381,7 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			Sections[CurrentSectionId]->pushSophia(x_toPortal, y_toPortal, CurrentSectionId);
 			game->SetCamPos(0, cy);
 			CSophia::GetInstance()->init_camBox();
+			CSophia::GetInstance()->SetSpeed(0.1, 0);
 			DebugOut(L"\ncx == %f, cy == %f",x_toPortal, y_toPortal);
 		}
 
@@ -393,7 +394,8 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			Sections[CurrentSectionId]->deleteJasonSideview();
 			CurrentSectionId = NextSectionId;
 			toPortal->GetPosition(x_toPortal, y_toPortal);
-			Sections[CurrentSectionId]->pushJasonSideview(x_toPortal, y_toPortal+16, CurrentSectionId);
+			Sections[CurrentSectionId]->pushJasonSideview(x_toPortal+5, y_toPortal+8, CurrentSectionId);
+			CJasonSideview::GetInstance()->SetSpeed(0.03, 0);
 			game->SetCamPos(0, cy);
 			CJasonSideview::GetInstance()->init_camBox();
 		}
@@ -409,6 +411,7 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			Sections[CurrentSectionId]->pushSophia(x_toPortal, y_toPortal, CurrentSectionId);
 			game->SetCamPos(cx, cy);
 			CSophia::GetInstance()->init_camBox();
+			CSophia::GetInstance()->SetSpeed(-0.1, 0);
 		}
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT_JASON)
 		if (cx + game->GetScreenWidth() <= 0)
@@ -418,7 +421,8 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			CGame::SetState(GameState::PLAY_SIDEVIEW_JASON);
 			Sections[CurrentSectionId]->deleteJasonSideview();
 			CurrentSectionId = NextSectionId;
-			Sections[CurrentSectionId]->pushJasonSideview(x_toPortal, y_toPortal+16, CurrentSectionId);
+			Sections[CurrentSectionId]->pushJasonSideview(x_toPortal-5, y_toPortal+8, CurrentSectionId);
+			CJasonSideview::GetInstance()->SetSpeed(-0.03, 0);
 			game->SetCamPos(cx, cy);
 			CJasonSideview::GetInstance()->init_camBox();
 		}

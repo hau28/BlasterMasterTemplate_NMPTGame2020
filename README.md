@@ -1,2 +1,0 @@
-# BlasterMasterTemplate_NMPTGame2020
-NMPTGame unfinished template
