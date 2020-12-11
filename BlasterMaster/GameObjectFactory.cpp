@@ -5,7 +5,7 @@ LPGAMEOBJECT CGameObjectFactory::Create(int classId, map<string, string> propert
 	LPGAMEOBJECT result = nullptr;
 	sectionId = -1;
 
-	int x, y, width, height, animsId, portalId, initLeft, rotation;
+	int x, y, width, height, animsId, portalId, initLeft, rotation, behaviorId;
 
 	switch (classId)
 	{
@@ -28,6 +28,19 @@ LPGAMEOBJECT CGameObjectFactory::Create(int classId, map<string, string> propert
 		GetAnimatableObjectProps(properties, x, y, animsId, sectionId);
 		initLeft = atoi(properties["InitLeft"].c_str());
 		result = new CShip(classId, x, y, sectionId, initLeft, animsId);
+		break;
+
+	case CLASS_JUMPER:
+		GetAnimatableObjectProps(properties, x, y, animsId, sectionId);
+		initLeft = atoi(properties["InitLeft"].c_str());
+		result = new CJumper(classId, x, y, sectionId, initLeft, animsId);
+		break;
+
+	case CLASS_ORB:
+		GetAnimatableObjectProps(properties, x, y, animsId, sectionId);
+		initLeft = atoi(properties["InitLeft"].c_str());
+		behaviorId = atoi(properties["Aggressive"].c_str());
+		result = new COrb(classId, x, y, sectionId, initLeft, animsId, behaviorId);
 		break;
 
 	case CLASS_SOPHIA:
@@ -55,6 +68,8 @@ LPGAMEOBJECT CGameObjectFactory::Create(int classId, map<string, string> propert
 		GetAnimatableObjectProps(properties, x, y, animsId, sectionId);
 		result = new CSkull(classId, x, y, sectionId, animsId);
 		break;
+
+
 
 	default:
 		return nullptr;

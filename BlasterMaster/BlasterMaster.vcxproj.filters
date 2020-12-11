@@ -125,6 +125,11 @@
       <Filter>GameManagers</Filter>
     </ClCompile>
     <ClCompile Include="SwitchSceneEvent.cpp" />
+    <ClCompile Include="Mine.cpp" />
+    <ClCompile Include="EndingScene.cpp" />
+    <ClCompile Include="Skull.cpp" />
+    <ClCompile Include="Jumper.cpp" />
+    <ClCompile Include="Orb.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -225,6 +230,13 @@
     <ClInclude Include="Bullet_Sophia.h" />
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="SwitchSceneEvent.h" />
+    <ClInclude Include="Mine.h" />
+    <ClInclude Include="EndingScene.h" />
+    <ClInclude Include="JasonJumpInEvent.h" />
+    <ClInclude Include="IntroScene.h" />
+    <ClInclude Include="Skull.h" />
+    <ClInclude Include="Jumper.h" />
+    <ClInclude Include="Orb.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="AnimationCore">

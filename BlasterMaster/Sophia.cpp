@@ -31,6 +31,10 @@ CSophia::CSophia(int classId, int x, int y)
     // SetModifyColor(255, 0, 255);
 };
 
+void CSophia::setGunState(int state) {
+    gunState = state;
+}
+
 void CSophia::init_camBox()
 {
     camBoxLeft = x;
@@ -417,6 +421,7 @@ void CSophia::UpdateVelocity(DWORD dt)
 
 void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 {
+
     if (coEvent == nullptr)
         return;
     if (coEvent->otherObject == this)
@@ -436,6 +441,7 @@ void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
             if (coEvent->ny < 0)
                 flagOnAir = false;
+
 
             break;
         }
