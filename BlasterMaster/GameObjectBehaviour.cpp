@@ -127,8 +127,7 @@ void CGameObjectBehaviour::TransformBoundBox(float offsetX, float offsetY, float
 void CGameObjectBehaviour::CreateExplosion(int explosionClassId, int x, int y, int sectionId)
 {
 	LPEXPLOSION explosion = new CExplosion(explosionClassId, x, y, sectionId);
-	CCreateObjectEvent* ce = new CCreateObjectEvent(explosion);
-	CGame::AddGameEvent(ce);
+	CreateObject(explosion);
 }
 
 void CGameObjectBehaviour::Explode(LPGAMEOBJECT obj, int explosionClassId, int x, int y)
@@ -136,8 +135,7 @@ void CGameObjectBehaviour::Explode(LPGAMEOBJECT obj, int explosionClassId, int x
 	if (!obj)
 		return;
 
-	CRemoveObjectEvent* re = new CRemoveObjectEvent(obj);
-	CGame::AddGameEvent(re);
+	RemoveObject(obj);
 	
 	CreateExplosion(explosionClassId, x, y, obj->currentSectionId);
 }
@@ -160,4 +158,14 @@ void CGameObjectBehaviour::ExplodeAtCenter(LPGAMEOBJECT obj, int explosionClassI
 	Explode(obj, explosionClassId, x, y);
 }
 
+void CGameObjectBehaviour::CreateObject(LPGAMEOBJECT obj)
+{
+	CCreateObjectEvent* ce = new CCreateObjectEvent(obj);
+	CGame::AddGameEvent(ce);
+}
 
+void CGameObjectBehaviour::RemoveObject(LPGAMEOBJECT obj, bool isDestroyAfterRemove)
+{
+	CRemoveObjectEvent* re = new CRemoveObjectEvent(obj, isDestroyAfterRemove);
+	CGame::AddGameEvent(re);
+}

@@ -7,6 +7,8 @@
 class CSection
 {
 private:
+	const int SCREEN_EXTEND_OFFSET = 16;
+
 	// int sectionId;					we may not need this
 	int backgroundTextureId;
 	int foregroundTextureId;

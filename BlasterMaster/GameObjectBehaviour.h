@@ -74,5 +74,18 @@ public:
 	/// <param name="obj"></param>
 	/// <param name="explosionClassId"></param>
 	static void ExplodeAtCenter(LPGAMEOBJECT obj, int explosionClassId);
+
+	/// <summary>
+	/// Create a new game object and add it to its section in the next frame
+	/// </summary>
+	/// <param name="obj"></param>
+	static void CreateObject(LPGAMEOBJECT obj);
+
+	/// <summary>
+	/// Remove a game object from its section in the next frame.
+	/// Deallocate the object memory if isDestroyAfterRemove is true
+	/// </summary>
+	/// <param name="obj"></param>
+	static void RemoveObject(LPGAMEOBJECT obj, bool isDestroyAfterRemove = true);
 };
 

@@ -47,6 +47,7 @@ public:
 	int classId = -1;
 	int objectId = -1;
 	bool isHiddenByForeground = true;
+	bool isDestroyedWhenOffScreen = false;
 
 	CGameObject();
 

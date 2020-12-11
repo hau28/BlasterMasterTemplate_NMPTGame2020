@@ -267,8 +267,7 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
         CGameObjectBehaviour::CalcBoundingBoxCenter(this, cx, cy);
         CGameObjectBehaviour::SetBoundingBoxCenter(bullet, cx + SOPHIA_GUN_OFFSETX_FROM_CENTER, cy + SOPHIA_GUN_OFFSETY_FROM_CENTER);
 
-        CCreateObjectEvent* e = new CCreateObjectEvent(bullet);
-        CGame::AddGameEvent(e);
+        CGameObjectBehaviour::CreateObject(bullet);
     }
 }
 #pragma endregion

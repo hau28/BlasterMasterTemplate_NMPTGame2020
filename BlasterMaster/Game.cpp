@@ -282,6 +282,10 @@ void CGame::HandleGameEvents()
 		HandleGameEvent(e);
 	}
 
+	for (auto e : gameEvents)
+	{
+		delete e;
+	}
 	gameEvents.clear();
 }
 

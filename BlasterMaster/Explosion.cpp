@@ -1,5 +1,6 @@
 #include "Explosion.h"
 #include "RemoveObjectEvent.h"
+#include "GameObjectBehaviour.h"
 
 #pragma region init
 
@@ -11,6 +12,7 @@ CExplosion::CExplosion(int classId, int x, int y, int sectionId) : CAnimatableOb
 {
 	ax = ay = vx = vy = 0;
 	this->isHiddenByForeground = false;
+	this->isDestroyedWhenOffScreen = true;
 }
 
 int CExplosion::ChooseAnimationsId(int classId)
@@ -65,12 +67,13 @@ void CExplosion::Render(float offsetX, float offsetY)
 {
 	animationHandlers[state]->Render(x + offsetX, y + offsetY, 255, modifyR, modifyG, modifyB);
 	animationHandlers[state]->Update();
+}
 
-	// CuteTN Note: This is a dirty way. But this class wont hurt I think :)
+void CExplosion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
+{
 	// auto dispose after done its animation
 	if (animationHandlers[state]->animation->GetNumberOfFrames() - 1 == animationHandlers[state]->currentFrameIndex)
 	{
-		CRemoveObjectEvent* e = new CRemoveObjectEvent(this);
-		CGame::AddGameEvent(e);
+		CGameObjectBehaviour::RemoveObject(this);
 	}
 }

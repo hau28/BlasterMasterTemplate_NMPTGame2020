@@ -18,6 +18,7 @@ public:
     virtual void HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent);
     virtual void HandleOverlap(LPGAMEOBJECT overlappedObj);
     virtual void Render(float offsetX, float offsetY);
+    virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs);
     virtual void ResolveInteractions(DWORD dt, vector<LPGAMEOBJECT>* coObjs);
 
     virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);

@@ -8,6 +8,7 @@ CBullet::CBullet(int x, int y, int sectionId, int animsId, bool isFriendly) : CA
 {
 	this->isFriendly = isFriendly;
 	this->isHiddenByForeground = false;
+	this->isDestroyedWhenOffScreen = true;
 }
 
 void CBullet::CalcExplosionCenterPos(float& explosionCenterX, float& explosionCenterY)
