@@ -15,6 +15,7 @@ protected:
     CBullet(int classId, int x, int y, int sectionId, bool isFriendly);
 
 public:
+    // isFriendly = true when this bullet cannot damage the player.
     bool isFriendly = false;
     int ChooseAnimationsId(int classId);
     void SetBoundingBoxInfo(int classId);
@@ -28,7 +29,7 @@ public:
     virtual void CalcExplosionCenterPos(float& explosionX, float& explosionY);
 
     /// <summary>
-    /// <para> explosion: only passed in to know the type of explosion to create. </para>
+    /// <para> Destroy this bullet and create explosion effect </para>
     /// <para> this function would set the exploding position itself </para>
     /// </summary>
     virtual void Explode(int explosionClassId);

@@ -13,6 +13,7 @@ private:
 	ITimeTrackable* tracker = nullptr;
 	bool lastFrameTicked = false;
 	int repeatTimes = 1;
+	int repeatTimesLeft = 1;
 
 	void ResetClock();
 
@@ -36,7 +37,6 @@ public:
 	// dangerous to set these value... -> Violate encapsulation
 	int interval = 0;
 	bool enableRepeatForever = false;
-	int repeatTimesLeft = 1;
 
 	void Update(int dt);
 	void Start();

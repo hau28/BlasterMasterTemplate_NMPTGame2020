@@ -20,7 +20,6 @@ private:
 
     void UpdateState();
 
-    int shotRemaining;
     LPTIMER shootPhaseTimer;
     LPTIMER singleShotTimer;
     void ShootPlayer();
