@@ -5,13 +5,15 @@ LPGAMEOBJECT CGameObjectFactory::Create(int classId, map<string, string> propert
 	LPGAMEOBJECT result = nullptr;
 	sectionId = -1;
 
-	int x, y, width, height, animsId, portalId, initLeft, rotation, behaviorId;
+	int x, y, width, height, animsId, portalId, initLeft, rotation, behaviorId, isClockwise;
 
 	switch (classId)
 	{
 	case CLASS_DOME:
 		GetAnimatableObjectProps(properties, x, y, animsId, sectionId);
-		result = new CDome(classId, x, y, sectionId, animsId);
+		rotation = atoi(properties["Rotation"].c_str());
+		isClockwise = atoi(properties["IsClockwise"].c_str());
+		result = new CDome(classId, x, y, sectionId, rotation, isClockwise, animsId);
 		break;
 
 	case CLASS_FLOATER:
