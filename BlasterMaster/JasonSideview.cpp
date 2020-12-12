@@ -362,13 +362,13 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
     //Push vx when jason switch section --- Sanh
     if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT_JASON)
     {
-        vx = -JASONSIDEVIEW_VX / 3;
+        vx = -JASONSIDEVIEW_VX / 4;
         vy = 0;
         SetState(JASONSIDEVIEW_STATE_WALK_LEFT);
     }
     if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT_JASON)
     {
-        vx = JASONSIDEVIEW_VX / 3;
+        vx = JASONSIDEVIEW_VX / 4;
         vy = 0;
         SetState(JASONSIDEVIEW_STATE_WALK_RIGHT);
     }
