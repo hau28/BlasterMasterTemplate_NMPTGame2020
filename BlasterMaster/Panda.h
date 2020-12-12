@@ -8,9 +8,10 @@ const int PANDA_BOUNDBOX_HEIGHT = 6;
 const int PANDA_BOUNDBOX_OFFSETX = 8;
 const int PANDA_BOUNDBOX_OFFSETY = 12;
 
-const float PANDA_GRAVITY = 0.001f;
-const float PANDA_MAX_FALL_SPEED = 0.03f;
-const float PANDA_MOVE_SPEED = 0.05f;
+const float PANDA_GRAVITY = 0.08f;
+const float PANDA_MAX_FALL_SPEED = 0.1f;
+const float PANDA_MOVE_SPEED = 0.03f;
+const float PANDA_JUMP = 0.4f;
 
 class CPanda :
     public CEnemy
@@ -18,9 +19,12 @@ class CPanda :
 private:
     bool flagDead = false;
     bool flagOnAir = true;
+    bool flagTouchWall = false;
     float destinationX;
+    float flagPlayerX = 0;
     bool isGoingToPlayer = true;
     void checkDeoverlapPlayer();
+    void checkChangePositionPlayer();
 public:
     CPanda() {};
     CPanda(int classId, int x, int y, int sectionId, int animsId);
