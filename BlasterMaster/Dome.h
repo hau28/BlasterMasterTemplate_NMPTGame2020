@@ -1,12 +1,14 @@
 #pragma once
 #include "Enemy.h"
+#include "ITimeTrackable.h"
+#include "Timer.h"
 
 const int ROTATION_UP = 0;
 const int ROTATION_RIGHT = 1;
 const int ROTATION_DOWN = 2;
 const int ROTATION_LEFT = 3;
 
-class CDome : public CEnemy
+class CDome : public CEnemy, public ITimeTrackable
 {
 private:
     // bounding box
@@ -18,7 +20,8 @@ private:
     const int DOME_BOUNDBOX_OFFSETY = 7;
     
     const float DOME_STICKY_FORCE = 0.1008f; // => Thycute's birthday is not magic number, Thycute is magic tho
-    const float DOME_MOVING_SPEED = 0.04f; 
+    const float DOME_MOVING_SPEED = 0.045f; 
+    const float DOME_SHOOTING_SPEED = 0.2f; 
 
     int rotation = 0;
     bool isClockwise = true;
@@ -40,6 +43,13 @@ private:
     void AddStickyForce();
     void AddMovingSpeed();
     void HandleRotateOnBlockCorner();
+
+    LPTIMER PrepareShootingTimer = nullptr;
+    bool CheckShootingCondition();
+    void PrepareShooting();
+    void StartShooting();
+    void EndShooting();
+    virtual void HandleTimerTick(CTimer* sender);
 
 public:
     CDome() {};

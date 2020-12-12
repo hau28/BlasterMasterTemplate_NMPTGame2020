@@ -12,9 +12,18 @@ CDome::CDome(int classId, int x, int y, int sectionId, int rotation, bool isCloc
 
 void CDome::UpdateVelocity(DWORD dt)
 {
-	vx = vy = 0;
-	AddStickyForce();
-	AddMovingSpeed();
+	if (!flagShooting && CheckShootingCondition())
+	{
+		PrepareShooting();
+	}
+
+	if (!flagShooting)
+	{
+		vx = vy = 0;
+
+		AddStickyForce();
+		AddMovingSpeed();
+	}
 }
 
 void CDome::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
@@ -45,6 +54,9 @@ void CDome::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 			flagFirstLand = true;
 
+			if (flagShooting)
+				EndShooting();
+
 			break;
 		}
 		}
@@ -59,6 +71,9 @@ void CDome::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
 	flagTouchHorizontalBlock = false;
 	flagTouchVerticalBlock = false;
+	
+	if(PrepareShootingTimer && flagShooting)
+		PrepareShootingTimer->Update(dt);
 
 	UpdateVelocity(dt);
 
@@ -160,10 +175,83 @@ void CDome::HandleRotateOnBlockCorner()
 	if (!flagFirstLand)
 		return;
 
+	if (flagShooting)
+		return;
+
 	bool isConvexCorner = !(flagTouchHorizontalBlock && flagTouchVerticalBlock);
 
 	int moreRotation = (isClockwise ? 1 : -1) * (isConvexCorner ? -1 : 1);
-	this->rotation = AddToRotation(this->rotation, moreRotation); // turn backward the current rotation direction
+	this->rotation = AddToRotation(this->rotation, moreRotation); 
+}
+
+bool CDome::CheckShootingCondition()
+{
+	LPGAMEOBJECT player = CGame::GetInstance()->GetCurrentPlayer();
+	if (!player)
+		return false;
+
+	float pcx, pcy; // Player's center position
+	CGameObjectBehaviour::CalcBoundingBoxCenter(player, pcx, pcy);
+	float dl, dt, dr, db; // Dome's box
+	this->GetBoundingBox(dl, dt, dr, db);
+
+	// the actual direction to the player at this frame
+	int toPlayerDirX = 0, toPlayerDirY = 0;
+
+	if (dr < pcx)
+		toPlayerDirX = 1;
+	if (pcx < dl)
+		toPlayerDirX = -1;
+	if (db < pcy)
+		toPlayerDirY = 1;
+	if (pcy < dt)
+		toPlayerDirY = -1;
+
+	int currentDirX, currentDirY;
+	CalcDirectionVector(this->rotation, currentDirX, currentDirY);
+
+	return (currentDirX == toPlayerDirX) && (currentDirY == toPlayerDirY);
+}
+
+void CDome::PrepareShooting()
+{
+	if (flagShooting)
+		return;
+
+	if (!PrepareShootingTimer)
+	{
+		PrepareShootingTimer = new CTimer(this, 500, 1);
+	}
+	
+	PrepareShootingTimer->Start();
+
+	vx = vy = 0;
+	flagShooting = true;
+}
+
+void CDome::StartShooting()
+{
+	int shootDirX, shootDirY;
+	CalcDirectionVector(this->rotation, shootDirX, shootDirY);
+
+	vx = shootDirX * DOME_SHOOTING_SPEED;
+	vy = shootDirY * DOME_SHOOTING_SPEED;
+}
+
+void CDome::EndShooting()
+{
+	flagFirstLand = false;
+	flagShooting = false;
+	isClockwise = rand() % 2;
+	this->rotation = AddToRotation(this->rotation, 2);
+}
+
+void CDome::HandleTimerTick(CTimer* sender)
+{
+	if (sender == PrepareShootingTimer)
+	{
+		StartShooting();
+	}
 }
 
 void CDome::GetBoundingBox(float& left, float& top, float& right, float& bottom)
