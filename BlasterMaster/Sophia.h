@@ -45,11 +45,13 @@ private:
     bool flagDead = 0;
     float ground;
     bool turnRight;
+    
 
     CSophia(){};
     CSophia(int classId, int x, int y);
 
     static CSophia *__instance;
+    bool flag_JasonJumpOut;
 
 public:
     virtual void UpdateVelocity(DWORD dt);
@@ -63,11 +65,14 @@ public:
     //0: trai, 1: dang xoay trai, 2: dang xoay phai, 3: phai
     void setGunState(int state);
 
+    void jasonJumpIn();
+
     float camBoxLeft, camBoxRight,camBoxTop,camBoxBottom;
     void roundPosition() { x = round(x); y = round(y); }
     void roundPositionX() { x = round(x); }
     
     void init_camBox();
+    void init_camBox_FollowCamera();
     static CSophia *GetInstance();
     static CSophia *InitInstance(int classId, int x, int y, int sectionId);
 

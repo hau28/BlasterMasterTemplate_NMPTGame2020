@@ -303,6 +303,7 @@ void CGame::HandleGameEvent(LPGAME_EVENT gameEvent)
 
 	if (gameEvent->eventName == "JasonJumpOutEvent")
 	{
+		
 		CJasonJumpOutEvent* castedEvent = dynamic_cast<CJasonJumpOutEvent*>(gameEvent);
 
 		SetState(GameState::PLAY_SIDEVIEW_JASON);
@@ -316,6 +317,7 @@ void CGame::HandleGameEvent(LPGAME_EVENT gameEvent)
 
 		//SANH-CAMERA
 		CJasonSideview::GetInstance()->init_camBox();
+		//CJasonSideview::GetState(ja)
 	}
 
 	if (gameEvent->eventName == "JasonJumpInEvent")
@@ -323,11 +325,10 @@ void CGame::HandleGameEvent(LPGAME_EVENT gameEvent)
 		auto scene = dynamic_cast<LPPLAYSCENE>(CGame::GetInstance()->GetCurrentScene());
         scene->SetPlayer(CSophia::GetInstance());
 		LPSECTION section = scene->GetCurrentSection();
-
 		section->deleteJasonSideview();
 		SetState(GameState::PLAY_SIDEVIEW_SOPHIA);
-		
-		CSophia::GetInstance()->init_camBox();
+		//CSophia::GetInstance()->init_camBox();
+		CSophia::GetInstance()->init_camBox_FollowCamera();
 	}
 
 	if (dynamic_cast<SwitchSceneEvent*>(gameEvent) || dynamic_cast<SwitchSceneEvent*>(gameEvent))

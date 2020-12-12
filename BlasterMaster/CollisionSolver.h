@@ -60,5 +60,7 @@ public:
 	/// <param name="dx, dy">direction to move to deoverlap</param>
 	/// <returns></returns>
 	static void DeOverlap(LPGAMEOBJECT movableObj, LPGAMEOBJECT staticObj, float& dx, float& dy);
+
+	static bool IsTouchingSophia(LPGAMEOBJECT obj1, LPGAMEOBJECT obj2);
 };
 

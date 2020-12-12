@@ -6,11 +6,13 @@
 CMine::CMine(int classId, int x, int y, int sectionId, int animsId) : CEnemy::CEnemy(classId, x, y, sectionId, animsId)
 {
 	SetState(MINE_STATE_LIVE);
+	vy = MINE_GRAVITY;
 }
 
 void CMine::UpdateVelocity(DWORD dt)
 {
 	// Thy cute
+	vy = MINE_GRAVITY;
 }
 
 void CMine::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
@@ -32,7 +34,7 @@ void CMine::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 			case CLASS_TILE_PORTAL:
 			{
 				CGameObjectBehaviour::BlockObject(dt, coEvent);
-
+				
 				break;
 			}
 		}
