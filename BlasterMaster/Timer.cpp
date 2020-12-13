@@ -36,7 +36,9 @@ void CTimer::Update(int dt)
 		// only handle tick event if last frame has not been ticked
 		if (!lastFrameTicked)
 		{
-			tracker->HandleTimerTick(this);
+			if(tracker)
+				tracker->HandleTimerTick(this);
+
 			lastFrameTicked = true;
 			
 			if(!enableRepeatForever)

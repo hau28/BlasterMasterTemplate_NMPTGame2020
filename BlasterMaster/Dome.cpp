@@ -1,6 +1,7 @@
 #include "Dome.h"
 #include "TileArea.h"
 #include "GameObjectBehaviour.h"
+#include "Bullet.h"
 
 CDome::CDome(int classId, int x, int y, int sectionId, int rotation, bool isClockwise, int animsId): CEnemy::CEnemy(classId, x, y, sectionId, animsId)
 {
@@ -61,6 +62,19 @@ void CDome::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 		}
 		}
 	}
+
+	if (dynamic_cast<LPBULLET>(obj))
+	{
+		LPBULLET bullet = dynamic_cast<LPBULLET>(obj);
+
+		if (bullet->isFriendly)
+		{
+			// make explosion effect and destroy this gameobject
+			this->TakeDamage(10);
+			// remove the bullet from section
+			CGameObjectBehaviour::RemoveObject(obj);
+		}
+	}
 }
 
 void CDome::HandleOverlap(LPGAMEOBJECT overlappedObj)
@@ -84,6 +98,8 @@ void CDome::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 	UpdatePosition(dt);
 
 	UpdateState();
+
+	flashingEffect->Update(dt);
 }
 
 void CDome::UpdateState()

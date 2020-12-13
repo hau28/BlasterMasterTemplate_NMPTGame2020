@@ -71,7 +71,7 @@ void CShip::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 		if (bullet->isFriendly)
 		{
 			// make explosion effect and destroy this gameobject
-			CGameObjectBehaviour::ExplodeAtCenter(this, CLASS_LARGE_EXPLOSION_SIDEVIEW);
+			this->TakeDamage(10);
 			// remove the bullet from section
 			CGameObjectBehaviour::RemoveObject(obj);
 		}
@@ -97,7 +97,7 @@ void CShip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 	singleShotTimer->Update(dt);
 	shootPhaseTimer->Update(dt);
 
-	CAnimatableObject::Update(dt, coObjs);
+	CEnemy::Update(dt, coObjs);
 }
 
 void CShip::GetBoundingBox(float& left, float& top, float& right, float& bottom)
