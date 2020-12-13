@@ -149,4 +149,7 @@ void CJumper::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs) {
 		UpdateState();
 	}
 	UpdatePosition(dt);	
+
+	// CuteTN
+	flashingEffect->Update(dt);
 }

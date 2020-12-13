@@ -16,6 +16,8 @@ void CShip::UpdateState()
 
 CShip::CShip(int classId, int x, int y, int sectionId, int initLeft, int animsId) : CEnemy::CEnemy(classId, x, y, sectionId, animsId)
 {
+	healthPoint = SHIP_HEALTHPOINT;
+
 	vx = SHIP_MOVE_SPEED;
 	vy = 0;
 
@@ -61,19 +63,6 @@ void CShip::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 				
 			break;
 		}
-		}
-	}
-
-	if (dynamic_cast<LPBULLET>(obj))
-	{
-		LPBULLET bullet = dynamic_cast<LPBULLET>(obj);
-
-		if (bullet->isFriendly)
-		{
-			// make explosion effect and destroy this gameobject
-			this->TakeDamage(10);
-			// remove the bullet from section
-			CGameObjectBehaviour::RemoveObject(obj);
 		}
 	}
 }

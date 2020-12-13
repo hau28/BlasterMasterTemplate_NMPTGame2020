@@ -149,4 +149,7 @@ void CPanda::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 		SetState(PANDA_STATE_WALK_RIGHT);
 	if (vx < 0)
 		SetState(PANDA_STATE_WALK_LEFT);
+
+	// CuteTN
+	flashingEffect->Update(dt);
 }

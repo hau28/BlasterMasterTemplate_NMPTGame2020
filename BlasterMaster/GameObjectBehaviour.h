@@ -1,6 +1,9 @@
 #pragma once
 #include "GameObject.h"
 
+#include "Bullet.h"
+#include "Enemy.h"
+
 /// <summary>
 /// A special class to encapsulate some GameObjects common behaviour.
 /// So that we dont have to write the same functions again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again and again
@@ -89,5 +92,7 @@ public:
 	/// </summary>
 	/// <param name="obj"></param>
 	static void RemoveObject(LPGAMEOBJECT obj, bool isDestroyAfterRemove = true);
+
+	static void HandleFriendlyBulletHitsEnemy(CBullet* bullet, CEnemy* enemy);
 };
 

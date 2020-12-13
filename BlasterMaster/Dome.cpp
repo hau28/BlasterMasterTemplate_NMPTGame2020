@@ -5,6 +5,8 @@
 
 CDome::CDome(int classId, int x, int y, int sectionId, int rotation, bool isClockwise, int animsId): CEnemy::CEnemy(classId, x, y, sectionId, animsId)
 {
+	healthPoint = DOME_HEALTHPOINT;
+
 	this->rotation = rotation;
 	this->isClockwise = isClockwise;
 
@@ -60,19 +62,6 @@ void CDome::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 			break;
 		}
-		}
-	}
-
-	if (dynamic_cast<LPBULLET>(obj))
-	{
-		LPBULLET bullet = dynamic_cast<LPBULLET>(obj);
-
-		if (bullet->isFriendly)
-		{
-			// make explosion effect and destroy this gameobject
-			this->TakeDamage(10);
-			// remove the bullet from section
-			CGameObjectBehaviour::RemoveObject(obj);
 		}
 	}
 }

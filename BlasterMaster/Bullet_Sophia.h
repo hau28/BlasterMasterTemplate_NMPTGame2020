@@ -14,6 +14,7 @@ class CBullet_Sophia : public CBullet
     const int BULLET_SOPHIA_SPRITE_WIDTH = 24;
     const int BULLET_SOPHIA_SPRITE_HEIGHT = 24;
 
+    const int BULLET_SOPHIA_DAMAGE = 6;
 
 public:
     CBullet_Sophia() {};

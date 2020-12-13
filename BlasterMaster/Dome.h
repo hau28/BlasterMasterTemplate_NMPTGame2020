@@ -31,6 +31,8 @@ private:
     bool flagTouchVerticalBlock = false;
     bool flagTouchHorizontalBlock = false;
 
+    const int DOME_HEALTHPOINT = 8;
+
     void UpdateState();
 
     /// <summary>

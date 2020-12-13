@@ -11,6 +11,7 @@ private:
 	int startX = 0;
 	bool flagStartedMoving = false;
 
+	const int BULLET_JASON_SIDEVIEW_DAMAGE = 1;
 	const float BULLET_JASON_SIDEVIEW_SPEED = 0.19f;
 	const float BULLET_JASON_SIDEVIEW_DISTANCE = 6 * 16;
 
