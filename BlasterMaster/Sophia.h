@@ -10,6 +10,10 @@ const int SOPHIA_BOUNDBOX_WIDTH = 21;
 const int SOPHIA_BOUNDBOX_HEIGHT = 15;
 const int SOPHIA_BOUNDBOX_OFFSETX = 10;
 const int SOPHIA_BOUNDBOX_OFFSETY = 23;
+
+const int SOPHIA_SPRITE_WIDTH = 40;
+const int SOPHIA_SPRITE_HEIGHT = 40;
+
 const float SOPHIA_MAX_SPEED = 0.1;
 const float SOPHIA_ENGINE = 0.0005;
 const float FRICTION = 0.00025;

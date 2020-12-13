@@ -507,10 +507,20 @@ void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 }
 void CSophia::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
-    left = x + SOPHIA_BOUNDBOX_OFFSETX;
-    top = y + SOPHIA_BOUNDBOX_OFFSETY;
-    right = left + SOPHIA_BOUNDBOX_WIDTH;
-    bottom = top + SOPHIA_BOUNDBOX_HEIGHT;
+    float offsetX, offsetY, width, height;
+    bool isTurnedLeft = directionState <= 1;
+
+    CGameObjectBehaviour::TransformBoundBox
+    (
+        SOPHIA_BOUNDBOX_OFFSETX, SOPHIA_BOUNDBOX_OFFSETY, SOPHIA_BOUNDBOX_WIDTH, SOPHIA_BOUNDBOX_HEIGHT, SOPHIA_SPRITE_WIDTH, SOPHIA_SPRITE_HEIGHT,
+        offsetX, offsetY, width, height,
+        isTurnedLeft, false
+    );
+
+    left = x + offsetX;
+    top = y + offsetY;
+    right = left + width;
+    bottom = top + height;
 }
 
 void CSophia::Render(float offsetX, float offsetY)
@@ -550,17 +560,18 @@ void CSophia::GetShootPosition(float& x, float& y)
     const int SOPHIA_GUN_OFFSETY_FROM_CENTER = -5;
 
     const int SOPHIA_GUNUPLEFT_OFFSETX_FROM_CENTER = 6;  // Idk why these 2 numbers are not equal, but here we go :)
-    const int SOPHIA_GUNUPRIGHT_OFFSETX_FROM_CENTER = -5; //
+    const int SOPHIA_GUNUPRIGHT_OFFSETX_FROM_CENTER = -4; //
 
     // set the bullet center equals to Sophia center
     CGameObjectBehaviour::CalcBoundingBoxCenter(this, x, y);
 
     y += SOPHIA_GUN_OFFSETY_FROM_CENTER;
 
-    if (gunState == 2 && directionState <= 1)
-        x += SOPHIA_GUNUPLEFT_OFFSETX_FROM_CENTER;
-    else
-        x += SOPHIA_GUNUPRIGHT_OFFSETX_FROM_CENTER;
+    if (gunState == 2)
+        if(directionState <= 1)
+			x += SOPHIA_GUNUPLEFT_OFFSETX_FROM_CENTER;
+		else
+			x += SOPHIA_GUNUPRIGHT_OFFSETX_FROM_CENTER;
 }
 
 void CSophia::GetGunDirection(float& dirX, float& dirY)
