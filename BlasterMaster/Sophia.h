@@ -53,6 +53,11 @@ private:
     static CSophia *__instance;
     bool flag_JasonJumpOut;
 
+    // CuteTN: shoot
+    void GetShootPosition(float& x, float &y);
+    void GetGunDirection(float& dirX, float& dirY);
+
+
 public:
     virtual void UpdateVelocity(DWORD dt);
     virtual void HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent);
@@ -75,12 +80,6 @@ public:
     void init_camBox_FollowCamera();
     static CSophia *GetInstance();
     static CSophia *InitInstance(int classId, int x, int y, int sectionId);
-
-    // CuteTN: shoot
-    void GetGunDirection(float& dirX, float& dirY);
-    // CuteTN Note: These consts are just for testing, We WILL need a function to get gun position :)
-    const int SOPHIA_GUN_OFFSETX_FROM_CENTER = 0;
-    const int SOPHIA_GUN_OFFSETY_FROM_CENTER = -5;
 };
 
 typedef CSophia *LPSOPHIA;

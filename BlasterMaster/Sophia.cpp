@@ -296,14 +296,13 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
     // CuteTN Bullet
     if (keyCode == DIK_C)
     {
-        float dx, dy, cx, cy;
+        float dx, dy, sx, sy;
         GetGunDirection(dx, dy);
 
         LPBULLET_SOPHIA bullet = new CBullet_Sophia(x, y, currentSectionId, dx, dy);
 
-        // set the bullet center equals to Sophia center
-        CGameObjectBehaviour::CalcBoundingBoxCenter(this, cx, cy);
-        CGameObjectBehaviour::SetBoundingBoxCenter(bullet, cx + SOPHIA_GUN_OFFSETX_FROM_CENTER, cy + SOPHIA_GUN_OFFSETY_FROM_CENTER);
+        GetShootPosition(sx, sy);
+        CGameObjectBehaviour::SetBoundingBoxCenter(bullet, sx, sy);
 
         CGameObjectBehaviour::CreateObject(bullet);
     }
@@ -544,6 +543,24 @@ CSophia *CSophia::InitInstance(int classId, int x, int y, int sectionId)
     __instance->currentSectionId = sectionId;
 
     return __instance;
+}
+
+void CSophia::GetShootPosition(float& x, float& y)
+{
+    const int SOPHIA_GUN_OFFSETY_FROM_CENTER = -5;
+
+    const int SOPHIA_GUNUPLEFT_OFFSETX_FROM_CENTER = 6;  // Idk why these 2 numbers are not equal, but here we go :)
+    const int SOPHIA_GUNUPRIGHT_OFFSETX_FROM_CENTER = -5; //
+
+    // set the bullet center equals to Sophia center
+    CGameObjectBehaviour::CalcBoundingBoxCenter(this, x, y);
+
+    y += SOPHIA_GUN_OFFSETY_FROM_CENTER;
+
+    if (gunState == 2 && directionState <= 1)
+        x += SOPHIA_GUNUPLEFT_OFFSETX_FROM_CENTER;
+    else
+        x += SOPHIA_GUNUPRIGHT_OFFSETX_FROM_CENTER;
 }
 
 void CSophia::GetGunDirection(float& dirX, float& dirY)
