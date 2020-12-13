@@ -11,7 +11,7 @@ const int PANDA_BOUNDBOX_OFFSETY = 12;
 const float PANDA_GRAVITY = 0.015f;
 const float PANDA_MAX_FALL_SPEED = 0.14f;
 const float PANDA_MOVE_SPEED = 0.07f;
-const float PANDA_JUMP = 0.2f;
+const float PANDA_JUMP = 0.25f;
 
 class CPanda :
     public CEnemy
