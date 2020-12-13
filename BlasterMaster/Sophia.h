@@ -63,11 +63,12 @@ public:
     virtual void Render(float offsetX, float offsetY);
 
     void jasonJumpIn();
-
+    //0: trai, 1: dang xoay trai, 2: dang xoay phai, 3: phai
+    void setGunState(int state);
     float camBoxLeft, camBoxRight,camBoxTop,camBoxBottom;
     void roundPosition() { x = round(x); y = round(y); }
     void roundPositionX() { x = round(x); }
-
+    
     void init_camBox();
     void init_camBox_FollowCamera();
     static CSophia *GetInstance();

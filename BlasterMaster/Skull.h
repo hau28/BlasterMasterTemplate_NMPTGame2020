@@ -9,6 +9,15 @@ class CSkull : public CEnemy
     const int SKULL_BOUNDBOX_OFFSETX = 7;
     const int SKULL_BOUNDBOX_OFFSETY = 7;
 
+    const float SKULL_MOVE_SPEED = 0.2f;
+    const int BOX = 5;
+
+private: 
+    void UpdateState();
+    bool flagshootbullet = false;
+    bool flagtouchwall = false;
+    int firstshoot = 0;
+    float oldVX, oldVY;
 
 public:
     CSkull() {};

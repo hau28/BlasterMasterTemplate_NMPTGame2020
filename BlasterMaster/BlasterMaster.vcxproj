@@ -140,6 +140,7 @@
   <ItemGroup>
     <ClCompile Include="AnimatableObject.cpp" />
     <ClCompile Include="Animations.cpp" />
+    <ClCompile Include="Jumper.cpp" />
     <ClCompile Include="Mine.cpp" />
     <ClCompile Include="CollisionSolver.cpp" />
     <ClCompile Include="Consts.h" />
@@ -152,6 +153,7 @@
     <ClCompile Include="IntroScene.cpp" />
     <ClCompile Include="JasonJumpOutEvent.cpp" />
     <ClCompile Include="JasonSideview.cpp" />
+    <ClCompile Include="Orb.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="PortalLib.cpp" />
     <ClCompile Include="RemoveObjectEvent.cpp" />
@@ -179,6 +181,7 @@
   <ItemGroup>
     <ClInclude Include="AnimatableObject.h" />
     <ClInclude Include="Animations.h" />
+    <ClInclude Include="Jumper.h" />
     <ClInclude Include="Mine.h" />
     <ClInclude Include="CollisionSolver.h" />
     <ClInclude Include="EndingScene.h" />
@@ -190,6 +193,7 @@
     <ClInclude Include="IntroScene.h" />
     <ClInclude Include="JasonJumpOutEvent.h" />
     <ClInclude Include="JasonSideview.h" />
+    <ClInclude Include="Orb.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="PortalLib.h" />
     <ClInclude Include="RemoveObjectEvent.h" />
