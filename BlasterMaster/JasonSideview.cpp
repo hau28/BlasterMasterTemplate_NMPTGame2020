@@ -8,6 +8,8 @@
 #include <algorithm>
 #include <assert.h>
 #include "JasonJumpInEvent.h"
+#include "Bullet_JasonSideview.h"
+
 CJasonSideview* CJasonSideview::__instance = nullptr;
 
 CJasonSideview::CJasonSideview()
@@ -225,6 +227,13 @@ void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)
             CJasonJumpInEvent* jasonJumpInEvent = new CJasonJumpInEvent(x, y, currentSectionId);
             CGame::AddGameEvent(jasonJumpInEvent);
         }
+    }
+
+    // CuteTN: shoot
+    if (keyCode == DIK_C)
+    {
+        CBullet_JasonSideview* bullet = new CBullet_JasonSideview(0, 0, 0, Jason_turnRight ? 1 : -1);
+        CGameObjectBehaviour::CreateObjectAtCenterOfAnother(bullet, this);
     }
 }
 
