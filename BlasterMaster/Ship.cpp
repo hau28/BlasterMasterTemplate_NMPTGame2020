@@ -86,6 +86,7 @@ void CShip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 	singleShotTimer->Update(dt);
 	shootPhaseTimer->Update(dt);
 
+
 	CEnemy::Update(dt, coObjs);
 }
 
