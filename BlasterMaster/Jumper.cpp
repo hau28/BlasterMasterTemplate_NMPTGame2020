@@ -16,6 +16,8 @@ void CJumper::UpdateState()
 
 CJumper::CJumper(int classId, int x, int y, int sectionId, int initLeft, int animsId) : CEnemy::CEnemy(classId, x, y, sectionId, animsId)
 {
+	healthPoint = JUMPER_HEALTHPOINT;
+
 	vx = JUMPER_MOVE_SPEED;
 	vy = 0;
 	vyMax = JUMPER_MAX_SPEED;

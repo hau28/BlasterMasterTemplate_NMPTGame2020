@@ -3,6 +3,7 @@
 
 class CMine : public CEnemy
 {
+    const int MINE_HEALTHPOINT = 1;
 
     const int MINE_BOUNDBOX_WIDTH = 14;
     const int MINE_BOUNDBOX_HEIGHT = 8;

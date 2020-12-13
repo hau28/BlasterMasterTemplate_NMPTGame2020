@@ -8,6 +8,8 @@
 
 CPanda::CPanda(int classId, int x, int y, int sectionId, int animsId) : CEnemy::CEnemy(classId, x, y, sectionId, animsId)
 {
+	healthPoint = PANDA_HEALTHPOINT;
+
 	SetState(PANDA_STATE_WALK_RIGHT);
 	vyMax = PANDA_MAX_FALL_SPEED;
 };

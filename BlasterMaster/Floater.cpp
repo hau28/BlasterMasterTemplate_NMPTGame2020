@@ -16,6 +16,8 @@ void CFloater::UpdateState()
 
 CFloater::CFloater(int classId, int x, int y, int sectionId, int animsId) : CEnemy::CEnemy(classId, x, y, sectionId, animsId) 
 {
+	healthPoint = FLOATER_HEALTHPOINT;
+
 	// vx = FLOATER_FLY_SPEED;
 	// vy = 0;
 	float tempX = 0, tempY = 0;

@@ -18,6 +18,8 @@ const float FLOATER_BULLET_SPEED = 0.08f;
 class CFloater : public CEnemy, public ITimeTrackable
 {
 private:
+    const int FLOATER_HEALTHPOINT = 3;
+
     const int SHOT_PER_SHOOTING_PHASE = 2;
     const int DELAY_BETWEEN_SHOOTING_PHASES = 2000;
     const int DELAY_BETWEEN_SHOTS = 300;

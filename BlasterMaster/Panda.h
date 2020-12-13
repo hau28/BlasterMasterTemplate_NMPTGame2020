@@ -17,6 +17,8 @@ class CPanda :
     public CEnemy
 {
 private:
+    const int PANDA_HEALTHPOINT = 4;
+
     bool flagDead = false;
     bool flagOnAir = true;
     bool flagTouchWall = false;
