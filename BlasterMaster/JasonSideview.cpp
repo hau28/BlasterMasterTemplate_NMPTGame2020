@@ -288,6 +288,9 @@ void CJasonSideview::GetBoundingBox(float& left, float& top, float& right, float
     top = y + JASONSIDEVIEW_BOUNDBOX_OFFSETY;
     right = left + JASONSIDEVIEW_BOUNDBOX_WIDTH;
     bottom = top + JASONSIDEVIEW_BOUNDBOX_HEIGHT;
+
+    if (flag_jasoncrawl)
+        top += (JASONSIDEVIEW_BOUNDBOX_HEIGHT - JASONSIDEVIEW_CRAWL_BOUNDBOX_HEIGHT);
 }
 
 void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
