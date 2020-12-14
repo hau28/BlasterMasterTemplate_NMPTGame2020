@@ -3,13 +3,14 @@
 
 class CMine : public CEnemy
 {
+    const int MINE_HEALTHPOINT = 1;
 
     const int MINE_BOUNDBOX_WIDTH = 14;
     const int MINE_BOUNDBOX_HEIGHT = 8;
     const int MINE_BOUNDBOX_OFFSETX = 1;
-    const int MINE_BOUNDBOX_OFFSETY = 1;
+    const int MINE_BOUNDBOX_OFFSETY = 0;
 
-    const float MINE_GRAVITY = 10.08; // Thycute's birthday -> not magic number
+    const float MINE_GRAVITY = 0.1008; // Thycute's birthday -> not magic number
 
 public:
     CMine() {};

@@ -8,6 +8,8 @@
 
 CPanda::CPanda(int classId, int x, int y, int sectionId, int animsId) : CEnemy::CEnemy(classId, x, y, sectionId, animsId)
 {
+	healthPoint = PANDA_HEALTHPOINT;
+
 	SetState(PANDA_STATE_WALK_RIGHT);
 	vyMax = PANDA_MAX_FALL_SPEED;
 };
@@ -162,4 +164,7 @@ void CPanda::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 		SetState(PANDA_STATE_WALK_RIGHT);
 	if (vx < 0)
 		SetState(PANDA_STATE_WALK_LEFT);
+
+	// CuteTN
+	flashingEffect->Update(dt);
 }

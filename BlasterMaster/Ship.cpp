@@ -16,6 +16,8 @@ void CShip::UpdateState()
 
 CShip::CShip(int classId, int x, int y, int sectionId, int initLeft, int animsId) : CEnemy::CEnemy(classId, x, y, sectionId, animsId)
 {
+	healthPoint = SHIP_HEALTHPOINT;
+
 	vx = SHIP_MOVE_SPEED;
 	vy = 0;
 
@@ -63,19 +65,6 @@ void CShip::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 		}
 		}
 	}
-
-	if (dynamic_cast<LPBULLET>(obj))
-	{
-		LPBULLET bullet = dynamic_cast<LPBULLET>(obj);
-
-		if (bullet->isFriendly)
-		{
-			// make explosion effect and destroy this gameobject
-			CGameObjectBehaviour::ExplodeAtCenter(this, CLASS_LARGE_EXPLOSION_SIDEVIEW);
-			// remove the bullet from section
-			CGameObjectBehaviour::RemoveObject(obj);
-		}
-	}
 }
 
 void CShip::HandleOverlap(LPGAMEOBJECT overlappedObj)
@@ -97,7 +86,8 @@ void CShip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 	singleShotTimer->Update(dt);
 	shootPhaseTimer->Update(dt);
 
-	CAnimatableObject::Update(dt, coObjs);
+
+	CEnemy::Update(dt, coObjs);
 }
 
 void CShip::GetBoundingBox(float& left, float& top, float& right, float& bottom)

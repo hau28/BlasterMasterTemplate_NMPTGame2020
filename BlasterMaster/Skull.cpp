@@ -5,6 +5,8 @@
 
 CSkull::CSkull(int classId, int x, int y, int sectionId, int animsId) : CEnemy::CEnemy(classId, x, y, sectionId, animsId)
 {
+	healthPoint = SKULL_HEALTHPOINT;
+
 	SetState(SKULL_STATE_FLY_LEFT);
 }
 

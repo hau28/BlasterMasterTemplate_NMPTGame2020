@@ -1,9 +1,12 @@
 #include "Dome.h"
 #include "TileArea.h"
 #include "GameObjectBehaviour.h"
+#include "Bullet.h"
 
 CDome::CDome(int classId, int x, int y, int sectionId, int rotation, bool isClockwise, int animsId): CEnemy::CEnemy(classId, x, y, sectionId, animsId)
 {
+	healthPoint = DOME_HEALTHPOINT;
+
 	this->rotation = rotation;
 	this->isClockwise = isClockwise;
 
@@ -84,6 +87,8 @@ void CDome::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 	UpdatePosition(dt);
 
 	UpdateState();
+
+	flashingEffect->Update(dt);
 }
 
 void CDome::UpdateState()

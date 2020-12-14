@@ -140,6 +140,8 @@
   <ItemGroup>
     <ClCompile Include="AnimatableObject.cpp" />
     <ClCompile Include="Animations.cpp" />
+    <ClCompile Include="Bullet_Floater.cpp" />
+    <ClCompile Include="Bullet_JasonSideview.cpp" />
     <ClCompile Include="Bullet_Ship.cpp" />
     <ClCompile Include="Jumper.cpp" />
     <ClCompile Include="Bullet.cpp" />
@@ -157,6 +159,7 @@
     <ClCompile Include="IntroScene.cpp" />
     <ClCompile Include="JasonJumpOutEvent.cpp" />
     <ClCompile Include="JasonSideview.cpp" />
+    <ClCompile Include="ObjectFlashingEffectPlayer.cpp" />
     <ClCompile Include="Orb.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="PortalLib.cpp" />
@@ -189,6 +192,8 @@
     <ClInclude Include="AnimatableObject.h" />
     <ClInclude Include="Animations.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Bullet_Floater.h" />
+    <ClInclude Include="Bullet_JasonSideview.h" />
     <ClInclude Include="Bullet_Ship.h" />
     <ClInclude Include="Bullet_Sophia.h" />
     <ClInclude Include="Explosion.h" />
@@ -204,6 +209,7 @@
     <ClInclude Include="IntroScene.h" />
     <ClInclude Include="JasonJumpOutEvent.h" />
     <ClInclude Include="JasonSideview.h" />
+    <ClInclude Include="ObjectFlashingEffectPlayer.h" />
     <ClInclude Include="Orb.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="PortalLib.h" />

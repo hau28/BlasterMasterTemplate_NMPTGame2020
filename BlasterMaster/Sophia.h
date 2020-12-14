@@ -10,6 +10,10 @@ const int SOPHIA_BOUNDBOX_WIDTH = 21;
 const int SOPHIA_BOUNDBOX_HEIGHT = 15;
 const int SOPHIA_BOUNDBOX_OFFSETX = 10;
 const int SOPHIA_BOUNDBOX_OFFSETY = 23;
+
+const int SOPHIA_SPRITE_WIDTH = 40;
+const int SOPHIA_SPRITE_HEIGHT = 40;
+
 const float SOPHIA_MAX_SPEED = 0.1;
 const float SOPHIA_ENGINE = 0.0005;
 const float FRICTION = 0.00025;
@@ -53,6 +57,11 @@ private:
     static CSophia *__instance;
     bool flag_JasonJumpOut;
 
+    // CuteTN: shoot
+    void GetShootPosition(float& x, float &y);
+    void GetGunDirection(float& dirX, float& dirY);
+
+
 public:
     virtual void UpdateVelocity(DWORD dt);
     virtual void HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent);
@@ -75,12 +84,6 @@ public:
     void init_camBox_FollowCamera();
     static CSophia *GetInstance();
     static CSophia *InitInstance(int classId, int x, int y, int sectionId);
-
-    // CuteTN: shoot
-    void GetGunDirection(float& dirX, float& dirY);
-    // CuteTN Note: These consts are just for testing, We WILL need a function to get gun position :)
-    const int SOPHIA_GUN_OFFSETX_FROM_CENTER = 0;
-    const int SOPHIA_GUN_OFFSETY_FROM_CENTER = -5;
 };
 
 typedef CSophia *LPSOPHIA;

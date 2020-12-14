@@ -5,6 +5,8 @@
 
 CMine::CMine(int classId, int x, int y, int sectionId, int animsId) : CEnemy::CEnemy(classId, x, y, sectionId, animsId)
 {
+	healthPoint = MINE_HEALTHPOINT;
+
 	SetState(MINE_STATE_LIVE);
 	vy = MINE_GRAVITY;
 }

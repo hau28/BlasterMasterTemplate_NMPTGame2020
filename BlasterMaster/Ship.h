@@ -18,6 +18,8 @@ private:
     const int DELAY_BETWEEN_SHOOTING_PHASES = 2500;
     const int DELAY_BETWEEN_SHOTS = 300;
 
+    const int SHIP_HEALTHPOINT = 10;
+
     void UpdateState();
 
     LPTIMER shootPhaseTimer;
