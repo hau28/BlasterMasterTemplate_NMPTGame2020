@@ -76,18 +76,6 @@ void CFloater::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 		break;
 	}
-	if (dynamic_cast<LPBULLET>(obj))
-	{
-		LPBULLET bullet = dynamic_cast<LPBULLET>(obj);
-
-		if (bullet->isFriendly)
-		{
-			// make explosion effect and destroy this gameobject
-			this->TakeDamage(10);
-			// remove the bullet from section
-			CGameObjectBehaviour::RemoveObject(obj);
-		}
-	}
 	}
 }
 

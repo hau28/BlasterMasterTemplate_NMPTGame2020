@@ -107,7 +107,10 @@ void COrb::UpdateVelocity(DWORD dt)
 		UpdateState();
 	}
 	else {
-		float Xplayer, Yplayer;
+		// Center position of player and this orb
+		float Xplayer, Yplayer, Xthis, Ythis;
+		
+		/*
 		CGame::GetInstance()->GetCurrentPlayer()->GetPosition(Xplayer, Yplayer);
 		if (x > Xplayer+12)
 			vx = -ORB_CHASE_SPEED;
@@ -117,6 +120,26 @@ void COrb::UpdateVelocity(DWORD dt)
 			vy = -ORB_CHASE_SPEED;
 		else
 			vy = ORB_CHASE_SPEED;
+			*/
+
+		// CuteTN fix orb chasing player
+		LPGAMEOBJECT player = CGame::GetInstance()->GetCurrentPlayer();
+		if (player)
+		{
+			CGameObjectBehaviour::CalcBoundingBoxCenter(player, Xplayer, Yplayer);
+			CGameObjectBehaviour::CalcBoundingBoxCenter(this, Xthis, Ythis);
+
+			if (Xthis < Xplayer)
+				vx = ORB_CHASE_SPEED;
+			else
+				vx = -ORB_CHASE_SPEED;
+
+			if (Ythis < Yplayer)
+				vy = ORB_CHASE_SPEED;
+			else
+				vy = -ORB_CHASE_SPEED;
+		}
+
 		UpdateState();
 	}
 }
@@ -153,6 +176,13 @@ void COrb::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 				break;
 			}
 			}
+		}
+
+		// suicidal orbs get exploded when touching player
+		LPGAMEOBJECT player = CGame::GetInstance()->GetCurrentPlayer();
+		if (obj == player && suicide)
+		{
+			CGameObjectBehaviour::ExplodeAtCenter(this, CLASS_LARGE_EXPLOSION_SIDEVIEW);
 		}
 }
 
