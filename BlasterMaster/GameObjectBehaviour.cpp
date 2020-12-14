@@ -1,5 +1,8 @@
 #include "GameObjectBehaviour.h"
 #include "CollisionSolver.h"
+#include "Explosion.h"
+#include "CreateObjectEvent.h"
+#include "RemoveObjectEvent.h"
 
 void CGameObjectBehaviour::BlockObject(DWORD dt, LPCOLLISIONEVENT coEvent)
 {
@@ -101,4 +104,79 @@ void CGameObjectBehaviour::NormalizeVector2(float x, float y, float& nx, float& 
 	float d = CalcMagnitudeVector2(x, y);
 	nx = x / d;
 	ny = y / d;
+}
+
+void CGameObjectBehaviour::TransformBoundBox(float offsetX, float offsetY, float width, float height, float spriteWidth, float spriteHeight, float& newOffsetX, float& newOffsetY, float& newWidth, float& newHeight, bool flipX, bool flipY)
+{
+	newOffsetX = offsetX;
+	newOffsetY = offsetY;
+	newWidth = width;
+	newHeight = height;
+
+	if (flipX)
+	{
+		newOffsetX = spriteWidth - offsetX - width;
+	}
+
+	if (flipY)
+	{
+		newOffsetY = spriteHeight - offsetY - height;
+	}
+}
+
+void CGameObjectBehaviour::CreateExplosion(int explosionClassId, int x, int y, int sectionId)
+{
+	LPEXPLOSION explosion = new CExplosion(explosionClassId, x, y, sectionId);
+	CreateObject(explosion);
+}
+
+void CGameObjectBehaviour::Explode(LPGAMEOBJECT obj, int explosionClassId, int x, int y)
+{
+	if (!obj)
+		return;
+
+	RemoveObject(obj);
+	
+	CreateExplosion(explosionClassId, x, y, obj->currentSectionId);
+}
+
+void CGameObjectBehaviour::ExplodeAtCenter(LPGAMEOBJECT obj, int explosionClassId)
+{
+	if (!obj)
+		return;
+
+	float objCenterX, objCenterY;
+	CalcBoundingBoxCenter(obj, objCenterX, objCenterY);
+
+	// this is to get the position...
+	LPEXPLOSION temp = new CExplosion(explosionClassId);
+	SetBoundingBoxCenter(temp, objCenterX, objCenterY);
+	float x, y;
+	temp->GetPosition(x, y);
+	delete temp;
+
+	Explode(obj, explosionClassId, x, y);
+}
+
+void CGameObjectBehaviour::CreateObject(LPGAMEOBJECT obj)
+{
+	CCreateObjectEvent* ce = new CCreateObjectEvent(obj);
+	CGame::AddGameEvent(ce);
+}
+
+void CGameObjectBehaviour::CreateObjectAtCenterOfAnother(LPGAMEOBJECT newObj, LPGAMEOBJECT fromObj)
+{
+	float centerX, centerY;
+	CalcBoundingBoxCenter(fromObj, centerX, centerY);
+
+	SetBoundingBoxCenter(newObj, centerX, centerY);
+	newObj->currentSectionId = fromObj->currentSectionId;
+
+	CreateObject(newObj);
+}
+
+void CGameObjectBehaviour::RemoveObject(LPGAMEOBJECT obj, bool isDestroyAfterRemove)
+{
+	CRemoveObjectEvent* re = new CRemoveObjectEvent(obj, isDestroyAfterRemove);
+	CGame::AddGameEvent(re);
 }

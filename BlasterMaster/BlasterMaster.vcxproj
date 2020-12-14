@@ -140,7 +140,13 @@
   <ItemGroup>
     <ClCompile Include="AnimatableObject.cpp" />
     <ClCompile Include="Animations.cpp" />
+    <ClCompile Include="Bullet_JasonSideview.cpp" />
+    <ClCompile Include="Bullet_Ship.cpp" />
+    <ClCompile Include="Insect.cpp" />
     <ClCompile Include="Jumper.cpp" />
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Bullet_Sophia.cpp" />
+    <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="Mine.cpp" />
     <ClCompile Include="CollisionSolver.cpp" />
     <ClCompile Include="Consts.h" />
@@ -153,6 +159,7 @@
     <ClCompile Include="IntroScene.cpp" />
     <ClCompile Include="JasonJumpOutEvent.cpp" />
     <ClCompile Include="JasonSideview.cpp" />
+    <ClCompile Include="ObjectFlashingEffectPlayer.cpp" />
     <ClCompile Include="Orb.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="PortalLib.cpp" />
@@ -160,6 +167,7 @@
     <ClCompile Include="Ship.cpp" />
     <ClCompile Include="Skull.cpp" />
     <ClCompile Include="SophiaAnimationSystem.cpp" />
+    <ClCompile Include="SwitchSceneEvent.cpp" />
     <ClCompile Include="TileArea.cpp" />
     <ClCompile Include="CustomKeyEvent.cpp" />
     <ClCompile Include="Dome.cpp" />
@@ -167,6 +175,8 @@
     <ClCompile Include="GameObjectFactory.cpp" />
     <ClCompile Include="Section.cpp" />
     <ClCompile Include="Sophia.cpp" />
+    <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="ITimeTrackable.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -181,6 +191,12 @@
   <ItemGroup>
     <ClInclude Include="AnimatableObject.h" />
     <ClInclude Include="Animations.h" />
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Bullet_JasonSideview.h" />
+    <ClInclude Include="Bullet_Ship.h" />
+    <ClInclude Include="Bullet_Sophia.h" />
+    <ClInclude Include="Explosion.h" />
+    <ClInclude Include="Insect.h" />
     <ClInclude Include="Jumper.h" />
     <ClInclude Include="Mine.h" />
     <ClInclude Include="CollisionSolver.h" />
@@ -193,6 +209,7 @@
     <ClInclude Include="IntroScene.h" />
     <ClInclude Include="JasonJumpOutEvent.h" />
     <ClInclude Include="JasonSideview.h" />
+    <ClInclude Include="ObjectFlashingEffectPlayer.h" />
     <ClInclude Include="Orb.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="PortalLib.h" />
@@ -200,6 +217,7 @@
     <ClInclude Include="Ship.h" />
     <ClInclude Include="Skull.h" />
     <ClInclude Include="SophiaAnimationSystem.h" />
+    <ClInclude Include="SwitchSceneEvent.h" />
     <ClInclude Include="TileArea.h" />
     <ClInclude Include="CustomKeyEvent.h" />
     <ClInclude Include="Dome.h" />
@@ -208,6 +226,8 @@
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Section.h" />
     <ClInclude Include="Sophia.h" />
+    <ClInclude Include="Timer.h" />
+    <ClInclude Include="ITimeTrackable.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />

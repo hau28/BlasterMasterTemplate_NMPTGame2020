@@ -42,7 +42,7 @@ void CJumper::UpdateVelocity(DWORD dt)
 				vx = JUMPER_MOVE_SPEED * 3;
 			UpdateState();
 			lastTimeJump = GetTickCount();
-			DebugOut(L"jumper jumps\n");
+			// DebugOut(L"jumper jumps\n");
 			numJump++;
 		}
 	}
@@ -54,7 +54,7 @@ void CJumper::UpdateVelocity(DWORD dt)
 			else if (this->state == JUMPER_STATE_WALKRIGHT)
 				vx = JUMPER_MOVE_SPEED * 3;
 			lastTimeJump = GetTickCount();
-			DebugOut(L"jumper jumps\n");
+			// DebugOut(L"jumper jumps\n");
 			numJump=0;
 		}
 	}
@@ -105,7 +105,7 @@ void CJumper::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 				flagOnEdge = 1;
 			else
 				flagOnEdge = 0;
-			DebugOut(L"Ground %f %f %f %f\n", gl, gt, gr, gb);
+			// DebugOut(L"Ground %f %f %f %f\n", gl, gt, gr, gb);
 
 			break;
 		}

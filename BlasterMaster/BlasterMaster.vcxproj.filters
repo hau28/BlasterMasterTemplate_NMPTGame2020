@@ -24,7 +24,6 @@
     <ClCompile Include="Section.cpp" />
     <ClCompile Include="Sophia.cpp" />
     <ClCompile Include="Utils.cpp" />
-    <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Animations.cpp">
@@ -119,8 +118,24 @@
     <ClCompile Include="Mine.cpp" />
     <ClCompile Include="EndingScene.cpp" />
     <ClCompile Include="Skull.cpp" />
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Bullet_Sophia.cpp" />
+    <ClCompile Include="Explosion.cpp" />
+    <ClCompile Include="Game.cpp">
+      <Filter>GameManagers</Filter>
+    </ClCompile>
+    <ClCompile Include="SwitchSceneEvent.cpp" />
+    <ClCompile Include="Mine.cpp" />
+    <ClCompile Include="EndingScene.cpp" />
+    <ClCompile Include="Skull.cpp" />
     <ClCompile Include="Jumper.cpp" />
     <ClCompile Include="Orb.cpp" />
+    <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="ITimeTrackable.cpp" />
+    <ClCompile Include="Bullet_Ship.cpp" />
+    <ClCompile Include="Bullet_JasonSideview.cpp" />
+    <ClCompile Include="ObjectFlashingEffectPlayer.cpp" />
+    <ClCompile Include="Insect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -217,8 +232,23 @@
     <ClInclude Include="JasonJumpInEvent.h" />
     <ClInclude Include="IntroScene.h" />
     <ClInclude Include="Skull.h" />
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Bullet_Sophia.h" />
+    <ClInclude Include="Explosion.h" />
+    <ClInclude Include="SwitchSceneEvent.h" />
+    <ClInclude Include="Mine.h" />
+    <ClInclude Include="EndingScene.h" />
+    <ClInclude Include="JasonJumpInEvent.h" />
+    <ClInclude Include="IntroScene.h" />
+    <ClInclude Include="Skull.h" />
     <ClInclude Include="Jumper.h" />
     <ClInclude Include="Orb.h" />
+    <ClInclude Include="Timer.h" />
+    <ClInclude Include="ITimeTrackable.h" />
+    <ClInclude Include="Bullet_Ship.h" />
+    <ClInclude Include="Bullet_JasonSideview.h" />
+    <ClInclude Include="ObjectFlashingEffectPlayer.h" />
+    <ClInclude Include="Insect.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="AnimationCore">

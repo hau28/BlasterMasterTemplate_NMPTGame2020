@@ -6,6 +6,9 @@
 #include "SophiaAnimationSystem.h"
 #include "JasonSideview.h"
 #include "JasonJumpOutEvent.h"
+#include "CreateObjectEvent.h"
+#include "Bullet_Sophia.h"
+#include "SwitchSceneEvent.h"
 
 CSophia::CSophia(int classId, int x, int y)
 {
@@ -271,7 +274,7 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
     {
         vy = -SOPHIA_JUMP_FORCE;
     }
-    if (/*!flagOnAir && */ keyCode == DIK_RSHIFT)
+    if (!flagOnAir && keyCode == DIK_RSHIFT)
     {
         flag_JasonJumpOut = true;
         updateBody();
@@ -285,7 +288,24 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
     //SANH_SWITCH SCENE
     //Help Sanh fastly test switch scene
     if (keyCode == DIK_SPACE)
-        CGame::GetInstance()->SwitchScene(ID_SCENE_END);
+    {
+        CGameEvent* event = new SwitchSceneEvent(ID_SCENE_END);
+        CGame::AddGameEvent(event);
+    }
+
+    // CuteTN Bullet
+    if (keyCode == DIK_C)
+    {
+        float dx, dy, sx, sy;
+        GetGunDirection(dx, dy);
+
+        LPBULLET_SOPHIA bullet = new CBullet_Sophia(x, y, currentSectionId, dx, dy);
+
+        GetShootPosition(sx, sy);
+        CGameObjectBehaviour::SetBoundingBoxCenter(bullet, sx, sy);
+
+        CGameObjectBehaviour::CreateObject(bullet);
+    }
 }
 #pragma endregion
 
@@ -487,10 +507,20 @@ void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 }
 void CSophia::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
-    left = x + SOPHIA_BOUNDBOX_OFFSETX;
-    top = y + SOPHIA_BOUNDBOX_OFFSETY;
-    right = left + SOPHIA_BOUNDBOX_WIDTH;
-    bottom = top + SOPHIA_BOUNDBOX_HEIGHT;
+    float offsetX, offsetY, width, height;
+    bool isTurnedLeft = directionState <= 1;
+
+    CGameObjectBehaviour::TransformBoundBox
+    (
+        SOPHIA_BOUNDBOX_OFFSETX, SOPHIA_BOUNDBOX_OFFSETY, SOPHIA_BOUNDBOX_WIDTH, SOPHIA_BOUNDBOX_HEIGHT, SOPHIA_SPRITE_WIDTH, SOPHIA_SPRITE_HEIGHT,
+        offsetX, offsetY, width, height,
+        isTurnedLeft, false
+    );
+
+    left = x + offsetX;
+    top = y + offsetY;
+    right = left + width;
+    bottom = top + height;
 }
 
 void CSophia::Render(float offsetX, float offsetY)
@@ -523,4 +553,36 @@ CSophia *CSophia::InitInstance(int classId, int x, int y, int sectionId)
     __instance->currentSectionId = sectionId;
 
     return __instance;
+}
+
+void CSophia::GetShootPosition(float& x, float& y)
+{
+    const int SOPHIA_GUN_OFFSETY_FROM_CENTER = -5;
+
+    const int SOPHIA_GUNUPLEFT_OFFSETX_FROM_CENTER = 6;  // Idk why these 2 numbers are not equal, but here we go :)
+    const int SOPHIA_GUNUPRIGHT_OFFSETX_FROM_CENTER = -4; //
+
+    // set the bullet center equals to Sophia center
+    CGameObjectBehaviour::CalcBoundingBoxCenter(this, x, y);
+
+    y += SOPHIA_GUN_OFFSETY_FROM_CENTER;
+
+    if (gunState == 2)
+        if(directionState <= 1)
+			x += SOPHIA_GUNUPLEFT_OFFSETX_FROM_CENTER;
+		else
+			x += SOPHIA_GUNUPRIGHT_OFFSETX_FROM_CENTER;
+}
+
+void CSophia::GetGunDirection(float& dirX, float& dirY)
+{
+    if (gunState == 2)
+    {
+        dirX = 0;
+        dirY = -1;
+        return;
+    }
+
+    dirY = 0;
+    dirX = directionState <= 1 ? -1 : 1;
 }

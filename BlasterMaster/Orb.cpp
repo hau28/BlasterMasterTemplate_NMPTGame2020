@@ -14,7 +14,7 @@ void COrb::UpdateState()
 			SetState(ORB_TURN_RIGHT);
 			flagTurn--;
 		}
-		else  if (flagTurn < -0) {
+		else  if (flagTurn < 0) {
 			SetState(ORB_TURN_LEFT);
 			flagTurn++;
 		}
@@ -30,6 +30,13 @@ void COrb::UpdateState()
 				SetState(ORB_TURN_AROUND_LEFT);
 			if (this->state == ORB_FLY_RIGHT)
 				SetState(ORB_TURN_AROUND_RIGHT);
+		}
+		else {
+			flagTurn = 0;
+			vx = ORB_MOVE_SPEED;
+			vy = 0;
+			yStart = 0;
+			SetState(ORB_FLY_RIGHT);
 		}
 	}
 	else {

@@ -14,6 +14,7 @@
 #include "Skull.h"
 #include "Jumper.h"
 #include "Orb.h"
+#include "Insect.h"
 
 /// <summary>
 /// The Abstract factory for creating game objects
