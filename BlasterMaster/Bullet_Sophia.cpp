@@ -7,6 +7,8 @@
 
 CBullet_Sophia::CBullet_Sophia(int x, int y, int sectionId, int dirX, int dirY) : CBullet(CLASS_SOPHIA_BULLET, x, y, sectionId, true)
 {
+	damage = BULLET_SOPHIA_DAMAGE;
+
 	// normalize the direction vector
 	float nx, ny;
 	CGameObjectBehaviour::NormalizeVector2(dirX, dirY, nx, ny);
@@ -50,6 +52,12 @@ void CBullet_Sophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 			break;
 		}
 		}
+	}
+
+	if (dynamic_cast<CEnemy*>(obj))
+	{
+		CEnemy* enemy = dynamic_cast<CEnemy*>(obj);
+		CGameObjectBehaviour::HandleFriendlyBulletHitsEnemy(this, enemy);
 	}
 }
 

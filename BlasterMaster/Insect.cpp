@@ -73,7 +73,7 @@ void CInsect::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 				if (coEvent->ny > 0)
 				{
 					flagtouchwall = true;
-					vy = INSECT_MOVE_SPEED_Y_rotcaibich;
+					vy = INSECT_FALL_SPEED_Y;
 				}
 
 				if (coEvent->ny < 0)

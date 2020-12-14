@@ -14,6 +14,8 @@ const DWORD VERTICAL_PERIOD = 5000;
 class COrb : public CEnemy
 {
 private:
+    const int ORB_HEALTHPOINT = 6;
+
     void UpdateState();
     DWORD lastTimeVertical;
     float yStart;

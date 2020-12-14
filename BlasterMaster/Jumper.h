@@ -17,6 +17,8 @@ const DWORD JUMP_PERIOD = 4000;
 class CJumper : public CEnemy
 {
 private:
+    const int JUMPER_HEALTHPOINT = 6;
+
     void UpdateState();
     bool flagOnAir;
     int flagOnEdge;

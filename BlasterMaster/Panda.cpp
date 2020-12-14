@@ -8,6 +8,8 @@
 
 CPanda::CPanda(int classId, int x, int y, int sectionId, int animsId) : CEnemy::CEnemy(classId, x, y, sectionId, animsId)
 {
+	healthPoint = PANDA_HEALTHPOINT;
+
 	SetState(PANDA_STATE_WALK_RIGHT);
 	vyMax = PANDA_MAX_FALL_SPEED;
 };
@@ -37,7 +39,7 @@ void CPanda::UpdateVelocity(DWORD dt)
 {
 	float Xplayer, Yplayer;
 	CGame::GetInstance()->GetCurrentPlayer()->GetPosition(Xplayer, Yplayer);
-	if (!flagOnAir)
+	if (!flagOnAir && vy >= 0)
 	{
 		if (isGoingToPlayer)
 		{
@@ -61,9 +63,16 @@ void CPanda::UpdateVelocity(DWORD dt)
 					vx = -PANDA_MOVE_SPEED;
 		}
 	}
+
+	if (abs(vy + 0.01) <= 0.0001)
+		if (Xplayer > x)
+			vx = PANDA_MOVE_SPEED;
+		else
+			if (Xplayer < x)
+				vx = -PANDA_MOVE_SPEED;
 	
 	vy += PANDA_GRAVITY;
-	vy = min(vy, PANDA_MAX_FALL_SPEED);
+	vy = min(vy, PANDA_MAX_FALL_SPEED);	
 }
 
 void CPanda::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
@@ -91,7 +100,9 @@ void CPanda::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 			{
 				flagOnAir = false;
 				if (flagTouchWall)
+				{
 					vy = -PANDA_JUMP;
+				}
 			}
 
 			if (coEvent->nx != 0)
@@ -120,7 +131,9 @@ void CPanda::checkDeoverlapPlayer()
 	float Xplayer, Yplayer;
 	CGame::GetInstance()->GetCurrentPlayer()->GetPosition(Xplayer, Yplayer);
 
-	if (!(boundPandaRight < boundPlayerLeft || boundPlayerRight < boundPandaLeft))
+	float centerPlayer = (boundPlayerLeft + boundPlayerRight) / 2;
+
+	if ((boundPandaLeft < centerPlayer && centerPlayer < boundPandaRight))
 	{
 		if (isGoingToPlayer)
 		{
@@ -138,6 +151,8 @@ void CPanda::checkDeoverlapPlayer()
 
 void CPanda::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
+	DebugOut(L"\n vx = %f, vy =  %F ", x, y);
+	DebugOut(L"\n vx = %f, vy =  %F ", vx, vy);
 	UpdateVelocity(dt);
 	flagOnAir = true;
 	flagTouchWall = false;
@@ -149,4 +164,7 @@ void CPanda::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 		SetState(PANDA_STATE_WALK_RIGHT);
 	if (vx < 0)
 		SetState(PANDA_STATE_WALK_LEFT);
+
+	// CuteTN
+	flashingEffect->Update(dt);
 }

@@ -51,6 +51,8 @@ void COrb::UpdateState()
 
 COrb::COrb(int classId, int x, int y, int sectionId, int initLeft, int animsId, bool behaviorId) : CEnemy::CEnemy(classId, x, y, sectionId, animsId)
 {
+	healthPoint = ORB_HEALTHPOINT;
+
 	suicide = behaviorId;
 	if (!suicide) {
 		flagTurn = 0;

@@ -25,6 +25,7 @@ CSkull::CSkull(int classId, int x, int y, int sectionId, int animsId) : CEnemy::
 
 	this->isUpdatedWhenOffScreen = false;
 	vy = 0;
+	healthPoint = SKULL_HEALTHPOINT;
 }
 
 void CSkull::UpdateVelocity(DWORD dt)

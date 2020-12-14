@@ -4,6 +4,7 @@
 
 class CSkull : public CEnemy
 {
+    const int SKULL_HEALTHPOINT = 3;
 
     const int SKULL_BOUNDBOX_WIDTH = 18;
     const int SKULL_BOUNDBOX_HEIGHT =21 ;
@@ -22,7 +23,7 @@ private:
     int firstshoot = 0;
 
     float oldVX, oldVY;
-    
+
 public:
     CSkull() {};
     CSkull(int classId, int x, int y, int sectionId, int animsId);

@@ -12,7 +12,7 @@ class CInsect : public CEnemy
     const float INSECT_MOVE_SPEED_X = 0.018f;
     const float INSECT_MOVEDOWN_SPEED_Y = 0.013f;
     const float INSECT_MOVEUP_SPEED_Y = 0.04f;
-    const float INSECT_MOVE_SPEED_Y_rotcaibich = 0.180f; // Vì k để 108 dc thì ghi 180
+    const float INSECT_FALL_SPEED_Y = 0.180f; // Vì k để 108 dc thì ghi 180
     
     const int TIME_UPDATE_MOVEUP = 400;
     const int TIME_UPDATE_MOVEDOWN = 1000;

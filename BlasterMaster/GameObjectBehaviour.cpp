@@ -180,3 +180,12 @@ void CGameObjectBehaviour::RemoveObject(LPGAMEOBJECT obj, bool isDestroyAfterRem
 	CRemoveObjectEvent* re = new CRemoveObjectEvent(obj, isDestroyAfterRemove);
 	CGame::AddGameEvent(re);
 }
+
+void CGameObjectBehaviour::HandleFriendlyBulletHitsEnemy(CBullet* bullet, CEnemy* enemy)
+{
+	if (bullet->isFriendly)
+	{
+		enemy->TakeDamage(bullet->damage);
+		CGameObjectBehaviour::RemoveObject(bullet);
+	}
+}

@@ -5,6 +5,8 @@
 
 CBullet_JasonSideview::CBullet_JasonSideview(float x, float y, int sectionId, float dirX) : CBullet::CBullet(CLASS_SMALL_PINK_BULLET, x, y, sectionId, true)
 {
+	damage = BULLET_JASON_SIDEVIEW_DAMAGE;
+
 	dirX = dirX > 0 ? 1 : -1;
 
 	vx = dirX * BULLET_JASON_SIDEVIEW_SPEED;
@@ -43,6 +45,12 @@ void CBullet_JasonSideview::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 			break;
 		}
 		}
+	}
+
+	if (dynamic_cast<CEnemy*>(obj))
+	{
+		CEnemy* enemy = dynamic_cast<CEnemy*>(obj);
+		CGameObjectBehaviour::HandleFriendlyBulletHitsEnemy(this, enemy);
 	}
 }
 
