@@ -167,6 +167,7 @@
     <ClCompile Include="Ship.cpp" />
     <ClCompile Include="Skull.cpp" />
     <ClCompile Include="SophiaAnimationSystem.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="SwitchSceneEvent.cpp" />
     <ClCompile Include="TileArea.cpp" />
     <ClCompile Include="CustomKeyEvent.cpp" />
@@ -217,6 +218,7 @@
     <ClInclude Include="Ship.h" />
     <ClInclude Include="Skull.h" />
     <ClInclude Include="SophiaAnimationSystem.h" />
+    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="SwitchSceneEvent.h" />
     <ClInclude Include="TileArea.h" />
     <ClInclude Include="CustomKeyEvent.h" />
@@ -237,6 +239,47 @@
     <ClInclude Include="Textures.h" />
     <ClInclude Include="WalkInPortalEvent.h" />
     <ClInclude Include="Panda.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Sound\3Missile.wav" />
+    <Media Include="Sound\BigObjectJump.wav" />
+    <Media Include="Sound\BossEnter.wav" />
+    <Media Include="Sound\DomeFLying.wav" />
+    <Media Include="Sound\DomeWalking.wav" />
+    <Media Include="Sound\DontKnow.wav" />
+    <Media Include="Sound\EnemyDie.wav" />
+    <Media Include="Sound\EnemyOnHit.wav" />
+    <Media Include="Sound\Explosive_bullet.wav" />
+    <Media Include="Sound\EyeballSHOT.wav" />
+    <Media Include="Sound\FullHeath.wav" />
+    <Media Include="Sound\Grenade.wav" />
+    <Media Include="Sound\HomingMissile.wav" />
+    <Media Include="Sound\Insect.wav" />
+    <Media Include="Sound\InteriorTheme.wav" />
+    <Media Include="Sound\JasonBullet.wav" />
+    <Media Include="Sound\JasonDie.wav" />
+    <Media Include="Sound\JasonGotHit_Interior.wav" />
+    <Media Include="Sound\JasonGotHit_Outside.wav" />
+    <Media Include="Sound\JasonJump.wav" />
+    <Media Include="Sound\JumperJump.wav" />
+    <Media Include="Sound\Master SFX (11).wav" />
+    <Media Include="Sound\Master SFX (12).wav" />
+    <Media Include="Sound\Master SFX (25).wav" />
+    <Media Include="Sound\Master SFX (27).wav" />
+    <Media Include="Sound\Master SFX (32).wav" />
+    <Media Include="Sound\Master SFX (33).wav" />
+    <Media Include="Sound\Master SFX (37).wav" />
+    <Media Include="Sound\MineExplosion.wav" />
+    <Media Include="Sound\MineWaiting.wav" />
+    <Media Include="Sound\PowerUp.wav" />
+    <Media Include="Sound\SkullBullet.wav" />
+    <Media Include="Sound\SophiaBullet.wav" />
+    <Media Include="Sound\SophiaDie.wav" />
+    <Media Include="Sound\SophiaGoingSmall.wav" />
+    <Media Include="Sound\swapSophiaAndJason.wav" />
+    <Media Include="Sound\TeleporterMoving.wav" />
+    <Media Include="Sound\ThemeSong.wav" />
+    <Media Include="Sound\WormMoving_CannonShot_TeleporterShot.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

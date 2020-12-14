@@ -10,7 +10,9 @@
 #include "JasonJumpInEvent.h"
 #include "Section.h"
 #include "SwitchSceneEvent.h"
+#include "SoundManager.h"
 
+#define SCENE_SIDEVIEW_ID 2
 
 CGame * CGame::__instance = nullptr;
 
@@ -224,6 +226,7 @@ CGame::~CGame()
 	if (backBuffer != nullptr) backBuffer->Release();
 	if (d3ddv != nullptr) d3ddv->Release();
 	if (d3d != nullptr) d3d->Release();
+	SoundManager::GetInstance()->Release();
 }
 
 CGameObject* CGame::GetCurrentPlayer()
@@ -444,5 +447,10 @@ void CGame::SwitchScene(int scene_id)
 	current_scene = scene_id;
 	LPSCENE s = scenes[scene_id];
 	// CGame::GetInstance()->SetKeyHandler(s->GetKeyEventHandler());
+	SoundManager::GetInstance()->StopSource();
+	if (scene_id == SCENE_SIDEVIEW_ID) //Main scene 
+		SoundManager::GetInstance()->PlaySoundInfinite("ThemeSong.wav");
+	else //interior 
+		SoundManager::GetInstance()->PlaySoundInfinite("InteriorTheme.wav");
 	s->Load();	
 }
