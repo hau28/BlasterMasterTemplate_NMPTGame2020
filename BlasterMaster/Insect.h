@@ -9,13 +9,15 @@ class CInsect : public CEnemy
     const int INSECT_BOUNDBOX_OFFSETX = 7;
     const int INSECT_BOUNDBOX_OFFSETY = 5;
 
-    const float INSECT_MOVE_SPEED_X = 0.018f;
+    const float INSECT_MOVE_SPEED_X = 0.019f;
     const float INSECT_MOVEDOWN_SPEED_Y = 0.013f;
-    const float INSECT_MOVEUP_SPEED_Y = 0.04f;
+    const float INSECT_MOVEUP_SPEED_Y = 0.05f;
     const float INSECT_FALL_SPEED_Y = 0.180f; // Vì k để 108 dc thì ghi 180
     
     const int TIME_UPDATE_MOVEUP = 400;
     const int TIME_UPDATE_MOVEDOWN = 1000;
+
+    const int INSECT_HEALTHPOINT = 6;
 
 private:
     bool flagtouchwall = false;

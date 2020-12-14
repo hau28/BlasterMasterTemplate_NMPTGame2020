@@ -10,13 +10,13 @@ protected:
 	CObjectFlashingEffectPlayer* flashingEffect = nullptr;
 
 	int healthPoint = 100;
-	void Explode();
+	virtual void Explode();
 	void PlayFlashingEffect();
 
 public:
 	CEnemy() {};
 	CEnemy(int classId, int x, int y, int sectionId, int animsId);
-	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs);
 
 	void TakeDamage(int damage);
 };

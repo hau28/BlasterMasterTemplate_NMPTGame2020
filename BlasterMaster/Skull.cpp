@@ -6,28 +6,50 @@
 #include "Bullet_Skull.h"
 
 
+
+
 CSkull::CSkull(int classId, int x, int y, int sectionId, int animsId) : CEnemy::CEnemy(classId, x, y, sectionId, animsId)
 {
-
 	float Xplayer, Yplayer;
 	CGame::GetInstance()->GetCurrentPlayer()->GetPosition(Xplayer, Yplayer);
 
 	if (Xplayer < x)
 	{
-		SetState(SKULL_STATE_FLY_LEFT);
 		vx = -SKULL_MOVE_SPEED;
 	}
 	else
 	{
-		SetState(SKULL_STATE_FLY_RIGHT);
 		vx = SKULL_MOVE_SPEED;
 	}
-
+	UpdateState();
 
 	this->isUpdatedWhenOffScreen = true;
 
 	vy = 0;
 	healthPoint = SKULL_HEALTHPOINT;
+}
+
+bool CSkull::isOnTopOfPlayer()
+{
+	float Xplayer, Yplayer;
+	LPGAMEOBJECT player = CGame::GetInstance()->GetCurrentPlayer();
+	
+	if (!player)
+		return false;
+
+	CGameObjectBehaviour::CalcBoundingBoxCenter(player, Xplayer, Yplayer);
+	
+	float l, t, r, b;
+	this->GetBoundingBox(l, t, r, b);
+
+	// player is out of Skull's range
+	if (Xplayer < l || Xplayer > r)
+		return false;
+
+	if (Yplayer > (t + b) / 2)
+		return true;
+	else
+		return false;
 }
 
 void CSkull::UpdateVelocity(DWORD dt)
@@ -41,12 +63,9 @@ void CSkull::UpdateVelocity(DWORD dt)
 			CGameObjectBehaviour::RemoveObject(this);
 	}
 
-	float Xplayer, Yplayer;
-	CGame::GetInstance()->GetCurrentPlayer()->GetPosition(Xplayer, Yplayer);
-
 	if (state != SKULL_STATE_SHOOT_LEFT && state != SKULL_STATE_SHOOT_RIGHT)
 	{
-		if ((abs(Xplayer - x) < BOX) && !flagshootbullet && Yplayer - y >-20)
+		if (isOnTopOfPlayer())
 		{
 			if (vx > 0)
 				oldVX = SKULL_MOVE_SPEED;
@@ -75,9 +94,9 @@ void CSkull::UpdateState()
 	if (flagtouchwall|| (vx == 0 && vy == 0))
 	{
 		if (vx > 0)
-			SetState(SKULL_STATE_FLY_LEFT);
-		else
 			SetState(SKULL_STATE_FLY_RIGHT);
+		else
+			SetState(SKULL_STATE_FLY_LEFT);
 
 		flagtouchwall = false;
 	}
@@ -85,9 +104,9 @@ void CSkull::UpdateState()
 	if (flagshootbullet )
 	{
 		if (oldVX > 0)
-			SetState(SKULL_STATE_SHOOT_LEFT);
-		else
 			SetState(SKULL_STATE_SHOOT_RIGHT);
+		else
+			SetState(SKULL_STATE_SHOOT_LEFT);
 
 		DropBullet();
 	}
@@ -136,18 +155,15 @@ void CSkull::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 				{
 					vx = SKULL_MOVE_SPEED;
 					flagtouchwall = true;
-
-					UpdateState();
 				};
 
 				if (coEvent->nx < 0)
 				{
 					vx = -SKULL_MOVE_SPEED;
 					flagtouchwall = true;
-
-					UpdateState();
 				}
 
+				UpdateState();
 				break;
 			}
 		}

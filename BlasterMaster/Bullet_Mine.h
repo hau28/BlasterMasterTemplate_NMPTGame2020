@@ -3,7 +3,7 @@
 class CBullet_Mine : public CBullet
 {
 private:
-    const float BASEVELOCITY = 0.1f;
+    const float BASEVELOCITY = 0.15f;
     
     float vx_factor ,vy_factor  ;
     DWORD timestartDrop;

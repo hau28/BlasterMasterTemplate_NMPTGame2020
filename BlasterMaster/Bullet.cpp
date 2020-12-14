@@ -96,4 +96,13 @@ void CBullet::GetBoundingBox(float& left, float& top, float& right, float& botto
 	bottom = top + boundingBoxHeight;
 }
 
+void CBullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
+{
+	if (isUpdatedWhenOffScreen)
+		if (!checkObjInCamera(this))
+			CGameObjectBehaviour::RemoveObject(this);
+
+	CAnimatableObject::Update(dt, coObjs);
+}
+
 

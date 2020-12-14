@@ -24,6 +24,8 @@ private:
 
     float oldVX, oldVY;
 
+    bool isOnTopOfPlayer();
+
 public:
     CSkull() {};
     CSkull(int classId, int x, int y, int sectionId, int animsId);

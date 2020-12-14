@@ -5,6 +5,8 @@
 
 CInsect::CInsect(int classId, int x, int y, int sectionId, int animsId) : CEnemy::CEnemy(classId, x, y, sectionId, animsId)
 {
+	healthPoint = INSECT_HEALTHPOINT;
+
 	SetState(INSECT_STATE_FLY_LEFT);
 
 	vx = 0;
@@ -85,16 +87,14 @@ void CInsect::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 				if (coEvent->nx < 0)
 				{
 					turnRight = true;
-					
-					UpdateState();
 				}
 
 				if (coEvent->nx > 0)
 				{
 					turnRight = false;
-					UpdateState();
 				}
 
+				UpdateState();
 				break;
 			}
 		}

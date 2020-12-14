@@ -9,13 +9,13 @@ CBullet_Mine::CBullet_Mine(float x, float y, int sectionId, float dirX, float di
 	float nx, ny;
 	CGameObjectBehaviour::NormalizeVector2(dirX, dirY, nx, ny);
 
-	float vx_factor = RandomFloat(-1, 1);
-	float vy_factor = RandomFloat(0.1, 1);
+	//float vx_factor = RandomFloat(-1, 1);
+	//float vy_factor = RandomFloat(0.1, 1);
 
-	vx = BASEVELOCITY*vx_factor;
-	vy = -BASEVELOCITY*vy_factor;
+	vx = BASEVELOCITY*nx;
+	vy = BASEVELOCITY*ny;
 
-	this->isUpdatedWhenOffScreen = false;
+	this->isUpdatedWhenOffScreen = true;
 	this->allowOverlapWithBlocks = true;
 
 	timestartDrop = GetTickCount();
@@ -37,8 +37,6 @@ void CBullet_Mine::UpdateVelocity(DWORD dt)
 
 void CBullet_Mine::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 {
-	if (!checkObjInCamera(this, SCREEN_EXTEND_OFFSET_DEFAULT)) // chỗ này cũng lười viết hàm update nên t bỏ đây luôn
-		CGameObjectBehaviour::RemoveObject(this);
 }
 
 void CBullet_Mine::HandleOverlap(LPGAMEOBJECT overlappedObj)

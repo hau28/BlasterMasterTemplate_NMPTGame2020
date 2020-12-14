@@ -182,7 +182,7 @@ void COrb::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 		LPGAMEOBJECT player = CGame::GetInstance()->GetCurrentPlayer();
 		if (obj == player && suicide)
 		{
-			CGameObjectBehaviour::ExplodeAtCenter(this, CLASS_LARGE_EXPLOSION_SIDEVIEW);
+			Explode();
 		}
 }
 
