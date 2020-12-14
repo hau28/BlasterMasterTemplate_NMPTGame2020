@@ -19,6 +19,7 @@ using namespace std;
 class CGameObject;
 
 void DebugOut(wchar_t *fmt, ...);
+float RandomFloat(float a, float b);
 
 vector<string> split(string line, string delimeter = "\t");
 wstring ToWSTR(string st);

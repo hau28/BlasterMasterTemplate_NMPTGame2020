@@ -12,7 +12,7 @@ class CSkull : public CEnemy
     const int SKULL_BOUNDBOX_OFFSETY = 7;
 
     const float SKULL_MOVE_SPEED = 0.17f;
-    const int BOX = 5;
+    const int BOX = 2;
 
 private: 
     void UpdateState();
@@ -34,5 +34,7 @@ public:
     //void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs);
 
     virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+
+    void DropBullet();
 };
 typedef CSkull* LPSKULL;

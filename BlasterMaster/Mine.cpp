@@ -1,7 +1,11 @@
-#include "Mine.h"
+﻿#include "Mine.h"
 #include "TileArea.h"
 #include "GameObjectBehaviour.h"
-
+#include "CollisionSolver.h"
+#include "Sophia.h"
+#include "JasonSideview.h"
+#include "Bullet_Mine.h"
+#include "Utils.h"
 
 CMine::CMine(int classId, int x, int y, int sectionId, int animsId) : CEnemy::CEnemy(classId, x, y, sectionId, animsId)
 {
@@ -40,6 +44,26 @@ void CMine::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 				break;
 			}
 		}
+	}
+
+	if (CCollisionSolver::IsOverlapped(this, CGame::GetInstance()->GetCurrentPlayer()))
+	{
+		CGameObjectBehaviour::RemoveObject(this);// delete enemy
+
+		float dirX, dirY;
+		CGameObjectBehaviour::CalcDirecttionToPlayer(this, dirX, dirY);
+
+		int numberOfBullet = rand() % 5;	
+
+		for (int i = 0; i < numberOfBullet; i++) 
+		{
+			float x_factor = RandomFloat(-3, 3);
+			float y_factor = RandomFloat(0, 5);
+
+			CBullet_Mine* bullet = new CBullet_Mine(0,0, 0, dirX + x_factor, dirY + y_factor);
+			CGameObjectBehaviour::CreateObjectAtCenterOfAnother(bullet, this);
+		}
+
 	}
 }
 
