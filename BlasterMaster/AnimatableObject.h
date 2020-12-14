@@ -11,6 +11,9 @@ protected:
 	int modifyB = 255;
 
 public:
+
+	bool allowOverlapWithBlocks = false;
+
 	CObjectAnimationHanlders animationHandlers;
 
 	CAnimatableObject() {};

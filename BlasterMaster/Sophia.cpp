@@ -274,7 +274,7 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
     {
         vy = -SOPHIA_JUMP_FORCE;
     }
-    if (/*!flagOnAir && */ keyCode == DIK_RSHIFT)
+    if (!flagOnAir && keyCode == DIK_RSHIFT)
     {
         flag_JasonJumpOut = true;
         updateBody();

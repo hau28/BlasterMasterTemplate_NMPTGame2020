@@ -40,15 +40,10 @@ void CSection::Update(DWORD dt)
 			obj->Update(dt, nullptr);
 		else
 		{
-			if (checkObjInCamera(obj, SCREEN_EXTEND_OFFSET))
+			if (obj->isUpdatedWhenOffScreen || checkObjInCamera(obj, SCREEN_EXTEND_OFFSET_DEFAULT))
 			{
 				obj->Update(dt, &Objects);
 			}
-			else if (obj->isDestroyedWhenOffScreen)
-			{
-				CGameObjectBehaviour::RemoveObject(obj);
-			}
-
 		}
 	}
 }
@@ -61,7 +56,7 @@ void CSection::Render(float offset_x, float offset_y)
 
 	for (auto obj : Objects)
 	{
-		if (checkObjInCamera(obj, SCREEN_EXTEND_OFFSET))
+		if (checkObjInCamera(obj, SCREEN_EXTEND_OFFSET_DEFAULT))
 			if(obj->isHiddenByForeground)
 				obj->Render(offset_x, offset_y);
 	}
@@ -70,7 +65,7 @@ void CSection::Render(float offset_x, float offset_y)
 
 	for (auto obj : Objects)
 	{
-		if (checkObjInCamera(obj, SCREEN_EXTEND_OFFSET))
+		if (checkObjInCamera(obj, SCREEN_EXTEND_OFFSET_DEFAULT))
 			if (!obj->isHiddenByForeground)
 				obj->Render(offset_x, offset_y);
 	}

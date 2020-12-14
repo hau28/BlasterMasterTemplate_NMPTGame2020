@@ -645,7 +645,7 @@
 610 143	Section 527	X 0	Y 896	Width 64	Height 32	Portal 365	
 611 146	Section 527	X 48	Y 160	Width 16	Height 192	
 612 147	Section 527	X 64	Y 144	Width 16	Height 16	Portal -	
-613 183	Preview 178	Animations 180	Section 527	X 384	Y 1056	InitLeft 0	
+613 183	Preview 178	Animations 180	Section 263	X 64	Y 64	InitLeft 0	
 614 183	Preview 178	Animations 180	Section 527	X 256	Y 1168	InitLeft 0	
 615 183	Preview 178	Animations 180	Section 527	X 320	Y 1312	InitLeft 0	
 616 258	Preview 252	Animations 255	Section 527	X 320	Y 1408	

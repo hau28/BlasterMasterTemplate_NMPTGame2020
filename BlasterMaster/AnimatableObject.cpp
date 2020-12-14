@@ -101,7 +101,8 @@ void CAnimatableObject::HandleCollisions(DWORD dt, vector<LPCOLLISIONEVENT>* coE
 
 void CAnimatableObject::ResolveInteractions(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
-	DeoverlapWithBlockableTiles(coObjs);
+	if (!allowOverlapWithBlocks)
+		DeoverlapWithBlockableTiles(coObjs);
 
 	vector<LPCOLLISIONEVENT>* colEvents = new vector<LPCOLLISIONEVENT>();
 

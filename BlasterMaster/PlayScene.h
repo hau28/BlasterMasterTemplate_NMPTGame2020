@@ -71,6 +71,8 @@ public:
 	void handleGameEvent(LPGAME_EVENT gameEvent);
 	
 	//friend class CPlayScenceKeyHandler;
+
+	//~CPlayScene();
 };
 
 typedef CPlayScene* LPPLAYSCENE;

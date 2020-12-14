@@ -19,6 +19,7 @@ using namespace std;
 class CGameObject;
 
 void DebugOut(wchar_t *fmt, ...);
+float RandomFloat(float a, float b);
 
 vector<string> split(string line, string delimeter = "\t");
 wstring ToWSTR(string st);
@@ -38,4 +39,5 @@ int IsKeyDown(int KeyCode);
 /// So I provide a shortcut to adapt it :^) which makes things worst... but easier to use
 std::vector<CCustomKeyEvent*> NewKeyEvents();
 
-bool checkObjInCamera(CGameObject* obj, float extendOffset = 0);
+const int SCREEN_EXTEND_OFFSET_DEFAULT = 16;
+bool checkObjInCamera(CGameObject* obj, float extendOffset = SCREEN_EXTEND_OFFSET_DEFAULT);

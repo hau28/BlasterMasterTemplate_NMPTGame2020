@@ -125,3 +125,11 @@ bool checkObjInCamera(CGameObject* obj, float extendOffset)
 	obj->GetBoundingBox(oL, oT, oR, oB);
 	return CCollisionSolver::IsOverlapped(Ax, Ay, Bx, By, oL, oT, oR, oB, tL, tT, tR, tB);
 }
+
+float RandomFloat(float a, float b)
+{
+	float random = ((float)rand()) / (float)RAND_MAX;
+	float diff = b - a;
+	float r = random * diff;
+	return a + r;
+}

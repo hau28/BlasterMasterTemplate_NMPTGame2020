@@ -12,7 +12,7 @@ CExplosion::CExplosion(int classId, int x, int y, int sectionId) : CAnimatableOb
 {
 	ax = ay = vx = vy = 0;
 	this->isHiddenByForeground = false;
-	this->isDestroyedWhenOffScreen = true;
+	this->isUpdatedWhenOffScreen = true;
 }
 
 int CExplosion::ChooseAnimationsId(int classId)

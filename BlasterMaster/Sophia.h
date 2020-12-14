@@ -71,10 +71,10 @@ public:
     virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
     virtual void Render(float offsetX, float offsetY);
 
+    void jasonJumpIn();
     //0: trai, 1: dang xoay trai, 2: dang xoay phai, 3: phai
     void setGunState(int state);
-
-    void jasonJumpIn();
+    //0: trai, 1: dang xoay trai, 2: dang xoay phai, 3: phai
 
     float camBoxLeft, camBoxRight,camBoxTop,camBoxBottom;
     void roundPosition() { x = round(x); y = round(y); }

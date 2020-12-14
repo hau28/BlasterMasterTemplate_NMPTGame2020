@@ -71,7 +71,10 @@ LPGAMEOBJECT CGameObjectFactory::Create(int classId, map<string, string> propert
 		result = new CSkull(classId, x, y, sectionId, animsId);
 		break;
 
-
+	case CLASS_INSECT:
+		GetAnimatableObjectProps(properties, x, y, animsId, sectionId);
+		result = new CInsect(classId, x, y, sectionId, animsId);
+		break;
 
 	default:
 		return nullptr;

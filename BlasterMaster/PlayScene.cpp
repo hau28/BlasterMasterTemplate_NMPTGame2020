@@ -3,6 +3,8 @@
 #include "CreateObjectEvent.h"
 #include "RemoveObjectEvent.h"
 
+//#include "SoundManager.h"
+
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath, int startupSectionId) : CScene(id, filePath)
@@ -604,3 +606,7 @@ void CPlayScene::Unload()
 	
 	// CuteTN To do
 }
+//
+//CPlayScene::~CPlayScene() {
+//	SoundManager::GetInstance()->Release();
+//}

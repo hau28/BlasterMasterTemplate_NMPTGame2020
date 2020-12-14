@@ -92,6 +92,14 @@ void CBullet_Sophia::CalcExplosionCenterPos(float& explosionX, float& explosionY
 	}
 }
 
+void CBullet_Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
+{
+	if (!checkObjInCamera(this, SCREEN_EXTEND_OFFSET_DEFAULT))
+		CGameObjectBehaviour::RemoveObject(this);
+	
+	CBullet::Update(dt, coObjs);
+}
+
 void CBullet_Sophia::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	if (state != BULLET_SOPHIA_SIDEVIEW_STATE_UP)

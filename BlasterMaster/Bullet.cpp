@@ -8,7 +8,7 @@ CBullet::CBullet(int classId, int x, int y, int sectionId, bool isFriendly) : CA
 {
 	this->isFriendly = isFriendly;
 	this->isHiddenByForeground = false;
-	this->isDestroyedWhenOffScreen = true;
+	this->isUpdatedWhenOffScreen = true;
 
 	SetBoundingBoxInfo(classId);
 }
