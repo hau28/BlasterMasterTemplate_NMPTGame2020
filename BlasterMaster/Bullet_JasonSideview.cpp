@@ -56,6 +56,11 @@ void CBullet_JasonSideview::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 void CBullet_JasonSideview::HandleOverlap(LPGAMEOBJECT overlappedObj)
 {
+	if (dynamic_cast<CEnemy*>(overlappedObj))
+	{
+		CEnemy* enemy = dynamic_cast<CEnemy*>(overlappedObj);
+		CGameObjectBehaviour::HandleFriendlyBulletHitsEnemy(this, enemy);
+	}
 }
 
 void CBullet_JasonSideview::UpdatePosition(DWORD dt)

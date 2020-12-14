@@ -186,6 +186,6 @@ void CGameObjectBehaviour::HandleFriendlyBulletHitsEnemy(CBullet* bullet, CEnemy
 	if (bullet->isFriendly)
 	{
 		enemy->TakeDamage(bullet->damage);
-		CGameObjectBehaviour::RemoveObject(bullet);
+		bullet->Explode(CLASS_SMALL_EXPLOSION_SIDEVIEW);
 	}
 }

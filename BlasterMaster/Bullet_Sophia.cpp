@@ -63,8 +63,11 @@ void CBullet_Sophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 void CBullet_Sophia::HandleOverlap(LPGAMEOBJECT overlappedObj)
 {
-	// CuteTN Todo: overlap with enemies?
-	// nothing YET
+	if (dynamic_cast<CEnemy*>(overlappedObj))
+	{
+		CEnemy* enemy = dynamic_cast<CEnemy*>(overlappedObj);
+		CGameObjectBehaviour::HandleFriendlyBulletHitsEnemy(this, enemy);
+	}
 }
 
 void CBullet_Sophia::CalcExplosionCenterPos(float& explosionX, float& explosionY)
