@@ -143,6 +143,7 @@
     <ClCompile Include="Bullet_Floater.cpp" />
     <ClCompile Include="Bullet_JasonSideview.cpp" />
     <ClCompile Include="Bullet_Ship.cpp" />
+    <ClCompile Include="CGameGlobal.cpp" />
     <ClCompile Include="Jumper.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Bullet_Sophia.cpp" />
@@ -196,6 +197,7 @@
     <ClInclude Include="Bullet_JasonSideview.h" />
     <ClInclude Include="Bullet_Ship.h" />
     <ClInclude Include="Bullet_Sophia.h" />
+    <ClInclude Include="CGameGlobal.h" />
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="Jumper.h" />
     <ClInclude Include="Mine.h" />

@@ -136,6 +136,9 @@
     <ClCompile Include="Bullet_JasonSideview.cpp" />
     <ClCompile Include="ObjectFlashingEffectPlayer.cpp" />
     <ClCompile Include="Bullet_Floater.cpp" />
+    <ClCompile Include="CGameGlobal.cpp">
+      <Filter>GameManagers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -249,6 +252,9 @@
     <ClInclude Include="Bullet_JasonSideview.h" />
     <ClInclude Include="ObjectFlashingEffectPlayer.h" />
     <ClInclude Include="Bullet_Floater.h" />
+    <ClInclude Include="CGameGlobal.h">
+      <Filter>GameManagers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="AnimationCore">
