@@ -378,10 +378,10 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			Sections[CurrentSectionId]->deleteSophia();
 			CurrentSectionId = NextSectionId;
 			toPortal->GetPosition(x_toPortal, y_toPortal);
-			Sections[CurrentSectionId]->pushSophia(x_toPortal, y_toPortal, CurrentSectionId);
+			Sections[CurrentSectionId]->pushSophia(x_toPortal+5, y_toPortal, CurrentSectionId);
 			game->SetCamPos(0, cy);
 			CSophia::GetInstance()->init_camBox();
-			CSophia::GetInstance()->SetSpeed(0.1, 0);
+			CSophia::GetInstance()->SetSpeed(0.2, 0);
 			DebugOut(L"\ncx == %f, cy == %f",x_toPortal, y_toPortal);
 		}
 
@@ -411,7 +411,7 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			Sections[CurrentSectionId]->pushSophia(x_toPortal, y_toPortal, CurrentSectionId);
 			game->SetCamPos(cx, cy);
 			CSophia::GetInstance()->init_camBox();
-			CSophia::GetInstance()->SetSpeed(-0.1, 0);
+			CSophia::GetInstance()->SetSpeed(-0.2, 0);
 		}
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT_JASON)
 		if (cx + game->GetScreenWidth() <= 0)
