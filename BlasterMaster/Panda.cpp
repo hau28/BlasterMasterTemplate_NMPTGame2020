@@ -64,7 +64,7 @@ void CPanda::UpdateVelocity(DWORD dt)
 		}
 	}
 
-	if (abs(vy + 0.01) <= 0.0001)
+	if (abs(vy - 0.04) <= 0.0001)
 		if (Xplayer > x)
 			vx = PANDA_MOVE_SPEED;
 		else
@@ -151,8 +151,6 @@ void CPanda::checkDeoverlapPlayer()
 
 void CPanda::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
-	DebugOut(L"\n vx = %f, vy =  %F ", x, y);
-	DebugOut(L"\n vx = %f, vy =  %F ", vx, vy);
 	UpdateVelocity(dt);
 	flagOnAir = true;
 	flagTouchWall = false;

@@ -146,6 +146,7 @@
     <ClCompile Include="Bullet_Ship.cpp" />
     <ClCompile Include="Bullet_Skull.cpp" />
     <ClCompile Include="Insect.cpp" />
+    <ClCompile Include="GameGlobal.cpp" />
     <ClCompile Include="Jumper.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Bullet_Sophia.cpp" />
@@ -202,6 +203,7 @@
     <ClInclude Include="Bullet_Ship.h" />
     <ClInclude Include="Bullet_Skull.h" />
     <ClInclude Include="Bullet_Sophia.h" />
+    <ClInclude Include="GameGlobal.h" />
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="Insect.h" />
     <ClInclude Include="Jumper.h" />
