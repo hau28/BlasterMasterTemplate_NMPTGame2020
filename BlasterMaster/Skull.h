@@ -6,12 +6,12 @@ class CSkull : public CEnemy
 {
     const int SKULL_HEALTHPOINT = 3;
 
-    const int SKULL_BOUNDBOX_WIDTH = 18;
+    const int SKULL_BOUNDBOX_WIDTH = 15;
     const int SKULL_BOUNDBOX_HEIGHT = 21;
-    const int SKULL_BOUNDBOX_OFFSETX = 7;
-    const int SKULL_BOUNDBOX_OFFSETY = 7;
+    const int SKULL_BOUNDBOX_OFFSETX = 9;
+    const int SKULL_BOUNDBOX_OFFSETY = 8;
 
-    const float SKULL_MOVE_SPEED = 0.17f;
+    const float SKULL_MOVE_SPEED = 0.128f;
     const int BOX = 2;
 
 private: 
@@ -23,6 +23,8 @@ private:
     int firstshoot = 0;
 
     float oldVX, oldVY;
+
+    DWORD timeDropBullet;
 
     bool isOnTopOfPlayer();
 

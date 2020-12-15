@@ -25,6 +25,8 @@ CSkull::CSkull(int classId, int x, int y, int sectionId, int animsId) : CEnemy::
 
 	this->isUpdatedWhenOffScreen = true;
 
+	timeDropBullet = GetTickCount();
+
 	vy = 0;
 	healthPoint = SKULL_HEALTHPOINT;
 }
@@ -46,7 +48,7 @@ bool CSkull::isOnTopOfPlayer()
 	if (Xplayer < l || Xplayer > r)
 		return false;
 
-	if (Yplayer > (t + b) / 2)
+	if (Yplayer > (t + b) / 2 && GetTickCount() - timeDropBullet > 500)
 		return true;
 	else
 		return false;
@@ -83,7 +85,7 @@ void CSkull::UpdateVelocity(DWORD dt)
 	{
 		vy = - SKULL_MOVE_SPEED;
 		flagshootbullet = false;
-
+		timeDropBullet = GetTickCount();
 		UpdateState();
 	}
 }
@@ -91,7 +93,7 @@ void CSkull::UpdateVelocity(DWORD dt)
 void CSkull::UpdateState()
 {
 
-	if (flagtouchwall|| (vx == 0 && vy == 0))
+	if (flagtouchwall)
 	{
 		if (vx > 0)
 			SetState(SKULL_STATE_FLY_RIGHT);
@@ -99,16 +101,30 @@ void CSkull::UpdateState()
 			SetState(SKULL_STATE_FLY_LEFT);
 
 		flagtouchwall = false;
+
 	}
 
 	if (flagshootbullet )
 	{
+		animationHandlers[state]->currentFrameIndex = 0;
 		if (oldVX > 0)
 			SetState(SKULL_STATE_SHOOT_RIGHT);
 		else
 			SetState(SKULL_STATE_SHOOT_LEFT);
-
+		animationHandlers[state]->currentFrameIndex = 0;
+		animationHandlers[state]->startLoopIndex = 1;
 		DropBullet();
+		//timeDropBullet = GetTickCount();
+	}
+	else
+	{
+		if (vx == 0 && vy == 0)
+		{
+			if (oldVX > 0)
+				SetState(SKULL_STATE_FLY_RIGHT);
+			else
+				SetState(SKULL_STATE_FLY_LEFT);
+		}
 	}
 
 }
@@ -140,7 +156,7 @@ void CSkull::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 				{
 					vy = 0;
 
-					if (firstshoot  != 0)
+					if (firstshoot %2== 0)
 					{
 						vx = oldVX;
 						firstshoot++;
