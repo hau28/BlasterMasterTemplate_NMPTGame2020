@@ -138,8 +138,11 @@ void CSection::removeObject(LPGAMEOBJECT obj, bool deleteAfterRemoving)
 	for (int i = 0; i < Objects.size(); i++)
 		if (Objects[i] == obj)
 		{
-			if(deleteAfterRemoving)
+			if (deleteAfterRemoving)
+			{
 				delete Objects[i];
+				Objects[i] = nullptr;
+			}
 
 			Objects.erase(Objects.begin() + i);
 			break;

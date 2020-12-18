@@ -19,6 +19,13 @@ enum class Items {
 	HyperBeam, //item to destroy the guardian that stands between you and Area 2.
 };
 
+enum class TypeWeapons
+{
+	HomingMissile,
+	MultiwarheadMissile,
+	ThunderBreak,
+};
+
 class CGameGlobal
 {
 private:
@@ -34,9 +41,10 @@ private:
 	int levelGunPower; // [0..8]
 
 	//Weapons
-	int ammunitions_HomingMissile = 0;
-	int ammunitions_MultiwarheadMissile = 0;
-	int ammunitions_ThunderBreak = 0;
+	const int MAX_AMMUNITIONS = 99;
+	int ammunitions_HomingMissile = 99;
+	int ammunitions_MultiwarheadMissile = 99;
+	int ammunitions_ThunderBreak = 99;
 
 public:
 	//get value methods
@@ -48,6 +56,11 @@ public:
 	//event method
 	void getItem(Items item);
 	void beingAttackedByEnemy(CEnemy* enemy);
+
+	//CuteTN weapon
+	TypeWeapons selectedWeapon = TypeWeapons::MultiwarheadMissile;
+	bool CheckSophiaCanUseWeapon();
+	void AddToSelectedWeapon(int amount);
 };
 
 

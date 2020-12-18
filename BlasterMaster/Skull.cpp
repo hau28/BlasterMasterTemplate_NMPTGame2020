@@ -185,7 +185,7 @@ void CSkull::GetBoundingBox(float& left, float& top, float& right, float& bottom
 void CSkull::DropBullet()
 {
 	float dirX, dirY;
-	CGameObjectBehaviour::CalcDirecttionToPlayer(this, dirX, dirY);
+	CGameObjectBehaviour::CalcDirectionToPlayer(this, dirX, dirY);
 
 	CBullet_Skull* bullet = new CBullet_Skull(0, 0, 0, dirX , dirY );
 	CGameObjectBehaviour::CreateObjectAtCenterOfAnother(bullet, this);

@@ -18,6 +18,8 @@ public:
 	CEnemy(int classId, int x, int y, int sectionId, int animsId);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs);
 
+	int GetHealthPoint();
+
 	void TakeDamage(int damage);
 };
 

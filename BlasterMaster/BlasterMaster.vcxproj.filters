@@ -143,6 +143,8 @@
     <ClCompile Include="GameGlobal.cpp">
       <Filter>GameManagers</Filter>
     </ClCompile>
+    <ClCompile Include="Bullet_HomingMissile.cpp" />
+    <ClCompile Include="Bullet_MultiwarheadMissile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -263,6 +265,8 @@
     <ClInclude Include="GameGlobal.h">
       <Filter>GameManagers</Filter>
     </ClInclude>
+    <ClInclude Include="Bullet_HomingMissile.h" />
+    <ClInclude Include="Bullet_MultiwarheadMissile.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="AnimationCore">

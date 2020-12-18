@@ -27,9 +27,15 @@ int CBullet::ChooseAnimationsId(int classId)
 		return LARGE_GRAY_BULLET_SIDEVIEW_ANIMATIONS;
 	case CLASS_SOPHIA_BULLET:
 		return BULLET_SOPHIA_SIDEVIEW_ANIMATIONS;
+	case CLASS_HOMING_MISSILE:
+		return HOMING_MISSILE_ANIMATIONS;
+	case CLASS_THUNDERBREAK:
+		return THUNDERBREAK_ANIMATIONS;
+	case CLASS_MULTIWARHEAD_MISSILE:
+		return MULTIWARHEAD_MISSILE_ANIMATIONS;
 
 	default:
-		DebugOut(L"[ERROR] Bullet Animation Id for class Id %d is not defined", classId);
+		DebugOut(L"[ERROR] Bullet Animation Id for class Id %d is not defined\n", classId);
 		return 0;
 	}
 }
@@ -98,11 +104,11 @@ void CBullet::GetBoundingBox(float& left, float& top, float& right, float& botto
 
 void CBullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
+	CAnimatableObject::Update(dt, coObjs);
+
 	if (isUpdatedWhenOffScreen)
 		if (!checkObjInCamera(this))
 			CGameObjectBehaviour::RemoveObject(this);
-
-	CAnimatableObject::Update(dt, coObjs);
 }
 
 

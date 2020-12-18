@@ -85,6 +85,7 @@ void CBullet_Skull::HandleTimerTick(CTimer* sender)
 
 CBullet_Skull::~CBullet_Skull()
 {
+	CBullet::~CBullet();
 	delete explodeTimer;
 }
 

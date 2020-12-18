@@ -129,6 +129,11 @@ void CAnimatableObject::UpdatePosition(DWORD dt)
 
 void CAnimatableObject::Render(float offsetX, float offsetY)
 {
+	if (!animationHandlers[state])
+	{
+		DebugOut(L"[ERROR] Missing animation handler of state %d\n", state);
+	}
+
 	animationHandlers[state]->Render(x + offsetX, y + offsetY, 255, modifyR, modifyG, modifyB);
 	animationHandlers[state]->Update();
 }

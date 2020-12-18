@@ -37,11 +37,13 @@ public:
 
 	static void SetBoundingBoxCenter(LPGAMEOBJECT obj, float x, float y);
 
+	static void CalcDirection(LPGAMEOBJECT fromObj, LPGAMEOBJECT toObj, float& x, float& y);
+
 	/// <summary>
 	/// <para> Calculate the direction from a game object to current player. </para>	
 	/// <para> Simply takes the difference between 2 posision vectors </para>
 	/// </summary>
-	static void CalcDirecttionToPlayer(LPGAMEOBJECT obj, float& x, float& y);
+	static void CalcDirectionToPlayer(LPGAMEOBJECT obj, float& x, float& y);
 
 	static float CalcMagnitudeVector2(float x, float y);
 

@@ -8,7 +8,10 @@
 #include "JasonJumpOutEvent.h"
 #include "CreateObjectEvent.h"
 #include "Bullet_Sophia.h"
+#include "Bullet_HomingMissile.h"
+#include "Bullet_MultiwarheadMissile.h"
 #include "SwitchSceneEvent.h"
+#include "GameGlobal.h"
 
 CSophia::CSophia(int classId, int x, int y)
 {
@@ -296,16 +299,19 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
     // CuteTN Bullet
     if (keyCode == DIK_C)
     {
-        float dx, dy, sx, sy;
-        GetGunDirection(dx, dy);
-
-        LPBULLET_SOPHIA bullet = new CBullet_Sophia(x, y, currentSectionId, dx, dy);
-
-        GetShootPosition(sx, sy);
-        CGameObjectBehaviour::SetBoundingBoxCenter(bullet, sx, sy);
-
-        CGameObjectBehaviour::CreateObject(bullet);
+        if (IsKeyDown(DIK_DOWN))
+            ShootWeapon();
+        else
+			Shoot();
     }
+
+    // CuteTN quick switching weapon select
+    if (keyCode == DIK_1)
+        CGameGlobal::GetInstance()->selectedWeapon = TypeWeapons::HomingMissile;
+    if (keyCode == DIK_2)
+        CGameGlobal::GetInstance()->selectedWeapon = TypeWeapons::ThunderBreak;
+    if (keyCode == DIK_3)
+        CGameGlobal::GetInstance()->selectedWeapon = TypeWeapons::MultiwarheadMissile;
 }
 #pragma endregion
 
@@ -313,6 +319,8 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
 {
     //SANH-CAMERA
     //don't allow update when player is jason
+
+    this->coObjects = coObjs;
 
     if (CGame::GetInstance()->GetCurrentPlayer()->classId == CLASS_JASONSIDEVIEW && bodyState == 2)
     {
@@ -585,4 +593,96 @@ void CSophia::GetGunDirection(float& dirX, float& dirY)
 
     dirY = 0;
     dirX = directionState <= 1 ? -1 : 1;
+}
+
+// CuteTN: Sophia shoot
+void CSophia::Shoot()
+{
+    float dx, dy, sx, sy;
+    GetGunDirection(dx, dy);
+
+    LPBULLET_SOPHIA bullet = new CBullet_Sophia(x, y, currentSectionId, dx, dy);
+
+    GetShootPosition(sx, sy);
+    CGameObjectBehaviour::SetBoundingBoxCenter(bullet, sx, sy);
+
+    CGameObjectBehaviour::CreateObject(bullet);
+}
+
+void CSophia::ShootWeapon()
+{
+    switch (CGameGlobal::GetInstance()->selectedWeapon)
+    {
+    case TypeWeapons::HomingMissile:
+        ShootHomingMissile();
+        break;
+    case TypeWeapons::ThunderBreak:
+        ShootThunderBreak();
+        break;
+    case TypeWeapons::MultiwarheadMissile:
+        ShootMultiwarheadMissile();
+        break;
+    }
+}
+
+void CSophia::ShootHomingMissile()
+{
+    int usesLeft = CBullet_HomingMissile::MAX_HOMING_MISSILE_PER_USE;
+
+	LPGAMEOBJECT targetObject = nullptr;
+
+	// finding target
+    for (auto obj : *coObjects)
+    {
+        if (usesLeft == 0)
+            return;
+
+		if (!CGameGlobal::GetInstance()->CheckSophiaCanUseWeapon())
+			continue;
+
+        if (checkObjInCamera(obj) && dynamic_cast<CEnemy*>(obj))
+        {
+            targetObject = obj;
+
+			if (!targetObject)
+				continue;
+
+			CBullet_HomingMissile* bullet = new CBullet_HomingMissile(0, 0, 0, targetObject);
+			CGameObjectBehaviour::CreateObjectAtCenterOfAnother(bullet, this);
+
+			// CuteTN Note: believe me, it counts for each missile :)
+			CGameGlobal::GetInstance()->AddToSelectedWeapon(-1);
+            usesLeft--;
+        }
+    }
+}
+
+void CSophia::ShootMultiwarheadMissile()
+{
+    bool initLeft = directionState <= 1;
+    vector<float> initBulletVys =
+    {
+        0,
+        - CBullet_MultiwarheadMissile::MULTIWARHEAD_MISSILE_INIT_VELOCITY_Y_TOP,
+        CBullet_MultiwarheadMissile::MULTIWARHEAD_MISSILE_INIT_VELOCITY_Y_TOP,
+    };
+
+    // CuteTN have fun:
+    // for (float initVy = -0.1; initVy <= 0.1; initVy += 0.02)
+    for (auto initVy : initBulletVys)
+    {
+		if (!CGameGlobal::GetInstance()->CheckSophiaCanUseWeapon())
+			continue;
+
+		CBullet_MultiwarheadMissile* bullet = new CBullet_MultiwarheadMissile(0, 0, 0, initLeft, 0, initVy);
+		CGameObjectBehaviour::CreateObjectAtCenterOfAnother(bullet, this);
+
+		// CuteTN Note: believe me, it counts for each missile :)
+		CGameGlobal::GetInstance()->AddToSelectedWeapon(-1);
+	}
+
+}
+
+void CSophia::ShootThunderBreak()
+{
 }
