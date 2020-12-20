@@ -10,6 +10,8 @@
 #include "JasonJumpInEvent.h"
 #include "Section.h"
 #include "SwitchSceneEvent.h"
+#include "GameGlobal.h"
+
 //#include "SoundManager.h"
 
 //#define SCENE_SIDEVIEW_ID 2
@@ -332,9 +334,12 @@ void CGame::HandleGameEvent(LPGAME_EVENT gameEvent)
 		SetState(GameState::PLAY_SIDEVIEW_SOPHIA);
 		//CSophia::GetInstance()->init_camBox();
 		CSophia::GetInstance()->init_camBox_FollowCamera();
+		
+		//SANH- HEALTH
+		CGameGlobal::GetInstance()->jasonJumpIntoSophia();
 	}
 
-	if (dynamic_cast<SwitchSceneEvent*>(gameEvent) || dynamic_cast<SwitchSceneEvent*>(gameEvent))
+	if (dynamic_cast<SwitchSceneEvent*>(gameEvent))
 	{
 		SwitchSceneEvent* event = dynamic_cast<SwitchSceneEvent*>(gameEvent);
 		CGame::GetInstance()->SwitchScene(event->getIDNextScene());

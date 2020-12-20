@@ -5,6 +5,8 @@
 #define MAX_HEALTH_SOPHIA 80
 #define MAX_HEALTH_JASONSIDEVIEW 80
 #define MAX_HEALTH_JASONOVERHEAD 80
+#define BODY_DAMAGE_ENEMY 5
+#define BODY_DAMAGE_LAVA 10
 
 enum class Items {
 	PowerGrey, // add 1 bar
@@ -25,6 +27,11 @@ private:
 	CGameGlobal();
 	static CGameGlobal * _instance;
 
+	//AnimationHandler Render 
+	CObjectAnimationHanlders HealthPow;
+	CObjectAnimationHanlders Hov;
+	CObjectAnimationHanlders Gun;
+
 	//health player 
 	int healthSophia;
 	int healthJasonSideView;
@@ -38,6 +45,16 @@ private:
 	int ammunitions_MultiwarheadMissile = 0;
 	int ammunitions_ThunderBreak = 0;
 
+	//Input for Render Pow & Gun
+	void _ParseSection_TEXTURES(string line);
+	void _ParseSection_SPRITES(string line);
+	void _ParseSection_ANIMATIONS(string line);
+	void _ParseSection_STATE_ANIMATION(string line);
+	void _ParseSection_OBJECT_ANIMATIONS(string line);
+
+	//Support funtion, U shouldn't care it 
+	void SupportRenderHeath(int health);
+
 public:
 	//get value methods
 	static CGameGlobal* GetInstance();
@@ -47,7 +64,11 @@ public:
 
 	//event method
 	void getItem(Items item);
-	void beingAttackedByEnemy(CEnemy* enemy);
+	void beingAttackedByEnemy();
+	void beingAttackedByLava();
+	void jasonJumpIntoSophia();
+	//Render
+	void RenderHeath();
 };
 
 

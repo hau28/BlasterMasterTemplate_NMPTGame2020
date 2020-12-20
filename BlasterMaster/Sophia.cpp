@@ -9,8 +9,14 @@
 #include "CreateObjectEvent.h"
 #include "Bullet_Sophia.h"
 #include "SwitchSceneEvent.h"
+#include "GameGlobal.h"
 
 CSophia::CSophia(int classId, int x, int y)
+{
+    Init(classId, x, y);
+}
+
+void CSophia::Init(int classId, int x, int y)
 {
     this->classId = classId;
     SetPosition(x, y);
@@ -26,10 +32,14 @@ CSophia::CSophia(int classId, int x, int y)
     camBoxTop = y + 32 - 16 * 6;
     camBoxBottom = y + 32;
     portaling = 0;
-    
+    invulnerableTimer = new CTimer(this, INVULNERABLE_DURATION, 1);
+    invulnerableTimer->Stop();
+    flagInvulnerable = false;
+
     // CuteTN Test
     // SetModifyColor(255, 0, 255);
-};
+}
+;
 
 void CSophia::setGunState(int state) {
     gunState = state;
@@ -313,7 +323,7 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
 {
     //SANH-CAMERA
     //don't allow update when player is jason
-
+    invulnerableTimer->Update(dt);
     if (CGame::GetInstance()->GetCurrentPlayer()->classId == CLASS_JASONSIDEVIEW && bodyState == 2)
     {
         flag_JasonJumpOut = false;
@@ -504,6 +514,33 @@ void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
         }
         }
     }
+
+}
+
+void CSophia::HandleOverlap(LPGAMEOBJECT overlappedObj)
+{
+
+    //Thao vui long code o tren gium chung minh nhe
+    if (!flagInvulnerable) {
+        if (dynamic_cast<CEnemy*>(overlappedObj))
+        {
+            CGameGlobal::GetInstance()->beingAttackedByEnemy();
+            flagInvulnerable = true;
+            invulnerableTimer->Start();
+        }
+
+        if (dynamic_cast<CBullet*>(overlappedObj))
+        {
+            CBullet* bullet = dynamic_cast<CBullet*>(overlappedObj);
+            if (!bullet->isFriendly) {
+                CGameGlobal::GetInstance()->beingAttackedByEnemy();
+                flagInvulnerable = true;
+                invulnerableTimer->Start();
+            }
+
+        }
+
+    }
 }
 void CSophia::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
@@ -548,8 +585,10 @@ CSophia *CSophia::GetInstance()
 
 CSophia *CSophia::InitInstance(int classId, int x, int y, int sectionId)
 {
-    delete __instance;
-    __instance = new CSophia(classId, x, y);
+    GetInstance();
+    __instance->Init(classId, x, y);
+    //__instance->classId = classId;
+    //__instance->SetPosition(x, y);
     __instance->currentSectionId = sectionId;
 
     return __instance;
@@ -585,4 +624,18 @@ void CSophia::GetGunDirection(float& dirX, float& dirY)
 
     dirY = 0;
     dirX = directionState <= 1 ? -1 : 1;
+}
+
+void CSophia::HandleTimerTick(LPTIMER sender)
+{
+    if (sender == invulnerableTimer)
+    {
+        flagInvulnerable = false;
+    }
+}
+
+CSophia::~CSophia()
+{
+    DebugOut(L"Thy cuteeee\n");
+    CAnimatableObject::~CAnimatableObject();
 }

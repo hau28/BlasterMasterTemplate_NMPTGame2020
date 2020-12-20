@@ -2,6 +2,7 @@
 
 #include "CreateObjectEvent.h"
 #include "RemoveObjectEvent.h"
+#include "GameGlobal.h"
 
 //#include "SoundManager.h"
 
@@ -27,7 +28,6 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath, int startupSectionId) : CScene(
 #define SCENE_SECTIONS	8
 #define SCENE_CLASSES	9
 #define SCENE_OBJECTS	10
-
 #define MAX_SCENE_LINE 1024
 
 void CPlayScene::_ParseSection_TEXTURES(string line)
@@ -271,27 +271,56 @@ void CPlayScene::Load()
 	//CTextures::GetInstance()->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
+	init_camBox();
+
+	CSophia::GetInstance();
 }
+
+void CPlayScene::init_camBox()
+{
+	float playerX, playerY;
+	CGame::GetInstance()->GetCurrentPlayer()->GetPosition(playerX, playerY);
+	camBoxLeft = playerX;
+	camBoxRight = playerX + 16 * 4;
+	camBoxTop = playerY - 16 * 4;
+	camBoxBottom = playerY + 32;
+}
+
+void CPlayScene::update_camBox()
+{
+	float playerX, playerY;
+	CGame::GetInstance()->GetCurrentPlayer()->GetPosition(playerX, playerY);
+
+	if (playerX + 16 * 2 >= camBoxRight) {
+		camBoxRight = playerX + 16 * 2;
+		camBoxLeft = playerX - 16 * 2;
+	}
+	else if (playerX <= camBoxLeft) {
+		camBoxLeft = playerX;
+		camBoxRight = playerX + 16 * 4;
+	}
+	if (playerY + 32 >= camBoxBottom) {
+		camBoxBottom = playerY + 32;
+		camBoxTop = camBoxBottom - 16 * 6;
+	}
+	if (playerY - 16 <= camBoxTop) {
+		camBoxTop = playerY - 16;
+		camBoxBottom = camBoxTop + 16 * 6;
+	}
+}
+
 void CPlayScene::CreatePosCameraFollowPlayer(float& cx, float& cy)
 {
+	this->update_camBox();
 	LPSECTION section = this->GetCurrentSection();
 	float width_section = section->getBgWidth();
 	float height_section = section->getBgHeight();
 	CGame* game = CGame::GetInstance();
-	if (player->classId == CLASS_SOPHIA)
-	{
-		cx = CSophia::GetInstance()->camBoxLeft + 16 * 2;
-		cy = CSophia::GetInstance()->camBoxBottom - 16 * 3;
-		cx -= game->GetScreenWidth() / 2 - 8;
-		cy -= game->GetScreenHeight() / 2 - 16;
-	}
-	if (player->classId == CLASS_JASONSIDEVIEW)
-	{
-		cx = CJasonSideview::GetInstance()->camBoxLeft + 16*2;
-		cy = CJasonSideview::GetInstance()->camBoxBottom - 16*2;
-		cx -= game->GetScreenWidth() / 2;
-		cy -= game->GetScreenHeight() / 2;
-	}
+
+	cx = camBoxLeft + 16 * 2;
+	cy = camBoxBottom - 16 * 3;
+	cx -= game->GetScreenWidth() / 2 - 8;
+	cy -= game->GetScreenHeight() / 2 - 16;
 }
 
 void CPlayScene::MoveCameraBeforeSwitchSection(float & cx, float & cy)
@@ -382,7 +411,7 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			toPortal->GetPosition(x_toPortal, y_toPortal);
 			Sections[CurrentSectionId]->pushSophia(x_toPortal+5, y_toPortal, CurrentSectionId);
 			game->SetCamPos(0, cy);
-			CSophia::GetInstance()->init_camBox();
+			init_camBox();
 			CSophia::GetInstance()->SetSpeed(0.2, 0);
 			DebugOut(L"\ncx == %f, cy == %f",x_toPortal, y_toPortal);
 		}
@@ -399,7 +428,7 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			Sections[CurrentSectionId]->pushJasonSideview(x_toPortal+5, y_toPortal+8, CurrentSectionId);
 			CJasonSideview::GetInstance()->SetSpeed(0.03, 0);
 			game->SetCamPos(0, cy);
-			CJasonSideview::GetInstance()->init_camBox();
+			init_camBox();
 		}
 
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT)
@@ -412,8 +441,8 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			CurrentSectionId = NextSectionId;
 			Sections[CurrentSectionId]->pushSophia(x_toPortal, y_toPortal, CurrentSectionId);
 			game->SetCamPos(cx, cy);
-			CSophia::GetInstance()->init_camBox();
 			CSophia::GetInstance()->SetSpeed(-0.2, 0);
+			init_camBox();
 		}
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT_JASON)
 		if (cx + game->GetScreenWidth() <= 0)
@@ -426,7 +455,7 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			Sections[CurrentSectionId]->pushJasonSideview(x_toPortal-5, y_toPortal+8, CurrentSectionId);
 			CJasonSideview::GetInstance()->SetSpeed(-0.03, 0);
 			game->SetCamPos(cx, cy);
-			CJasonSideview::GetInstance()->init_camBox();
+			init_camBox();
 		}
 }
 
@@ -500,7 +529,6 @@ void CPlayScene::Update(DWORD dt)
 	// CuteTN to do: switching section here
 }
 
-
 void CPlayScene::Render()
 {
 	Sections[CurrentSectionId]->Render();
@@ -509,6 +537,10 @@ void CPlayScene::Render()
 	{
 		Sections[NextSectionId]->Render(this->offset_x_SectionSwitch,this->offset_y_SectionSwitch);
 	}
+
+	//HEALTH POW
+	CGameGlobal * global = CGameGlobal::GetInstance();
+	global->RenderHeath();
 }
 
 void CPlayScene::set_offset(LPPORTAL fromPortal, LPPORTAL toPortal, string direction)

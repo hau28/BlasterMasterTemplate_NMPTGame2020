@@ -34,6 +34,7 @@ public:
 	/// <param name="repeatTimes"></param>
 	CTimer(ITimeTrackable* tracker, int interval, int repeatTimes);
 
+	bool IsRunning() { return isRunning; }
 	// dangerous to set these value... -> Violate encapsulation
 	int interval = 0;
 	bool enableRepeatForever = false;
