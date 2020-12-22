@@ -87,6 +87,12 @@ void CIntroScene::Load()
 
 	LPOBJECT_ANIMATIONS objAnims = CObjectAnimationsLib::GetInstance()->Get(2400);
 	animationHandlers = objAnims->GenerateAnimationHanlders();
+
+	CGame::GetInstance()->SetCamPos(0, 0);
+	this->state = ID_STATE_TITLE;
+	bool isTitleFinished = false;
+	bool isFilmFinished = false;
+	bool isIntroFinished = false;
 }
 void CIntroScene::Update(DWORD dt)
 {

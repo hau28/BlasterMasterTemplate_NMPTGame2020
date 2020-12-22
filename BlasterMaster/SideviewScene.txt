@@ -317,8 +317,8 @@
 
 [SECTIONS]
 #SectionId	Background	Foreground
-343		339		341
 294		290		292
+343		339		341
 427		423		425
 452		448		450
 539		535		537
@@ -363,7 +363,7 @@
 
 [OBJECTS]
 #ObjId	ClassId	Properties...
-4 3	Preview TEXTURE_SOPHIA_R0C6	Animations SOPHIA_ANIMATIONS	Section 343	X 35	Y 118	
+4 3	Preview TEXTURE_SOPHIA_R0C6	Animations SOPHIA_ANIMATIONS	Section 294	X 35	Y 118	
 296 172	Section 294	X 0	Y 224	Width 1024	Height 32	
 297 172	Section 294	X 0	Y 192	Width 288	Height 32	
 298 172	Section 294	X 0	Y 160	Width 320	Height 16	

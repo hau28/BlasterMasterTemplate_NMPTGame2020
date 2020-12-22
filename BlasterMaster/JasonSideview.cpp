@@ -4,10 +4,12 @@
 #include "GameObjectBehaviour.h"
 #include "Sophia.h"
 #include "PlayScene.h"
+#include "GameGlobal.h"
 #include <algorithm>
 #include <assert.h>
 #include "JasonJumpInEvent.h"
 #include "Bullet_JasonSideview.h"
+#include "SwitchSceneEvent.h"
 
 CJasonSideview* CJasonSideview::__instance = nullptr;
 
@@ -18,14 +20,30 @@ CJasonSideview::CJasonSideview()
     // CuteTN Note: DIRTY AF
     LPOBJECT_ANIMATIONS objAnims = CObjectAnimationsLib::GetInstance()->Get(JASONSIDEVIEW_ANIMATIONS);
     animationHandlers = objAnims->GenerateAnimationHanlders();
+
     this->allowOverlapWithBlocks = true;
+
+    invulnerableTimer = new CTimer(this, INVULNERABLE_DURATION, 1);
+    invulnerableTimer->Stop();
+
+    dyingEffectTimer = new CTimer(this, DYING_EFFECT_DURATION, 1);
+    dyingEffectTimer->Stop();
+
+    flagInvulnerable = false;
+
 }
 
 CJasonSideview::CJasonSideview(int classId, int x, int y, int animsId) : CAnimatableObject::CAnimatableObject(classId, x, y, -1, animsId)
 {
     SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
     init_camBox();
+
     vy = JASONSIDEVIEW_JUMP_SPEED_Y;
+
+    invulnerableTimer = new CTimer(this, INVULNERABLE_DURATION, 1);
+    invulnerableTimer->Stop();
+    flagInvulnerable = false;
+
 };
 
 void CJasonSideview::init_camBox()
@@ -49,6 +67,10 @@ void CJasonSideview::init_camBox()
 
 void CJasonSideview::HandleKeys(DWORD dt)
 {
+    //Sanh jason dead 
+    if (CGame::GetInstance()->GetCurrentPlayer()->classId == CLASS_JASONSIDEVIEW && state == JASONSIDEVIEW_STATE_DEAD)
+        return;
+
     if (CGame::GetInstance()->GetState() == GameState::PLAY_SIDEVIEW_JASON)
     {
         HandleKeysHold(dt);
@@ -348,6 +370,18 @@ void CJasonSideview::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
             }
         }
     }
+
+    if (dynamic_cast<CEnemy*>(obj))
+    {
+        CGameGlobal::GetInstance()->beingAttackedByEnemy();
+    }
+
+    if (dynamic_cast<CBullet*>(obj))
+    {
+        CBullet* bullet = dynamic_cast<CBullet*>(obj);
+        if (!bullet->isFriendly)
+            CGameGlobal::GetInstance()->beingAttackedByEnemy();
+    }
 }
 
 void CJasonSideview::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -363,6 +397,7 @@ void CJasonSideview::GetBoundingBox(float& left, float& top, float& right, float
 
 void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
+
     this->GetBoundingBox(jason_l, jason_t, jason_r, jason_b);
     if (flagCanClimb)
         if ( jason_l > ladderR || jason_r < ladderL || jason_b < ladderT || jason_t > ladderB )
@@ -380,6 +415,9 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
         flagClimb = false;
         flagClimbOver = true;
     }
+
+    invulnerableTimer->Update(dt);
+    dyingEffectTimer->Update(dt);
 
     // CuteTN note: we may need to refactor this function
     if (CGame::GetInstance()->GetCurrentPlayer()->classId == CLASS_SOPHIA)
@@ -476,6 +514,12 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
     }
 
     UpdatePosition(dt);
+    if (CGameGlobal::GetInstance()->get_healthJasonSideView() <= 0)
+    {  
+        SetState(JASONSIDEVIEW_STATE_DEAD);
+        if (!dyingEffectTimer->IsRunning())
+            dyingEffectTimer->Start();
+    }
 
 }
 
@@ -511,4 +555,51 @@ CJasonSideview* CJasonSideview::InitInstance(int x, int y, int sectionId)
     return __instance;
 }
 
+void CJasonSideview::HandleOverlap(LPGAMEOBJECT overlappedObj)
+{
 
+    //Thao vui long code o tren gium chung minh nhe
+    if (!flagInvulnerable) {
+        if (dynamic_cast<CEnemy*>(overlappedObj))
+        {
+            CGameGlobal::GetInstance()->beingAttackedByEnemy();
+            flagInvulnerable = true;
+            invulnerableTimer->Start();
+        }
+
+        if (dynamic_cast<CBullet*>(overlappedObj))
+        {
+            CBullet* bullet = dynamic_cast<CBullet*>(overlappedObj);
+            if (!bullet->isFriendly) {
+                CGameGlobal::GetInstance()->beingAttackedByEnemy();
+                flagInvulnerable = true;
+                invulnerableTimer->Start();
+            }
+
+        }
+
+    }
+}
+
+void CJasonSideview::HandleTimerTick(LPTIMER sender)
+{
+    if (sender == invulnerableTimer)
+    {
+        flagInvulnerable = false;
+    }
+    if (sender == dyingEffectTimer)
+    {
+        // To do: switch scene
+        Sleep(4000);
+        CGameEvent* event = new SwitchSceneEvent(ID_SCENE_PLAY);
+        CGameGlobal::GetInstance()->resetHealth();
+        CGame::AddGameEvent(event);
+        dyingEffectTimer->Stop();
+    }
+}
+
+CJasonSideview::~CJasonSideview()
+{
+    DebugOut(L"Thyyyyy cute\n");
+    CAnimatableObject::~CAnimatableObject();
+}
