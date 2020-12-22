@@ -12,6 +12,7 @@ protected:
 	bool isTitleFinished = false; // true is finished
 	bool isFilmFinished = false;
 	bool isIntroFinished = false;
+	bool isLeftFinished = false;
 
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
@@ -28,5 +29,9 @@ public:
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();
+
+	//Reset Game
+	void pressContinue();
+	void pressEnd();
 };
 

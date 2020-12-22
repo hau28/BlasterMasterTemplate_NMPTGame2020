@@ -646,7 +646,7 @@ void CSophia::HandleTimerTick(LPTIMER sender)
     {
         // To do: switch scene
         Sleep(4000);
-        CGameEvent* event = new SwitchSceneEvent(ID_SCENE_PLAY);
+        CGameEvent* event = new SwitchSceneEvent(ID_SCENE_INTRO);
         CGameGlobal::GetInstance()->resetHealth();
         CGame::AddGameEvent(event);
         dyingEffectTimer->Stop();

@@ -269,11 +269,51 @@ void CPlayScene::Load()
 	f.close();
 
 	//CTextures::GetInstance()->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
-
+	
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
-	init_camBox();
 	CGame::GetInstance()->SetState(GameState::PLAY_SIDEVIEW_SOPHIA); 
 	CSophia::GetInstance();
+	init_camBox();
+
+	//Init follow save Game
+	CGameGlobal* global = CGameGlobal::GetInstance();
+
+	if (global->isSaved() == false)
+		return;
+
+	if (global->getPlayer() == 2)
+		CGame::GetInstance()->SetState(GameState::PLAY_SIDEVIEW_JASON);
+	
+	if (global->getLeft() != 2)
+	{
+		CurrentSectionId = global->getCurrentSection();
+		DebugOut(L"\n ID Current = %d", CurrentSectionId);
+		float x, y;
+		global->getCheckPoint(x, y);
+
+		int _idSectionSophia;
+		float sophiaX, sophiaY;
+		global->getInfoSophia(sophiaX, sophiaY, _idSectionSophia);
+
+		DebugOut(L"\n ID Current sophia = %d", _idSectionSophia);
+		if (global->getPlayer() == 1)
+		{
+			Sections[CurrentSectionId]->deleteSophia();
+			Sections[CurrentSectionId]->pushSophia(x, y, _idSectionSophia);
+		}
+
+		if (global->getPlayer() == 2)
+		{
+			Sections[CurrentSectionId]->deleteJasonSideview();
+			Sections[CurrentSectionId]->pushJasonSideview(x, y, CurrentSectionId);
+			
+
+			Sections[_idSectionSophia]->pushSophia(sophiaX, sophiaY, _idSectionSophia);
+			DebugOut(L"\n Da add sophia tai x %f, y %f id = %d", sophiaX, sophiaY,_idSectionSophia);
+
+		}
+	}
+	init_camBox();
 }
 
 void CPlayScene::init_camBox()

@@ -88,11 +88,13 @@ void CSection::deleteSophia()
 			index = i;
 			break;
 		}
+	if (index == -1) return;
 	Objects.erase(Objects.begin()+index);
 }
 
 void CSection::pushSophia(float x, float y, int sectionID)
 {
+	this->deleteSophia();
 	CSophia::GetInstance()->SetPosition(x, y);
 	CSophia::GetInstance()->currentSectionId = sectionID;
 	Objects.push_back(CSophia::GetInstance());
@@ -107,11 +109,14 @@ void CSection::deleteJasonSideview()
 			index = i;
 			break;
 		}
+	if (index == -1)
+		return;
 	Objects.erase(Objects.begin() + index);
 }
 
 void CSection::pushJasonSideview(float x, float y, int sectionID)
 {
+	this->deleteJasonSideview();
 	CJasonSideview::GetInstance()->SetPosition(x, y);
 	CJasonSideview::GetInstance()->currentSectionId = sectionID;
 	Objects.push_back(CJasonSideview::GetInstance());

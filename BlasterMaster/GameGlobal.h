@@ -28,10 +28,13 @@ private:
 	static CGameGlobal * _instance;
 
 	//Save Game
-	int left = 2;
+	bool Saved = false;
+	int left = 3;
 	int flagPlayer = 1; // 1: Sophia 2:Jason SideView 3:Jason OverHead
 	float playerX = 0, playerY = 0;
-	int IDCurrentSection;
+	float sophiaX = 0, sophiaY = 0;
+	int IDSectionSophia = 0;
+	int IDCurrentSection = -1;
 
 	//AnimationHandler Render 
 	CObjectAnimationHanlders HealthPow;
@@ -79,11 +82,19 @@ public:
 	
 	//Reset health 
 	void resetHealth();
+	void resetGame();
 
 	//Save game
+	bool isSaved() { return this->Saved; }
+	int getLeft() { return this->left; }
+	int getPlayer() { return this->flagPlayer; }
+	int getCurrentSection() { return this->IDCurrentSection; }
 	void saveGame();
 	void savePlayer(int kindPlayer);
 	void subLeft();
+	void getCheckPoint(float& x, float& y) { x = this->playerX; y = this->playerY; }
+	void saveSophia();
+	void getInfoSophia(float& x, float& y, int& id) { x = this->sophiaX; y = this->sophiaY; id = this->IDSectionSophia; }
 };
 
 

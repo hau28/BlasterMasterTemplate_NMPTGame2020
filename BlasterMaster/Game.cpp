@@ -322,7 +322,7 @@ void CGame::HandleGameEvent(LPGAME_EVENT gameEvent)
 
 		//SANH-CAMERA
 		CJasonSideview::GetInstance()->init_camBox();
-		//CJasonSideview::GetState(ja)
+		CGameGlobal::GetInstance()->saveSophia();
 	}
 
 	if (gameEvent->eventName == "JasonJumpInEvent")
