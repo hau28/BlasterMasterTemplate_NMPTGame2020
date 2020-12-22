@@ -6,7 +6,8 @@
 #define MAX_HEALTH_JASONSIDEVIEW 80
 #define MAX_HEALTH_JASONOVERHEAD 80
 #define BODY_DAMAGE_ENEMY 5
-#define BODY_DAMAGE_LAVA 10
+#define BODY_DAMAGE_LAVA 20
+#define BODY_DAMAGE_SPIKE 60
 
 enum class Items {
 	PowerGrey, // add 1 bar
@@ -73,6 +74,7 @@ public:
 	void getItem(Items item);
 	void beingAttackedByEnemy();
 	void beingAttackedByLava();
+	void beingAttackedBySpike();
 	void jasonJumpIntoSophia();
 	//Render
 	void RenderHeath();

@@ -107,6 +107,7 @@ void CGameGlobal::getItem(Items item)
 		break;
 	}
 }
+
 void CGameGlobal::beingAttackedByEnemy()
 {
 	//at here, I decrease -5 health player with all cases	
@@ -130,6 +131,7 @@ void CGameGlobal::beingAttackedByEnemy()
 	if (this->healthJasonSideView < 0) this->healthJasonSideView = 0;
 	if (this->healthJasonOverHead < 0) this->healthJasonOverHead = 0;
 }
+
 void CGameGlobal::beingAttackedByLava()
 {
 	//at here, I decrease -5 health player with all cases	
@@ -140,7 +142,7 @@ void CGameGlobal::beingAttackedByLava()
 		this->healthSophia -= BODY_DAMAGE_LAVA;
 		break;
 	case CLASS_JASONSIDEVIEW:
-		this->healthJasonSideView -= BODY_DAMAGE_LAVA;
+		this->healthJasonSideView -= BODY_DAMAGE_LAVA*2;
 		break;
 	default:
 		this->healthJasonOverHead -= BODY_DAMAGE_LAVA;
@@ -151,6 +153,29 @@ void CGameGlobal::beingAttackedByLava()
 	if (this->healthJasonSideView < 0) this->healthJasonSideView = 0;
 	if (this->healthJasonOverHead < 0) this->healthJasonOverHead = 0;
 }
+
+void CGameGlobal::beingAttackedBySpike()
+{
+	//at here, I decrease -5 health player with all cases	
+	int idPlayer = CGame::GetInstance()->GetCurrentPlayer()->classId;
+	switch (idPlayer)
+	{
+	case CLASS_SOPHIA:
+		this->healthSophia -= BODY_DAMAGE_SPIKE/3;
+		break;
+	case CLASS_JASONSIDEVIEW:
+		this->healthJasonSideView -= BODY_DAMAGE_SPIKE;
+		break;
+	default:
+		this->healthJasonOverHead -= BODY_DAMAGE_SPIKE;
+		break;
+	}
+
+	if (this->healthSophia < 0) this->healthSophia = 0;
+	if (this->healthJasonSideView < 0) this->healthJasonSideView = 0;
+	if (this->healthJasonOverHead < 0) this->healthJasonOverHead = 0;
+}
+
 void CGameGlobal::jasonJumpIntoSophia()
 {
 	healthJasonSideView = MAX_HEALTH_JASONSIDEVIEW;

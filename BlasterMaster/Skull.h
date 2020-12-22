@@ -11,7 +11,7 @@ class CSkull : public CEnemy
     const int SKULL_BOUNDBOX_OFFSETX = 9;
     const int SKULL_BOUNDBOX_OFFSETY = 8;
 
-    const float SKULL_MOVE_SPEED = 0.15f;
+    const float SKULL_MOVE_SPEED = 0.14f;
     const int BOX = 2;
 
 private: 
@@ -19,6 +19,7 @@ private:
     bool flagshootbullet = false;
     bool flagtouchwall = false;
     bool flagAppeared = false;
+    bool flagTurnRight;
 
     int firstshoot = 0;
 

@@ -498,8 +498,8 @@
 441 172	Section 427	X 448	Y 128	Width 32	Height 16	
 442 173	Section 427	X 0	Y 128	Width 64	Height 32	Portal 397	
 443 173	Section 427	X 448	Y 128	Width 64	Height 32	Portal 509	
-444 280	Preview 271	Animations 275	Section 427	X 216	Y 105	InitLeft 0	
-445 280	Preview 271	Animations 275	Section 427	X 344	Y 105	InitLeft 0	
+444 280	Preview 271	Animations 275	Section 427	X 152	Y 105	InitLeft 0	
+445 280	Preview 271	Animations 275	Section 427	X 280	Y 105	InitLeft 0	
 446 280	Preview 271	Animations 275	Section 427	X 408	Y 105	InitLeft 0	
 454 172	Section 452	X 0	Y 0	Width 512	Height 64	
 455 172	Section 452	X 0	Y 0	Width 32	Height 1024	

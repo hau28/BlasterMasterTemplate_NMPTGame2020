@@ -66,6 +66,7 @@ public:
     //SANH-BOUNDINGBOX JASON
     float camBoxLeft, camBoxRight, camBoxTop, camBoxBottom;
     void init_camBox();
+    void resetState();
     virtual void HandleTimerTick(LPTIMER sender);
     
     ~CJasonSideview();

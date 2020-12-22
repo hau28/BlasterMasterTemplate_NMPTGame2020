@@ -549,6 +549,27 @@ void CSophia::HandleOverlap(LPGAMEOBJECT overlappedObj)
 
         }
 
+        if (dynamic_cast<LPTILE_AREA>(overlappedObj))
+        {
+            LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(overlappedObj);
+            if (tileArea->classId == CLASS_TILE_SPIKE)
+            {
+                CGameGlobal::GetInstance()->beingAttackedBySpike();
+                flagInvulnerable = true;
+                invulnerableTimer->Start();
+            }
+        }
+
+        if (dynamic_cast<LPTILE_AREA>(overlappedObj))
+        {
+            LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(overlappedObj);
+            if (tileArea->classId == CLASS_TILE_LAVA)
+            {
+                CGameGlobal::GetInstance()->beingAttackedByLava();
+                flagInvulnerable = true;
+                invulnerableTimer->Start();
+            }
+        }
     }
 }
 void CSophia::GetBoundingBox(float &left, float &top, float &right, float &bottom)

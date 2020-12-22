@@ -63,6 +63,16 @@ void CJasonSideview::init_camBox()
     vy = 0;
 }
 
+void CJasonSideview::resetState()
+{
+    if (flagTurnRight)
+        SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
+    else
+        SetState(JASONSIDEVIEW_STATE_IDLE_LEFT);
+    vy = 0; 
+    vx = 0;
+}
+
 #pragma region key events handling
 
 void CJasonSideview::HandleKeys(DWORD dt)
@@ -217,28 +227,28 @@ void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)
 {
     if (keyCode == DIK_UP && !flagClimbOver)
     {
-        if (flagCanClimb)
+        if (flagCrawl)
         {
-            vx = 0;
-            this->x = ladderL - 3;
-            this->y = this->y - 2;
-            flagClimb = true;
             flagCrawl = false;
-            SetState(JASONSIDEVIEW_STATE_CLIMB);
+
+            if (flagTurnRight)
+                SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
+            else
+                SetState(JASONSIDEVIEW_STATE_IDLE_LEFT);
         }
         else
-            if (flagCrawl)
+            if (flagCanClimb)
             {
+                vx = 0;
+                this->x = ladderL - 3;
+                this->y = this->y - 2;
+                flagClimb = true;
                 flagCrawl = false;
-
-                if (flagTurnRight)
-                    SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
-                else
-                    SetState(JASONSIDEVIEW_STATE_IDLE_LEFT);
+                SetState(JASONSIDEVIEW_STATE_CLIMB);
             }
     }
 
-    if (keyCode == DIK_DOWN  && !flagOnAir && !flagCanClimb )
+    if (keyCode == DIK_DOWN  && !flagOnAir  )
     {
         flagCrawl = true;
 
@@ -255,6 +265,7 @@ void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)
         this->y = this->y + 2;
         flagClimb = true;
         flagClimbOver = false;
+        flagCrawl = false;
         SetState(JASONSIDEVIEW_STATE_CLIMB);
     }
 
@@ -358,16 +369,6 @@ void CJasonSideview::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
             
                 break;
             }
-
-            case CLASS_TILE_LADDER:
-            {
-                if (!CCollisionSolver::IsOverlapped(obj,this))
-                {
-                    flagCanClimb = true;
-                }
-
-                break;
-            }
         }
     }
 
@@ -407,7 +408,7 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
     {
         flagClimb = false;
         flagClimbOver = false;
-        flagCrawl = false;
+        //flagCrawl = false;
     }
 
     if (jason_b < ladderT && flagClimb)
@@ -557,7 +558,6 @@ CJasonSideview* CJasonSideview::InitInstance(int x, int y, int sectionId)
 
 void CJasonSideview::HandleOverlap(LPGAMEOBJECT overlappedObj)
 {
-
     //Thao vui long code o tren gium chung minh nhe
     if (!flagInvulnerable) {
         if (dynamic_cast<CEnemy*>(overlappedObj))
@@ -578,6 +578,34 @@ void CJasonSideview::HandleOverlap(LPGAMEOBJECT overlappedObj)
 
         }
 
+        if (dynamic_cast<LPTILE_AREA>(overlappedObj))
+        {
+            LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(overlappedObj);
+            if (tileArea->classId == CLASS_TILE_SPIKE)
+            {
+                CGameGlobal::GetInstance()->beingAttackedBySpike();
+                flagInvulnerable = true;
+                invulnerableTimer->Start();
+            }
+        }
+
+        if (dynamic_cast<LPTILE_AREA>(overlappedObj))
+        {
+            LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(overlappedObj);
+            if (tileArea->classId == CLASS_TILE_LAVA)
+            {
+                CGameGlobal::GetInstance()->beingAttackedByLava();
+                flagInvulnerable = true;
+                invulnerableTimer->Start();
+            }
+        }
+
+        if (dynamic_cast<LPTILE_AREA>(overlappedObj))
+        {
+            LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(overlappedObj);
+            if (tileArea->classId == CLASS_TILE_LADDER)
+                flagCanClimb = true; 
+        }
     }
 }
 
