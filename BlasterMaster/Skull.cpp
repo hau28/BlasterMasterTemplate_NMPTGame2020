@@ -5,29 +5,15 @@
 #include "PlayScene.h"
 #include "Bullet_Skull.h"
 
-
-
-
 CSkull::CSkull(int classId, int x, int y, int sectionId, int animsId) : CEnemy::CEnemy(classId, x, y, sectionId, animsId)
 {
-	float Xplayer, Yplayer;
-	CGame::GetInstance()->GetCurrentPlayer()->GetPosition(Xplayer, Yplayer);
-
-	if (Xplayer < x)
-	{
-		vx = -SKULL_MOVE_SPEED;
-	}
-	else
-	{
-		vx = SKULL_MOVE_SPEED;
-	}
-	UpdateState();
 
 	this->isUpdatedWhenOffScreen = true;
 
 	timeDropBullet = GetTickCount();
 
 	vy = 0;
+
 	healthPoint = SKULL_HEALTHPOINT;
 }
 
@@ -35,12 +21,12 @@ bool CSkull::isOnTopOfPlayer()
 {
 	float Xplayer, Yplayer;
 	LPGAMEOBJECT player = CGame::GetInstance()->GetCurrentPlayer();
-	
+
 	if (!player)
 		return false;
 
 	CGameObjectBehaviour::CalcBoundingBoxCenter(player, Xplayer, Yplayer);
-	
+
 	float l, t, r, b;
 	this->GetBoundingBox(l, t, r, b);
 
@@ -48,7 +34,7 @@ bool CSkull::isOnTopOfPlayer()
 	if (Xplayer < l || Xplayer > r)
 		return false;
 
-	if (Yplayer > (t + b) / 2 && GetTickCount() - timeDropBullet > 500)
+	if (/*Yplayer > (t + b) / 2 &&*/ GetTickCount() - timeDropBullet > 500)
 		return true;
 	else
 		return false;
@@ -57,11 +43,26 @@ bool CSkull::isOnTopOfPlayer()
 void CSkull::UpdateVelocity(DWORD dt)
 {
 	if (checkObjInCamera(this, SCREEN_EXTEND_OFFSET_DEFAULT))
+	{
+		if (!flagAppeared)
+		{
+			float Xplayer, Yplayer;
+			CGame::GetInstance()->GetCurrentPlayer()->GetPosition(Xplayer, Yplayer);
+			if (Xplayer < x)
+			{
+				vx = -SKULL_MOVE_SPEED;
+			}
+			else
+			{
+				vx = SKULL_MOVE_SPEED;
+			}
+		}
 		flagAppeared = true;
+	}
 
 	if (flagAppeared)
 	{
-		if(!checkObjInCamera(this, SCREEN_EXTEND_OFFSET_DEFAULT))
+		if (!checkObjInCamera(this, SCREEN_EXTEND_OFFSET_DEFAULT))
 			CGameObjectBehaviour::RemoveObject(this);
 	}
 
@@ -80,10 +81,10 @@ void CSkull::UpdateVelocity(DWORD dt)
 			UpdateState();
 		}
 	}
-	
-	if ((state == SKULL_STATE_SHOOT_LEFT || state == SKULL_STATE_SHOOT_RIGHT)&& flagshootbullet)
+
+	if ((state == SKULL_STATE_SHOOT_LEFT || state == SKULL_STATE_SHOOT_RIGHT) && flagshootbullet)
 	{
-		vy = - SKULL_MOVE_SPEED;
+		vy = -SKULL_MOVE_SPEED;
 		flagshootbullet = false;
 		timeDropBullet = GetTickCount();
 		UpdateState();
@@ -104,7 +105,7 @@ void CSkull::UpdateState()
 
 	}
 
-	if (flagshootbullet )
+	if (flagshootbullet)
 	{
 		animationHandlers[state]->currentFrameIndex = 0;
 		if (oldVX > 0)
@@ -146,42 +147,43 @@ void CSkull::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 		switch (tileArea->classId)
 		{
 
-			case CLASS_TILE_BLOCKABLE:
-			case CLASS_TILE_PORTAL:
+		case CLASS_TILE_BLOCKABLE:
+		case CLASS_TILE_PORTAL:
+		{
+
+			CGameObjectBehaviour::BlockObject(dt, coEvent);
+
+			if (coEvent->ny != 0)
 			{
+				vy = 0;
 
-				CGameObjectBehaviour::BlockObject(dt, coEvent);
-
-				if (coEvent->ny!= 0 )
+				if (firstshoot % 2 != 0)
 				{
-					vy = 0;
-
-					if (firstshoot %2== 0)
-					{
-						vx = oldVX;
-						firstshoot++;
-					}
-					else
-						firstshoot++;
-				
-					UpdateState();
-				};
-
-				if (coEvent->nx > 0)
-				{
-					vx = SKULL_MOVE_SPEED;
-					flagtouchwall = true;
-				};
-
-				if (coEvent->nx < 0)
-				{
-					vx = -SKULL_MOVE_SPEED;
-					flagtouchwall = true;
+					vx = oldVX;
+					firstshoot++;
 				}
+				else
+					firstshoot++;
 
 				UpdateState();
-				break;
+			};
+
+			if (coEvent->nx > 0)
+			{
+				vx = SKULL_MOVE_SPEED;
+				flagtouchwall = true;
+			};
+
+			if (coEvent->nx < 0)
+			{
+				vx = -SKULL_MOVE_SPEED;
+				flagtouchwall = true;
 			}
+
+			UpdateState();
+
+			break;
+		}
 		}
 	}
 }
@@ -203,7 +205,7 @@ void CSkull::DropBullet()
 	float dirX, dirY;
 	CGameObjectBehaviour::CalcDirecttionToPlayer(this, dirX, dirY);
 
-	CBullet_Skull* bullet = new CBullet_Skull(0, 0, 0, dirX , dirY );
+	CBullet_Skull* bullet = new CBullet_Skull(0, 0, 0, dirX, dirY);
 	CGameObjectBehaviour::CreateObjectAtCenterOfAnother(bullet, this);
 }
 

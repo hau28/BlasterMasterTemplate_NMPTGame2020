@@ -13,10 +13,12 @@ const int JASONSIDEVIEW_BOUNDBOX_OFFSETY = 8;
 const int JASONSIDEVIEW_CRAWL_BOUNDBOX_HEIGHT = 8;
 
 const float JASONSIDEVIEW_GRAVITY = 0.00065f;
-const float JASONSIDEVIEW_VX = 0.06;
-const float JASONSIDEVIEW_AX = -0.0003;
+const float JASONSIDEVIEW_VX = 0.06f;
+const float JASONSIDEVIEW_AX = -0.0003f;
 //const float JASONSIDEVIEW_MAX_FALL_SPEED = 0.07f;
 const float JASONSIDEVIEW_JUMP_SPEED_Y = 0.225f;
+
+const float JASONSIDEVIEW_CLIMB_SPEED = 0.06f;
 
 class CJasonSideview : public  CAnimatableObject
 {
@@ -33,10 +35,16 @@ private:
     static CJasonSideview* __instance;
 
     bool flagOnAir = false;
-    bool Jason_turnRight = true;
-    bool flag_jasoncrawl = false;
+    bool flagTurnRight = true;
+    bool flagCrawl = false;
     bool flag_jumpwalk;
     bool flag_jumpin;
+
+    bool flagCanClimb = true;
+    bool flagClimb;
+    bool flagClimbOver;
+
+    float ladderL = 48, ladderT = 158, ladderR = 64, ladderB = 350, jason_l, jason_t, jason_r, jason_b;
     //bool Jasonn_crawl = false;
 
     //vector<int> Jason_idleLeftStates = { SOPHIA_STATE_IDLE_LEFT,SOPHIA_STATE_IDLE1_LEFT,SOPHIA_STATE_IDLE2_LEFT,SOPHIA_STATE_IDLE3_LEFT };

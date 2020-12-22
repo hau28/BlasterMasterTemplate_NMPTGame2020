@@ -52,6 +52,8 @@ LPGAMEOBJECT CGameObjectFactory::Create(int classId, map<string, string> propert
 		break;
 
 	case CLASS_TILE_BLOCKABLE:
+	case CLASS_TILE_LADDER:
+	case CLASS_TILE_SPIKE:
 		GetTileAreaObjectProps(properties, x, y, width, height, sectionId);
 		result = new CTileArea(classId, x, y, width, height, sectionId);
 		break;
@@ -63,7 +65,7 @@ LPGAMEOBJECT CGameObjectFactory::Create(int classId, map<string, string> propert
 
 	case CLASS_MINE:
 		GetAnimatableObjectProps(properties, x, y, animsId, sectionId);
-		result = new CMine(classId, x, y, sectionId, animsId);	
+		result = new CMine(classId, x, y, sectionId, animsId);
 		break;
 
 	case CLASS_SKULL:
@@ -87,7 +89,7 @@ LPGAMEOBJECT CGameObjectFactory::Create(int classId, map<string, string> propert
 	return result;
 }
 
-void CGameObjectFactory::GetAnimatableObjectProps(map<string, string> properties, int&x, int&y, int&animsId, int&sectionId)
+void CGameObjectFactory::GetAnimatableObjectProps(map<string, string> properties, int& x, int& y, int& animsId, int& sectionId)
 {
 	x = atoi(properties["X"].c_str());
 	y = atoi(properties["Y"].c_str());
@@ -95,7 +97,7 @@ void CGameObjectFactory::GetAnimatableObjectProps(map<string, string> properties
 	sectionId = atoi(properties["Section"].c_str());
 }
 
-void CGameObjectFactory::GetTileAreaObjectProps(map<string, string> properties, int& x, int& y, int& width, int& height, int&sectionId)
+void CGameObjectFactory::GetTileAreaObjectProps(map<string, string> properties, int& x, int& y, int& width, int& height, int& sectionId)
 {
 	x = atoi(properties["X"].c_str());
 	y = atoi(properties["Y"].c_str());

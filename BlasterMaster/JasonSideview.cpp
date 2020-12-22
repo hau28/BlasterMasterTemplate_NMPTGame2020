@@ -4,7 +4,6 @@
 #include "GameObjectBehaviour.h"
 #include "Sophia.h"
 #include "PlayScene.h"
-
 #include <algorithm>
 #include <assert.h>
 #include "JasonJumpInEvent.h"
@@ -19,12 +18,14 @@ CJasonSideview::CJasonSideview()
     // CuteTN Note: DIRTY AF
     LPOBJECT_ANIMATIONS objAnims = CObjectAnimationsLib::GetInstance()->Get(JASONSIDEVIEW_ANIMATIONS);
     animationHandlers = objAnims->GenerateAnimationHanlders();
+    this->allowOverlapWithBlocks = true;
 }
 
 CJasonSideview::CJasonSideview(int classId, int x, int y, int animsId) : CAnimatableObject::CAnimatableObject(classId, x, y, -1, animsId)
 {
     SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
     init_camBox();
+    vy = JASONSIDEVIEW_JUMP_SPEED_Y;
 };
 
 void CJasonSideview::init_camBox()
@@ -80,146 +81,191 @@ void CJasonSideview::HandleKeys(DWORD dt)
 
 void CJasonSideview::HandleKeysHold(DWORD dt)
 {
-    
-    if (IsKeyDown(DIK_RIGHT))
+    if (!flagClimb)
     {
-        Jason_turnRight = true;
-
-        if (flag_jasoncrawl)
+        if (IsKeyDown(DIK_RIGHT))
         {
-            SetState(JASONSIDEVIEW_STATE_CRAWL_RIGHT);
-            animationHandlers[state]->startLoopIndex = 0;
-        }
-        else
+            flagTurnRight = true;
+
+            if (flagCrawl)// jason crawl right
+            {
+                SetState(JASONSIDEVIEW_STATE_CRAWL_RIGHT);
+                animationHandlers[state]->startLoopIndex = 0;
+            }
+            else  // jason walk right
+            {
+                SetState(JASONSIDEVIEW_STATE_WALK_RIGHT);
+                animationHandlers[state]->startLoopIndex = 0;
+            }
+
+            if (flagCrawl && !flagOnAir)
+                vx = JASONSIDEVIEW_VX / 2;
+            else
+                vx = JASONSIDEVIEW_VX;
+
+        };
+
+        if (IsKeyDown(DIK_LEFT))
         {
-            SetState(JASONSIDEVIEW_STATE_WALK_RIGHT);
-            animationHandlers[state]->startLoopIndex = 0;
+            flagTurnRight = false;
+
+            // jason crawl left
+            if (flagCrawl)
+            {
+                SetState(JASONSIDEVIEW_STATE_CRAWL_LEFT);
+                animationHandlers[state]->startLoopIndex = 0;
+            }
+            else // jason walk left
+            {
+                SetState(JASONSIDEVIEW_STATE_WALK_LEFT);
+                animationHandlers[state]->startLoopIndex = 0;
+            }
+
+            if (flagCrawl && !flagOnAir)
+                vx = -JASONSIDEVIEW_VX / 2;
+            else
+                vx = -JASONSIDEVIEW_VX;
         }
-
-        if (flag_jasoncrawl && vy == 0 && !flagOnAir)
-            vx = JASONSIDEVIEW_VX / 2;
-        else
-            vx = JASONSIDEVIEW_VX;
-
-    };
-
-    if (IsKeyDown(DIK_LEFT))
-    {
-        Jason_turnRight = false; 
-
-        if (flag_jasoncrawl)
-        {
-            SetState(JASONSIDEVIEW_STATE_CRAWL_LEFT);
-            animationHandlers[state]->startLoopIndex = 0;
-        }
-        else
-        {
-            SetState(JASONSIDEVIEW_STATE_WALK_LEFT);
-            animationHandlers[state]->startLoopIndex = 0;
-        }
-
-        if (flag_jasoncrawl && vy == 0 && !flagOnAir)
-            vx = -JASONSIDEVIEW_VX / 2;
-        else
-            vx = -JASONSIDEVIEW_VX;
-
     }
+
+    if (IsKeyDown(DIK_DOWN) && flagClimb )
+    {
+        vy = JASONSIDEVIEW_CLIMB_SPEED;
+        animationHandlers[state]->startLoopIndex = 0;
+    }
+
+    if (IsKeyDown(DIK_UP) && flagClimb)
+    {
+        vy = -JASONSIDEVIEW_CLIMB_SPEED;
+        animationHandlers[state]->startLoopIndex = 0;
+    }
+
 }
 
 void CJasonSideview::HandleKeyUp(DWORD dt, int keyCode)
 {
-    if (keyCode == DIK_RIGHT || keyCode == DIK_LEFT)
+    if ((keyCode == DIK_RIGHT || keyCode == DIK_LEFT) && !flagClimb)
     {
-
         if (flagOnAir)
         {
             ax = JASONSIDEVIEW_AX;
             flag_jumpwalk = true;
-            flag_jasoncrawl = false;
+            flagCrawl = false;
         }
-        else 
-            vx = 0; 
+        else
+            vx = 0;
 
-        if (!flag_jasoncrawl && !IsKeyDown(DIK_X))
+        if (!flagCrawl && !IsKeyDown(DIK_X))
         {
             if (keyCode == DIK_RIGHT)
             {
-                Jason_turnRight == true;
+                flagTurnRight == true;
                 SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
             }
             else
             {
-                Jason_turnRight == false;
+                flagTurnRight == false;
                 SetState(JASONSIDEVIEW_STATE_IDLE_LEFT);
             };
         }
 
-        if (flag_jasoncrawl && !flagOnAir)
+        if (flagCrawl && !flagOnAir)
         {
             if (keyCode == DIK_RIGHT)
             {
-                Jason_turnRight == true;
-
-                /*animationHandlers[state]->currentFrameIndex = 1;
-                animationHandlers[state]->startLoopIndex = 1;*/
+                flagTurnRight == true;
             }
             else
             {
-                Jason_turnRight == false;
+                flagTurnRight == false;
                 animationHandlers[state]->startLoopIndex = 1;
             }
         }
     }
 
-	if (keyCode == DIK_UP || keyCode == DIK_DOWN)
-		vy = 0;
+    //stop climbing
+    if ((keyCode == DIK_UP || keyCode == DIK_DOWN)&& flagClimb)
+    {
+        vy = 0;
+        animationHandlers[state]->startLoopIndex = 1;
+    }
 }
 
 void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)
 {
-    if (keyCode == DIK_RIGHT || keyCode == DIK_LEFT)
-        vx = 0;
-
-    if (keyCode == DIK_DOWN && vy == 0)
+    if (keyCode == DIK_UP && !flagClimbOver)
     {
-        flag_jasoncrawl = true;
-
-        if (Jason_turnRight)
+        if (flagCanClimb)
         {
-            SetState(JASONSIDEVIEW_STATE_CRAWL_RIGHT);
-            animationHandlers[state]->startLoopIndex = 1;
+            vx = 0;
+            this->x = ladderL - 3;
+            this->y = this->y - 2;
+            flagClimb = true;
+            flagCrawl = false;
+            SetState(JASONSIDEVIEW_STATE_CLIMB);
         }
         else
-        {
-            SetState(JASONSIDEVIEW_STATE_CRAWL_LEFT);
-            animationHandlers[state]->startLoopIndex = 1;
-        }
+            if (flagCrawl)
+            {
+                flagCrawl = false;
+
+                if (flagTurnRight)
+                    SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
+                else
+                    SetState(JASONSIDEVIEW_STATE_IDLE_LEFT);
+            }
     }
 
-    if (keyCode == DIK_UP && flag_jasoncrawl)
+    if (keyCode == DIK_DOWN  && !flagOnAir && !flagCanClimb )
     {
-        vy = 0;
-        flag_jasoncrawl = false;
+        flagCrawl = true;
 
-        if (Jason_turnRight)
-            SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
+        if (flagTurnRight)
+            SetState(JASONSIDEVIEW_STATE_CRAWL_RIGHT);
         else
-            SetState(JASONSIDEVIEW_STATE_IDLE_LEFT);
-    } 
+            SetState(JASONSIDEVIEW_STATE_CRAWL_LEFT);
+    }
 
-    if (keyCode == DIK_X && !flagOnAir && !flag_jasoncrawl)
+    if (flagCanClimb && keyCode == DIK_DOWN && jason_t <ladderT)
+    {
+        vx = 0;
+        this->x = ladderL - 3;
+        this->y = this->y + 2;
+        flagClimb = true;
+        flagClimbOver = false;
+        SetState(JASONSIDEVIEW_STATE_CLIMB);
+    }
+
+    // jason jump 
+    if (keyCode == DIK_X && !flagOnAir && !flagCrawl && !flagClimb)
     {
         vx = 0;
         vy -= JASONSIDEVIEW_JUMP_SPEED_Y;
 
-        if (Jason_turnRight)
+        if (flagTurnRight)
             SetState(JASONSIDEVIEW_STATE_JUMP_RIGHT);
         else
             SetState(JASONSIDEVIEW_STATE_JUMP_LEFT);
-        
     }
 
-    if (keyCode == DIK_RSHIFT && !flagOnAir)
+    //jason jump when climb
+    if (keyCode == DIK_X && flagClimb && !flagClimbOver)
+    {
+        vy = -JASONSIDEVIEW_JUMP_SPEED_Y /2 ;
+        flagClimb = false;
+    }
+
+    //if (keyCode == DIK_X && !flagOnAir && flagCanClimb)
+    //{
+    //    vx = 0;
+    //    this->x = ladderL - 3;
+    //    this->y = this->y - 2;
+    //    flagClimb = true;
+    //    flagCrawl = false;
+    //    SetState(JASONSIDEVIEW_STATE_CLIMB);
+    //}
+
+    if (keyCode == DIK_RSHIFT && !flagOnAir )
     {
         if (CCollisionSolver::IsTouchingSophia(CSophia::GetInstance(), __instance)) 
         {
@@ -232,7 +278,7 @@ void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)
     // CuteTN: shoot
     if (keyCode == DIK_C)
     {
-        CBullet_JasonSideview* bullet = new CBullet_JasonSideview(0, 0, 0, Jason_turnRight ? 1 : -1);
+        CBullet_JasonSideview* bullet = new CBullet_JasonSideview(0, 0, 0, flagTurnRight ? 1 : -1);
         CGameObjectBehaviour::CreateObjectAtCenterOfAnother(bullet, this);
     }
 }
@@ -250,19 +296,29 @@ void CJasonSideview::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
         return;
 
     LPGAMEOBJECT obj = coEvent->otherObject;
-
+    
     if (dynamic_cast<LPTILE_AREA>(obj))
     {
         LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(obj);
-
+        
         switch (tileArea->classId)
         {
+            flagCanClimb = true;
             case CLASS_TILE_BLOCKABLE:
             {
-                CGameObjectBehaviour::BlockObject(dt, coEvent);
 
                 if (coEvent->ny < 0)
+                {
                     flagOnAir = false;
+                }
+
+                if (flagClimb)
+                    ;
+                else
+                    CGameObjectBehaviour::BlockObject(dt, coEvent);
+                
+
+                this->allowOverlapWithBlocks = true;
 
                 break;
             }
@@ -277,6 +333,18 @@ void CJasonSideview::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
                 CGame::GetInstance()->AddGameEvent(newEvent);
                 // to do: create an event to CGame, let CGame handle switching section
                 DebugOut(L"Jason to portal %d of section %d, tick %d\n", toPortal->associatedPortalId, toPortal->currentSectionId, GetTickCount());
+            
+                break;
+            }
+
+            case CLASS_TILE_LADDER:
+            {
+                if (!CCollisionSolver::IsOverlapped(obj,this))
+                {
+                    flagCanClimb = true;
+                }
+
+                break;
             }
         }
     }
@@ -289,23 +357,40 @@ void CJasonSideview::GetBoundingBox(float& left, float& top, float& right, float
     right = left + JASONSIDEVIEW_BOUNDBOX_WIDTH;
     bottom = top + JASONSIDEVIEW_BOUNDBOX_HEIGHT;
 
-    if (flag_jasoncrawl)
+    if (flagCrawl)
         top += (JASONSIDEVIEW_BOUNDBOX_HEIGHT - JASONSIDEVIEW_CRAWL_BOUNDBOX_HEIGHT);
 }
 
 void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
+    this->GetBoundingBox(jason_l, jason_t, jason_r, jason_b);
+    if (flagCanClimb)
+        if ( jason_l > ladderR || jason_r < ladderL || jason_b < ladderT || jason_t > ladderB )
+            flagCanClimb = false;
+
+    if (jason_b > ladderB )
+    {
+        flagClimb = false;
+        flagClimbOver = false;
+        flagCrawl = false;
+    }
+
+    if (jason_b < ladderT && flagClimb)
+    {
+        flagClimb = false;
+        flagClimbOver = true;
+    }
+
     // CuteTN note: we may need to refactor this function
     if (CGame::GetInstance()->GetCurrentPlayer()->classId == CLASS_SOPHIA)
         return;
 
     HandleKeys(dt);
 
-    // dơ lắm cơ mà fix sau đi :((( 
     if (vx == 0) flag_jumpwalk = false;
 
     if (flag_jumpwalk && !flagOnAir ) {
-        if (Jason_turnRight) 
+        if (flagTurnRight) 
         {
             SetState(JASONSIDEVIEW_STATE_WALK_RIGHT);
             if (vx > 0)
@@ -328,14 +413,17 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
         
     }
 
-    vy += JASONSIDEVIEW_GRAVITY * dt;
+    if (!flagClimb)
+    {
+        DebugOut(L"Thy dễ thương %d\n");
+        vy += JASONSIDEVIEW_GRAVITY * dt;
+    }
+
     flagOnAir = true;
 
     if (CGame::GetInstance()->GetState() != GameState::SECTION_SWITCH_LEFT_JASON &&
         CGame::GetInstance()->GetState() != GameState::SECTION_SWITCH_RIGHT_JASON)
     {
-        UpdateVelocity(dt);
-            
         ResolveInteractions(dt, coObjs);
     }
 
@@ -357,15 +445,17 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
         camBoxBottom = camBoxTop + 16 * 6;
     }
 
-    if (flagOnAir && Jason_turnRight)
-        SetState(JASONSIDEVIEW_STATE_JUMP_RIGHT);
-
-    if (flagOnAir && !Jason_turnRight)
-        SetState(JASONSIDEVIEW_STATE_JUMP_LEFT);
-
-    if (vy == 0 && vx == 0 && !flag_jasoncrawl)
+    if (flagOnAir && !flagClimb) 
     {
-        if (Jason_turnRight)
+        if ( flagTurnRight)
+            SetState(JASONSIDEVIEW_STATE_JUMP_RIGHT);
+        else
+            SetState(JASONSIDEVIEW_STATE_JUMP_LEFT);
+    }
+
+    if (vy == 0 && vx == 0 && !flagCrawl && !flagClimb)
+    {
+        if (flagTurnRight)
             SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
         else
             SetState(JASONSIDEVIEW_STATE_IDLE_LEFT);

@@ -25,7 +25,7 @@ void CBullet_Mine::UpdateVelocity(DWORD dt)
 {
 	vy += BASEVELOCITY*0.1;
 
-	if ( GetTickCount() - timestartDrop > 200)
+	if ( GetTickCount() - timestartDrop > 300)
 	{
 		if (CCollisionSolver::IsOverlapped(this, CGame::GetInstance()->GetCurrentPlayer()))
 		{
