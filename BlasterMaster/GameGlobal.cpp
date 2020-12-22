@@ -300,3 +300,25 @@ void CGameGlobal::resetHealth()
 	this->healthJasonSideView = MAX_HEALTH_JASONSIDEVIEW;
 	this->healthJasonOverHead = MAX_HEALTH_JASONOVERHEAD;
 }
+
+void CGameGlobal::saveGame()
+{
+	CGame * game = CGame::GetInstance();
+	game->GetCurrentPlayer()->GetPosition(playerX, playerY);
+}
+
+void CGameGlobal::savePlayer(int kindPlayer)
+{
+	CGame* game = CGame::GetInstance();
+	game->GetCurrentPlayer()->GetPosition(playerX, playerY);
+
+	flagPlayer = kindPlayer;
+	IDCurrentSection = game->GetCurrentPlayer()->currentSectionId;
+
+	DebugOut(L"\n Save game %d, x : %f , y : %f ", kindPlayer, playerX, playerY);
+}
+void CGameGlobal::subLeft()
+{
+	if (left == 0) return;
+	left--;
+}

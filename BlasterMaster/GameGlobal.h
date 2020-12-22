@@ -27,6 +27,12 @@ private:
 	CGameGlobal();
 	static CGameGlobal * _instance;
 
+	//Save Game
+	int left = 2;
+	int flagPlayer = 1; // 1: Sophia 2:Jason SideView 3:Jason OverHead
+	float playerX = 0, playerY = 0;
+	int IDCurrentSection;
+
 	//AnimationHandler Render 
 	CObjectAnimationHanlders HealthPow;
 	CObjectAnimationHanlders Hov;
@@ -73,6 +79,11 @@ public:
 	
 	//Reset health 
 	void resetHealth();
+
+	//Save game
+	void saveGame();
+	void savePlayer(int kindPlayer);
+	void subLeft();
 };
 
 

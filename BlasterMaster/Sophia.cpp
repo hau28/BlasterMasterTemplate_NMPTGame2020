@@ -392,7 +392,6 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
 
     if (CGameGlobal::GetInstance()->get_healthSophia() <= 0)
     {
-        SetState(JASONSIDEVIEW_STATE_DEAD);
         if (!dyingEffectTimer->IsRunning())
             dyingEffectTimer->Start();
     }

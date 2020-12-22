@@ -415,6 +415,9 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 	toPortal->GetPosition(x_toPortal, y_toPortal);
 	fromPortal->GetPosition(x_fromPortal, y_fromPortal);
 
+	//Save game when over portal
+	CGameGlobal* global = CGameGlobal::GetInstance();
+
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT)
 		if (cx >= width_section)
 		{
@@ -423,12 +426,17 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			CGame::SetState(GameState::PLAY_SIDEVIEW_SOPHIA);			
 			Sections[CurrentSectionId]->deleteSophia();
 			CurrentSectionId = NextSectionId;
+			int W_toPortal, H_toPortal;
+			toPortal->GetSize(W_toPortal, H_toPortal);
+
 			toPortal->GetPosition(x_toPortal, y_toPortal);
-			Sections[CurrentSectionId]->pushSophia(x_toPortal+5, y_toPortal, CurrentSectionId);
+			Sections[CurrentSectionId]->pushSophia(x_toPortal + W_toPortal - 20, y_toPortal, CurrentSectionId);
 			game->SetCamPos(0, cy);
 			init_camBox();
-			CSophia::GetInstance()->SetSpeed(0.2, 0);
+			CSophia::GetInstance()->SetSpeed(0.1, 0);
 			DebugOut(L"\ncx == %f, cy == %f",x_toPortal, y_toPortal);
+
+			global->savePlayer(1);
 		}
 
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT_JASON)
@@ -439,11 +447,17 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			CGame::SetState(GameState::PLAY_SIDEVIEW_JASON);
 			Sections[CurrentSectionId]->deleteJasonSideview();
 			CurrentSectionId = NextSectionId;
+
+			int W_toPortal, H_toPortal;
+			toPortal->GetSize(W_toPortal, H_toPortal);
+
 			toPortal->GetPosition(x_toPortal, y_toPortal);
-			Sections[CurrentSectionId]->pushJasonSideview(x_toPortal+5, y_toPortal+8, CurrentSectionId);
-			CJasonSideview::GetInstance()->SetSpeed(0.03, 0);
+			Sections[CurrentSectionId]->pushJasonSideview(x_toPortal + W_toPortal - 15, y_toPortal+8, CurrentSectionId);
+			CJasonSideview::GetInstance()->SetSpeed(0.09, 0);
 			game->SetCamPos(0, cy);
 			init_camBox();
+
+			global->savePlayer(2);
 		}
 
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT)
@@ -454,10 +468,14 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			CGame::SetState(GameState::PLAY_SIDEVIEW_SOPHIA);
 			Sections[CurrentSectionId]->deleteSophia();
 			CurrentSectionId = NextSectionId;
+			int W_toPortal, H_toPortal;
+			toPortal->GetSize(W_toPortal, H_toPortal);
 			Sections[CurrentSectionId]->pushSophia(x_toPortal, y_toPortal, CurrentSectionId);
 			game->SetCamPos(cx, cy);
-			CSophia::GetInstance()->SetSpeed(-0.2, 0);
+			CSophia::GetInstance()->SetSpeed(-0.1, 0);
 			init_camBox();
+
+			global->savePlayer(1);
 		}
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT_JASON)
 		if (cx + game->GetScreenWidth() <= 0)
@@ -466,11 +484,15 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			cy += y_toPortal - y_fromPortal;
 			CGame::SetState(GameState::PLAY_SIDEVIEW_JASON);
 			Sections[CurrentSectionId]->deleteJasonSideview();
+			int W_toPortal, H_toPortal;
+			toPortal->GetSize(W_toPortal, H_toPortal);
 			CurrentSectionId = NextSectionId;
-			Sections[CurrentSectionId]->pushJasonSideview(x_toPortal-5, y_toPortal+8, CurrentSectionId);
-			CJasonSideview::GetInstance()->SetSpeed(-0.03, 0);
+			Sections[CurrentSectionId]->pushJasonSideview(x_toPortal, y_toPortal+8, CurrentSectionId);
+			CJasonSideview::GetInstance()->SetSpeed(-0.09, 0);
 			game->SetCamPos(cx, cy);
 			init_camBox();
+
+			global->savePlayer(2);
 		}
 }
 
@@ -641,6 +663,7 @@ void CPlayScene::handleGameEvent(LPGAME_EVENT gameEvent)
 */
 void CPlayScene::Unload()
 {
+	CurrentSectionId = -1;
 	/*
 	for (int i = 0; i < objects.size(); i++)
 		delete objects[i];
