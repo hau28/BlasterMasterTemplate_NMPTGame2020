@@ -445,9 +445,9 @@ void CGame::SwitchScene(int scene_id)
 
 	scenes[current_scene]->Unload();
 
-	CTextures::GetInstance()->Clear();
-	CSpriteLib::GetInstance()->Clear();
-	CAnimationLib::GetInstance()->Clear();
+	//CTextures::GetInstance()->Clear();
+	//CSpriteLib::GetInstance()->Clear();
+	//CAnimationLib::GetInstance()->Clear();
 
 	current_scene = scene_id;
 	LPSCENE s = scenes[scene_id];

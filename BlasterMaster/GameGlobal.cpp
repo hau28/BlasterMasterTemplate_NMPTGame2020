@@ -21,7 +21,7 @@
 #define HEALTH8 9039
 
 #define X_HEALTH 20
-#define Y_HEALTH 100
+#define Y_HEALTH 120
 
 CGameGlobal* CGameGlobal::_instance = nullptr;
 
@@ -292,4 +292,11 @@ void CGameGlobal::SupportRenderHeath(int health)
 	float X_cam, Y_cam;
 	CGame::GetInstance()->GetCamPos(X_cam, Y_cam);
 	HealthPow[flag_StateHealth]->Render(X_cam + X_HEALTH, Y_cam + Y_HEALTH);
+}
+
+void CGameGlobal::resetHealth()
+{
+	this->healthSophia = MAX_HEALTH_SOPHIA;
+	this->healthJasonSideView = MAX_HEALTH_JASONSIDEVIEW;
+	this->healthJasonOverHead = MAX_HEALTH_JASONOVERHEAD;
 }

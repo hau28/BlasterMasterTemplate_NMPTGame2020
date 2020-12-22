@@ -23,7 +23,7 @@ const float JASONSIDEVIEW_JUMP_SPEED_Y = 0.225f;
 class CJasonSideview : public  CAnimatableObject, public ITimeTrackable
 {
 private:
-    const int DYING_EFFECT_DURATION = 1508;
+    const int DYING_EFFECT_DURATION = 1700;
 
     void HandleKeys(DWORD dt);
     void HandleKeyUp(DWORD dt, int keyCode);

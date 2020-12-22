@@ -56,6 +56,7 @@ private:
 	void SupportRenderHeath(int health);
 
 public:
+	//reset health
 	//get value methods
 	static CGameGlobal* GetInstance();
 	int get_healthSophia()		  { return this->healthSophia;		  }
@@ -69,6 +70,9 @@ public:
 	void jasonJumpIntoSophia();
 	//Render
 	void RenderHeath();
+	
+	//Reset health 
+	void resetHealth();
 };
 
 

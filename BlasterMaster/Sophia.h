@@ -32,6 +32,8 @@ const int INVULNERABLE_DURATION = 450;
 class CSophia : public CAnimatableObject , public ITimeTrackable
 {
 private:
+    const int DYING_EFFECT_DURATION = 1700;
+
     void HandleKeys(DWORD dt);
     void HandleKeyUp(DWORD dt, int keyCode);
     void HandleKeyDown(DWORD dt, int keyCode);
@@ -55,7 +57,7 @@ private:
     bool flagInvulnerable;
 
     LPTIMER invulnerableTimer;
-    
+    LPTIMER dyingEffectTimer = nullptr;
 
     CSophia(){};
     CSophia(int classId, int x, int y);

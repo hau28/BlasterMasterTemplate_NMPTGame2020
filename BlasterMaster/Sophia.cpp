@@ -38,8 +38,10 @@ void CSophia::Init(int classId, int x, int y)
 
     // CuteTN Test
     // SetModifyColor(255, 0, 255);
-}
-;
+
+    dyingEffectTimer = new CTimer(this, DYING_EFFECT_DURATION, 1);
+    dyingEffectTimer->Stop();
+};
 
 void CSophia::setGunState(int state) {
     gunState = state;
@@ -324,6 +326,7 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
     //SANH-CAMERA
     //don't allow update when player is jason
     invulnerableTimer->Update(dt);
+    dyingEffectTimer->Update(dt);
     if (CGame::GetInstance()->GetCurrentPlayer()->classId == CLASS_JASONSIDEVIEW && bodyState == 2)
     {
         flag_JasonJumpOut = false;
@@ -385,6 +388,13 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
         UpdatePosition(dt);
         updateDirection();
         updateWheel();
+    }
+
+    if (CGameGlobal::GetInstance()->get_healthSophia() <= 0)
+    {
+        SetState(JASONSIDEVIEW_STATE_DEAD);
+        if (!dyingEffectTimer->IsRunning())
+            dyingEffectTimer->Start();
     }
 }
 
@@ -631,6 +641,16 @@ void CSophia::HandleTimerTick(LPTIMER sender)
     if (sender == invulnerableTimer)
     {
         flagInvulnerable = false;
+    }
+
+    if (sender == dyingEffectTimer)
+    {
+        // To do: switch scene
+        Sleep(4000);
+        CGameEvent* event = new SwitchSceneEvent(ID_SCENE_PLAY);
+        CGameGlobal::GetInstance()->resetHealth();
+        CGame::AddGameEvent(event);
+        dyingEffectTimer->Stop();
     }
 }
 

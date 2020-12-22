@@ -272,7 +272,7 @@ void CPlayScene::Load()
 
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 	init_camBox();
-
+	CGame::GetInstance()->SetState(GameState::PLAY_SIDEVIEW_SOPHIA); 
 	CSophia::GetInstance();
 }
 
@@ -291,18 +291,33 @@ void CPlayScene::update_camBox()
 	float playerX, playerY;
 	CGame::GetInstance()->GetCurrentPlayer()->GetPosition(playerX, playerY);
 
+	bool isJason = false;
+	bool isSophia = false;
+	if (CGame::GetInstance()->GetCurrentPlayer()->classId == CLASS_SOPHIA) isSophia = true;
+	if (CGame::GetInstance()->GetCurrentPlayer()->classId == CLASS_JASONSIDEVIEW) isJason = true;
+
 	if (playerX + 16 * 2 >= camBoxRight) {
 		camBoxRight = playerX + 16 * 2;
 		camBoxLeft = playerX - 16 * 2;
 	}
-	else if (playerX <= camBoxLeft) {
+
+	if (isSophia && playerX <= camBoxLeft)
+	{
 		camBoxLeft = playerX;
 		camBoxRight = playerX + 16 * 4;
 	}
+
+	if (isJason && playerX <= camBoxLeft + 8)
+	{
+		camBoxLeft = playerX - 8;
+		camBoxRight = playerX + 16 * 4;
+	}
+
 	if (playerY + 32 >= camBoxBottom) {
 		camBoxBottom = playerY + 32;
 		camBoxTop = camBoxBottom - 16 * 6;
 	}
+
 	if (playerY - 16 <= camBoxTop) {
 		camBoxTop = playerY - 16;
 		camBoxBottom = camBoxTop + 16 * 6;

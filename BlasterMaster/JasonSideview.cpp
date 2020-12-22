@@ -59,6 +59,10 @@ void CJasonSideview::init_camBox()
 
 void CJasonSideview::HandleKeys(DWORD dt)
 {
+    //Sanh jason dead 
+    if (CGame::GetInstance()->GetCurrentPlayer()->classId == CLASS_JASONSIDEVIEW && state == JASONSIDEVIEW_STATE_DEAD)
+        return;
+
     if (CGame::GetInstance()->GetState() == GameState::PLAY_SIDEVIEW_JASON)
     {
         HandleKeysHold(dt);
@@ -488,9 +492,11 @@ void CJasonSideview::HandleTimerTick(LPTIMER sender)
     if (sender == dyingEffectTimer)
     {
         // To do: switch scene
-        Sleep(2000);
+        Sleep(4000);
         CGameEvent* event = new SwitchSceneEvent(ID_SCENE_PLAY);
+        CGameGlobal::GetInstance()->resetHealth();
         CGame::AddGameEvent(event);
+        dyingEffectTimer->Stop();
     }
 }
 
