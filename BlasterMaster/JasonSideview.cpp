@@ -89,6 +89,21 @@ void CJasonSideview::HandleOnDamage()
     PlayVulnerableFlasingEffect();
 }
 
+void CJasonSideview::BeKnockedBack()
+{
+    if (!flagKnockedBack)
+        return;
+
+    vy -= JASONSIDEVIEW_KNOCKEDBACK_VY;
+
+    if (flagTurnRight)
+        vx -= JASONSIDEVIEW_KNOCKEDBACK_VX;
+    else
+        vx += JASONSIDEVIEW_KNOCKEDBACK_VX;
+
+    flagKnockedBack = false;
+}
+
 void CJasonSideview::HandleKeys(DWORD dt)
 {
     //Sanh jason dead 
@@ -332,7 +347,7 @@ void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)
 
 void CJasonSideview::UpdateVelocity(DWORD dt)
 {
-
+    BeKnockedBack();
 }
 
 void CJasonSideview::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
@@ -413,6 +428,9 @@ void CJasonSideview::GetBoundingBox(float& left, float& top, float& right, float
 void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
     vulnerableFlashingEffect->Update(dt);
+
+    // CuteTN Note: Handle knocked back here
+    UpdateVelocity(dt);
 
     this->GetBoundingBox(jason_l, jason_t, jason_r, jason_b);
     if (flagCanClimb)
@@ -579,6 +597,7 @@ void CJasonSideview::HandleOverlap(LPGAMEOBJECT overlappedObj)
         {
             CGameGlobal::GetInstance()->beingAttackedByEnemy();
             HandleOnDamage();
+            flagKnockedBack = true;
         }
 
         if (dynamic_cast<CBullet*>(overlappedObj))
@@ -587,6 +606,7 @@ void CJasonSideview::HandleOverlap(LPGAMEOBJECT overlappedObj)
             if (!bullet->isFriendly) {
                 CGameGlobal::GetInstance()->beingAttackedByEnemy();
                 HandleOnDamage();
+                flagKnockedBack = true;
             }
 
         }

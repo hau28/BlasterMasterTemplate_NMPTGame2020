@@ -37,7 +37,7 @@ void CSophia::Init(int classId, int x, int y)
     flagInvulnerable = false;
 
     // CuteTN Test
-    // SetModifyColor(255, 0, 255);
+    SetModifyColor(255, 255, 255);
 
     dyingEffectTimer = new CTimer(this, DYING_EFFECT_DURATION, 1);
     dyingEffectTimer->Stop();
@@ -211,6 +211,21 @@ void CSophia::HandleOnDamage()
     flagInvulnerable = true;
     invulnerableTimer->Start();
     vulnerableFlashingEffect->Play();
+}
+
+void CSophia::BeKnockedBack()
+{
+    if (!flagKnockedBack)
+        return;
+
+    vy -= SOPHIA_KNOCKEDBACK_VY;
+
+    if (directionState <= 1)
+        vx += SOPHIA_KNOCKEDBACK_VX;
+    else
+        vx -= SOPHIA_KNOCKEDBACK_VX;
+
+    flagKnockedBack = false;
 }
 
 void CSophia::updateBody()
@@ -416,6 +431,8 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
 
 void CSophia::UpdateVelocity(DWORD dt)
 {
+    BeKnockedBack();
+
     //jump handler
     if (vy < 0 && !IsKeyDown(DIK_X) && ground - y > 48 && ground - y < 48.5)
         vy = 0;
@@ -552,6 +569,7 @@ void CSophia::HandleOverlap(LPGAMEOBJECT overlappedObj)
         {
             CGameGlobal::GetInstance()->beingAttackedByEnemy();
             HandleOnDamage();
+            flagKnockedBack = true;
         }
 
         if (dynamic_cast<CBullet*>(overlappedObj))
@@ -560,6 +578,7 @@ void CSophia::HandleOverlap(LPGAMEOBJECT overlappedObj)
             if (!bullet->isFriendly) {
                 CGameGlobal::GetInstance()->beingAttackedByEnemy();
                 HandleOnDamage();
+				flagKnockedBack = true;
             }
 
         }

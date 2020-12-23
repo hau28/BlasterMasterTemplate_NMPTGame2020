@@ -27,11 +27,21 @@ class CJasonSideview : public  CAnimatableObject, public ITimeTrackable
 private:
     const int DYING_EFFECT_DURATION = 1700;
 
-    // CuteTN
+    // CuteTN: Flashing effect on damage
     const int JASONSIDEVIEW_VULNERABLE_EFFECT_FLASHING_DURATION = 30;
     CObjectFlashingEffectPlayer* vulnerableFlashingEffect = nullptr;
     void PlayVulnerableFlasingEffect();
     void HandleOnDamage();
+
+    // CuteTN: knock back on damage
+    const float JASONSIDEVIEW_KNOCKEDBACK_VX = 0.1;
+    const float JASONSIDEVIEW_KNOCKEDBACK_VY = 0.1;
+
+    // CuteTN Note: we cannot handle knocked back right in handle overlap, it can't detect collision if you set there
+    bool flagKnockedBack = false;
+
+    // CuteTN Note: please call this method in UpdateVelocity
+    void BeKnockedBack();
 
     void HandleKeys(DWORD dt);
     void HandleKeyUp(DWORD dt, int keyCode);
