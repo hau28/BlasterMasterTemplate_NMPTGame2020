@@ -277,6 +277,7 @@ void CPlayScene::Load()
 
 	//Init follow save Game
 	CGameGlobal* global = CGameGlobal::GetInstance();
+	global->resetHealth();
 
 	if (global->isSaved() == false)
 		return;
@@ -312,6 +313,9 @@ void CPlayScene::Load()
 			DebugOut(L"\n Da add sophia tai x %f, y %f id = %d", sophiaX, sophiaY,_idSectionSophia);
 
 		}
+
+		CJasonSideview::GetInstance()->resetState();
+		CSophia::GetInstance()->SetSpeed(0, 0);
 	}
 	init_camBox();
 }
@@ -477,6 +481,7 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			DebugOut(L"\ncx == %f, cy == %f",x_toPortal, y_toPortal);
 
 			global->savePlayer(1);
+			global->saveSophia();
 		}
 
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT_JASON)
@@ -516,6 +521,7 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			init_camBox();
 
 			global->savePlayer(1);
+			global->saveSophia();
 		}
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT_JASON)
 		if (cx + game->GetScreenWidth() <= 0)
