@@ -615,17 +615,20 @@ void CJasonSideview::HandleOverlap(LPGAMEOBJECT overlappedObj)
                 flagSwim = true;
                 DebugOut(L"Minggggcute \n");
                 SetState(JASONSIDEVIEW_STATE_SWIM_LEFT);
+                CGameGlobal::GetInstance()->beingAttackedByLava();
+                flagInvulnerable = true;
+                invulnerableTimer->Start();
             }
            //     DebugOut(L"Minggggcute \n");
 
         }
+    }
 
-        if (dynamic_cast<LPTILE_AREA>(overlappedObj))
-        {
-            LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(overlappedObj);
-            if (tileArea->classId == CLASS_TILE_LADDER)
-                flagCanClimb = true; 
-        }
+    if (dynamic_cast<LPTILE_AREA>(overlappedObj))
+    {
+        LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(overlappedObj);
+        if (tileArea->classId == CLASS_TILE_LADDER)
+            flagCanClimb = true;
     }
 }
 
@@ -640,9 +643,9 @@ void CJasonSideview::HandleTimerTick(LPTIMER sender)
         // To do: switch scene
         Sleep(4000);
         CGameEvent* event = new SwitchSceneEvent(ID_SCENE_INTRO);
-        CGameGlobal::GetInstance()->resetHealth();
+   /*     CGameGlobal::GetInstance()->resetHealth();
         CGame::AddGameEvent(event);
-        dyingEffectTimer->Stop();
+        dyingEffectTimer->Stop();*/
     }
 }
 
