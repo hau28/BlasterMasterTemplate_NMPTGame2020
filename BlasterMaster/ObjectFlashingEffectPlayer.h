@@ -1,8 +1,6 @@
 #pragma once
-#include "AnimatableObject.h"
 #include "Timer.h"
-
-typedef tuple<int, int, int> Color;
+#include "AnimatableObject.h"
 
 class CObjectFlashingEffectPlayer : ITimeTrackable
 {

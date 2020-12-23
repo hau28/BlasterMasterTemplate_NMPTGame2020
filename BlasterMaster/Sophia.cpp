@@ -37,10 +37,12 @@ void CSophia::Init(int classId, int x, int y)
     flagInvulnerable = false;
 
     // CuteTN Test
-    // SetModifyColor(255, 0, 255);
+    SetModifyColor(255, 255, 255);
 
     dyingEffectTimer = new CTimer(this, DYING_EFFECT_DURATION, 1);
     dyingEffectTimer->Stop();
+
+    vulnerableFlashingEffect = new CObjectFlashingEffectPlayer(this, &flashingColors, SOPHIA_VULNERABLE_EFFECT_FLASHING_DURATION);
 };
 
 void CSophia::setGunState(int state) {
@@ -198,6 +200,34 @@ void CSophia::updateGun()
     }
 }
 
+void CSophia::PlayVulnerableFlasingEffect()
+{
+    if (vulnerableFlashingEffect)
+        vulnerableFlashingEffect->Play();
+}
+
+void CSophia::HandleOnDamage()
+{
+    flagInvulnerable = true;
+    invulnerableTimer->Start();
+    vulnerableFlashingEffect->Play();
+}
+
+void CSophia::BeKnockedBack()
+{
+    if (!flagKnockedBack)
+        return;
+
+    vy -= SOPHIA_KNOCKEDBACK_VY;
+
+    if (directionState <= 1)
+        vx += SOPHIA_KNOCKEDBACK_VX;
+    else
+        vx -= SOPHIA_KNOCKEDBACK_VX;
+
+    flagKnockedBack = false;
+}
+
 void CSophia::updateBody()
 {
     if (flagOnAir) {
@@ -323,6 +353,8 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
 
 void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
 {
+    vulnerableFlashingEffect->Update(dt);
+
     //SANH-CAMERA
     //don't allow update when player is jason
     invulnerableTimer->Update(dt);
@@ -392,6 +424,9 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
 
     if (CGameGlobal::GetInstance()->get_healthSophia() <= 0)
     {
+        vx = 0;
+        vy = 0;
+
         if (!dyingEffectTimer->IsRunning())
             dyingEffectTimer->Start();
     }
@@ -399,6 +434,8 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
 
 void CSophia::UpdateVelocity(DWORD dt)
 {
+    BeKnockedBack();
+
     //jump handler
     if (vy < 0 && !IsKeyDown(DIK_X) && ground - y > 48 && ground - y < 48.5)
         vy = 0;
@@ -534,8 +571,8 @@ void CSophia::HandleOverlap(LPGAMEOBJECT overlappedObj)
         if (dynamic_cast<CEnemy*>(overlappedObj))
         {
             CGameGlobal::GetInstance()->beingAttackedByEnemy();
-            flagInvulnerable = true;
-            invulnerableTimer->Start();
+            HandleOnDamage();
+            flagKnockedBack = true;
         }
 
         if (dynamic_cast<CBullet*>(overlappedObj))
@@ -543,8 +580,8 @@ void CSophia::HandleOverlap(LPGAMEOBJECT overlappedObj)
             CBullet* bullet = dynamic_cast<CBullet*>(overlappedObj);
             if (!bullet->isFriendly) {
                 CGameGlobal::GetInstance()->beingAttackedByEnemy();
-                flagInvulnerable = true;
-                invulnerableTimer->Start();
+                HandleOnDamage();
+				flagKnockedBack = true;
             }
 
         }
@@ -555,8 +592,7 @@ void CSophia::HandleOverlap(LPGAMEOBJECT overlappedObj)
             if (tileArea->classId == CLASS_TILE_SPIKE)
             {
                 CGameGlobal::GetInstance()->beingAttackedBySpike();
-                flagInvulnerable = true;
-                invulnerableTimer->Start();
+                HandleOnDamage();
             }
         }
 
@@ -566,8 +602,7 @@ void CSophia::HandleOverlap(LPGAMEOBJECT overlappedObj)
             if (tileArea->classId == CLASS_TILE_LAVA)
             {
                 CGameGlobal::GetInstance()->beingAttackedByLava();
-                flagInvulnerable = true;
-                invulnerableTimer->Start();
+                HandleOnDamage();
             }
         }
     }
@@ -592,6 +627,7 @@ void CSophia::GetBoundingBox(float &left, float &top, float &right, float &botto
 
 void CSophia::Render(float offsetX, float offsetY)
 {
+
     LPSPRITE sprite = CSophiaAnimationSystem::GetInstance()->GetSprite(directionState, gunState, bodyState, wheelState);
     if (sprite)
         if (vy > 0 && bodyState == 1 && ground - y >= 16)

@@ -1,15 +1,7 @@
 #include "Enemy.h"
 #include "GameObjectBehaviour.h"
 
-vector<Color> CEnemy::flashingColors = 
-{ 
-	{255,0,100}, 
-	{10,255,10}, 
-	{255, 255, 255}, 
-	{255,0,100}, 
-	{10,255,10}, 
-	{255, 255, 255} 
-};
+
 
 CEnemy::CEnemy(int classId, int x, int y, int sectionId, int animsId) : CAnimatableObject::CAnimatableObject(classId, x, y, sectionId, animsId)
 {

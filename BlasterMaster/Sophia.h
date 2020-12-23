@@ -4,6 +4,7 @@
 #include "WalkInPortalEvent.h"
 #include <math.h>
 #include "Timer.h"
+#include "ObjectFlashingEffectPlayer.h"
 
 // 8 23 31 39
 
@@ -47,6 +48,22 @@ private:
     virtual void updateDirection();
     virtual void updateBody();
     virtual void updateGun();
+
+    // CuteTN: flashing effect on damage
+    const int SOPHIA_VULNERABLE_EFFECT_FLASHING_DURATION = 30;
+    CObjectFlashingEffectPlayer* vulnerableFlashingEffect = nullptr;
+    void PlayVulnerableFlasingEffect();
+    void HandleOnDamage();
+
+    // CuteTN: knock back on damage
+    const float SOPHIA_KNOCKEDBACK_VX = 0.1;
+    const float SOPHIA_KNOCKEDBACK_VY = 0;
+
+    // CuteTN Note: we cannot handle knocked back right in handle overlap, it can't detect collision if you set there
+    bool flagKnockedBack = false;
+
+    // CuteTN Note: please call this method in UpdateVelocity
+    void BeKnockedBack();
 
     int directionState, gunState, bodyState, wheelState;
 

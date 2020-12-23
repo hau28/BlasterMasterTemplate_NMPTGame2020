@@ -31,6 +31,7 @@ CJasonSideview::CJasonSideview()
 
     flagInvulnerable = false;
 
+    vulnerableFlashingEffect = new CObjectFlashingEffectPlayer(this, &flashingColors, JASONSIDEVIEW_VULNERABLE_EFFECT_FLASHING_DURATION);
 }
 
 CJasonSideview::CJasonSideview(int classId, int x, int y, int animsId) : CAnimatableObject::CAnimatableObject(classId, x, y, -1, animsId)
@@ -75,6 +76,34 @@ void CJasonSideview::resetState()
 }
 
 #pragma region key events handling
+
+void CJasonSideview::PlayVulnerableFlasingEffect()
+{
+    if (vulnerableFlashingEffect)
+        vulnerableFlashingEffect->Play();
+}
+
+void CJasonSideview::HandleOnDamage()
+{
+	flagInvulnerable = true;
+	invulnerableTimer->Start();
+    PlayVulnerableFlasingEffect();
+}
+
+void CJasonSideview::BeKnockedBack()
+{
+    if (!flagKnockedBack)
+        return;
+
+    vy -= JASONSIDEVIEW_KNOCKEDBACK_VY;
+
+    if (flagTurnRight)
+        vx -= JASONSIDEVIEW_KNOCKEDBACK_VX;
+    else
+        vx += JASONSIDEVIEW_KNOCKEDBACK_VX;
+
+    flagKnockedBack = false;
+}
 
 void CJasonSideview::HandleKeys(DWORD dt)
 {
@@ -307,7 +336,7 @@ void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)
 
 void CJasonSideview::UpdateVelocity(DWORD dt)
 {
-
+    BeKnockedBack();
 }
 
 void CJasonSideview::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
@@ -391,13 +420,17 @@ void CJasonSideview::GetBoundingBox(float& left, float& top, float& right, float
 
 void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
+    vulnerableFlashingEffect->Update(dt);
+
+    // CuteTN Note: Handle knocked back here
+    UpdateVelocity(dt);
 
     this->GetBoundingBox(jason_l, jason_t, jason_r, jason_b);
     if (flagCanClimb)
-        if ( jason_l > ladderR || jason_r < ladderL || jason_b < ladderT || jason_t > ladderB )
+        if (jason_l > ladderR || jason_r < ladderL || jason_b < ladderT || jason_t > ladderB)
             flagCanClimb = false;
 
-    if (jason_b > ladderB )
+    if (jason_b > ladderB)
     {
         flagClimb = false;
         flagClimbOver = false;
@@ -421,8 +454,8 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 
     if (vx == 0) flag_jumpwalk = false;
 
-    if (flag_jumpwalk && !flagOnAir ) {
-        if (flagTurnRight) 
+    if (flag_jumpwalk && !flagOnAir) {
+        if (flagTurnRight)
         {
             SetState(JASONSIDEVIEW_STATE_WALK_RIGHT);
             if (vx > 0)
@@ -436,13 +469,13 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
         {
             SetState(JASONSIDEVIEW_STATE_WALK_LEFT);
             if (vx < 0)
-            { 
-                vx -=  ax * dt;
+            {
+                vx -= ax * dt;
             }
             else
                 vx = 0;
-        }   
-        
+        }
+
     }
 
     if (!flagClimb)
@@ -452,7 +485,7 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 
     flagOnAir = true;
 
-    if (vy==0)
+    if (vy == 0)
     {
         posStart = this->y;
     }
@@ -476,20 +509,20 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
         camBoxBottom = y + 16;
         camBoxTop = camBoxBottom - 16 * 6;
     }
-    if (y< camBoxTop) {
+    if (y < camBoxTop) {
         camBoxTop = y;
         camBoxBottom = camBoxTop + 16 * 6;
     }
 
-    if (flagOnAir && !flagClimb) 
+    if (flagOnAir && !flagClimb)
     {
-        if ( flagTurnRight)
+        if (flagTurnRight)
             SetState(JASONSIDEVIEW_STATE_JUMP_RIGHT);
         else
             SetState(JASONSIDEVIEW_STATE_JUMP_LEFT);
     }
 
-    if (vy == 0 && vx == 0 && !flagCrawl && !flagClimb && state!= JASONSIDEVIEW_STATE_SWIM_RIGHT)
+    if (vy == 0 && vx == 0 && !flagCrawl && !flagClimb && state != JASONSIDEVIEW_STATE_SWIM_RIGHT)
     {
         if (flagTurnRight)
             SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
@@ -513,17 +546,21 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 
     UpdatePosition(dt);
     if (CGameGlobal::GetInstance()->get_healthJasonSideView() <= 0)
-    {  
+    {
+        vx = 0; 
+        vy = 0;
+
+        animationHandlers[state]->startLoopIndex = 0;   
         SetState(JASONSIDEVIEW_STATE_DEAD);
+        
         if (!dyingEffectTimer->IsRunning())
             dyingEffectTimer->Start();
     }
-
 }
 
 void CJasonSideview::Render(float offsetX, float offsetY)
 {
-    animationHandlers[state]->Render(x + offsetX, y + offsetY);
+    animationHandlers[state]->Render(x + offsetX, y + offsetY, 255, modifyR, modifyG, modifyB);
 
     if (!IsKeyDown(DIK_LEFT) && state == JASONSIDEVIEW_STATE_CRAWL_LEFT)
         ;
@@ -560,8 +597,8 @@ void CJasonSideview::HandleOverlap(LPGAMEOBJECT overlappedObj)
         if (dynamic_cast<CEnemy*>(overlappedObj))
         {
             CGameGlobal::GetInstance()->beingAttackedByEnemy();
-            flagInvulnerable = true;
-            invulnerableTimer->Start();
+            HandleOnDamage();
+            flagKnockedBack = true;
         }
 
         if (dynamic_cast<CBullet*>(overlappedObj))
@@ -569,8 +606,8 @@ void CJasonSideview::HandleOverlap(LPGAMEOBJECT overlappedObj)
             CBullet* bullet = dynamic_cast<CBullet*>(overlappedObj);
             if (!bullet->isFriendly) {
                 CGameGlobal::GetInstance()->beingAttackedByEnemy();
-                flagInvulnerable = true;
-                invulnerableTimer->Start();
+                HandleOnDamage();
+                flagKnockedBack = true;
             }
 
         }
@@ -581,8 +618,7 @@ void CJasonSideview::HandleOverlap(LPGAMEOBJECT overlappedObj)
             if (tileArea->classId == CLASS_TILE_SPIKE)
             {
                 CGameGlobal::GetInstance()->beingAttackedBySpike();
-                flagInvulnerable = true;
-                invulnerableTimer->Start();
+                HandleOnDamage();
             }
         }
 
@@ -595,12 +631,8 @@ void CJasonSideview::HandleOverlap(LPGAMEOBJECT overlappedObj)
             {
                 SetState(JASONSIDEVIEW_STATE_SWIM_LEFT);
                 CGameGlobal::GetInstance()->beingAttackedByLava();
-                flagInvulnerable = true;
-                invulnerableTimer->Start();
-                //DebugOut(L"Minggggcute \n");
-                
+                HandleOnDamage();
             }
-
         }
     }
 
