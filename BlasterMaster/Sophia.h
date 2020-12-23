@@ -24,6 +24,8 @@ const float SOPHIA_GRAVITY = 0.0005f;
 const float SOPHIA_MAX_FALL_SPEED = 0.175f;
 const float SOPHIA_JUMP_FORCE = 0.26f;
 
+const float SOPHIA_AX = 0.0001;
+
 const int INVULNERABLE_DURATION = 450;
 
 /// <summary>

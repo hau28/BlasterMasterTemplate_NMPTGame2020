@@ -95,12 +95,44 @@ void CJasonSideview::BeKnockedBack()
     if (!flagKnockedBack)
         return;
 
-    vy -= JASONSIDEVIEW_KNOCKEDBACK_VY;
+    if (flagCrawl)
+    {
+        int posX = rand()%10;
 
-    if (flagTurnRight)
-        vx -= JASONSIDEVIEW_KNOCKEDBACK_VX;
+        flagCrawl = false;
+
+        this->x -= posX;
+
+        if (flagTurnRight)
+            SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
+        else
+            SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
+    }
     else
-        vx += JASONSIDEVIEW_KNOCKEDBACK_VX;
+    {
+        if (!flagOnAir)
+            vy -= JASONSIDEVIEW_KNOCKEDBACK_VY;
+
+        if (!flagClimb)
+        {
+            if (!flagOnAir)
+            {
+                if (flagTurnRight)
+                    vx -= JASONSIDEVIEW_KNOCKEDBACK_VX;
+                else
+                    vx += JASONSIDEVIEW_KNOCKEDBACK_VX;
+            }
+        }
+        else
+        {
+            flagClimb = false;
+            vy -= JASONSIDEVIEW_KNOCKEDBACK_VY;
+            if (flagTurnRight)
+                vx -= JASONSIDEVIEW_KNOCKEDBACK_VX / 2;
+            else
+                vx += JASONSIDEVIEW_KNOCKEDBACK_VX / 2;
+        }
+    }
 
     flagKnockedBack = false;
 }
@@ -163,9 +195,12 @@ void CJasonSideview::HandleKeysHold(DWORD dt)
             if (flagCrawl && !flagOnAir)
                 vx = JASONSIDEVIEW_VX / 2;
             else
+            {
+                flagJumpWalk = false;
+                flagWalk = false; 
                 vx = JASONSIDEVIEW_VX;
-
-        };
+            }
+        }
 
         if (IsKeyDown(DIK_LEFT))
         {
@@ -186,7 +221,11 @@ void CJasonSideview::HandleKeysHold(DWORD dt)
             if (flagCrawl && !flagOnAir)
                 vx = -JASONSIDEVIEW_VX / 2;
             else
+            {
+                flagJumpWalk = false;
+                flagWalk = false;
                 vx = -JASONSIDEVIEW_VX;
+            }
         }
     }
 
@@ -201,28 +240,24 @@ void CJasonSideview::HandleKeysHold(DWORD dt)
         vy = -JASONSIDEVIEW_CLIMB_SPEED;
         animationHandlers[state]->startLoopIndex = 0;
     }
-
 }
 
 void CJasonSideview::HandleKeyUp(DWORD dt, int keyCode)
 {
-    if ((keyCode == DIK_RIGHT || keyCode == DIK_LEFT) && !flagClimb)
+    if ((keyCode == DIK_RIGHT || keyCode == DIK_LEFT /*|| keyCode == DIK_X*/) && !flagClimb )
     {
-        if (flagOnAir)
-        {
-            ax = JASONSIDEVIEW_AX;
-            flag_jumpwalk = true;
-            flagCrawl = false;
-        }
-        else
+        if (flagCrawl && !flagOnAir)
             vx = 0;
 
         if (!flagCrawl && !IsKeyDown(DIK_X))
         {
-            if (keyCode == DIK_RIGHT)
+            ax = JASONSIDEVIEW_AX*3;
+            flagWalk = true;
+            flagCrawl = false;
+            /*if (keyCode == DIK_RIGHT)
                 SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
             else
-                SetState(JASONSIDEVIEW_STATE_IDLE_LEFT);
+                SetState(JASONSIDEVIEW_STATE_IDLE_LEFT);*/
         }
     }
 
@@ -434,7 +469,6 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
     {
         flagClimb = false;
         flagClimbOver = false;
-        //flagCrawl = false;
     }
 
     if (jason_b < ladderT && flagClimb)
@@ -452,9 +486,20 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 
     HandleKeys(dt);
 
-    if (vx == 0) flag_jumpwalk = false;
+    if (flagOnAir && vx !=0)
+    {
+        ax = JASONSIDEVIEW_AX;
+        flagJumpWalk = true;
+        flagCrawl = false;
+    }
 
-    if (flag_jumpwalk && !flagOnAir) {
+    if (vx == 0)
+    {
+        flagJumpWalk = false;
+        flagWalk = false;
+    }
+
+    if ((flagJumpWalk || flagWalk) && !flagOnAir) {
         if (flagTurnRight)
         {
             SetState(JASONSIDEVIEW_STATE_WALK_RIGHT);
@@ -650,6 +695,7 @@ void CJasonSideview::HandleTimerTick(LPTIMER sender)
     {
         flagInvulnerable = false;
     }
+
     if (sender == dyingEffectTimer)
     {
         // To do: switch scene

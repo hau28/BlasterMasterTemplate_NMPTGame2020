@@ -298,12 +298,12 @@ void CSophia::HandleKeyUp(DWORD dt, int keyCode)
     if (keyCode == DIK_RIGHT)
     {
         // SetState(SOPHIA_STATE_IDLE1_RIGHT);
-        ax = -0.0001;
+        ax = -SOPHIA_AX;
     }
     if (keyCode == DIK_LEFT)
     {
         // SetState(SOPHIA_STATE_IDLE1_LEFT);
-        ax = 0.0001;
+        ax = SOPHIA_AX;
     }
 
     if (vy < 0 && ground - y > 48.5 && keyCode == DIK_X)

@@ -16,7 +16,7 @@ const int JASONSIDEVIEW_CRAWL_BOUNDBOX_HEIGHT = 8;
 
 const float JASONSIDEVIEW_GRAVITY = 0.00065f;
 const float JASONSIDEVIEW_VX = 0.06f;
-const float JASONSIDEVIEW_AX = -0.0003f;
+const float JASONSIDEVIEW_AX = -0.0004f;
 //const float JASONSIDEVIEW_MAX_FALL_SPEED = 0.07f;
 const float JASONSIDEVIEW_JUMP_SPEED_Y = 0.225f;
 
@@ -34,8 +34,9 @@ private:
     void HandleOnDamage();
 
     // CuteTN: knock back on damage
-    const float JASONSIDEVIEW_KNOCKEDBACK_VX = 0.1;
-    const float JASONSIDEVIEW_KNOCKEDBACK_VY = 0.1;
+    const float JASONSIDEVIEW_KNOCKEDBACK_VX = 0.07;
+    const float JASONSIDEVIEW_KNOCKEDBACK_VY = 0.07;
+    const float JASONSIDEVIEW_JUMP_KNOCKEDBACK_VY = 0.001;
 
     // CuteTN Note: we cannot handle knocked back right in handle overlap, it can't detect collision if you set there
     bool flagKnockedBack = false;
@@ -56,8 +57,8 @@ private:
     bool flagOnAir = false;
     bool flagTurnRight = true;
     bool flagCrawl = false;
-    bool flag_jumpwalk;
-    bool flag_jumpin;
+    bool flagJumpWalk;
+    bool flagWalk;
     bool flagCanClimb = true;
     bool flagClimb;
     bool flagClimbOver;
@@ -72,6 +73,7 @@ private:
     LPTIMER invulnerableTimer = nullptr;
     LPTIMER dyingEffectTimer = nullptr;
 
+    DWORD timeJumpIn ;
     //LEFT 2
     bool flagFinishAnimationJasonDead = false;
 public:     
