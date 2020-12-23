@@ -31,6 +31,7 @@ CJasonSideview::CJasonSideview()
 
     flagInvulnerable = false;
 
+    vulnerableFlashingEffect = new CObjectFlashingEffectPlayer(this, &flashingColors, JASONSIDEVIEW_VULNERABLE_EFFECT_FLASHING_DURATION);
 }
 
 CJasonSideview::CJasonSideview(int classId, int x, int y, int animsId) : CAnimatableObject::CAnimatableObject(classId, x, y, -1, animsId)
@@ -74,6 +75,19 @@ void CJasonSideview::resetState()
 }
 
 #pragma region key events handling
+
+void CJasonSideview::PlayVulnerableFlasingEffect()
+{
+    if (vulnerableFlashingEffect)
+        vulnerableFlashingEffect->Play();
+}
+
+void CJasonSideview::HandleOnDamage()
+{
+	flagInvulnerable = true;
+	invulnerableTimer->Start();
+    PlayVulnerableFlasingEffect();
+}
 
 void CJasonSideview::HandleKeys(DWORD dt)
 {
@@ -398,6 +412,7 @@ void CJasonSideview::GetBoundingBox(float& left, float& top, float& right, float
 
 void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
+    vulnerableFlashingEffect->Update(dt);
 
     this->GetBoundingBox(jason_l, jason_t, jason_r, jason_b);
     if (flagCanClimb)
@@ -526,7 +541,7 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 
 void CJasonSideview::Render(float offsetX, float offsetY)
 {
-    animationHandlers[state]->Render(x + offsetX, y + offsetY);
+    animationHandlers[state]->Render(x + offsetX, y + offsetY, 255, modifyR, modifyG, modifyB);
 
     if (!IsKeyDown(DIK_LEFT) && state == JASONSIDEVIEW_STATE_CRAWL_LEFT)
         ;
@@ -563,8 +578,7 @@ void CJasonSideview::HandleOverlap(LPGAMEOBJECT overlappedObj)
         if (dynamic_cast<CEnemy*>(overlappedObj))
         {
             CGameGlobal::GetInstance()->beingAttackedByEnemy();
-            flagInvulnerable = true;
-            invulnerableTimer->Start();
+            HandleOnDamage();
         }
 
         if (dynamic_cast<CBullet*>(overlappedObj))
@@ -572,8 +586,7 @@ void CJasonSideview::HandleOverlap(LPGAMEOBJECT overlappedObj)
             CBullet* bullet = dynamic_cast<CBullet*>(overlappedObj);
             if (!bullet->isFriendly) {
                 CGameGlobal::GetInstance()->beingAttackedByEnemy();
-                flagInvulnerable = true;
-                invulnerableTimer->Start();
+                HandleOnDamage();
             }
 
         }
@@ -584,8 +597,7 @@ void CJasonSideview::HandleOverlap(LPGAMEOBJECT overlappedObj)
             if (tileArea->classId == CLASS_TILE_SPIKE)
             {
                 CGameGlobal::GetInstance()->beingAttackedBySpike();
-                flagInvulnerable = true;
-                invulnerableTimer->Start();
+                HandleOnDamage();
             }
         }
 
@@ -595,17 +607,16 @@ void CJasonSideview::HandleOverlap(LPGAMEOBJECT overlappedObj)
             if (tileArea->classId == CLASS_TILE_LAVA)
             {
                 CGameGlobal::GetInstance()->beingAttackedByLava();
-                flagInvulnerable = true;
-                invulnerableTimer->Start();
+                HandleOnDamage();
             }
         }
+    }
 
-        if (dynamic_cast<LPTILE_AREA>(overlappedObj))
-        {
-            LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(overlappedObj);
-            if (tileArea->classId == CLASS_TILE_LADDER)
-                flagCanClimb = true; 
-        }
+    if (dynamic_cast<LPTILE_AREA>(overlappedObj))
+    {
+        LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(overlappedObj);
+        if (tileArea->classId == CLASS_TILE_LADDER)
+            flagCanClimb = true;
     }
 }
 

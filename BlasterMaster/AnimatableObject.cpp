@@ -3,6 +3,19 @@
 #include "TileArea.h"
 #include "CollisionSolver.h"
 
+vector<Color> CAnimatableObject::flashingColors =
+{
+	{255,0,100},
+	{10,255,10},
+	{255, 255, 255},
+	{255,0,100},
+	{10,255,10},
+	{255, 255, 255},
+	{255,0,100},
+	{10,255,10},
+	{255, 255, 255}
+};
+
 CAnimatableObject::CAnimatableObject(int classId, int x, int y, int sectionId, int objAnimsId)
 {
 	this->classId = classId;

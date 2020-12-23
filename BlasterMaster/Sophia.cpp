@@ -41,6 +41,8 @@ void CSophia::Init(int classId, int x, int y)
 
     dyingEffectTimer = new CTimer(this, DYING_EFFECT_DURATION, 1);
     dyingEffectTimer->Stop();
+
+    vulnerableFlashingEffect = new CObjectFlashingEffectPlayer(this, &flashingColors, SOPHIA_VULNERABLE_EFFECT_FLASHING_DURATION);
 };
 
 void CSophia::setGunState(int state) {
@@ -198,6 +200,19 @@ void CSophia::updateGun()
     }
 }
 
+void CSophia::PlayVulnerableFlasingEffect()
+{
+    if (vulnerableFlashingEffect)
+        vulnerableFlashingEffect->Play();
+}
+
+void CSophia::HandleOnDamage()
+{
+    flagInvulnerable = true;
+    invulnerableTimer->Start();
+    vulnerableFlashingEffect->Play();
+}
+
 void CSophia::updateBody()
 {
     if (flagOnAir) {
@@ -323,6 +338,8 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
 
 void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
 {
+    vulnerableFlashingEffect->Update(dt);
+
     //SANH-CAMERA
     //don't allow update when player is jason
     invulnerableTimer->Update(dt);
@@ -534,8 +551,7 @@ void CSophia::HandleOverlap(LPGAMEOBJECT overlappedObj)
         if (dynamic_cast<CEnemy*>(overlappedObj))
         {
             CGameGlobal::GetInstance()->beingAttackedByEnemy();
-            flagInvulnerable = true;
-            invulnerableTimer->Start();
+            HandleOnDamage();
         }
 
         if (dynamic_cast<CBullet*>(overlappedObj))
@@ -543,8 +559,7 @@ void CSophia::HandleOverlap(LPGAMEOBJECT overlappedObj)
             CBullet* bullet = dynamic_cast<CBullet*>(overlappedObj);
             if (!bullet->isFriendly) {
                 CGameGlobal::GetInstance()->beingAttackedByEnemy();
-                flagInvulnerable = true;
-                invulnerableTimer->Start();
+                HandleOnDamage();
             }
 
         }
@@ -555,8 +570,7 @@ void CSophia::HandleOverlap(LPGAMEOBJECT overlappedObj)
             if (tileArea->classId == CLASS_TILE_SPIKE)
             {
                 CGameGlobal::GetInstance()->beingAttackedBySpike();
-                flagInvulnerable = true;
-                invulnerableTimer->Start();
+                HandleOnDamage();
             }
         }
 
@@ -566,8 +580,7 @@ void CSophia::HandleOverlap(LPGAMEOBJECT overlappedObj)
             if (tileArea->classId == CLASS_TILE_LAVA)
             {
                 CGameGlobal::GetInstance()->beingAttackedByLava();
-                flagInvulnerable = true;
-                invulnerableTimer->Start();
+                HandleOnDamage();
             }
         }
     }

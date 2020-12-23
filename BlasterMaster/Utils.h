@@ -41,3 +41,5 @@ std::vector<CCustomKeyEvent*> NewKeyEvents();
 
 const int SCREEN_EXTEND_OFFSET_DEFAULT = 16;
 bool checkObjInCamera(CGameObject* obj, float extendOffset = SCREEN_EXTEND_OFFSET_DEFAULT);
+
+typedef tuple<int, int, int> Color;

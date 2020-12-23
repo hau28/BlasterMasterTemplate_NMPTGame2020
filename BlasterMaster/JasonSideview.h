@@ -3,6 +3,7 @@
 #include <queue>
 #include "WalkInPortalEvent.h"
 #include "Timer.h"
+#include "ObjectFlashingEffectPlayer.h"
 
 // 8 8 15 23
 
@@ -25,6 +26,12 @@ class CJasonSideview : public  CAnimatableObject, public ITimeTrackable
 {
 private:
     const int DYING_EFFECT_DURATION = 1700;
+
+    // CuteTN
+    const int JASONSIDEVIEW_VULNERABLE_EFFECT_FLASHING_DURATION = 30;
+    CObjectFlashingEffectPlayer* vulnerableFlashingEffect = nullptr;
+    void PlayVulnerableFlasingEffect();
+    void HandleOnDamage();
 
     void HandleKeys(DWORD dt);
     void HandleKeyUp(DWORD dt, int keyCode);

@@ -6,7 +6,6 @@ class CEnemy : public CAnimatableObject
 {
 protected:
 	const int ENEMY_FLASHING_FRAME_DURATION = 20;
-	static vector<Color> flashingColors;
 	CObjectFlashingEffectPlayer* flashingEffect = nullptr;
 
 	int healthPoint = 100;

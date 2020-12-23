@@ -4,6 +4,7 @@
 #include "WalkInPortalEvent.h"
 #include <math.h>
 #include "Timer.h"
+#include "ObjectFlashingEffectPlayer.h"
 
 // 8 23 31 39
 
@@ -47,6 +48,11 @@ private:
     virtual void updateDirection();
     virtual void updateBody();
     virtual void updateGun();
+
+    const int SOPHIA_VULNERABLE_EFFECT_FLASHING_DURATION = 30;
+    CObjectFlashingEffectPlayer* vulnerableFlashingEffect = nullptr;
+    void PlayVulnerableFlasingEffect();
+    void HandleOnDamage();
 
     int directionState, gunState, bodyState, wheelState;
 

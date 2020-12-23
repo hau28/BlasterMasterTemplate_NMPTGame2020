@@ -10,6 +10,8 @@ protected:
 	int modifyG = 255;
 	int modifyB = 255;
 
+	static vector<Color> flashingColors;
+
 public:
 
 	bool allowOverlapWithBlocks = false;
