@@ -69,6 +69,7 @@ void CJasonSideview::resetState()
         SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
     else
         SetState(JASONSIDEVIEW_STATE_IDLE_LEFT);
+
     vy = 0; 
     vx = 0;
 }
@@ -190,28 +191,9 @@ void CJasonSideview::HandleKeyUp(DWORD dt, int keyCode)
         if (!flagCrawl && !IsKeyDown(DIK_X))
         {
             if (keyCode == DIK_RIGHT)
-            {
-                flagTurnRight == true;
                 SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
-            }
             else
-            {
-                flagTurnRight == false;
                 SetState(JASONSIDEVIEW_STATE_IDLE_LEFT);
-            };
-        }
-
-        if (flagCrawl && !flagOnAir)
-        {
-            if (keyCode == DIK_RIGHT)
-            {
-                flagTurnRight == true;
-            }
-            else
-            {
-                flagTurnRight == false;
-                animationHandlers[state]->startLoopIndex = 1;
-            }
         }
     }
 
@@ -240,10 +222,13 @@ void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)
             if (flagCanClimb)
             {
                 vx = 0;
-                this->x = ladderL - 3;
-                this->y = this->y - 2;
+
                 flagClimb = true;
                 flagCrawl = false;
+
+                this->x = ladderL - 3;
+                this->y = this->y - 2;
+
                 SetState(JASONSIDEVIEW_STATE_CLIMB);
             }
     }
@@ -260,12 +245,16 @@ void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)
 
     if (flagCanClimb && keyCode == DIK_DOWN && jason_t <ladderT)
     {
-        vx = 0;
-        this->x = ladderL - 3;
-        this->y = this->y + 2;
         flagClimb = true;
         flagClimbOver = false;
+
+        vx = 0;
+
+        this->x = ladderL - 3;
+        this->y = this->y + 2;
+
         flagCrawl = false;
+
         SetState(JASONSIDEVIEW_STATE_CLIMB);
     }
 
@@ -601,31 +590,25 @@ void CJasonSideview::HandleOverlap(LPGAMEOBJECT overlappedObj)
         {
             LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(overlappedObj);
             if (tileArea->classId != CLASS_TILE_LAVA)
+                ;
+            else
             {
+                SetState(JASONSIDEVIEW_STATE_SWIM_LEFT);
                 CGameGlobal::GetInstance()->beingAttackedByLava();
                 flagInvulnerable = true;
                 invulnerableTimer->Start();
-
-                flagSwim = false;
-                DebugOut(L"Thyciute \n");
+                //DebugOut(L"Minggggcute \n");
                 
             }
-            else
-            {
-                flagSwim = true;
-                DebugOut(L"Minggggcute \n");
-                SetState(JASONSIDEVIEW_STATE_SWIM_LEFT);
-            }
-           //     DebugOut(L"Minggggcute \n");
 
         }
+    }
 
-        if (dynamic_cast<LPTILE_AREA>(overlappedObj))
-        {
-            LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(overlappedObj);
-            if (tileArea->classId == CLASS_TILE_LADDER)
-                flagCanClimb = true; 
-        }
+    if (dynamic_cast<LPTILE_AREA>(overlappedObj))
+    {
+        LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(overlappedObj);
+        if (tileArea->classId == CLASS_TILE_LADDER)
+            flagCanClimb = true;
     }
 }
 
