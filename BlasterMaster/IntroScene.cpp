@@ -7,6 +7,7 @@
 #include <time.h>  
 #include "SwitchSceneEvent.h"
 #include "GameEvent.h"
+#include "GameGlobal.h"
 
 #define SCENE_SECTION_UNKNOWN -1
 #define SCENE_SECTION_TEXTURES 2
@@ -19,6 +20,11 @@
 #define ID_STATE_TITLE 2300
 #define ID_STATE_FILMINTRO 2301
 #define ID_STATE_SOPHIADOWNGROUND 2302
+
+#define ID_STATE_LEFT1 2303
+#define ID_STATE_LEFT0	2304
+#define ID_STATE_CONTINUE 2306
+#define ID_STATE_END 2305
 
 CIntroScene::CIntroScene(int id, LPCWSTR filePath, int startupSectionId) : CScene(id, filePath)
 {
@@ -40,6 +46,42 @@ void CIntroScene::HandleKeyEnter()
 				break;
 			case ID_STATE_FILMINTRO:
 				setState(ID_STATE_TITLE);
+			default:
+				break;
+			}
+		}
+		if ((keyCode == DIK_UP || keyCode == DIK_DOWN)  && e->IsDown())
+		{
+			switch (state)
+			{
+			case ID_STATE_TITLE:
+				setState(ID_STATE_SOPHIADOWNGROUND);
+				break;
+			case ID_STATE_FILMINTRO:
+				setState(ID_STATE_TITLE);
+				break;
+			case ID_STATE_CONTINUE:
+				setState(ID_STATE_END);
+				break;
+			case ID_STATE_END:
+				setState(ID_STATE_CONTINUE);
+				break;
+
+			default:
+				break;
+			}
+		}
+		if ((keyCode == DIK_SPACE) && e->IsDown())
+		{
+			switch (state)
+			{
+			case ID_STATE_CONTINUE:
+				pressContinue();
+				break;
+			case ID_STATE_END:
+				pressEnd();
+				break;
+
 			default:
 				break;
 			}
@@ -90,9 +132,29 @@ void CIntroScene::Load()
 
 	CGame::GetInstance()->SetCamPos(0, 0);
 	this->state = ID_STATE_TITLE;
-	bool isTitleFinished = false;
-	bool isFilmFinished = false;
-	bool isIntroFinished = false;
+	isTitleFinished = false;
+	isFilmFinished = false;
+	isIntroFinished = false;
+	isLeftFinished = false;
+	CGameGlobal::GetInstance()->subLeft();
+	DebugOut(L"\n left = %d", CGameGlobal::GetInstance()->getLeft());
+	switch (CGameGlobal::GetInstance()->getLeft())
+	{
+		case 1 :
+			state = ID_STATE_LEFT1;
+			break;
+
+		case 0 : 
+			state = ID_STATE_LEFT0;
+			break;
+
+		case -1 :
+			state = ID_STATE_CONTINUE;
+			break;
+
+		default:
+		break;
+	}
 }
 void CIntroScene::Update(DWORD dt)
 {
@@ -117,6 +179,16 @@ void CIntroScene::Update(DWORD dt)
 	case (ID_STATE_SOPHIADOWNGROUND):
 		if (animationHandlers[state]->currentFrameIndex == animationHandlers[state]->animation->GetNumberOfFrames()-1)
 			isIntroFinished = true;
+		isTitleFinished = isFilmFinished = false;
+		break;
+	case (ID_STATE_LEFT1):
+		if (animationHandlers[state]->currentFrameIndex == animationHandlers[state]->animation->GetNumberOfFrames() - 1)
+			isLeftFinished = true;
+		isTitleFinished = isFilmFinished = false;
+		break;
+	case (ID_STATE_LEFT0):
+		if (animationHandlers[state]->currentFrameIndex == animationHandlers[state]->animation->GetNumberOfFrames() - 1)
+			isLeftFinished = true;
 		isTitleFinished = isFilmFinished = false;
 		break;
 	default:
@@ -153,6 +225,25 @@ void CIntroScene::Update(DWORD dt)
 		}
 		isIntroFinished = isTitleFinished = isFilmFinished = false;
 		break;
+	case (ID_STATE_LEFT1):
+		if (isLeftFinished && animationHandlers[state]->currentFrameIndex == animationHandlers[state]->startLoopIndex)
+		{
+			animationHandlers[state]->Reset();
+			//CGame::GetInstance()->SwitchScene(ID_SCENE_END);
+			CGameEvent* event = new SwitchSceneEvent(ID_SCENE_PLAY);
+			CGame::AddGameEvent(event);
+		}
+		isIntroFinished = isTitleFinished = isFilmFinished = false;
+		break;
+	case (ID_STATE_LEFT0):
+		if (isLeftFinished && animationHandlers[state]->currentFrameIndex == animationHandlers[state]->startLoopIndex)
+		{
+			animationHandlers[state]->Reset();
+			//CGame::GetInstance()->SwitchScene(ID_SCENE_END);
+			CGameEvent* event = new SwitchSceneEvent(ID_SCENE_PLAY);
+			CGame::AddGameEvent(event);
+			isIntroFinished = isTitleFinished = isFilmFinished = false;
+		}
 	default:
 		break;
 	}
@@ -264,4 +355,29 @@ void CIntroScene::_ParseSection_OBJECT_ANIMATIONS(string line)
 
 	// Add to lib
 	CObjectAnimationsLib::GetInstance()->Add(objectAni_id, objAni);
+}
+
+//Reset Game
+void CIntroScene::pressContinue()
+{
+	CGameGlobal::GetInstance()->resetGame();
+	CGameGlobal::GetInstance()->subLeft();
+
+	setState(ID_STATE_SOPHIADOWNGROUND);
+	animationHandlers[state]->currentFrameIndex = animationHandlers[state]->animation->GetNumberOfFrames() - 1;
+	isTitleFinished = false;
+	isFilmFinished = false;
+	isIntroFinished = false;
+	isLeftFinished = false;
+}
+
+void CIntroScene::pressEnd()
+{
+	CGameGlobal::GetInstance()->resetGame();
+	CGameEvent* event = new SwitchSceneEvent(ID_SCENE_INTRO);
+	CGame::AddGameEvent(event);
+	isTitleFinished = false;
+	isFilmFinished = false;
+	isIntroFinished = false;
+	isLeftFinished = false;
 }

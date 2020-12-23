@@ -1,4 +1,5 @@
 #include "GameGlobal.h"
+#include "Sophia.h"
 
 #define SCENE_SECTION_UNKNOWN -1
 #define SCENE_SECTION_TEXTURES 2
@@ -336,6 +337,8 @@ void CGameGlobal::saveGame()
 
 void CGameGlobal::savePlayer(int kindPlayer)
 {
+
+	this->Saved = true;
 	CGame* game = CGame::GetInstance();
 	game->GetCurrentPlayer()->GetPosition(playerX, playerY);
 
@@ -346,6 +349,21 @@ void CGameGlobal::savePlayer(int kindPlayer)
 }
 void CGameGlobal::subLeft()
 {
-	if (left == 0) return;
+	if (left == -1) return;
 	left--;
+}
+
+void CGameGlobal::resetGame()
+{
+	left = 3;
+	resetHealth();
+	this->Saved = false;
+}
+
+void CGameGlobal::saveSophia()
+{
+	CSophia * sophia = CSophia::GetInstance();
+	sophia->GetPosition(this->sophiaX, this->sophiaY);
+
+	this->IDSectionSophia = sophia->currentSectionId;
 }
