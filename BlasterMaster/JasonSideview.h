@@ -44,8 +44,11 @@ private:
     bool flagCanClimb = true;
     bool flagClimb;
     bool flagClimbOver;
+    bool flagSwim = false;
 
     float ladderL = 48, ladderT = 158, ladderR = 64, ladderB = 350, jason_l, jason_t, jason_r, jason_b;
+
+    float posStart, posEnd;
 
     bool flagInvulnerable;
 

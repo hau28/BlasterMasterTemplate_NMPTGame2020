@@ -113,7 +113,6 @@ void CGameGlobal::beingAttackedByEnemy()
 	//at here, I decrease -5 health player with all cases	
 	int idPlayer = CGame::GetInstance()->GetCurrentPlayer()->classId;
 
-	//ko bi mat mau
 	switch (idPlayer)
 	{
 	case CLASS_SOPHIA:
@@ -126,7 +125,7 @@ void CGameGlobal::beingAttackedByEnemy()
 		this->healthJasonOverHead -= BODY_DAMAGE_ENEMY;
 		break;
 	}
-	//
+
 	if (this->healthSophia < 0) this->healthSophia = 0;
 	if (this->healthJasonSideView < 0) this->healthJasonSideView = 0;
 	if (this->healthJasonOverHead < 0) this->healthJasonOverHead = 0;
@@ -134,8 +133,9 @@ void CGameGlobal::beingAttackedByEnemy()
 
 void CGameGlobal::beingAttackedByLava()
 {
-	//at here, I decrease -5 health player with all cases	
+
 	int idPlayer = CGame::GetInstance()->GetCurrentPlayer()->classId;
+
 	switch (idPlayer)
 	{
 	case CLASS_SOPHIA:
@@ -156,7 +156,7 @@ void CGameGlobal::beingAttackedByLava()
 
 void CGameGlobal::beingAttackedBySpike()
 {
-	//at here, I decrease -5 health player with all cases	
+
 	int idPlayer = CGame::GetInstance()->GetCurrentPlayer()->classId;
 	switch (idPlayer)
 	{

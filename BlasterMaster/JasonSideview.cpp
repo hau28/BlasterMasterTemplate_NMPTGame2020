@@ -38,7 +38,7 @@ CJasonSideview::CJasonSideview(int classId, int x, int y, int animsId) : CAnimat
     SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
     init_camBox();
 
-    vy = JASONSIDEVIEW_JUMP_SPEED_Y;
+    vy = 0;
 
     invulnerableTimer = new CTimer(this, INVULNERABLE_DURATION, 1);
     invulnerableTimer->Stop();
@@ -337,12 +337,15 @@ void CJasonSideview::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
         switch (tileArea->classId)
         {
             flagCanClimb = true;
+
             case CLASS_TILE_BLOCKABLE:
             {
 
                 if (coEvent->ny < 0)
                 {
                     flagOnAir = false;
+                    posEnd = this->y;
+                   /* DebugOut(L"Thy cute %f\n",posStart,' ',posEnd);*/
                 }
 
                 if (flagClimb)
@@ -350,7 +353,6 @@ void CJasonSideview::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
                 else
                     CGameObjectBehaviour::BlockObject(dt, coEvent);
                 
-
                 this->allowOverlapWithBlocks = true;
 
                 break;
@@ -369,6 +371,8 @@ void CJasonSideview::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
             
                 break;
             }
+
+           
         }
     }
 
@@ -454,11 +458,15 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 
     if (!flagClimb)
     {
-        DebugOut(L"Thy dễ thương %d\n");
         vy += JASONSIDEVIEW_GRAVITY * dt;
     }
 
     flagOnAir = true;
+
+    if (vy==0)
+    {
+        posStart = this->y;
+    }
 
     if (CGame::GetInstance()->GetState() != GameState::SECTION_SWITCH_LEFT_JASON &&
         CGame::GetInstance()->GetState() != GameState::SECTION_SWITCH_RIGHT_JASON)
@@ -492,7 +500,7 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
             SetState(JASONSIDEVIEW_STATE_JUMP_LEFT);
     }
 
-    if (vy == 0 && vx == 0 && !flagCrawl && !flagClimb)
+    if (vy == 0 && vx == 0 && !flagCrawl && !flagClimb && state!= JASONSIDEVIEW_STATE_SWIM_RIGHT)
     {
         if (flagTurnRight)
             SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
@@ -592,12 +600,24 @@ void CJasonSideview::HandleOverlap(LPGAMEOBJECT overlappedObj)
         if (dynamic_cast<LPTILE_AREA>(overlappedObj))
         {
             LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(overlappedObj);
-            if (tileArea->classId == CLASS_TILE_LAVA)
+            if (tileArea->classId != CLASS_TILE_LAVA)
             {
                 CGameGlobal::GetInstance()->beingAttackedByLava();
                 flagInvulnerable = true;
                 invulnerableTimer->Start();
+
+                flagSwim = false;
+                DebugOut(L"Thyciute \n");
+                
             }
+            else
+            {
+                flagSwim = true;
+                DebugOut(L"Minggggcute \n");
+                SetState(JASONSIDEVIEW_STATE_SWIM_LEFT);
+            }
+           //     DebugOut(L"Minggggcute \n");
+
         }
 
         if (dynamic_cast<LPTILE_AREA>(overlappedObj))
