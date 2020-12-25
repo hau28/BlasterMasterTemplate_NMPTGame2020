@@ -367,3 +367,39 @@ void CGameGlobal::saveSophia()
 
 	this->IDSectionSophia = sophia->currentSectionId;
 }
+bool CGameGlobal::CheckSophiaCanUseWeapon()
+{
+	switch (selectedWeapon)
+	{
+	case TypeWeapons::HomingMissile:
+		return ammunitions_HomingMissile > 0;
+	case TypeWeapons::ThunderBreak:
+		return ammunitions_ThunderBreak > 0;
+	case TypeWeapons::MultiwarheadMissile:
+		return ammunitions_MultiwarheadMissile > 0;
+	default:
+		return false;
+	}
+}
+
+void CGameGlobal::AddToSelectedWeapon(int amount)
+{
+	// CuteTN confess: it's too WET here...
+	switch (selectedWeapon)
+	{
+	case TypeWeapons::HomingMissile:
+		ammunitions_HomingMissile += amount;
+		ammunitions_HomingMissile = min(ammunitions_HomingMissile, MAX_AMMUNITIONS);
+		ammunitions_HomingMissile = max(ammunitions_HomingMissile, 0);
+
+	case TypeWeapons::ThunderBreak:
+		ammunitions_ThunderBreak += amount;
+		ammunitions_ThunderBreak = min(ammunitions_ThunderBreak, MAX_AMMUNITIONS);
+		ammunitions_ThunderBreak = max(ammunitions_ThunderBreak, 0);
+
+	case TypeWeapons::MultiwarheadMissile:
+		ammunitions_MultiwarheadMissile += amount;
+		ammunitions_MultiwarheadMissile = min(ammunitions_MultiwarheadMissile, MAX_AMMUNITIONS);
+		ammunitions_MultiwarheadMissile = max(ammunitions_MultiwarheadMissile, 0);
+	}
+}

@@ -11,7 +11,8 @@
 #include <vector>
 #include <string>
 
-#include "Consts.h"
+#include "SideviewConsts.h"
+#include "OverheadConsts.h"
 #include "CustomKeyEvent.h"
 
 using namespace std;
@@ -39,7 +40,7 @@ int IsKeyDown(int KeyCode);
 /// So I provide a shortcut to adapt it :^) which makes things worst... but easier to use
 std::vector<CCustomKeyEvent*> NewKeyEvents();
 
-const int SCREEN_EXTEND_OFFSET_DEFAULT = 16;
+const int SCREEN_EXTEND_OFFSET_DEFAULT = 4;
 bool checkObjInCamera(CGameObject* obj, float extendOffset = SCREEN_EXTEND_OFFSET_DEFAULT);
 
 typedef tuple<int, int, int> Color;

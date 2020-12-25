@@ -182,7 +182,7 @@
 #ID	SpriteId1	Duration1	SpriteId2	Duration2	...
 35	19		1000000		
 36	17		100		
-37	17		60		13		60		15		60		13		60		
+37	17		100		13		100		15		100		13		100		
 38	7		200		9		200		
 39	22		70		28		70		26		70		24		70		22		70		28		70		26		70		24		70		22		70		28		70		26		70		24		70		22		300		28		100		30		500		
 40	10		100		8		100		
@@ -317,12 +317,12 @@
 
 [SECTIONS]
 #SectionId	Background	Foreground
-561		557		559
 294		290		292
 343		339		341
 427		423		425
 452		448		450
 539		535		537
+561		557		559
 681		677		679
 703		699		701
 737		733		735
@@ -363,7 +363,7 @@
 
 [OBJECTS]
 #ObjId	ClassId	Properties...
-4 3	Preview TEXTURE_SOPHIA_R0C6	Animations SOPHIA_ANIMATIONS	Section 561	X 35	Y 118	
+4 3	Preview TEXTURE_SOPHIA_R0C6	Animations SOPHIA_ANIMATIONS	Section 294	X 35	Y 118	
 296 172	Section 294	X 0	Y 224	Width 1024	Height 32	
 297 172	Section 294	X 0	Y 192	Width 288	Height 32	
 298 172	Section 294	X 0	Y 160	Width 320	Height 16	
@@ -595,7 +595,7 @@
 552 172	Section 539	X 448	Y 128	Width 64	Height 16	
 553 172	Section 539	X 0	Y 128	Width 64	Height 16	
 554 173	Section 539	X 0	Y 128	Width 64	Height 32	Portal 510	
-555 177	Section 539	X 448	Y 144	Width 16	Height 16	Portal -	
+555 177	Section 539	X 448	Y 144	Width 16	Height 16	Portal 4	
 563 172	Section 561	X 0	Y 0	Width 512	Height 64	
 564 172	Section 561	X 0	Y 0	Width 32	Height 1792	
 565 172	Section 561	X 480	Y 0	Width 32	Height 1792	
@@ -678,7 +678,7 @@
 642 173	Section 561	X 448	Y 128	Width 64	Height 32	Portal 727	
 643 173	Section 561	X 0	Y 896	Width 64	Height 32	Portal 396	
 644 176	Section 561	X 48	Y 158	Width 16	Height 192	
-645 177	Section 561	X 64	Y 144	Width 16	Height 16	Portal -	
+645 177	Section 561	X 64	Y 144	Width 16	Height 16	Portal 3	
 646 214	Preview 209	Animations 211	Section 561	X 384	Y 1056	InitLeft 0	
 647 214	Preview 209	Animations 211	Section 561	X 256	Y 1168	InitLeft 0	
 648 214	Preview 209	Animations 211	Section 561	X 320	Y 1312	InitLeft 0	
@@ -718,7 +718,7 @@
 689 172	Section 681	X 384	Y 192	Width 32	Height 16	
 690 172	Section 681	X 32	Y 128	Width 16	Height 32	
 691 173	Section 681	X 0	Y 128	Width 64	Height 32	Portal 641	
-692 177	Section 681	X 384	Y 208	Width 16	Height 16	Portal -	
+692 177	Section 681	X 384	Y 208	Width 16	Height 16	Portal 2	
 693 268	Preview 263	Animations 265	Section 681	X 136	Y 135	InitLeft 1	
 694 268	Preview 263	Animations 265	Section 681	X 392	Y 151	InitLeft 1	
 695 236	Preview 232	Animations 234	Section 681	X 96	Y 214	
@@ -811,7 +811,7 @@
 803 172	Section 795	X 448	Y 128	Width 64	Height 16	
 804 172	Section 795	X 464	Y 144	Width 48	Height 16	
 805 173	Section 795	X 448	Y 128	Width 64	Height 32	Portal 774	
-806 177	Section 795	X 64	Y 176	Width 16	Height 16	Portal -	
+806 177	Section 795	X 64	Y 176	Width 16	Height 16	Portal 1	
 814 172	Section 812	X 0	Y 0	Width 256	Height 64	
 815 172	Section 812	X 0	Y 0	Width 32	Height 256	
 816 172	Section 812	X 224	Y 0	Width 32	Height 256	
@@ -820,7 +820,7 @@
 819 172	Section 812	X 208	Y 144	Width 48	Height 16	
 820 172	Section 812	X 0	Y 192	Width 256	Height 64	
 821 173	Section 812	X 192	Y 128	Width 64	Height 32	Portal 639	
-822 177	Section 812	X 48	Y 176	Width 48	Height 16	Portal -	
+822 177	Section 812	X 64	Y 176	Width 16	Height 16	Portal 0	
 830 172	Section 828	X 0	Y 0	Width 768	Height 64	
 831 172	Section 828	X 0	Y 0	Width 32	Height 256	
 832 172	Section 828	X 0	Y 128	Width 64	Height 16	

@@ -141,8 +141,10 @@
     <ClCompile Include="AnimatableObject.cpp" />
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="Bullet_Floater.cpp" />
+    <ClCompile Include="Bullet_HomingMissile.cpp" />
     <ClCompile Include="Bullet_JasonSideview.cpp" />
     <ClCompile Include="Bullet_Mine.cpp" />
+    <ClCompile Include="Bullet_MultiwarheadMissile.cpp" />
     <ClCompile Include="Bullet_Ship.cpp" />
     <ClCompile Include="Bullet_Skull.cpp" />
     <ClCompile Include="Insect.cpp" />
@@ -198,8 +200,10 @@
     <ClInclude Include="Animations.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Bullet_Floater.h" />
+    <ClInclude Include="Bullet_HomingMissile.h" />
     <ClInclude Include="Bullet_JasonSideview.h" />
     <ClInclude Include="Bullet_Mine.h" />
+    <ClInclude Include="Bullet_MultiwarheadMissile.h" />
     <ClInclude Include="Bullet_Ship.h" />
     <ClInclude Include="Bullet_Skull.h" />
     <ClInclude Include="Bullet_Sophia.h" />

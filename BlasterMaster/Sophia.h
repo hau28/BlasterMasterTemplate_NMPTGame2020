@@ -89,6 +89,16 @@ private:
     void GetShootPosition(float& x, float &y);
     void GetGunDirection(float& dirX, float& dirY);
 
+    // CuteTN shoot
+    void Shoot();
+    void ShootWeapon();
+    void ShootHomingMissile();
+    void ShootMultiwarheadMissile();
+    void ShootThunderBreak();
+
+    // CuteTN Note:
+    // we need to save the list of game object that's on the camera with SOPHIA so that we can find the target for homing missile
+    vector<LPGAMEOBJECT>* coObjects;
 
 public:
     virtual void UpdateVelocity(DWORD dt);

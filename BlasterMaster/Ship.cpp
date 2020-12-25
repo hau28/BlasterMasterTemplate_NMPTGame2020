@@ -75,7 +75,7 @@ void CShip::HandleOverlap(LPGAMEOBJECT overlappedObj)
 void CShip::ShootPlayer()
 {
 	float dirX, dirY; // direction to the player
-	CGameObjectBehaviour::CalcDirecttionToPlayer(this, dirX, dirY);
+	CGameObjectBehaviour::CalcDirectionToPlayer(this, dirX, dirY);
 
 	CBullet_Ship* bullet = new CBullet_Ship(0, 0, 0, dirX, dirY);
 	CGameObjectBehaviour::CreateObjectAtCenterOfAnother(bullet, this);

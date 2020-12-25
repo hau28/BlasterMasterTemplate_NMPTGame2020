@@ -9,7 +9,7 @@
 void CFloater::UpdateState()
 {
 	if (vx < 0)
-		SetState(FLOATER_STATE_FLY_RIGHT);
+		SetState(FLOATER_STATE_FLY_LEFT);
 	else
 		SetState(FLOATER_STATE_FLY_RIGHT);
 }
@@ -83,13 +83,18 @@ void CFloater::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 void CFloater::ShootPlayer()
 {
 	float dirX, dirY; // direction to the player
-	CGameObjectBehaviour::CalcDirecttionToPlayer(this, dirX, dirY);
+	CGameObjectBehaviour::CalcDirectionToPlayer(this, dirX, dirY);
 
 	float Xplayer, Yplayer;
 	CGame::GetInstance()->GetCurrentPlayer()->GetPosition(Xplayer, Yplayer);
 
 	if ((x - Xplayer) * vx <= 0 && y<Yplayer) {
-		SetState(FLOATER_STATE_SHOOT_RIGHT);
+		if (vx < 0)
+			SetState(FLOATER_STATE_SHOOT_LEFT);
+		else
+			SetState(FLOATER_STATE_SHOOT_RIGHT);
+		animationHandlers[state]->Reset();
+
 		CBullet_Floater* bullet = new CBullet_Floater(0, 0, 0, dirX, dirY);
 		CGameObjectBehaviour::CreateObjectAtCenterOfAnother(bullet, this);
 	}

@@ -14,8 +14,17 @@ void CEnemy::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 	flashingEffect->Update(dt);
 }
 
+int CEnemy::GetHealthPoint()
+{
+	return healthPoint;
+}
+
 void CEnemy::TakeDamage(int damage)
 {
+	// if the bullet have no damage left
+	if (damage == 0)
+		return;
+
 	if (damage < healthPoint)
 	{
 		healthPoint -= damage;
@@ -23,6 +32,7 @@ void CEnemy::TakeDamage(int damage)
 	}
 	else
 	{
+		healthPoint = 0;
 		Explode();
 	}
 }

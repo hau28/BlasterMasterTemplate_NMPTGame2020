@@ -76,22 +76,28 @@ void CGameObjectBehaviour::SetBoundingBoxCenter(LPGAMEOBJECT obj, float x, float
 	obj->SetPosition(x - offsetX, y - offsetY);
 }
 
-void CGameObjectBehaviour::CalcDirecttionToPlayer(LPGAMEOBJECT obj, float& x, float& y)
+void CGameObjectBehaviour::CalcDirection(LPGAMEOBJECT fromObj, LPGAMEOBJECT toObj, float& x, float& y)
 {
-	if (obj == nullptr)
-		return;
-	float xO, yO;
-	CalcBoundingBoxCenter(obj, xO, yO);
+	x = y = 0;
 
+	if (fromObj == nullptr)
+		return;
+	float xF, yF;
+	CalcBoundingBoxCenter(fromObj, xF, yF);
+
+	if (toObj == nullptr)
+		return;
+	float xT, yT;
+	CalcBoundingBoxCenter(toObj, xT, yT);
+
+	x = (xT - xF);
+	y = (yT - yF);
+}
+
+void CGameObjectBehaviour::CalcDirectionToPlayer(LPGAMEOBJECT obj, float& x, float& y)
+{
 	LPGAMEOBJECT player = CGame::GetInstance()->GetCurrentPlayer();
-	
-	if (player == nullptr)
-		return;
-	float xP, yP;
-	CalcBoundingBoxCenter(player, xP, yP);
-
-	x = (xP - xO);
-	y = (yP - yO);
+	CalcDirection(obj, player, x, y);
 }
 
 float CGameObjectBehaviour::CalcMagnitudeVector2(float x, float y)
@@ -102,8 +108,16 @@ float CGameObjectBehaviour::CalcMagnitudeVector2(float x, float y)
 void CGameObjectBehaviour::NormalizeVector2(float x, float y, float& nx, float& ny)
 {
 	float d = CalcMagnitudeVector2(x, y);
-	nx = x / d;
-	ny = y / d;
+	if (d != 0)
+	{
+		nx = x / d;
+		ny = y / d;
+	}
+	else
+	{
+		nx = 1;
+		ny = 0;
+	}
 }
 
 void CGameObjectBehaviour::TransformBoundBox(float offsetX, float offsetY, float width, float height, float spriteWidth, float spriteHeight, float& newOffsetX, float& newOffsetY, float& newWidth, float& newHeight, bool flipX, bool flipY)
@@ -185,7 +199,15 @@ void CGameObjectBehaviour::HandleFriendlyBulletHitsEnemy(CBullet* bullet, CEnemy
 {
 	if (bullet->isFriendly)
 	{
-		enemy->TakeDamage(bullet->damage);
-		bullet->Explode(CLASS_SMALL_EXPLOSION_SIDEVIEW);
+		// not allowing an enemy can be damaged by too many bullet :)
+		if (enemy->GetHealthPoint() > 0)
+		{
+			enemy->TakeDamage(bullet->damage);
+
+			// not allowing a bullet can damage too many target :)
+			bullet->damage = 0;
+
+			bullet->Explode(CLASS_SMALL_EXPLOSION_SIDEVIEW);
+		}
 	}
 }
