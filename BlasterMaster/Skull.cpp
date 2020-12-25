@@ -208,5 +208,3 @@ void CSkull::DropBullet()
 	CBullet_Skull* bullet = new CBullet_Skull(0, 0, 0, dirX, dirY);
 	CGameObjectBehaviour::CreateObjectAtCenterOfAnother(bullet, this);
 }
-
-

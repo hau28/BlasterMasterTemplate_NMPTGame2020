@@ -430,11 +430,12 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
         if (!dyingEffectTimer->IsRunning())
             dyingEffectTimer->Start();
     }
+
 }
 
 void CSophia::UpdateVelocity(DWORD dt)
 {
-    BeKnockedBack();
+    
 
     //jump handler
     if (vy < 0 && !IsKeyDown(DIK_X) && ground - y > 48 && ground - y < 48.5)
@@ -509,6 +510,7 @@ void CSophia::UpdateVelocity(DWORD dt)
         }
     }
 
+    BeKnockedBack();
     // vx += ax
 }
 

@@ -127,6 +127,7 @@ void CJasonSideview::BeKnockedBack()
         {
             flagClimb = false;
             vy -= JASONSIDEVIEW_KNOCKEDBACK_VY;
+
             if (flagTurnRight)
                 vx -= JASONSIDEVIEW_KNOCKEDBACK_VX / 2;
             else
@@ -271,6 +272,7 @@ void CJasonSideview::HandleKeyUp(DWORD dt, int keyCode)
 
 void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)
 {
+
     if (keyCode == DIK_UP && !flagClimbOver)
     {
         if (flagCrawl)
@@ -341,16 +343,6 @@ void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)
         flagClimb = false;
     }
 
-    //if (keyCode == DIK_X && !flagOnAir && flagCanClimb)
-    //{
-    //    vx = 0;
-    //    this->x = ladderL - 3;
-    //    this->y = this->y - 2;
-    //    flagClimb = true;
-    //    flagCrawl = false;
-    //    SetState(JASONSIDEVIEW_STATE_CLIMB);
-    //}
-
     if (keyCode == DIK_RSHIFT && !flagOnAir )
     {
         if (CCollisionSolver::IsTouchingSophia(CSophia::GetInstance(), __instance)) 
@@ -367,6 +359,8 @@ void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)
         CBullet_JasonSideview* bullet = new CBullet_JasonSideview(0, 0, 0, flagTurnRight ? 1 : -1);
         CGameObjectBehaviour::CreateObjectAtCenterOfAnother(bullet, this);
     }
+
+    
 }
 
 void CJasonSideview::UpdateVelocity(DWORD dt)
@@ -455,6 +449,7 @@ void CJasonSideview::GetBoundingBox(float& left, float& top, float& right, float
 
 void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
+
     vulnerableFlashingEffect->Update(dt);
 
     // CuteTN Note: Handle knocked back here

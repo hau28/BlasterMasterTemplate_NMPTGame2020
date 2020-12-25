@@ -34,7 +34,7 @@ private:
     void HandleOnDamage();
 
     // CuteTN: knock back on damage
-    const float JASONSIDEVIEW_KNOCKEDBACK_VX = 0.07;
+    const float JASONSIDEVIEW_KNOCKEDBACK_VX = 0.9;
     const float JASONSIDEVIEW_KNOCKEDBACK_VY = 0.07;
     const float JASONSIDEVIEW_JUMP_KNOCKEDBACK_VY = 0.001;
 
