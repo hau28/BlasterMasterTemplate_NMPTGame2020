@@ -15,23 +15,7 @@ CJasonSideview* CJasonSideview::__instance = nullptr;
 
 CJasonSideview::CJasonSideview()
 {
-    classId = CLASS_JASONSIDEVIEW;
-    SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
-    // CuteTN Note: DIRTY AF
-    LPOBJECT_ANIMATIONS objAnims = CObjectAnimationsLib::GetInstance()->Get(JASONSIDEVIEW_ANIMATIONS);
-    animationHandlers = objAnims->GenerateAnimationHanlders();
-
-    this->allowOverlapWithBlocks = true;
-
-    invulnerableTimer = new CTimer(this, INVULNERABLE_DURATION, 1);
-    invulnerableTimer->Stop();
-
-    dyingEffectTimer = new CTimer(this, DYING_EFFECT_DURATION, 1);
-    dyingEffectTimer->Stop();
-
-    flagInvulnerable = false;
-
-    vulnerableFlashingEffect = new CObjectFlashingEffectPlayer(this, &flashingColors, JASONSIDEVIEW_VULNERABLE_EFFECT_FLASHING_DURATION);
+    Init();
 }
 
 CJasonSideview::CJasonSideview(int classId, int x, int y, int animsId) : CAnimatableObject::CAnimatableObject(classId, x, y, -1, animsId)
@@ -75,6 +59,27 @@ void CJasonSideview::resetState()
     vx = 0;
 }
 
+void CJasonSideview::Init()
+{
+    classId = CLASS_JASONSIDEVIEW;
+    SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
+    // CuteTN Note: DIRTY AF
+    LPOBJECT_ANIMATIONS objAnims = CObjectAnimationsLib::GetInstance()->Get(JASONSIDEVIEW_ANIMATIONS);
+    animationHandlers = objAnims->GenerateAnimationHanlders();
+
+    this->allowOverlapWithBlocks = true;
+
+    invulnerableTimer = new CTimer(this, INVULNERABLE_DURATION, 1);
+    invulnerableTimer->Stop();
+
+    dyingEffectTimer = new CTimer(this, DYING_EFFECT_DURATION, 1);
+    dyingEffectTimer->Stop();
+
+    flagInvulnerable = false;
+
+    vulnerableFlashingEffect = new CObjectFlashingEffectPlayer(this, &flashingColors, JASONSIDEVIEW_VULNERABLE_EFFECT_FLASHING_DURATION);
+}
+
 #pragma region key events handling
 
 void CJasonSideview::PlayVulnerableFlasingEffect()
@@ -88,6 +93,29 @@ void CJasonSideview::HandleOnDamage()
 	flagInvulnerable = true;
 	invulnerableTimer->Start();
     PlayVulnerableFlasingEffect();
+}
+
+void CJasonSideview::CheckDistance(float& yStartFalling, float& yEndFalling)
+{
+    if (yEndFalling - yStartFalling < 40)
+        yStartFalling = yEndFalling;
+
+    if (40 <= (yEndFalling - yStartFalling) && 50>= (yEndFalling - yStartFalling))
+    {
+        vy -= JASONSIDEVIEW_KNOCKEDBACK_VY;
+        CGameGlobal::GetInstance()->beingAttackedByLowFall();
+        yStartFalling = yEndFalling;
+        HandleOnDamage();
+        flagKnockedBack = true;
+    }
+                
+    if (yEndFalling - yStartFalling > 50)
+    {
+        vy -= JASONSIDEVIEW_KNOCKEDBACK_VY;
+        CGameGlobal::GetInstance()->beingAttackedByDrop();
+        HandleOnDamage();
+        flagKnockedBack = true;
+    }
 }
 
 void CJasonSideview::BeKnockedBack()
@@ -360,7 +388,6 @@ void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)
         CGameObjectBehaviour::CreateObjectAtCenterOfAnother(bullet, this);
     }
 
-    
 }
 
 void CJasonSideview::UpdateVelocity(DWORD dt)
@@ -391,8 +418,11 @@ void CJasonSideview::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
                 if (coEvent->ny < 0)
                 {
                     flagOnAir = false;
-                    posEnd = this->y;
-                   /* DebugOut(L"Thy cute %f\n",posStart,' ',posEnd);*/
+
+                    if (abs(this->y - yStartFalling) > 2)
+                        yEndFalling = this->y;
+
+                    CheckDistance(yStartFalling, yEndFalling);
                 }
 
                 if (flagClimb)
@@ -449,6 +479,9 @@ void CJasonSideview::GetBoundingBox(float& left, float& top, float& right, float
 
 void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
+
+    if (flagOnAir)
+        yStartFalling = min(yStartFalling, this->y);
 
     vulnerableFlashingEffect->Update(dt);
 
@@ -524,11 +557,6 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
     }
 
     flagOnAir = true;
-
-    if (vy == 0)
-    {
-        posStart = this->y;
-    }
 
     if (CGame::GetInstance()->GetState() != GameState::SECTION_SWITCH_LEFT_JASON &&
         CGame::GetInstance()->GetState() != GameState::SECTION_SWITCH_RIGHT_JASON)
@@ -623,10 +651,12 @@ CJasonSideview* CJasonSideview::GetInstance()
 CJasonSideview* CJasonSideview::InitInstance(int x, int y, int sectionId)
 {
     GetInstance();
+    __instance->Init();
     __instance->SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
     __instance->SetPosition(x, y);
     __instance->currentSectionId = sectionId;
- 
+    __instance->yStartFalling = __instance->yEndFalling = y;
+
     return __instance;
 }
 
@@ -645,7 +675,7 @@ void CJasonSideview::HandleOverlap(LPGAMEOBJECT overlappedObj)
         {
             CBullet* bullet = dynamic_cast<CBullet*>(overlappedObj);
             if (!bullet->isFriendly) {
-                CGameGlobal::GetInstance()->beingAttackedByEnemy();
+                CGameGlobal::GetInstance()->beingAttackedByBullet();
                 HandleOnDamage();
                 flagKnockedBack = true;
             }
@@ -659,6 +689,7 @@ void CJasonSideview::HandleOverlap(LPGAMEOBJECT overlappedObj)
             {
                 CGameGlobal::GetInstance()->beingAttackedBySpike();
                 HandleOnDamage();
+                flagKnockedBack = true;
             }
         }
 
@@ -672,6 +703,7 @@ void CJasonSideview::HandleOverlap(LPGAMEOBJECT overlappedObj)
                 SetState(JASONSIDEVIEW_STATE_SWIM_LEFT);
                 CGameGlobal::GetInstance()->beingAttackedByLava();
                 HandleOnDamage();
+                flagKnockedBack = true;
             }
         }
     }

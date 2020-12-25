@@ -117,8 +117,12 @@ void CSection::deleteJasonSideview()
 void CSection::pushJasonSideview(float x, float y, int sectionID)
 {
 	this->deleteJasonSideview();
+	//CJasonSideview::GetInstance()->Init();
+	//CJasonSideview::GetInstance()->yStartFalling = y;
+	//CJasonSideview::GetInstance()->yEndFalling = y;
 	CJasonSideview::GetInstance()->SetPosition(x, y);
 	CJasonSideview::GetInstance()->currentSectionId = sectionID;
+	CJasonSideview::InitInstance(x, y, sectionID);
 	Objects.push_back(CJasonSideview::GetInstance());
 }
 
