@@ -9,6 +9,8 @@
 #define BODY_DAMAGE_LAVA 20
 #define BODY_DAMAGE_SPIKE 60
 
+#define MAX_AMMUNITIONS 99
+
 enum class Items {
 	PowerGrey, // add 1 bar
 	PowerFlashingRed, // add 4 bars
@@ -48,6 +50,8 @@ private:
 	CObjectAnimationHanlders HealthPow;
 	CObjectAnimationHanlders Hov;
 	CObjectAnimationHanlders Gun;
+	CObjectAnimationHanlders WeaponMenu;
+	CObjectAnimationHanlders Numbers;
 
 	//health player 
 	int healthSophia;
@@ -58,10 +62,10 @@ private:
 	int levelGunPower; // [0..8]
 
 	//Weapons
-	const int MAX_AMMUNITIONS = 99;
-	int ammunitions_HomingMissile = 99;
-	int ammunitions_MultiwarheadMissile = 99;
-	int ammunitions_ThunderBreak = 99;
+	bool isWeaponMenuActive = false;
+	int ammunitions_HomingMissile = MAX_AMMUNITIONS;
+	int ammunitions_MultiwarheadMissile = MAX_AMMUNITIONS;
+	int ammunitions_ThunderBreak = MAX_AMMUNITIONS;
 
 	//Input for Render Pow & Gun
 	void _ParseSection_TEXTURES(string line);
@@ -72,6 +76,8 @@ private:
 
 	//Support funtion, U shouldn't care it 
 	void SupportRenderHeath(int health);
+	int SupportGetIDNumber(int number);
+	void SupportAnalysNumber(int number, int& first, int & second);
 
 public:
 	//reset health
@@ -87,9 +93,14 @@ public:
 	void beingAttackedByLava();
 	void beingAttackedBySpike();
 	void jasonJumpIntoSophia();
+
 	//Render
 	void RenderHeath();
-	
+	void RenderWeapon();
+	void OpenMenuWeapon();
+	void CloseMenuWeapon();
+	bool isMenuWeaponOpen() { return this->isWeaponMenuActive; }
+
 	//Reset health 
 	void resetHealth();
 	void resetGame();

@@ -24,6 +24,31 @@
 #define X_HEALTH 20
 #define Y_HEALTH 120
 
+
+//Weapon
+#define ID_WEAPONMENU 11111
+#define STATE_WEAPON 99999
+#define ID_NUMBER 22222
+
+#define NUMBER_0	11000
+#define NUMBER_1	11001
+#define NUMBER_2	11002
+#define NUMBER_3	11003
+#define NUMBER_4	11004
+#define NUMBER_5	11005
+#define NUMBER_6	11006
+#define NUMBER_7	11007
+#define NUMBER_8	11008
+#define NUMBER_9	11009
+
+#define POS_Y_NUMBER 190
+#define POS_X_NUMBER1	86
+#define POS_X_NUMBER2	96
+#define POS_X_NUMBER3	118
+#define POS_X_NUMBER4	128
+#define POS_X_NUMBER5	150
+#define POS_X_NUMBER6	160
+
 CGameGlobal* CGameGlobal::_instance = nullptr;
 
 CGameGlobal::CGameGlobal() {
@@ -35,9 +60,8 @@ CGameGlobal::CGameGlobal() {
 	//init level Gun
 	this->levelGunPower = 0;
 	
-
 	ifstream f;
-	f.open(L"HEALTHANDGUN.txt");
+	f.open(L"HEALTHANDGUNANDWEAPON.txt");
 
 	// current resource section flag
 	int section = SCENE_SECTION_UNKNOWN;
@@ -71,6 +95,12 @@ CGameGlobal::CGameGlobal() {
 
 	LPOBJECT_ANIMATIONS objAnims = CObjectAnimationsLib::GetInstance()->Get(HEALTH);
 	HealthPow = objAnims->GenerateAnimationHanlders();
+
+	objAnims = CObjectAnimationsLib::GetInstance()->Get(ID_WEAPONMENU);
+	WeaponMenu = objAnims->GenerateAnimationHanlders();
+
+	objAnims = CObjectAnimationsLib::GetInstance()->Get(ID_NUMBER);
+	Numbers = objAnims->GenerateAnimationHanlders();
 }
 
 CGameGlobal* CGameGlobal::GetInstance()
@@ -198,6 +228,28 @@ void CGameGlobal::RenderHeath()
 	}
 }
 
+void CGameGlobal::RenderWeapon()
+{
+	if (!isMenuWeaponOpen())
+		return;
+	float X_cam, Y_cam;
+	CGame::GetInstance()->GetCamPos(X_cam, Y_cam);
+	WeaponMenu[STATE_WEAPON]->Render(X_cam, Y_cam);
+
+	//analys number 
+	int number1, number2, number3, number4, number5, number6;
+	SupportAnalysNumber(this->ammunitions_HomingMissile, number1, number2);
+	SupportAnalysNumber(this->ammunitions_ThunderBreak, number3, number4);
+	SupportAnalysNumber(this->ammunitions_MultiwarheadMissile, number5, number6);
+
+	Numbers[SupportGetIDNumber(number1)]->Render(POS_X_NUMBER1 + X_cam, POS_Y_NUMBER + Y_cam);
+	Numbers[SupportGetIDNumber(number2)]->Render(POS_X_NUMBER2 + X_cam, POS_Y_NUMBER + Y_cam);
+	Numbers[SupportGetIDNumber(number3)]->Render(POS_X_NUMBER3 + X_cam, POS_Y_NUMBER + Y_cam);
+	Numbers[SupportGetIDNumber(number4)]->Render(POS_X_NUMBER4 + X_cam, POS_Y_NUMBER + Y_cam);
+	Numbers[SupportGetIDNumber(number5)]->Render(POS_X_NUMBER5 + X_cam, POS_Y_NUMBER + Y_cam);
+	Numbers[SupportGetIDNumber(number6)]->Render(POS_X_NUMBER6 + X_cam, POS_Y_NUMBER + Y_cam);
+}
+
 void CGameGlobal::_ParseSection_TEXTURES(string line)
 {
 	vector<string> tokens = split(line);
@@ -297,6 +349,35 @@ void CGameGlobal::_ParseSection_OBJECT_ANIMATIONS(string line)
 	CObjectAnimationsLib::GetInstance()->Add(objectAni_id, objAni);
 }
 
+int CGameGlobal::SupportGetIDNumber(int number)
+{
+	switch (number)
+	{
+	case 0:
+		return NUMBER_0;
+	case 1:
+		return NUMBER_1;
+	case 2:
+		return NUMBER_2;
+	case 3:
+		return NUMBER_3;
+	case 4:
+		return NUMBER_4;
+	case 5:
+		return NUMBER_5;
+	case 6:
+		return NUMBER_6;
+	case 7:
+		return NUMBER_7;
+	case 8:
+		return NUMBER_8;
+	case 9:
+		return NUMBER_9;
+	default:
+		return NUMBER_0;
+		break;
+	}
+}
 void CGameGlobal::SupportRenderHeath(int health)
 {
 	int flag_StateHealth = HEALTH0;
@@ -320,6 +401,24 @@ void CGameGlobal::SupportRenderHeath(int health)
 	float X_cam, Y_cam;
 	CGame::GetInstance()->GetCamPos(X_cam, Y_cam);
 	HealthPow[flag_StateHealth]->Render(X_cam + X_HEALTH, Y_cam + Y_HEALTH);
+}
+void CGameGlobal::SupportAnalysNumber(int number, int& first, int& second)
+{
+	if (number >= 100)
+	{
+		first = 9;
+		second = 9;
+		return;
+	}
+
+	if (number <= 0)
+	{
+		first = 0;
+		second = 0;
+	}
+
+	first = number / 10;
+	second = number % 10;
 }
 
 void CGameGlobal::resetHealth()
@@ -402,4 +501,13 @@ void CGameGlobal::AddToSelectedWeapon(int amount)
 		ammunitions_MultiwarheadMissile = min(ammunitions_MultiwarheadMissile, MAX_AMMUNITIONS);
 		ammunitions_MultiwarheadMissile = max(ammunitions_MultiwarheadMissile, 0);
 	}
+}
+
+void CGameGlobal::OpenMenuWeapon()
+{
+	this->isWeaponMenuActive = true;
+}
+void CGameGlobal::CloseMenuWeapon()
+{
+	this->isWeaponMenuActive = false;
 }

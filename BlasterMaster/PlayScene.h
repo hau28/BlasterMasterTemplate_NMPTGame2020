@@ -48,6 +48,9 @@ public:
 	virtual void Render();
 	virtual void Unload();
 
+	void HandleKeys(DWORD dt);
+	void HandleKeyDown(DWORD dt, int keyCode);
+
 	unordered_map<int, LPSECTION> Sections;
 	int CurrentSectionId;
 

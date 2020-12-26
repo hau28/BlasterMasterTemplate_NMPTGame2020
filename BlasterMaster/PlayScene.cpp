@@ -568,33 +568,12 @@ bool CPlayScene::isSectionSwitch()
 
 void CPlayScene::Update(DWORD dt)
 {
-	/*
-	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
-	// TO-DO: This is a "dirty" way, need a more organized way 
-
-	vector<LPGAMEOBJECT> coObjects;
-	for (size_t i = 1; i < objects.size(); i++)
-	{
-		coObjects.push_back(objects[i]);
-	}
-
-	for (size_t i = 0; i < objects.size(); i++)
-	{
-		objects[i]->Update(dt, &coObjects);
-	}
-
-	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
-	// if (player == nullptr) return; 
-		*/
-	
-	//Sanh code 
-	// Update camera to follow sophia
-	
-	//CGame::GetInstance()->SetState(CGame::GetInstance()->GetState());
-
-	//float sophiaX, sophiaY;
-	//CSophia::GetInstance()->GetPosition(sophiaX, sophiaY);
-	//DebugOut(L"\n Sophia x = %f, y = %f",sophiaX,sophiaY);
+	//WARNINGGGGGGGGGGGGGGGGGGGGGG "RETURN"
+	//Can't update objs while menu wepon open 
+	HandleKeys(dt);
+	CGameGlobal* global = CGameGlobal::GetInstance();
+	if (global->isMenuWeaponOpen())
+		return;
 
 	bool isNarrowSection = false;
 	if (Sections[CurrentSectionId]->getBgHeight() <= 400)
@@ -635,6 +614,7 @@ void CPlayScene::Render()
 	//HEALTH POW
 	CGameGlobal * global = CGameGlobal::GetInstance();
 	global->RenderHeath();
+	global->RenderWeapon();
 }
 
 void CPlayScene::set_offset(LPPORTAL fromPortal, LPPORTAL toPortal, string direction)
@@ -769,3 +749,32 @@ void CPlayScene::Unload()
 //CPlayScene::~CPlayScene() {
 //	SoundManager::GetInstance()->Release();
 //}
+
+void CPlayScene::HandleKeys(DWORD dt)
+{
+		auto keyEvents = NewKeyEvents();
+
+		for (auto e : keyEvents)
+		{
+			int keyCode = e->GetKeyCode();
+			if (e->IsDown())
+				HandleKeyDown(dt, keyCode);
+		}
+}
+
+void CPlayScene::HandleKeyDown(DWORD dt, int keyCode)
+{
+	//Sanh - OPEN WEPON MENU 
+	CGameGlobal* global = CGameGlobal::GetInstance();
+	if (keyCode == DIK_9 && !global->isMenuWeaponOpen())
+	{
+		global->OpenMenuWeapon();
+		DebugOut(L"\nopen");
+		return;
+	}
+	if (keyCode == DIK_9 && global->isMenuWeaponOpen())
+	{
+		global->CloseMenuWeapon();
+		DebugOut(L"\nclose");
+	}
+}
