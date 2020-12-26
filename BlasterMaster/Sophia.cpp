@@ -357,7 +357,6 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
     // CuteTN switch scene through scene portal
     if (keyCode == DIK_DOWN && overlappingScenePortal)
     {
-		DebugOut(L"CuteTN debug: scene portal\n");
         LPPORTAL portal = dynamic_cast<LPPORTAL>(overlappingScenePortal);
         if (portal)
         {

@@ -4,6 +4,7 @@
 #include "CollisionSolver.h"
 #include "JasonSideview.h"
 #include "GameObjectBehaviour.h"
+#include "JasonOverhead.h"
 
 CSection::CSection(int bgTextureId, int fgTextureId)
 {
@@ -53,6 +54,12 @@ void CSection::Render(float offset_x, float offset_y)
 {
 	// CuteTN Note: the order of rendering would be implemented here :)
 	RenderTexture(backgroundTextureId, offset_x, offset_y);
+
+	//if (GameState::PLAY_OVERHEAD == CGame::GetInstance()->GetState())
+	//{
+	//	CJasonOverhead::GetInstance()->SetPosition(60, 60);
+	//	CJasonOverhead::GetInstance()->Render(0, 0);
+	//}
 
 	for (auto obj : Objects)
 	{
@@ -122,6 +129,28 @@ void CSection::pushJasonSideview(float x, float y, int sectionID)
 	Objects.push_back(CJasonSideview::GetInstance());
 }
 
+
+void CSection::deleteJasonOverhead()
+{
+	int index = -1;
+	for (int i = 0; i < Objects.size(); i++)
+		if (Objects[i]->classId == CLASS_JASONOVERHEAD)
+		{
+			index = i;
+			break;
+		}
+	if (index == -1)
+		return;
+	Objects.erase(Objects.begin() + index);
+}
+
+void CSection::pushJasonOverhead(float x, float y, int sectionID)
+{
+	this->deleteJasonOverhead();
+	CJasonOverhead::GetInstance()->SetPosition(x, y);
+	CJasonOverhead::GetInstance()->currentSectionId = sectionID;
+	Objects.push_back(CJasonOverhead::GetInstance());
+}
 void CSection::addObject(LPGAMEOBJECT obj)
 {
 	if (!obj)
@@ -152,4 +181,19 @@ void CSection::removeObject(LPGAMEOBJECT obj, bool deleteAfterRemoving)
 			Objects.erase(Objects.begin() + i);
 			break;
 		}
+}
+
+LPPORTAL CSection::findScenePortal(int port)
+{
+	for (int i = 0; i < Objects.size(); i++)
+	{
+		if (Objects[i]->classId == CLASS_TILE_SCENEPORTAL)
+		{
+			LPPORTAL portal = dynamic_cast<LPPORTAL>(Objects[i]);
+			if (portal->port == port)
+				return portal;
+		}
+	}
+
+	return nullptr;
 }

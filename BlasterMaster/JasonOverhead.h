@@ -1,5 +1,13 @@
 #pragma once
 #include "AnimatableObject.h"
+
+// 2 25 21 31
+
+const int JASONOVERHEAD_BOUNDBOX_WIDTH = 20;
+const int JASONOVERHEAD_BOUNDBOX_HEIGHT = 7;
+const int JASONOVERHEAD_BOUNDBOX_OFFSETX = 2;
+const int JASONOVERHEAD_BOUNDBOX_OFFSETY = 25;
+
 class CJasonOverhead : public CAnimatableObject
 {
 private:

@@ -18,7 +18,6 @@ void CJasonOverhead::Init()
 
     this->allowOverlapWithBlocks = true;
 
-	DebugOut(L"CuteTN debug: Im cat\n");
     //invulnerableTimer = new CTimer(this, INVULNERABLE_DURATION, 1);
     //invulnerableTimer->Stop();
 
@@ -64,4 +63,8 @@ void CJasonOverhead::HandleOverlap(LPGAMEOBJECT overlappedObj)
 
 void CJasonOverhead::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
+    left = x + JASONOVERHEAD_BOUNDBOX_OFFSETX;
+    top = y + JASONOVERHEAD_BOUNDBOX_OFFSETY;
+    right = left + JASONOVERHEAD_BOUNDBOX_WIDTH;
+    bottom = top + JASONOVERHEAD_BOUNDBOX_HEIGHT;
 }

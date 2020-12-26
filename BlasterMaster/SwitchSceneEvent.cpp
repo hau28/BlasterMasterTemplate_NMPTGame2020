@@ -2,7 +2,7 @@
 
 SwitchSceneEvent::SwitchSceneEvent(LPPORTAL portal)
 {
-	this->portal = portal;
+	this->port = portal->port;
 	
 	if (portal->port == PORTAL_TO_ENDSCENE_PORT)
 		id_scene = ID_SCENE_END;

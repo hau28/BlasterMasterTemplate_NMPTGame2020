@@ -3,6 +3,7 @@
 #include "CreateObjectEvent.h"
 #include "RemoveObjectEvent.h"
 #include "GameGlobal.h"
+#include "GameObjectBehaviour.h"
 
 //#include "SoundManager.h"
 
@@ -280,7 +281,6 @@ void CPlayScene::Load()
 	}
 	else if (currentSceneId == ID_SCENE_OVERHEAD)
 	{
-		DebugOut(L"CuteTN Debug: checkpoint 0\n");
 		CGame::GetInstance()->SetState(GameState::PLAY_OVERHEAD);
 	}
 
@@ -713,6 +713,38 @@ void CPlayScene::handleGameEvent(LPGAME_EVENT gameEvent)
 		if(Sections[sectionId])
 			Sections[sectionId]->removeObject(removeObjEvent->gameObject, removeObjEvent->toBeDeleted);
 	}
+}
+
+void CPlayScene::InitSectionForOverhead(int port)
+{
+	// CuteTN note: let's assume the current scene is overhead
+	if (CGame::GetInstance()->GetCurrentSceneId() != ID_SCENE_OVERHEAD)
+		return;
+
+	LPPORTAL portal = nullptr;
+
+	for (auto section : Sections)
+	{
+		portal = section.second->findScenePortal(port);
+		if (portal)
+			break;
+	}
+
+	if (!portal)
+		return;
+
+	float playerCenterX, playerCenterY;
+	CGameObjectBehaviour::CalcBoundingBoxCenter(portal, playerCenterX, playerCenterY);
+	CGameObjectBehaviour::SetBoundingBoxCenter(CJasonOverhead::GetInstance(), playerCenterX, playerCenterY);
+	float playerX, playerY;
+	CJasonOverhead::GetInstance()->GetPosition(playerX, playerY);
+
+	CurrentSectionId = portal->currentSectionId;
+	CJasonOverhead::GetInstance()->currentSectionId = CurrentSectionId;
+
+	GetCurrentSection()->pushJasonOverhead(playerX, playerY, CJasonOverhead::GetInstance()->currentSectionId);
+
+	DebugOut(L"Section ID = %d, Section Jason overhead = %d", CurrentSectionId, CJasonOverhead::GetInstance()->currentSectionId);
 }
 
 /*

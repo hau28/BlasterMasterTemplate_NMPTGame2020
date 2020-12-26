@@ -73,6 +73,8 @@ public:
 	LPGAMEOBJECT GetPlayer() { return player; } 
 	void SetPlayer(LPGAMEOBJECT newPlayer) { player = newPlayer; }
 	void handleGameEvent(LPGAME_EVENT gameEvent);
+
+	void InitSectionForOverhead(int port);
 	
 	//friend class CPlayScenceKeyHandler;
 
