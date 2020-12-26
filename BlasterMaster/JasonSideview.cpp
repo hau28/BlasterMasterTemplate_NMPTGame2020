@@ -77,6 +77,8 @@ void CJasonSideview::Init()
 
     flagInvulnerable = false;
 
+    modifyR = modifyG = modifyB = 255;
+
     vulnerableFlashingEffect = new CObjectFlashingEffectPlayer(this, &flashingColors, JASONSIDEVIEW_VULNERABLE_EFFECT_FLASHING_DURATION);
 }
 
