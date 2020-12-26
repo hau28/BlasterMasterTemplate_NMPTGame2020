@@ -11,6 +11,7 @@
 #include "Section.h"
 #include "SwitchSceneEvent.h"
 #include "GameGlobal.h"
+#include "JasonOverhead.h"
 
 //#include "SoundManager.h"
 
@@ -263,11 +264,22 @@ void CGame::SetState(GameState newState)
 		if (scene != nullptr)
 		{
 			scene->SetPlayer(CJasonSideview::GetInstance());
-
-			// Thy cute
-			LPSECTION section = scene->GetCurrentSection();
-
 			CSophia::GetInstance()->roundPositionX();
+		}
+	}
+
+	// CuteTN to do: prepare for new game state here
+	//SANH-SECTION 
+	if (newState == GameState::PLAY_OVERHEAD)
+	{
+		// add Jason to current section
+		auto scene = dynamic_cast<LPPLAYSCENE>(CGame::GetInstance()->GetCurrentScene());
+
+		if (scene != nullptr)
+		{
+			DebugOut(L"CuteTN Debug: checkpoint 1\n");
+			scene->SetPlayer(CJasonOverhead::GetInstance());
+			// CJasonOverhead::GetInstance()->roundPositionX();
 		}
 	}
 
@@ -343,6 +355,9 @@ void CGame::HandleGameEvent(LPGAME_EVENT gameEvent)
 	{
 		SwitchSceneEvent* event = dynamic_cast<SwitchSceneEvent*>(gameEvent);
 		CGame::GetInstance()->SwitchScene(event->getIDNextScene());
+
+		// CuteTN: Switch to Overhead
+		// CuteTN to do: set the section for jason overhead
 	}
 
 	// CuteTN Note: dynamic cast is surely better than magic strings, I'll change from here
@@ -388,7 +403,7 @@ void CGame::_ParseSection_SCENES(string line)
 
 	LPSCENE scene = NULL;
 
-	if (id == ID_SCENE_PLAY)
+	if (id == ID_SCENE_SIDEVIEW || id == ID_SCENE_OVERHEAD)
 		scene = new CPlayScene(id, path);
 
 	if (id == ID_SCENE_INTRO)

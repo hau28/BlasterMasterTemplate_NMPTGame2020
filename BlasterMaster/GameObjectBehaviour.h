@@ -95,6 +95,12 @@ public:
 	/// <param name="obj"></param>
 	static void RemoveObject(LPGAMEOBJECT obj, bool isDestroyAfterRemove = true);
 
-	static void HandleFriendlyBulletHitsEnemy(CBullet* bullet, CEnemy* enemy);
+	/// <summary>
+	/// Penetrable: specify if the bullet should explode when colliding with enemy
+	/// </summary>
+	/// <param name="bullet"></param>
+	/// <param name="enemy"></param>
+	/// <param name="penetrable"></param>
+	static void HandleFriendlyBulletHitsEnemy(CBullet* bullet, CEnemy* enemy, bool penetrable = false);
 };
 

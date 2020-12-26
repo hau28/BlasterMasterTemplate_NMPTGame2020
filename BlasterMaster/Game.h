@@ -17,8 +17,11 @@
 
 #define DIRECTINPUT_VERSION 0x0800
 #define ID_SCENE_INTRO 1
-#define ID_SCENE_PLAY 2
-#define ID_SCENE_END 3
+#define ID_SCENE_SIDEVIEW 2
+#define ID_SCENE_OVERHEAD 3
+#define ID_SCENE_END 4
+
+#define PORTAL_TO_ENDSCENE_PORT 0
 
 using namespace std;
 
@@ -96,6 +99,7 @@ public:
 
 	void Load(LPCWSTR gameFile);
 	LPSCENE GetCurrentScene() { return scenes[current_scene]; };
+	int GetCurrentSceneId() { return current_scene; }
 	void SwitchScene(int scene_id);
 
 	int GetScreenWidth() { return screen_width; }

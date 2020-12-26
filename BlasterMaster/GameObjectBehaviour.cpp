@@ -195,7 +195,7 @@ void CGameObjectBehaviour::RemoveObject(LPGAMEOBJECT obj, bool isDestroyAfterRem
 	CGame::AddGameEvent(re);
 }
 
-void CGameObjectBehaviour::HandleFriendlyBulletHitsEnemy(CBullet* bullet, CEnemy* enemy)
+void CGameObjectBehaviour::HandleFriendlyBulletHitsEnemy(CBullet* bullet, CEnemy* enemy, bool penetrable)
 {
 	if (bullet->isFriendly)
 	{
@@ -207,7 +207,8 @@ void CGameObjectBehaviour::HandleFriendlyBulletHitsEnemy(CBullet* bullet, CEnemy
 			// not allowing a bullet can damage too many target :)
 			bullet->damage = 0;
 
-			bullet->Explode(CLASS_SMALL_EXPLOSION_SIDEVIEW);
+			if(!penetrable)
+				bullet->Explode(CLASS_SMALL_EXPLOSION_SIDEVIEW);
 		}
 	}
 }

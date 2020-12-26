@@ -271,8 +271,19 @@ void CPlayScene::Load()
 	//CTextures::GetInstance()->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 	
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
-	CGame::GetInstance()->SetState(GameState::PLAY_SIDEVIEW_SOPHIA); 
-	CSophia::GetInstance();
+
+	int currentSceneId = CGame::GetInstance()->GetCurrentSceneId();
+
+	if (currentSceneId == ID_SCENE_SIDEVIEW)
+	{
+		CGame::GetInstance()->SetState(GameState::PLAY_SIDEVIEW_SOPHIA);
+	}
+	else if (currentSceneId == ID_SCENE_OVERHEAD)
+	{
+		DebugOut(L"CuteTN Debug: checkpoint 0\n");
+		CGame::GetInstance()->SetState(GameState::PLAY_OVERHEAD);
+	}
+
 	init_camBox();
 
 	//Init follow save Game

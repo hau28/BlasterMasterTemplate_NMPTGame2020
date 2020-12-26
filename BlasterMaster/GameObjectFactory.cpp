@@ -7,6 +7,11 @@ LPGAMEOBJECT CGameObjectFactory::Create(int classId, map<string, string> propert
 
 	int x, y, width, height, animsId, portalId, initLeft, rotation, behaviorId, isClockwise;
 
+	// CuteTN Note: dirty dirty very dirty code here
+	// convert classId of scene Overhead into the equivalent ones in Sideview
+	classId = GetSideviewEquivalentClassId(classId);
+	
+
 	switch (classId)
 	{
 	case CLASS_DOME:
@@ -60,6 +65,7 @@ LPGAMEOBJECT CGameObjectFactory::Create(int classId, map<string, string> propert
 		break;
 
 	case CLASS_TILE_PORTAL:
+	case CLASS_TILE_SCENEPORTAL:
 		GetPortalProps(properties, x, y, width, height, sectionId, portalId);
 		result = new CPortal(classId, x, y, width, height, sectionId, portalId);
 		break;
@@ -112,3 +118,21 @@ void CGameObjectFactory::GetPortalProps(map<string, string> properties, int& x, 
 	GetTileAreaObjectProps(properties, x, y, width, height, sectionId);
 	associatedPortalId = atoi(properties["Portal"].c_str());
 }
+
+int CGameObjectFactory::GetSideviewEquivalentClassId(int classId)
+{
+	switch (classId)
+	{
+	case CLASS_TILE_BLOCKABLE_O:
+		return CLASS_TILE_BLOCKABLE;
+	case CLASS_TILE_PORTAL_O:
+		return CLASS_TILE_PORTAL;
+	case CLASS_TILE_SCENEPORTAL_O:
+		return CLASS_TILE_SCENEPORTAL;
+	case CLASS_TILE_SPIKE_O:
+		return CLASS_TILE_SPIKE;
+	default:
+		return classId;
+	}
+}
+

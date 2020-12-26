@@ -4,4 +4,5 @@ start	1
 [SCENES]
 1	IntroScene.txt
 2	SideviewScene.txt
-3	EndingScene.txt
+3	OverheadScene.txt
+4	EndingScene.txt

@@ -17,7 +17,7 @@ public:
 	static const float MULTIWARHEAD_MISSILE_INIT_VELOCITY_Y_TOP;
 
 	CBullet_MultiwarheadMissile() {};
-	CBullet_MultiwarheadMissile::CBullet_MultiwarheadMissile(float x, float y, int section, bool initLeft, float initVx, float initVy);
+	CBullet_MultiwarheadMissile(float x, float y, int section, bool initLeft, float initVx, float initVy);
 
 	virtual void UpdateVelocity(DWORD dt);
 	virtual void HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent);

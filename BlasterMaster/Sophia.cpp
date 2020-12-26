@@ -353,6 +353,19 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
         CGameGlobal::GetInstance()->selectedWeapon = TypeWeapons::ThunderBreak;
     if (keyCode == DIK_3)
         CGameGlobal::GetInstance()->selectedWeapon = TypeWeapons::MultiwarheadMissile;
+
+    // CuteTN switch scene through scene portal
+    if (keyCode == DIK_DOWN && overlappingScenePortal)
+    {
+		DebugOut(L"CuteTN debug: scene portal\n");
+        LPPORTAL portal = dynamic_cast<LPPORTAL>(overlappingScenePortal);
+        if (portal)
+        {
+            SwitchSceneEvent* sse = new SwitchSceneEvent(portal);
+            CGame::AddGameEvent(sse);
+        }
+    }
+
 }
 #pragma endregion
 
@@ -383,12 +396,13 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
     if (!portaling) {
 
         updateGun();
-        UpdateVelocity(dt);//
+        UpdateVelocity(dt);
         updateWheel();
         updateDirection();
         updateBody();
         
         flagOnAir = true;
+		overlappingScenePortal = nullptr;
 
         ResolveInteractions(dt, coObjs);//
 
@@ -573,6 +587,8 @@ void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 void CSophia::HandleOverlap(LPGAMEOBJECT overlappedObj)
 {
+    if (!overlappedObj)
+        return;
 
     //Thao vui long code o tren gium chung minh nhe
     if (!flagInvulnerable) {
@@ -613,6 +629,11 @@ void CSophia::HandleOverlap(LPGAMEOBJECT overlappedObj)
                 HandleOnDamage();
             }
         }
+    }
+
+    if (overlappedObj->classId == CLASS_TILE_SCENEPORTAL)
+    {
+        overlappingScenePortal = overlappedObj;
     }
 }
 void CSophia::GetBoundingBox(float &left, float &top, float &right, float &bottom)

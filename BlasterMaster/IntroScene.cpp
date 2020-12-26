@@ -220,7 +220,7 @@ void CIntroScene::Update(DWORD dt)
 		{
 			animationHandlers[state]->Reset();
 			//CGame::GetInstance()->SwitchScene(ID_SCENE_END);
-			CGameEvent* event = new SwitchSceneEvent(ID_SCENE_PLAY);
+			CGameEvent* event = new SwitchSceneEvent(ID_SCENE_SIDEVIEW);
 			CGame::AddGameEvent(event);
 		}
 		isIntroFinished = isTitleFinished = isFilmFinished = false;
@@ -230,7 +230,7 @@ void CIntroScene::Update(DWORD dt)
 		{
 			animationHandlers[state]->Reset();
 			//CGame::GetInstance()->SwitchScene(ID_SCENE_END);
-			CGameEvent* event = new SwitchSceneEvent(ID_SCENE_PLAY);
+			CGameEvent* event = new SwitchSceneEvent(ID_SCENE_SIDEVIEW);
 			CGame::AddGameEvent(event);
 		}
 		isIntroFinished = isTitleFinished = isFilmFinished = false;
@@ -240,7 +240,7 @@ void CIntroScene::Update(DWORD dt)
 		{
 			animationHandlers[state]->Reset();
 			//CGame::GetInstance()->SwitchScene(ID_SCENE_END);
-			CGameEvent* event = new SwitchSceneEvent(ID_SCENE_PLAY);
+			CGameEvent* event = new SwitchSceneEvent(ID_SCENE_SIDEVIEW);
 			CGame::AddGameEvent(event);
 			isIntroFinished = isTitleFinished = isFilmFinished = false;
 		}

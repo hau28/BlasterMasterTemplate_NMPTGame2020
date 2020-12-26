@@ -100,6 +100,9 @@ private:
     // we need to save the list of game object that's on the camera with SOPHIA so that we can find the target for homing missile
     vector<LPGAMEOBJECT>* coObjects;
 
+    // CuteTN: switching scene with scene portal
+    LPGAMEOBJECT overlappingScenePortal = nullptr;
+
 public:
     virtual void UpdateVelocity(DWORD dt);
     virtual void HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent);

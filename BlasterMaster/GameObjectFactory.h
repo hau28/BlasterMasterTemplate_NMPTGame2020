@@ -10,6 +10,7 @@
 #include "Ship.h"
 #include "Portal.h"
 #include "JasonSideview.h"
+#include "JasonOverhead.h"
 #include "Mine.h"
 #include "Skull.h"
 #include "Jumper.h"
@@ -24,6 +25,7 @@ class CGameObjectFactory
 	static void GetAnimatableObjectProps(map<string, string> properties, int& x, int& y, int& animsId, int& sectionId);
 	static void GetTileAreaObjectProps(map<string, string> properties, int& x, int& y, int& width, int& height, int&sectionId);
 	static void GetPortalProps(map<string, string> properties, int& x, int& y, int& width, int& height, int&sectionId, int&associatedPortalId);
+	static int GetSideviewEquivalentClassId(int classId);
 
 public:
 	/// <summary>
