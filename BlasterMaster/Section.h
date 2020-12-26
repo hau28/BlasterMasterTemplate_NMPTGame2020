@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "Textures.h"
 #include "GameObject.h"
+#include "Portal.h"
 
 class CSection
 {
@@ -30,11 +31,16 @@ public:
 	void deleteJasonSideview();
 	void pushJasonSideview(float x, float y, int sectionID);
 
+	void deleteJasonOverhead();
+	void pushJasonOverhead(float x, float y, int sectionID);
+
 	// Nghia Add and remove object.
 	void addObject(LPGAMEOBJECT obj);
 	void removeObject(LPGAMEOBJECT obj, bool deleteAfterRemoving);
 
 	vector<CGameObject*> Objects;
+
+	LPPORTAL findScenePortal(int port);
 };
 
 typedef CSection* LPSECTION;

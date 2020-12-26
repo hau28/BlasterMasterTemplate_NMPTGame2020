@@ -277,9 +277,7 @@ void CGame::SetState(GameState newState)
 
 		if (scene != nullptr)
 		{
-			DebugOut(L"CuteTN Debug: checkpoint 1\n");
 			scene->SetPlayer(CJasonOverhead::GetInstance());
-			// CJasonOverhead::GetInstance()->roundPositionX();
 		}
 	}
 
@@ -358,6 +356,13 @@ void CGame::HandleGameEvent(LPGAME_EVENT gameEvent)
 
 		// CuteTN: Switch to Overhead
 		// CuteTN to do: set the section for jason overhead
+		CPlayScene* scene = dynamic_cast<CPlayScene*>(GetInstance()->GetCurrentScene());
+		if (event->getIDNextScene() == ID_SCENE_OVERHEAD && scene)
+		{
+			// CuteTN Note: really bad, really badddddd, bois
+			scene->InitSectionForOverhead(event->getPort());
+			scene->init_camBox();
+		}
 	}
 
 	// CuteTN Note: dynamic cast is surely better than magic strings, I'll change from here
