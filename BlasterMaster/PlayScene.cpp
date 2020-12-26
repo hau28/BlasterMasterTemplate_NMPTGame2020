@@ -348,15 +348,17 @@ void CPlayScene::update_camBox()
 
 	bool isJason = false;
 	bool isSophia = false;
+	bool isJasonOverhead = false;
 	if (CGame::GetInstance()->GetCurrentPlayer()->classId == CLASS_SOPHIA) isSophia = true;
 	if (CGame::GetInstance()->GetCurrentPlayer()->classId == CLASS_JASONSIDEVIEW) isJason = true;
+	if (CGame::GetInstance()->GetCurrentPlayer()->classId == CLASS_JASONOVERHEAD) isJasonOverhead = true;
 
 	if (playerX + 16 * 2 >= camBoxRight) {
 		camBoxRight = playerX + 16 * 2;
 		camBoxLeft = playerX - 16 * 2;
 	}
 
-	if (isSophia && playerX <= camBoxLeft)
+	if ((isSophia  || isJasonOverhead) && playerX <= camBoxLeft)
 	{
 		camBoxLeft = playerX;
 		camBoxRight = playerX + 16 * 4;
@@ -430,6 +432,39 @@ void CPlayScene::MoveCameraBeforeSwitchSection(float & cx, float & cy)
 			else cx = -game->GetScreenWidth();
 		}
 	}
+
+	//OverHead
+	GameState _gameState = game->GetState();
+	if (_gameState == GameState::SECTION_SWITCH_OVERHEAD_LEFT)
+	{
+		if (cx - 2 + game->GetScreenWidth() >= 0)
+			cx -= 2;
+		else cx = -game->GetScreenWidth();
+	}
+
+	if (_gameState == GameState::SECTION_SWITCH_OVERHEAD_RIGHT)
+	{
+		if (cx + 2 <= Sections[CurrentSectionId]->getBgWidth())
+
+		{
+			cx += 2;
+		}
+		else cx = Sections[CurrentSectionId]->getBgWidth();
+	}
+
+	if (_gameState == GameState::SECTION_SWITCH_OVERHEAD_UP)
+	{
+		if (cy - 2 + game->GetScreenHeight() >= 0)
+			cy -= 2;
+		else cy = -game->GetScreenHeight();
+	}
+
+	if (_gameState == GameState::SECTION_SWITCH_OVERHEAD_DOWN)
+	{
+		if (cy + 2 <= Sections[CurrentSectionId]->getBgHeight())
+			cx += 2;
+		else cx = Sections[CurrentSectionId]->getBgHeight();
+	}
 }
 
 void CPlayScene::PreventCameraOverBoundingBox(float& cx, float& cy)
@@ -438,22 +473,28 @@ void CPlayScene::PreventCameraOverBoundingBox(float& cx, float& cy)
 	float width_section = section->getBgWidth();
 	float height_section = section->getBgHeight();
 	CGame* game = CGame::GetInstance();
+	GameState _gameState = game->GetState();
 
-	if (CGame::GetInstance()->GetState() != GameState::SECTION_SWITCH_LEFT &&
-		CGame::GetInstance()->GetState() != GameState::SECTION_SWITCH_LEFT_JASON)
-		if (cx < 0) cx = 0;
-	if (cy < 0) cy = 0;
-
-
-	if (CGame::GetInstance()->GetState() != GameState::SECTION_SWITCH_RIGHT &&
-		CGame::GetInstance()->GetState() != GameState::SECTION_SWITCH_RIGHT_JASON)
+	if (_gameState != GameState::SECTION_SWITCH_RIGHT &&
+		_gameState != GameState::SECTION_SWITCH_RIGHT_JASON &&
+		_gameState != GameState::SECTION_SWITCH_OVERHEAD_RIGHT)
 		if (cx + game->GetScreenWidth() > width_section)
 			cx = width_section - game->GetScreenWidth();
 
+	if (_gameState != GameState::SECTION_SWITCH_OVERHEAD_DOWN)
 	if (cy + game->GetScreenHeight() > height_section)
 	{
 		cy = height_section - game->GetScreenHeight();
 	}
+
+	if (_gameState != GameState::SECTION_SWITCH_LEFT &&
+		_gameState != GameState::SECTION_SWITCH_LEFT_JASON &&
+		_gameState != GameState::SECTION_SWITCH_OVERHEAD_LEFT)
+		if (cx < 0) cx = 0;
+
+	if (_gameState != GameState::SECTION_SWITCH_OVERHEAD_UP)
+		if (cy < 0) cy = 0;
+
 }
 
 void CPlayScene::ResetGameStateAfterSwichtSection()
@@ -516,6 +557,27 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			global->savePlayer(2);
 		}
 
+	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_OVERHEAD_RIGHT)
+		if (cx >= width_section)
+		{
+			cx = Sections[NextSectionId]->getBgWidth() - game->GetScreenWidth();
+			cy += y_toPortal - y_fromPortal;
+			CGame::SetState(GameState::PLAY_OVERHEAD);
+			Sections[CurrentSectionId]->deleteJasonOverhead();
+			CurrentSectionId = NextSectionId;
+
+			int W_toPortal, H_toPortal;
+			toPortal->GetSize(W_toPortal, H_toPortal);
+
+			toPortal->GetPosition(x_toPortal, y_toPortal);
+			Sections[CurrentSectionId]->pushJasonOverhead(x_toPortal + W_toPortal - 15, y_toPortal, CurrentSectionId);
+			CJasonOverhead::GetInstance()->SetSpeed(0.1, 0);
+			game->SetCamPos(0, cy);
+			init_camBox();
+
+			global->savePlayer(3);
+		}
+
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT)
 		if (cx + game->GetScreenWidth() <= 0)
 		{
@@ -551,6 +613,61 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 
 			global->savePlayer(2);
 		}
+
+	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_OVERHEAD_LEFT)
+		if (cx + game->GetScreenWidth() <= 0)
+		{
+			cx = Sections[NextSectionId]->getBgWidth() - game->GetScreenWidth();
+			cy += y_toPortal - y_fromPortal;
+			CGame::SetState(GameState::PLAY_OVERHEAD);
+			Sections[CurrentSectionId]->deleteJasonOverhead();
+			int W_toPortal, H_toPortal;
+			toPortal->GetSize(W_toPortal, H_toPortal);
+			CurrentSectionId = NextSectionId;
+			Sections[CurrentSectionId]->pushJasonOverhead(x_toPortal - 20, y_toPortal, CurrentSectionId);
+			CJasonSideview::GetInstance()->SetSpeed(-0.1, 0);
+			game->SetCamPos(cx, cy);
+			init_camBox();
+
+			global->savePlayer(3);
+		}
+
+	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_OVERHEAD_DOWN)
+		if (cy >= height_section)
+		{
+			CGame::SetState(GameState::PLAY_OVERHEAD);
+			Sections[CurrentSectionId]->deleteJasonOverhead();
+			CurrentSectionId = NextSectionId;
+
+			int W_toPortal, H_toPortal;
+			toPortal->GetSize(W_toPortal, H_toPortal);
+
+			toPortal->GetPosition(x_toPortal, y_toPortal);
+			Sections[CurrentSectionId]->pushJasonOverhead(x_toPortal, y_toPortal + H_toPortal - 10, CurrentSectionId);
+			CJasonOverhead::GetInstance()->SetSpeed(0, 0.1);
+			game->SetCamPos(0, cy);
+			init_camBox();
+
+			global->savePlayer(3);
+		}
+
+		if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_OVERHEAD_LEFT)
+		if (cx + game->GetScreenWidth() <= 0)
+		{
+			cx = Sections[NextSectionId]->getBgWidth() - game->GetScreenWidth();
+			cy += y_toPortal - y_fromPortal;
+			CGame::SetState(GameState::PLAY_OVERHEAD);
+			Sections[CurrentSectionId]->deleteJasonOverhead();
+			int W_toPortal, H_toPortal;
+			toPortal->GetSize(W_toPortal, H_toPortal);
+			CurrentSectionId = NextSectionId;
+			Sections[CurrentSectionId]->pushJasonOverhead(x_toPortal - 20, y_toPortal, CurrentSectionId);
+			CJasonSideview::GetInstance()->SetSpeed(-0.1, 0);
+			game->SetCamPos(cx, cy);
+			init_camBox();
+
+			global->savePlayer(3);
+		}
 }
 
 bool CPlayScene::isSectionSwitch()
@@ -562,6 +679,14 @@ bool CPlayScene::isSectionSwitch()
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT_JASON)
 		return true;
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT_JASON)
+		return true;
+	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_OVERHEAD_LEFT)
+		return true;
+	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_OVERHEAD_RIGHT)
+		return true;
+	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_OVERHEAD_UP)
+		return true;
+	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_OVERHEAD_DOWN)
 		return true;
 	return false;
 }
@@ -588,13 +713,18 @@ void CPlayScene::Update(DWORD dt)
 	CreatePosCameraFollowPlayer(cx, cy);
 
 	if (isSectionSwitch)
+	{
+		CGame::GetInstance()->GetCamPos(cx, cy);
 		MoveCameraBeforeSwitchSection(cx, cy);
-	
+	}
+	DebugOut(L"\n vo %f, %f", cx, cy);
 	PreventCameraOverBoundingBox(cx, cy);
-	
+	DebugOut(L"\n ra %f, %f", cx, cy);
 	//Fixed position cy = 16 with narrow section
-	if (isNarrowSection)
+	if (isNarrowSection && (CGame::GetInstance()->GetCurrentPlayer()->classId != CLASS_JASONOVERHEAD) && !isSectionSwitch)
 		cy = 16;
+	if (isNarrowSection && (CGame::GetInstance()->GetCurrentPlayer()->classId == CLASS_JASONOVERHEAD) && !isSectionSwitch)
+		cy = 0;
 
 	CGame::GetInstance()->SetCamPos(cx,cy);
 	
@@ -640,15 +770,44 @@ void CPlayScene::set_offset(LPPORTAL fromPortal, LPPORTAL toPortal, string direc
 		this->offset_y_SectionSwitch = y_from - y_to;
 	}
 
+	if (direction == "up")
+	{
+		this->offset_x_SectionSwitch = x_from - x_to;
+		this->offset_y_SectionSwitch = -Sections[NextSectionId]->getBgHeight();
+	}
+	
+	if (direction == "down")
+	{
+		this->offset_x_SectionSwitch = x_from - x_to;
+		this->offset_y_SectionSwitch = Sections[CurrentSectionId]->getBgHeight();
+	}
+
 	DebugOut(L"\n offx = %f, offy = %f", offset_x_SectionSwitch, offset_y_SectionSwitch);
 }
 
-string get_DirectionSceneSwitch(LPPORTAL portalA, LPPORTAL portalB)
+string CPlayScene::get_DirectionSceneSwitch(LPPORTAL portalA, LPPORTAL portalB)
 {
+	int limitPortal = 40;
+	int W_Section = Sections[CurrentSectionId]->getBgWidth();
+	int H_Section = Sections[CurrentSectionId]->getBgHeight();
 	float xA, xB, yA, yB;
 
 	portalA->GetPosition(xA, yA);
 	portalB->GetPosition(xB, yB);
+
+	if (CGame::GetInstance()->GetState() == GameState::PLAY_OVERHEAD)
+	{
+		if (xA <= limitPortal)
+			return "left";
+		if (xA >= W_Section - 2 * limitPortal)
+			return "right";
+		if (yA <= limitPortal)
+			return "up";
+		if (yA >= H_Section - 2 * limitPortal)
+			return "down";
+		return "left";
+	}
+
 	if (xA >= xB) return "right";
 	return "left";
 }
@@ -663,6 +822,9 @@ void CPlayScene::handleGameEvent(LPGAME_EVENT gameEvent)
 		string direct = get_DirectionSceneSwitch(temp->get_fromPortal(), temp->get_toPortal());
 		if (direct == "left")
 		{
+			if (CGame::GetInstance()->GetState() == GameState::PLAY_OVERHEAD)
+				CGame::SetState(GameState::SECTION_SWITCH_OVERHEAD_LEFT);
+			else
 			if (CGame::GetInstance()->GetState() == GameState::PLAY_SIDEVIEW_JASON)
 				CGame::SetState(GameState::SECTION_SWITCH_LEFT_JASON);
 			else CGame::SetState(GameState::SECTION_SWITCH_LEFT);
@@ -670,9 +832,21 @@ void CPlayScene::handleGameEvent(LPGAME_EVENT gameEvent)
 	
 		if (direct == "right")
 		{
+			if (CGame::GetInstance()->GetState() == GameState::PLAY_OVERHEAD)
+				CGame::SetState(GameState::SECTION_SWITCH_OVERHEAD_RIGHT);
+			else
 			if (CGame::GetInstance()->GetState() == GameState::PLAY_SIDEVIEW_JASON)
 				CGame::SetState(GameState::SECTION_SWITCH_RIGHT_JASON);
 			else CGame::SetState(GameState::SECTION_SWITCH_RIGHT);
+		}
+
+		if (direct == "up")
+		{
+			CGame::SetState(GameState::SECTION_SWITCH_OVERHEAD_UP);
+		}
+		if (direct == "down")
+		{
+			CGame::SetState(GameState::SECTION_SWITCH_OVERHEAD_DOWN);
 		}
 		set_offset(temp->get_fromPortal(), temp->get_toPortal(), direct);
 	}

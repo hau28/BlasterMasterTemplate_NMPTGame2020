@@ -246,10 +246,15 @@ void CGame::SetState(GameState newState)
 {
 	if (newState == GameState::PLAY_SIDEVIEW_JASON) DebugOut(L"\nSTATE JASON");
 	if (newState == GameState::PLAY_SIDEVIEW_SOPHIA) DebugOut(L"\nSTATE SOPHIA");
+	if (newState == GameState::PLAY_OVERHEAD) DebugOut(L"\nOVERHEAD");
 	if (newState == GameState::SECTION_SWITCH_LEFT) DebugOut(L"\nSTATE SOPHIA LEFT");
 	if (newState == GameState::SECTION_SWITCH_RIGHT) DebugOut(L"\nSTATE SOPHIA RIGHT");
 	if (newState == GameState::SECTION_SWITCH_LEFT_JASON) DebugOut(L"\nSTATE JASON LEFT");
 	if (newState == GameState::SECTION_SWITCH_RIGHT_JASON) DebugOut(L"\nSTATE JASON RIGHT");
+	if (newState == GameState::SECTION_SWITCH_OVERHEAD_LEFT) DebugOut(L"\nSTATE OVERHEAD LEFT");
+	if (newState == GameState::SECTION_SWITCH_OVERHEAD_RIGHT) DebugOut(L"\nSTATE OVERHEAD RIGHT");
+	if (newState == GameState::SECTION_SWITCH_OVERHEAD_UP) DebugOut(L"\nSTATE OVERHEAD UP");
+	if (newState == GameState::SECTION_SWITCH_OVERHEAD_DOWN) DebugOut(L"\nSTATE OVERHEAD DOWN");
 
 	if (newState == CGame::state)
 		return;

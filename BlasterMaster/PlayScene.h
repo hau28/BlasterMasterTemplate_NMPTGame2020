@@ -39,6 +39,8 @@ protected:
 	void _ParseSection_SECTIONS(string line);
 	void _ParseSection_CLASSES(string line);
 	void _ParseSection_OBJECTS(string line);
+
+	string get_DirectionSceneSwitch(LPPORTAL portalA, LPPORTAL portalB);
 	
 public: 
 	CPlayScene(int id, LPCWSTR filePath, int startupSection = -1);

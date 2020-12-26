@@ -34,7 +34,8 @@ void CJasonOverhead::Init()
 
     //vulnerableFlashingEffect = new CObjectFlashingEffectPlayer(this, &flashingColors, JASONSIDEVIEW_VULNERABLE_EFFECT_FLASHING_DURATION);
 }
-
+
+
 void CJasonOverhead::HandleKeys(DWORD dt)
 {
     HandleKeysHold(dt);
@@ -211,6 +212,17 @@ void CJasonOverhead::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
     HandleKeys(dt);
     CAnimatableObject::Update(dt, coObjs);
     UpdateState();
+
+    //SANH
+    GameState _gameState = CGame::GetInstance()->GetState();
+    if (_gameState == GameState::SECTION_SWITCH_OVERHEAD_DOWN)
+        SetSpeed(0, 0.1);
+    if (_gameState == GameState::SECTION_SWITCH_OVERHEAD_LEFT)
+        SetSpeed(-0.1, 0);
+    if (_gameState == GameState::SECTION_SWITCH_OVERHEAD_RIGHT)
+        SetSpeed(0.1, 0);
+    if (_gameState == GameState::SECTION_SWITCH_OVERHEAD_UP)
+        SetSpeed(0, -0.1);      
 }
 
 void CJasonOverhead::GetBoundingBox(float& left, float& top, float& right, float& bottom)
