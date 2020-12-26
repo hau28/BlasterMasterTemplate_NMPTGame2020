@@ -18,7 +18,7 @@ private:
 
     void UpdateState();
     DWORD lastTimeVertical;
-    float yStart;
+    float yStartFalling;
     bool suicide;
     int flagTurn;
 public:

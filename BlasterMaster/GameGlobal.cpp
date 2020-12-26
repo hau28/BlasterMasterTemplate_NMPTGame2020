@@ -132,27 +132,42 @@ void CGameGlobal::beingAttackedByEnemy()
 	if (this->healthJasonOverHead < 0) this->healthJasonOverHead = 0;
 }
 
-void CGameGlobal::beingAttackedByLava()
+void CGameGlobal::beingAttackedByBullet()
 {
-
 	int idPlayer = CGame::GetInstance()->GetCurrentPlayer()->classId;
 
 	switch (idPlayer)
 	{
 	case CLASS_SOPHIA:
-		this->healthSophia -= BODY_DAMAGE_LAVA;
+		this->healthSophia -= BODY_DAMAGE_BULLET;
 		break;
 	case CLASS_JASONSIDEVIEW:
-		this->healthJasonSideView -= BODY_DAMAGE_LAVA*2;
+		this->healthJasonSideView -= BODY_DAMAGE_BULLET;
 		break;
 	default:
-		this->healthJasonOverHead -= BODY_DAMAGE_LAVA;
+		this->healthJasonOverHead -= BODY_DAMAGE_BULLET;
 		break;
 	}
 
 	if (this->healthSophia < 0) this->healthSophia = 0;
 	if (this->healthJasonSideView < 0) this->healthJasonSideView = 0;
 	if (this->healthJasonOverHead < 0) this->healthJasonOverHead = 0;
+}
+
+void CGameGlobal::beingAttackedByLava()
+{
+
+	int idPlayer = CGame::GetInstance()->GetCurrentPlayer()->classId;
+
+	if (idPlayer == CLASS_SOPHIA)
+		this->healthSophia -= BODY_DAMAGE_LAVA;
+
+	if (idPlayer == CLASS_JASONSIDEVIEW)
+		this->healthJasonSideView -= BODY_DAMAGE_LAVA * 2;
+
+	if (this->healthSophia < 0) this->healthSophia = 0;
+	if (this->healthJasonSideView < 0) this->healthJasonSideView = 0;
+
 }
 
 void CGameGlobal::beingAttackedBySpike()
@@ -162,10 +177,10 @@ void CGameGlobal::beingAttackedBySpike()
 	switch (idPlayer)
 	{
 	case CLASS_SOPHIA:
-		this->healthSophia -= BODY_DAMAGE_SPIKE/3;
+		this->healthSophia -= BODY_DAMAGE_SPIKE;
 		break;
 	case CLASS_JASONSIDEVIEW:
-		this->healthJasonSideView -= BODY_DAMAGE_SPIKE;
+		this->healthJasonSideView -= BODY_DAMAGE_SPIKE*3;
 		break;
 	default:
 		this->healthJasonOverHead -= BODY_DAMAGE_SPIKE;
@@ -175,6 +190,28 @@ void CGameGlobal::beingAttackedBySpike()
 	if (this->healthSophia < 0) this->healthSophia = 0;
 	if (this->healthJasonSideView < 0) this->healthJasonSideView = 0;
 	if (this->healthJasonOverHead < 0) this->healthJasonOverHead = 0;
+}
+
+void CGameGlobal::beingAttackedByDrop()
+{
+	int idPlayer = CGame::GetInstance()->GetCurrentPlayer()->classId;
+	if (idPlayer == CLASS_JASONSIDEVIEW)
+	{
+		this->healthJasonSideView -= BODY_DAMAGE_FALL;
+	}
+	
+	if (this->healthJasonSideView < 0) this->healthJasonSideView = 0;
+}
+
+void CGameGlobal::beingAttackedByLowFall()
+{
+	int idPlayer = CGame::GetInstance()->GetCurrentPlayer()->classId;
+	if (idPlayer == CLASS_JASONSIDEVIEW)
+	{
+		this->healthJasonSideView -= BODY_DAMAGE_FALL/4;
+	}
+
+	if (this->healthJasonSideView < 0) this->healthJasonSideView = 0;
 }
 
 void CGameGlobal::jasonJumpIntoSophia()
