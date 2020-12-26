@@ -573,7 +573,10 @@ void CPlayScene::Update(DWORD dt)
 	HandleKeys(dt);
 	CGameGlobal* global = CGameGlobal::GetInstance();
 	if (global->isMenuWeaponOpen())
+	{
+		global->Update(dt);
 		return;
+	}
 
 	bool isNarrowSection = false;
 	if (Sections[CurrentSectionId]->getBgHeight() <= 400)
@@ -766,15 +769,21 @@ void CPlayScene::HandleKeyDown(DWORD dt, int keyCode)
 {
 	//Sanh - OPEN WEPON MENU 
 	CGameGlobal* global = CGameGlobal::GetInstance();
-	if (keyCode == DIK_9 && !global->isMenuWeaponOpen())
+	if (keyCode == DIK_RETURN && !global->isMenuWeaponOpen())
 	{
 		global->OpenMenuWeapon();
-		DebugOut(L"\nopen");
 		return;
 	}
-	if (keyCode == DIK_9 && global->isMenuWeaponOpen())
+	if (keyCode == DIK_RETURN && global->isMenuWeaponOpen())
 	{
 		global->CloseMenuWeapon();
-		DebugOut(L"\nclose");
+	}
+	if ((keyCode == DIK_RIGHT || keyCode == DIK_UP) && global->isMenuWeaponOpen())
+	{
+		global->NextSelectedItem();
+	}
+	if ((keyCode == DIK_LEFT || keyCode == DIK_DOWN ) && global->isMenuWeaponOpen())
+	{
+		global->BackSelectedItem();
 	}
 }

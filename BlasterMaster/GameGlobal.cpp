@@ -29,6 +29,10 @@
 #define ID_WEAPONMENU 11111
 #define STATE_WEAPON 99999
 #define ID_NUMBER 22222
+#define ID_SELECTION_LEFT 33333
+#define ID_SELECTION_RIGHT 44444
+#define STATE_SELECTION_LEFT 11010
+#define STATE_SELECTION_RIGHT	11020
 
 #define NUMBER_0	11000
 #define NUMBER_1	11001
@@ -48,6 +52,11 @@
 #define POS_X_NUMBER4	128
 #define POS_X_NUMBER5	150
 #define POS_X_NUMBER6	160
+
+#define POS_X_SELECTED1	72
+#define POS_X_SELECTED2	104
+#define POS_X_SELECTED3	136
+#define POS_Y_SELECTED	173
 
 CGameGlobal* CGameGlobal::_instance = nullptr;
 
@@ -101,6 +110,18 @@ CGameGlobal::CGameGlobal() {
 
 	objAnims = CObjectAnimationsLib::GetInstance()->Get(ID_NUMBER);
 	Numbers = objAnims->GenerateAnimationHanlders();
+
+	objAnims = CObjectAnimationsLib::GetInstance()->Get(ID_SELECTION_LEFT);
+	SelectedLeft = objAnims->GenerateAnimationHanlders();
+
+	objAnims = CObjectAnimationsLib::GetInstance()->Get(ID_SELECTION_RIGHT);
+	SelectedRight = objAnims->GenerateAnimationHanlders();
+}
+
+void CGameGlobal::Update(DWORD dt)
+{
+	SelectedLeft[STATE_SELECTION_LEFT]->Update();
+	SelectedRight[STATE_SELECTION_RIGHT]->Update();
 }
 
 CGameGlobal* CGameGlobal::GetInstance()
@@ -248,6 +269,28 @@ void CGameGlobal::RenderWeapon()
 	Numbers[SupportGetIDNumber(number4)]->Render(POS_X_NUMBER4 + X_cam, POS_Y_NUMBER + Y_cam);
 	Numbers[SupportGetIDNumber(number5)]->Render(POS_X_NUMBER5 + X_cam, POS_Y_NUMBER + Y_cam);
 	Numbers[SupportGetIDNumber(number6)]->Render(POS_X_NUMBER6 + X_cam, POS_Y_NUMBER + Y_cam);
+
+	//Draw animation selection item
+	float X_Selected, Y_Selected;
+	const int OFFSETBETWEEN = 32;
+	Y_Selected = POS_Y_SELECTED + Y_cam;
+	switch (this->idSelectedItem)
+	{
+	case 1:
+		X_Selected = POS_X_SELECTED1 + X_cam;
+		break;
+	case 2:
+		X_Selected = POS_X_SELECTED2 + X_cam;
+		break;
+	case 3:
+		X_Selected = POS_X_SELECTED3 + X_cam;
+		break;
+	default:
+		X_Selected = POS_X_SELECTED1 + X_cam;
+		break;
+	}
+	SelectedLeft[STATE_SELECTION_LEFT]->Render(X_Selected, Y_Selected);
+	SelectedRight[STATE_SELECTION_RIGHT]->Render(X_Selected + OFFSETBETWEEN, Y_Selected);
 }
 
 void CGameGlobal::_ParseSection_TEXTURES(string line)
@@ -510,4 +553,37 @@ void CGameGlobal::OpenMenuWeapon()
 void CGameGlobal::CloseMenuWeapon()
 {
 	this->isWeaponMenuActive = false;
+
+	//Update weapon selected
+	switch (idSelectedItem)
+	{
+		case 1:
+			this->selectedWeapon = TypeWeapons::HomingMissile;
+			break;
+		case 2:
+			this->selectedWeapon = TypeWeapons::ThunderBreak;
+			break;
+		case 3:
+			this->selectedWeapon = TypeWeapons::MultiwarheadMissile;
+			break;
+		default:
+			this->selectedWeapon = TypeWeapons::HomingMissile;
+		break;
+	}
+}
+
+//Control key Weapon
+void CGameGlobal::NextSelectedItem()
+{
+	if (this->idSelectedItem < 3)
+		this->idSelectedItem++;
+	else
+		this->idSelectedItem = 1;
+}
+void CGameGlobal::BackSelectedItem()
+{
+	if (this->idSelectedItem > 1)
+		this->idSelectedItem--;
+	else
+		this->idSelectedItem = 3;
 }

@@ -52,6 +52,8 @@ private:
 	CObjectAnimationHanlders Gun;
 	CObjectAnimationHanlders WeaponMenu;
 	CObjectAnimationHanlders Numbers;
+	CObjectAnimationHanlders SelectedLeft;
+	CObjectAnimationHanlders SelectedRight;
 
 	//health player 
 	int healthSophia;
@@ -63,6 +65,7 @@ private:
 
 	//Weapons
 	bool isWeaponMenuActive = false;
+	int idSelectedItem = 1;
 	int ammunitions_HomingMissile = MAX_AMMUNITIONS;
 	int ammunitions_MultiwarheadMissile = MAX_AMMUNITIONS;
 	int ammunitions_ThunderBreak = MAX_AMMUNITIONS;
@@ -94,6 +97,8 @@ public:
 	void beingAttackedBySpike();
 	void jasonJumpIntoSophia();
 
+	//Update
+	void Update(DWORD dt);
 	//Render
 	void RenderHeath();
 	void RenderWeapon();
@@ -122,6 +127,11 @@ public:
 	TypeWeapons selectedWeapon = TypeWeapons::MultiwarheadMissile;
 	bool CheckSophiaCanUseWeapon();
 	void AddToSelectedWeapon(int amount);
+
+	//Control key Weapon
+	void NextSelectedItem();
+	void BackSelectedItem();
+
 };
 
 
