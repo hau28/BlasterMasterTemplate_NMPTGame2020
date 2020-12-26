@@ -4,11 +4,21 @@
 
 CBullet_ThunderBreak::CBullet_ThunderBreak(float x, float y, int section, int indexInChain) : CBullet(CLASS_THUNDERBREAK, x, y, section, true)
 {
+	vx = vy = ax = ay = 0;
+
+	this->indexInChain = indexInChain;
+
+	this->damage = THUNDERBREAK_DAMAGE;
+
 	allowOverlapWithBlocks = true;
 	isUpdatedWhenOffScreen = true;
 	isHiddenByForeground = false;
 
 	SetRandomState();
+
+	int thisUnitLifetime = THUNDERBREAK_LIFETIME - indexInChain * THUNDERBREAK_DELAY_PER_UNIT;
+	lifetimeTimer = new CTimer(this, thisUnitLifetime, 1);
+	delayToNextUnitTimer = new CTimer(this, THUNDERBREAK_DELAY_PER_UNIT, 1);
 }
 
 CBullet_ThunderBreak::CBullet_ThunderBreak(float x, float y, int section) : CBullet_ThunderBreak(x, y, section, 0)
@@ -47,9 +57,40 @@ void CBullet_ThunderBreak::HandleOverlap(LPGAMEOBJECT overlappedObj)
 
 void CBullet_ThunderBreak::CreateNextUnit()
 {
+	float newX = x + THUNDERBREAK_OFFSETX_UNITS * ((rand() % 2) * 2 - 1);
+	float newY = y + THUNDERBREAK_BOUNDBOX_HEIGHT;
+
+	CBullet_ThunderBreak* nextUnit = new CBullet_ThunderBreak(newX, newY, currentSectionId, indexInChain + 1);
+	CGameObjectBehaviour::CreateObject(nextUnit);
+}
+
+void CBullet_ThunderBreak::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
+{
+	lifetimeTimer->Update(dt);
+	delayToNextUnitTimer->Update(dt);
+
+	CBullet::Update(dt, coObjs);
+}
+
+void CBullet_ThunderBreak::HandleTimerTick(CTimer* sender)
+{
+	if (sender == lifetimeTimer)
+	{
+		CGameObjectBehaviour::RemoveObject(this);
+	}
+
+	if (sender == delayToNextUnitTimer)
+	{
+		if(indexInChain < THUNDERBREAK_CHAIN_LENGTH - 1)
+			CreateNextUnit();
+	}
 }
 
 void CBullet_ThunderBreak::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-
+	left = x + THUNDERBREAK_BOUNDBOX_OFFSETX;
+	top = y + THUNDERBREAK_BOUNDBOX_OFFSETY;
+	right = left + THUNDERBREAK_BOUNDBOX_WIDTH;
+	bottom = top + THUNDERBREAK_BOUNDBOX_HEIGHT;
 }
+

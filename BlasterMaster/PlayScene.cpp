@@ -207,19 +207,19 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	if (class_ID == CLASS_SOPHIA)
 		this->player = obj;
 	
-	// add portal to library
-	if (class_ID == CLASS_TILE_PORTAL)
-	{
-		CPortalLib::GetInstance()->Add(obj_ID, dynamic_cast<LPPORTAL>(obj));
-		DebugOut(L"[INFO] Add Portal to Lib: %d of section %d\n", obj_ID, obj->currentSectionId);
-	}
-
 	if (obj == nullptr)
 		DebugOut(L"[ERROR] Cannot create object with object Id: %d\n", obj_ID);
 	else
 	{
 		obj->objectId = obj_ID;
 		Sections[sectionId]->Objects.push_back(obj);
+
+		// add portal to library
+		if (obj->classId == CLASS_TILE_PORTAL)
+		{
+			CPortalLib::GetInstance()->Add(obj_ID, dynamic_cast<LPPORTAL>(obj));
+			DebugOut(L"[INFO] Add Portal to Lib: %d of section %d\n", obj_ID, obj->currentSectionId);
+		}
 	}
 }
 

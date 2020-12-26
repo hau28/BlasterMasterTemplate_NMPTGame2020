@@ -10,6 +10,7 @@
 #include "Bullet_Sophia.h"
 #include "Bullet_HomingMissile.h"
 #include "Bullet_MultiwarheadMissile.h"
+#include "Bullet_ThunderBreak.h"
 #include "SwitchSceneEvent.h"
 #include "GameGlobal.h"
 
@@ -451,11 +452,12 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
         if (!dyingEffectTimer->IsRunning())
             dyingEffectTimer->Start();
     }
+
 }
 
 void CSophia::UpdateVelocity(DWORD dt)
 {
-    BeKnockedBack();
+    
 
     //jump handler
     if (vy < 0 && !IsKeyDown(DIK_X) && ground - y > 48 && ground - y < 48.5)
@@ -530,6 +532,7 @@ void CSophia::UpdateVelocity(DWORD dt)
         }
     }
 
+    BeKnockedBack();
     // vx += ax
 }
 
@@ -810,6 +813,13 @@ void CSophia::ShootMultiwarheadMissile()
 
 void CSophia::ShootThunderBreak()
 {
+    if (!CGameGlobal::GetInstance()->CheckSophiaCanUseWeapon())
+        return;
+
+    CBullet_ThunderBreak* bullet = new CBullet_ThunderBreak(0, 0, 0);
+    CGameObjectBehaviour::CreateObjectAtCenterOfAnother(bullet, this);
+
+    CGameGlobal::GetInstance()->AddToSelectedWeapon(-1);
 }
 
 void CSophia::HandleTimerTick(LPTIMER sender)

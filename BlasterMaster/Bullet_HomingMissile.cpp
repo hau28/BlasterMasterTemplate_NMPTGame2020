@@ -32,13 +32,16 @@ void CBullet_HomingMissile::UpdateFlyState()
 {
 	int newState = state;
 
-	if (abs(vx) > abs(vy))
+	float dirX, dirY;
+	CGameObjectBehaviour::CalcDirection(this, target, dirX, dirY);
+
+	if (abs(dirX) > abs(dirY))
 	{
-		newState = vx < 0 ? HOMING_MISSILE_STATE_FLY_LEFT : HOMING_MISSILE_STATE_FLY_RIGHT;
+		newState = dirX < 0 ? HOMING_MISSILE_STATE_FLY_LEFT : HOMING_MISSILE_STATE_FLY_RIGHT;
 	}
 	else
 	{
-		newState = vy < 0 ? HOMING_MISSILE_STATE_FLY_UP : HOMING_MISSILE_STATE_FLY_DOWN;
+		newState = dirY < 0 ? HOMING_MISSILE_STATE_FLY_UP : HOMING_MISSILE_STATE_FLY_DOWN;
 	}
 
 	SetState(newState);

@@ -35,7 +35,7 @@ void COrb::UpdateState()
 			flagTurn = 0;
 			vx = ORB_MOVE_SPEED;
 			vy = 0;
-			yStart = 0;
+			yStartFalling = 0;
 			SetState(ORB_FLY_RIGHT);
 		}
 	}
@@ -58,7 +58,7 @@ COrb::COrb(int classId, int x, int y, int sectionId, int initLeft, int animsId, 
 		flagTurn = 0;
 		vx = ORB_MOVE_SPEED;
 		vy = 0;
-		yStart = 0;
+		yStartFalling = 0;
 		if (initLeft) {
 			vx = -vx;
 		}
@@ -78,24 +78,24 @@ void COrb::UpdateVelocity(DWORD dt)
 			int up = rand() % 2;
 			if (up) {
 				vy = -ORB_MOVE_SPEED / 2;
-				yStart = y;
+				yStartFalling = y;
 				vx = 0;
 			}
 			else {
 				vy = ORB_MOVE_SPEED / 2;
-				yStart = y;
+				yStartFalling = y;
 				vx = 0;
 			}
 			lastTimeVertical = GetTickCount();
 		}
 		int halfStep = rand() % 4;
 		if (halfStep) {
-			if (abs(yStart - y) >= 8) {
+			if (abs(yStartFalling - y) >= 8) {
 				vy = 0;
 			}
 		}
 		else
-			if (abs(yStart - y) >= 16) {
+			if (abs(yStartFalling - y) >= 16) {
 				vy = 0;
 			}
 		if (vy == 0) {

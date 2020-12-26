@@ -32,6 +32,7 @@ private:
     CObjectFlashingEffectPlayer* vulnerableFlashingEffect = nullptr;
     void PlayVulnerableFlasingEffect();
     void HandleOnDamage();
+    void CheckDistance(float & yStartFalling, float& yEndFalling);
 
     // CuteTN: knock back on damage
     const float JASONSIDEVIEW_KNOCKEDBACK_VX = 0.07;
@@ -66,8 +67,6 @@ private:
 
     float ladderL = 48, ladderT = 158, ladderR = 64, ladderB = 350, jason_l, jason_t, jason_r, jason_b;
 
-    float posStart, posEnd;
-
     bool flagInvulnerable;
 
     LPTIMER invulnerableTimer = nullptr;
@@ -76,6 +75,8 @@ private:
     DWORD timeJumpIn ;
     //LEFT 2
     bool flagFinishAnimationJasonDead = false;
+
+    float yStartFalling, yEndFalling;
 public:     
     virtual void UpdateVelocity(DWORD dt);
     virtual void HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent);
@@ -87,8 +88,11 @@ public:
     static CJasonSideview* InitInstance(int x, int y, int sectionId);
     //SANH-BOUNDINGBOX JASON
     float camBoxLeft, camBoxRight, camBoxTop, camBoxBottom;
+
+
     void init_camBox();
     void resetState();
+    void Init();
 
     virtual void HandleTimerTick(LPTIMER sender);
     
