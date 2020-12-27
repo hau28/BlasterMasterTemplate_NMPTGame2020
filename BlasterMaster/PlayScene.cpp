@@ -454,9 +454,9 @@ void CPlayScene::MoveCameraBeforeSwitchSection(float & cx, float & cy)
 
 	if (_gameState == GameState::SECTION_SWITCH_OVERHEAD_UP)
 	{
-		if (cy - 2 + game->GetScreenHeight() >= 0)
+		if (cy - 2 + game->GetScreenHeight() + 32 >= 0)
 			cy -= 2;
-		else cy = -game->GetScreenHeight();
+		else cy = -game->GetScreenHeight() - 32; 
 	}
 
 	if (_gameState == GameState::SECTION_SWITCH_OVERHEAD_DOWN)
@@ -569,7 +569,7 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			toPortal->GetSize(W_toPortal, H_toPortal);
 
 			toPortal->GetPosition(x_toPortal, y_toPortal);
-			Sections[CurrentSectionId]->pushJasonOverhead(x_toPortal + W_toPortal - 15, y_toPortal, CurrentSectionId);
+			Sections[CurrentSectionId]->pushJasonOverhead(x_toPortal + W_toPortal - 15, y_toPortal - 20, CurrentSectionId);
 			CJasonOverhead::GetInstance()->SetSpeed(0.1, 0);
 			game->SetCamPos(0, cy);
 			init_camBox();
@@ -623,7 +623,7 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			int W_toPortal, H_toPortal;
 			toPortal->GetSize(W_toPortal, H_toPortal);
 			CurrentSectionId = NextSectionId;
-			Sections[CurrentSectionId]->pushJasonOverhead(x_toPortal - 20, y_toPortal, CurrentSectionId);
+			Sections[CurrentSectionId]->pushJasonOverhead(x_toPortal - 20, y_toPortal - 20, CurrentSectionId);
 			CJasonSideview::GetInstance()->SetSpeed(-0.1, 0);
 			game->SetCamPos(cx, cy);
 			init_camBox();
@@ -654,10 +654,10 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 		}
 
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_OVERHEAD_UP)
-		if (cy + game->GetScreenHeight() <= 0)
+		if (cy + game->GetScreenHeight() + 32 <= 0)
 		{
 			cx += x_toPortal - x_fromPortal;
-			cy = Sections[NextSectionId]->getBgHeight() - game->GetScreenHeight();
+			cy = Sections[NextSectionId]->getBgHeight() - game->GetScreenHeight() - 32;
 			CGame::SetState(GameState::PLAY_OVERHEAD);
 			Sections[CurrentSectionId]->deleteJasonOverhead();
 			int W_toPortal, H_toPortal;
@@ -723,8 +723,8 @@ void CPlayScene::Update(DWORD dt)
 	//Fixed position cy = 16 with narrow section
 	if (isNarrowSection && (CGame::GetInstance()->GetCurrentPlayer()->classId != CLASS_JASONOVERHEAD) && !isSectionSwitch)
 		cy = 16;
-	//if (isNarrowSection && (CGame::GetInstance()->GetCurrentPlayer()->classId == CLASS_JASONOVERHEAD) && !isSectionSwitch)
-	//	cy = 0;
+	if (isNarrowSection && (CGame::GetInstance()->GetCurrentPlayer()->classId == CLASS_JASONOVERHEAD) && !isSectionSwitch)
+		cy = 0;
 
 	CGame::GetInstance()->SetCamPos(cx,cy);
 	
