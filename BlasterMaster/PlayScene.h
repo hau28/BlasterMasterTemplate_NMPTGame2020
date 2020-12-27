@@ -50,6 +50,9 @@ public:
 	virtual void Render();
 	virtual void Unload();
 
+	void InitSaveGameSideView();
+	void InitSaveGameOverhead();
+
 	void HandleKeys(DWORD dt);
 	void HandleKeyDown(DWORD dt, int keyCode);
 

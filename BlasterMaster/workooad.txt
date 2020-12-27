@@ -1,0 +1,32 @@
+1. quản lí tuyển dụng, hợp đồng (Thảo)
+- thêm xóa sửa loại hợp đồng
+- thêm sửa thông tin cá nhân nhân viên
+2. quản lí lương thưởng (Hậu)
+- danh sách lương (thưởng và lương làm thêm ngoài giờ) có nút sửa của nhân viên thuộc phòng đó (trưởng phòng) có import, danh sách lương thực lãnh (thưởng, lương cơ bản, lương làm ngoài giờ và phụ cấp) nhưng k nút sửa (kế toán) có export
+* danh sách này chồng lên nhau render tùy theo chức vụ
+3. quản lí lịch sử làm việc (Sanh)
+- hiển thị ds nhân viên và nút chuyển chức vụ
+4. quản lí đào tạo kĩ năng (Thảo)
+- thêm, xóa, sửa kĩ năng hệ thống
+- hiển thị ds nv cùng nút đánh giá kĩ năng (thêm sửa), thay đổi trình độ của nv đó
+* đánh giá kĩ năng lấy thời gian sau, trình độ lấy cao hơn
+5. tra cứu nhân viên (Sanh, Thảo)
+ds nhân viên có 2 nút xem lịch sử làm việc, xem ds kĩ năng, khi nhấn vào sẽ hiện modal tương ứng (thiết kế sao cho hợp lí tùy biến ý tưởng)
+6. xử lí bán hàng (Sanh)
+- client online: lập phiếu đặt hàng (khách hàng)
+- admin: giúp lập phiếu bán hàng offline, xử lí đơn hàng
+7. tra cứu mặt hàng (Sơn, Sanh)
+- client online: hiển thị ds mặt hàng
+- admin: xem ds mặt hàng (số lượng hiện tại)
+8. quản lí khách hàng (Sơn, Hậu)
+- online: kh đặt câu hỏi
+- offline: admin trả lời nè
+9. lập báo cáo kinh doanh (Hậu)
+- biểu đồ theo khoảng thời gian
+- xuất để in
+10. phân quyền (Sơn, Sanh)
+- thêm xóa sửa tài khoản
+- phân quyền, thêm sửa role
+11. thay đổi quy định (thêm xóa sửa mức thưởng, sửa phụ cấp, thêm loại hợp đồng, thêm xóa sửa trình độ) (ban giám đốc) màn hình giống thay đổi qd của MasterSave
+
+database Sanh sửa lại: thêm thuộc tính isDeleted vào những bảng cần (để null chứ đừng not null), khách hàng thêm cái TenDangNhap và MatKhau, thêm bảng TuVanKH (id, MaKH, CauHoi, CauTraLoi để null), KhachHang với TaiKhoan thêm thuộc tính Avatar vào, MatHang thêm cột HinhAnh vào, làm kĩ db tí để sau này đỡ sửa, với phải edit sớm rồi nhắn để Sơn tạo azure sql và setup entity nhé, check lại mấy cái varchar(10) còn k nha

@@ -223,6 +223,57 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 }
 
+void CPlayScene::InitSaveGameSideView()
+{
+	//Init follow save Game
+	CGameGlobal* global = CGameGlobal::GetInstance();
+	global->resetHealth();
+
+	if (global->isSaved() == false)
+		return;
+
+	if (global->getPlayer() == 2)
+		CGame::GetInstance()->SetState(GameState::PLAY_SIDEVIEW_JASON);
+
+	if (global->getLeft() != 2)
+	{
+		CurrentSectionId = global->getCurrentSection();
+		DebugOut(L"\n ID Current = %d", CurrentSectionId);
+		float x, y;
+		global->getCheckPoint(x, y);
+
+		int _idSectionSophia;
+		float sophiaX, sophiaY;
+		global->getInfoSophia(sophiaX, sophiaY, _idSectionSophia);
+
+		DebugOut(L"\n ID Current sophia = %d", _idSectionSophia);
+		if (global->getPlayer() == 1)
+		{
+			Sections[CurrentSectionId]->deleteSophia();
+			Sections[CurrentSectionId]->pushSophia(x, y, _idSectionSophia);
+		}
+
+		if (global->getPlayer() == 2)
+		{
+			Sections[CurrentSectionId]->deleteJasonSideview();
+			Sections[CurrentSectionId]->pushJasonSideview(x, y, CurrentSectionId);
+
+
+			Sections[_idSectionSophia]->pushSophia(sophiaX, sophiaY, _idSectionSophia);
+			DebugOut(L"\n Da add sophia tai x %f, y %f id = %d", sophiaX, sophiaY, _idSectionSophia);
+
+		}
+
+		CJasonSideview::GetInstance()->resetState();
+		CSophia::GetInstance()->SetSpeed(0, 0);
+	}
+	init_camBox();
+}
+void CPlayScene::InitSaveGameOverhead()
+{
+
+}
+
 void CPlayScene::Load()
 {
 	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
@@ -278,57 +329,16 @@ void CPlayScene::Load()
 	if (currentSceneId == ID_SCENE_SIDEVIEW)
 	{
 		CGame::GetInstance()->SetState(GameState::PLAY_SIDEVIEW_SOPHIA);
+		InitSaveGameSideView();
 	}
 	else if (currentSceneId == ID_SCENE_OVERHEAD)
 	{
 		CGame::GetInstance()->SetState(GameState::PLAY_OVERHEAD);
+		InitSaveGameOverhead();
 	}
 
 	init_camBox();
 
-	//Init follow save Game
-	CGameGlobal* global = CGameGlobal::GetInstance();
-	global->resetHealth();
-
-	if (global->isSaved() == false)
-		return;
-
-	if (global->getPlayer() == 2)
-		CGame::GetInstance()->SetState(GameState::PLAY_SIDEVIEW_JASON);
-	
-	if (global->getLeft() != 2)
-	{
-		CurrentSectionId = global->getCurrentSection();
-		DebugOut(L"\n ID Current = %d", CurrentSectionId);
-		float x, y;
-		global->getCheckPoint(x, y);
-
-		int _idSectionSophia;
-		float sophiaX, sophiaY;
-		global->getInfoSophia(sophiaX, sophiaY, _idSectionSophia);
-
-		DebugOut(L"\n ID Current sophia = %d", _idSectionSophia);
-		if (global->getPlayer() == 1)
-		{
-			Sections[CurrentSectionId]->deleteSophia();
-			Sections[CurrentSectionId]->pushSophia(x, y, _idSectionSophia);
-		}
-
-		if (global->getPlayer() == 2)
-		{
-			Sections[CurrentSectionId]->deleteJasonSideview();
-			Sections[CurrentSectionId]->pushJasonSideview(x, y, CurrentSectionId);
-			
-
-			Sections[_idSectionSophia]->pushSophia(sophiaX, sophiaY, _idSectionSophia);
-			DebugOut(L"\n Da add sophia tai x %f, y %f id = %d", sophiaX, sophiaY,_idSectionSophia);
-
-		}
-
-		CJasonSideview::GetInstance()->resetState();
-		CSophia::GetInstance()->SetSpeed(0, 0);
-	}
-	init_camBox();
 }
 
 void CPlayScene::init_camBox()
