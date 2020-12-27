@@ -570,16 +570,19 @@ void CGameGlobal::AddToSelectedWeapon(int amount)
 		ammunitions_HomingMissile += amount;
 		ammunitions_HomingMissile = min(ammunitions_HomingMissile, MAX_AMMUNITIONS);
 		ammunitions_HomingMissile = max(ammunitions_HomingMissile, 0);
+		break;
 
 	case TypeWeapons::ThunderBreak:
 		ammunitions_ThunderBreak += amount;
 		ammunitions_ThunderBreak = min(ammunitions_ThunderBreak, MAX_AMMUNITIONS);
 		ammunitions_ThunderBreak = max(ammunitions_ThunderBreak, 0);
+		break;
 
 	case TypeWeapons::MultiwarheadMissile:
 		ammunitions_MultiwarheadMissile += amount;
 		ammunitions_MultiwarheadMissile = min(ammunitions_MultiwarheadMissile, MAX_AMMUNITIONS);
 		ammunitions_MultiwarheadMissile = max(ammunitions_MultiwarheadMissile, 0);
+		break;
 	}
 }
 

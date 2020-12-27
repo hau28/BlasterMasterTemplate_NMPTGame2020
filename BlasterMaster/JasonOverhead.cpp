@@ -5,6 +5,7 @@
 #include "PortalLib.h"
 #include "GameGlobal.h"
 #include "WalkInPortalEvent.h"
+#include "PlayScene.h"
 
 CJasonOverhead* CJasonOverhead::__instance = nullptr;
 
@@ -38,6 +39,13 @@ void CJasonOverhead::Init()
 
 void CJasonOverhead::HandleKeys(DWORD dt)
 {
+    //Khong nhan phim khi chuyen section
+    if (dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene()))
+    {
+        CPlayScene* _playScene= dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+        if (_playScene->isSectionSwitch())
+            return;
+    }
     HandleKeysHold(dt);
 
     auto keyEvents = NewKeyEvents();

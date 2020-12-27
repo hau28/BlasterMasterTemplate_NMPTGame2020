@@ -796,7 +796,7 @@ void CSophia::ShootMultiwarheadMissile()
     };
 
     // CuteTN have fun:
-    // for (float initVy = -0.1; initVy <= 0.1; initVy += 0.02)
+    //for (float initVy = -0.1; initVy <= 0.1; initVy += 0.02)
     for (auto initVy : initBulletVys)
     {
 		if (!CGameGlobal::GetInstance()->CheckSophiaCanUseWeapon())
@@ -806,7 +806,7 @@ void CSophia::ShootMultiwarheadMissile()
 		CGameObjectBehaviour::CreateObjectAtCenterOfAnother(bullet, this);
 
 		// CuteTN Note: believe me, it counts for each missile :)
-		CGameGlobal::GetInstance()->AddToSelectedWeapon(-1);
+		//CGameGlobal::GetInstance()->AddToSelectedWeapon(-1);
 	}
 
 }
