@@ -349,6 +349,13 @@ void CPlayScene::init_camBox()
 	camBoxRight = playerX + 16 * 4;
 	camBoxTop = playerY - 16 * 4;
 	camBoxBottom = playerY + 32;
+
+	//Fix camera lag
+	//float cx, cy;
+	//CGame* game = CGame::GetInstance();
+	//game->GetCamPos(cx, cy);
+	//camBoxLeft = game->GetScreenWidth() / 2 - 8 + cx - 16 * 2;
+	//camBoxBottom = game->GetScreenHeight() - 16 + cy - 16 * 3;
 }
 
 void CPlayScene::update_camBox()
@@ -403,6 +410,9 @@ void CPlayScene::CreatePosCameraFollowPlayer(float& cx, float& cy)
 	cy = camBoxBottom - 16 * 3;
 	cx -= game->GetScreenWidth() / 2 - 8;
 	cy -= game->GetScreenHeight() / 2 - 16;
+
+	if (game->GetState() == GameState::PLAY_OVERHEAD)
+		cy += 18;
 }
 
 void CPlayScene::MoveCameraBeforeSwitchSection(float & cx, float & cy)
@@ -454,8 +464,18 @@ void CPlayScene::MoveCameraBeforeSwitchSection(float & cx, float & cy)
 
 	if (_gameState == GameState::SECTION_SWITCH_OVERHEAD_RIGHT)
 	{
+		game->GetCamPos(cx, cy);
+		if ((int)round(cy) % 256 > 0  && (int)round(cy) %256 <100)
+		{
+			cy--;
+		}
+		else
+		if ((int)round(cy) % 256 > 0 && (int)round(cy) % 256 > 100)
+		{
+			cy++;
+		}
+		else
 		if (cx + 2 <= Sections[CurrentSectionId]->getBgWidth())
-
 		{
 			cx += 2;
 		}
@@ -504,7 +524,6 @@ void CPlayScene::PreventCameraOverBoundingBox(float& cx, float& cy)
 
 	if (_gameState != GameState::SECTION_SWITCH_OVERHEAD_UP)
 		if (cy < 0) cy = 0;
-
 }
 
 void CPlayScene::ResetGameStateAfterSwichtSection()
@@ -559,7 +578,7 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 
 			toPortal->GetPosition(x_toPortal, y_toPortal);
 			Sections[CurrentSectionId]->pushJasonSideview(x_toPortal + W_toPortal - 15, y_toPortal+8, CurrentSectionId);
-			CJasonSideview::GetInstance()->SetSpeed(0.09, 0);
+			CJasonSideview::GetInstance()->SetSpeed(0.1, 0);
 			game->SetCamPos(0, cy);
 			init_camBox();
 
@@ -580,7 +599,7 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 
 			toPortal->GetPosition(x_toPortal, y_toPortal);
 			Sections[CurrentSectionId]->pushJasonOverhead(x_toPortal + W_toPortal - 15, y_toPortal - 20, CurrentSectionId);
-			CJasonOverhead::GetInstance()->SetSpeed(0.1, 0);
+			CJasonOverhead::GetInstance()->SetSpeed(0.11, 0);
 			game->SetCamPos(0, cy);
 			init_camBox();
 
@@ -616,7 +635,7 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			toPortal->GetSize(W_toPortal, H_toPortal);
 			CurrentSectionId = NextSectionId;
 			Sections[CurrentSectionId]->pushJasonSideview(x_toPortal, y_toPortal+8, CurrentSectionId);
-			CJasonSideview::GetInstance()->SetSpeed(-0.09, 0);
+			CJasonSideview::GetInstance()->SetSpeed(-0.11, 0);
 			game->SetCamPos(cx, cy);
 			init_camBox();
 
@@ -735,6 +754,22 @@ void CPlayScene::Update(DWORD dt)
 		cy = 16;
 	if (isNarrowSection && (CGame::GetInstance()->GetCurrentPlayer()->classId == CLASS_JASONOVERHEAD) && !isSectionSwitch)
 		cy = 0;
+
+	//Fix Overhead bounding
+
+	LPSECTION section = this->GetCurrentSection();
+	float width_section = section->getBgWidth();
+	float height_section = section->getBgHeight();
+	CGame* game = CGame::GetInstance();
+	GameState _gameState = game->GetState();
+
+	if (_gameState == GameState::PLAY_OVERHEAD && cy + game->GetScreenHeight() >= height_section - 32)
+	{
+		cy = height_section - 32 - game->GetScreenHeight();
+
+	}
+		
+
 
 	CGame::GetInstance()->SetCamPos(cx,cy);
 	
