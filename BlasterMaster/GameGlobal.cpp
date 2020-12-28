@@ -21,9 +21,13 @@
 #define HEALTH7 9038
 #define HEALTH8 9039
 
+#define GUN0 11111
+
+
 #define X_HEALTH 20
 #define Y_HEALTH 120
-
+#define X_GUN 20
+#define Y_GUN 80
 
 //Weapon
 #define ID_WEAPONMENU 11111
@@ -33,6 +37,10 @@
 #define ID_SELECTION_RIGHT 44444
 #define STATE_SELECTION_LEFT 11010
 #define STATE_SELECTION_RIGHT	11020
+#define ID_GUN 55555
+#define ID_HEALTHOVERHEAD 66666
+
+#define HEALTHOH0 9431
 
 #define NUMBER_0	11000
 #define NUMBER_1	11001
@@ -116,6 +124,12 @@ CGameGlobal::CGameGlobal() {
 
 	objAnims = CObjectAnimationsLib::GetInstance()->Get(ID_SELECTION_RIGHT);
 	SelectedRight = objAnims->GenerateAnimationHanlders();
+
+	objAnims = CObjectAnimationsLib::GetInstance()->Get(ID_GUN);
+	Gun = objAnims->GenerateAnimationHanlders();
+
+	objAnims = CObjectAnimationsLib::GetInstance()->Get(ID_HEALTHOVERHEAD);
+	HealthOverhead = objAnims->GenerateAnimationHanlders();
 }
 
 void CGameGlobal::Update(DWORD dt)
@@ -269,7 +283,7 @@ void CGameGlobal::jasonJumpIntoSophia()
 {
 	healthJasonSideView = MAX_HEALTH_JASONSIDEVIEW;
 }
-void CGameGlobal::RenderHeath()
+void CGameGlobal::RenderHealth()
 {
 	int ID_Player = CGame::GetInstance()->GetCurrentPlayer()->classId;
 	switch (ID_Player)
@@ -284,6 +298,36 @@ void CGameGlobal::RenderHeath()
 			SupportRenderHeath(healthJasonOverHead);
 			break;
 	}
+}
+
+void CGameGlobal::RenderHealthGun()
+{
+	float X_cam, Y_cam;
+	CGame::GetInstance()->GetCamPos(X_cam, Y_cam);
+	int ID_STATE_GUN = GUN0 + this->levelGunPower;
+	Gun[ID_STATE_GUN]->Render(X_GUN + X_cam, Y_GUN + Y_cam);
+
+	//Render health 
+	int health = this->healthJasonOverHead;
+	int flag_StateHealth = 0;
+	if (health > 0 && health <= 10)
+		flag_StateHealth = 1;
+	if (health > 10 && health <= 20)
+		flag_StateHealth = 2;
+	if (health > 20 && health <= 30)
+		flag_StateHealth = 3;
+	if (health > 30 && health <= 40)
+		flag_StateHealth = 4;
+	if (health > 40 && health <= 50)
+		flag_StateHealth = 5;
+	if (health > 50 && health <= 60)
+		flag_StateHealth = 6;
+	if (health > 60 && health <= 70)
+		flag_StateHealth = 7;
+	if (health > 70)
+		flag_StateHealth = 8;
+	CGame::GetInstance()->GetCamPos(X_cam, Y_cam);
+	HealthOverhead[flag_StateHealth + HEALTHOH0]->Render(X_cam + X_HEALTH, Y_cam + Y_HEALTH + 30);
 }
 
 void CGameGlobal::RenderWeapon()

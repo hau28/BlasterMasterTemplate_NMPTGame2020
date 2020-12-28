@@ -50,6 +50,7 @@ private:
 
 	//AnimationHandler Render 
 	CObjectAnimationHanlders HealthPow;
+	CObjectAnimationHanlders HealthOverhead;
 	CObjectAnimationHanlders Hov;
 	CObjectAnimationHanlders Gun;
 	CObjectAnimationHanlders WeaponMenu;
@@ -63,7 +64,7 @@ private:
 	int healthJasonOverHead;
 
 	//Gun Power
-	int levelGunPower; // [0..8]
+	int levelGunPower = 0; // [0..8]
 
 	//Weapons
 	bool isWeaponMenuActive = false;
@@ -105,7 +106,8 @@ public:
 	//Update
 	void Update(DWORD dt);
 	//Render
-	void RenderHeath();
+	void RenderHealth();
+	void RenderHealthGun();
 	void RenderWeapon();
 	void OpenMenuWeapon();
 	void CloseMenuWeapon();

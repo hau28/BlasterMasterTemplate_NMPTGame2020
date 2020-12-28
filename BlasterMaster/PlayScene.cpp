@@ -791,7 +791,10 @@ void CPlayScene::Render()
 
 	//HEALTH POW
 	CGameGlobal * global = CGameGlobal::GetInstance();
-	global->RenderHeath();
+	if (player->classId == CLASS_JASONOVERHEAD)
+		global->RenderHealthGun();
+	else
+		global->RenderHealth();
 	global->RenderWeapon();
 }
 
