@@ -134,6 +134,20 @@ void CJasonOverhead::UpdateState()
     SetState(newState);
 }
 
+void CJasonOverhead::SnapToPortalMiddle(LPGAMEOBJECT portal, bool snapX)
+{
+    float oldX = x, oldY = y;
+    
+    float centerX, centerY;
+    CGameObjectBehaviour::CalcBoundingBoxCenter(portal, centerX, centerY);
+    CGameObjectBehaviour::SetBoundingBoxCenter(this, centerX, centerY);
+
+    if (snapX)
+        y = oldY;
+    else
+        x = oldX;
+}
+
 CJasonOverhead* CJasonOverhead::GetInstance()
 {
     if (__instance == nullptr)
@@ -183,6 +197,8 @@ void CJasonOverhead::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
         case CLASS_TILE_PORTAL:
         {
+            SnapToPortalMiddle(obj, coEvent->ny != 0);
+
             LPPORTAL fromPortal = dynamic_cast<LPPORTAL>(obj);
             LPPORTAL toPortal = CPortalLib::GetInstance()->Get(fromPortal->associatedPortalId);
 
@@ -207,7 +223,6 @@ void CJasonOverhead::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
             break;
         }
-
 
         }
     }

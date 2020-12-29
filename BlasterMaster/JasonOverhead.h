@@ -44,6 +44,7 @@ public:
     virtual void HandleOverlap(LPGAMEOBJECT overlappedObj);
     virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
     virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs);
+    void SnapToPortalMiddle(LPGAMEOBJECT portal, bool snapX);
 
     static CJasonOverhead* GetInstance();
     static CJasonOverhead* InitInstance(int x, int y, int sectionId);

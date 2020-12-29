@@ -599,6 +599,7 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 
 			toPortal->GetPosition(x_toPortal, y_toPortal);
 			Sections[CurrentSectionId]->pushJasonOverhead(x_toPortal + W_toPortal - 15, y_toPortal - 20, CurrentSectionId);
+			CJasonOverhead::GetInstance()->SnapToPortalMiddle(toPortal, false);
 			CJasonOverhead::GetInstance()->SetSpeed(0.11, 0);
 			game->SetCamPos(0, cy);
 			init_camBox();
@@ -653,6 +654,7 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			toPortal->GetSize(W_toPortal, H_toPortal);
 			CurrentSectionId = NextSectionId;
 			Sections[CurrentSectionId]->pushJasonOverhead(x_toPortal - 20, y_toPortal - 20, CurrentSectionId);
+			CJasonOverhead::GetInstance()->SnapToPortalMiddle(toPortal, false);
 			CJasonSideview::GetInstance()->SetSpeed(-0.1, 0);
 			game->SetCamPos(cx, cy);
 			init_camBox();
@@ -675,6 +677,7 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 
 			toPortal->GetPosition(x_toPortal, y_toPortal);
 			Sections[CurrentSectionId]->pushJasonOverhead(x_toPortal,y_toPortal + H_toPortal - 5 , CurrentSectionId);
+			CJasonOverhead::GetInstance()->SnapToPortalMiddle(toPortal, true);
 			CJasonOverhead::GetInstance()->SetSpeed(0, 0.1);
 			game->SetCamPos(cx, cy);
 			init_camBox();
@@ -693,6 +696,7 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			toPortal->GetSize(W_toPortal, H_toPortal);
 			CurrentSectionId = NextSectionId;
 			Sections[CurrentSectionId]->pushJasonOverhead(x_toPortal, y_toPortal - H_toPortal, CurrentSectionId);
+			CJasonOverhead::GetInstance()->SnapToPortalMiddle(toPortal, true);
 			CJasonOverhead::GetInstance()->SetSpeed(0, -0.1);
 			game->SetCamPos(cx, cy);
 			init_camBox();
