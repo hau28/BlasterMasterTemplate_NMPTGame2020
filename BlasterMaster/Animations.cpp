@@ -190,6 +190,11 @@ CObjectAnimationsLib* CObjectAnimationsLib::GetInstance()
 	return __instance;
 }
 
+void CObjectAnimationsLib::AddClass(int classId, int objAnimsId)
+{
+	classToObjAnims[classId] = objAnimsId;
+}
+
 LPOBJECT_ANIMATIONS CObjectAnimationsLib::Get(int objAnimsId)
 {
 	LPOBJECT_ANIMATIONS objAnims = objectAnimations[objAnimsId];
@@ -197,6 +202,16 @@ LPOBJECT_ANIMATIONS CObjectAnimationsLib::Get(int objAnimsId)
 		DebugOut(L"[ERROR] Failed to find object animations id: %d\n", objAnimsId);
 	 
 	return objAnims;
+}
+
+LPOBJECT_ANIMATIONS CObjectAnimationsLib::GetFromClassId(int classId)
+{
+	return Get(classToObjAnims[classId]);
+}
+
+int CObjectAnimationsLib::GetAnimaionsId(int classId)
+{
+	return classToObjAnims[classId];
 }
 
 void CObjectAnimationsLib::Add(int objAnimsId, LPOBJECT_ANIMATIONS objectAnimation)

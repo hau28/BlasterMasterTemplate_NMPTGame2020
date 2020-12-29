@@ -29,6 +29,15 @@ CAnimatableObject::CAnimatableObject(int classId, int x, int y, int sectionId, i
 	state = animationHandlers.begin()->first;
 }
 
+CAnimatableObject::CAnimatableObject(int classId, int x, int y, int sectionId) : CAnimatableObject::CAnimatableObject(classId, x, y, sectionId, LookUpAnimationsId(classId))
+{
+}
+
+int CAnimatableObject::LookUpAnimationsId(int classId)
+{
+	return CObjectAnimationsLib::GetInstance()->GetAnimaionsId(classId);
+}
+
 void CAnimatableObject::CheckOverlaps(vector<LPGAMEOBJECT>* coObjs, vector<LPGAMEOBJECT>& overlappedObjs)
 {
 	overlappedObjs.clear();
@@ -54,6 +63,12 @@ void CAnimatableObject::SetModifyColor(int r, int g, int b)
 	modifyG = g;
 	modifyB = b;
 }
+
+void CAnimatableObject::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+{
+}
+
+
 
 void CAnimatableObject::DeoverlapWithBlockableTiles(vector<LPGAMEOBJECT>* coObjs)
 {

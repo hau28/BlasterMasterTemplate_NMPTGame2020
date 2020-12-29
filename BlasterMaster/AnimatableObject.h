@@ -11,6 +11,7 @@ protected:
 	int modifyB = 255;
 
 	static vector<Color> flashingColors;
+	int LookUpAnimationsId(int classId);
 
 public:
 
@@ -20,6 +21,7 @@ public:
 
 	CAnimatableObject() {};
 	CAnimatableObject(int classId, int x, int y, int sectionId, int animsId);
+	CAnimatableObject(int classId, int x, int y, int sectionId);
 
 	virtual void SetModifyColor(int r, int g, int b);
 

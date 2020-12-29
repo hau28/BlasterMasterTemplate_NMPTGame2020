@@ -176,7 +176,17 @@ void CPlayScene::_ParseSection_SECTIONS(string line)
 
 void CPlayScene::_ParseSection_CLASSES(string line)
 {
-	//Already has const file
+	vector<string> tokens = split(line);
+
+	if (tokens.size() < 2) return; // skip invalid lines
+
+	int class_ID = atoi(tokens[0].c_str());
+	int objAnims_ID = atoi(tokens[1].c_str());
+
+	if (objAnims_ID != -1)
+	{
+		CObjectAnimationsLib::GetInstance()->AddClass(class_ID, objAnims_ID);
+	}
 }
 
 void CPlayScene::_ParseSection_OBJECTS(string line)

@@ -13,7 +13,7 @@ public:
     CExplosion(int classId, int x, int y, int sectionId, int animsId);
     CExplosion(int classId, int x = 0, int y = 0, int sectionId = 0);
 
-    int ChooseAnimationsId(int classId);
+
     virtual void UpdateVelocity(DWORD dt);
     virtual void HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent);
     virtual void HandleOverlap(LPGAMEOBJECT overlappedObj);

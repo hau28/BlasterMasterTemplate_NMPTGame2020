@@ -18,7 +18,6 @@ public:
     // isFriendly = true when this bullet cannot damage the player.
     bool isFriendly = false;
     int damage = 0;
-    int ChooseAnimationsId(int classId);
     void SetBoundingBoxInfo(int classId);
 
     virtual void UpdateVelocity(DWORD dt) = 0;

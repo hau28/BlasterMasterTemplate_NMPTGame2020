@@ -210,10 +210,14 @@ class CObjectAnimationsLib
 	/// Map from [GameObjectFamilyId] to [ObjectAnimations]
 	/// </summary>
 	unordered_map<int, LPOBJECT_ANIMATIONS> objectAnimations;
+	unordered_map<int, int> classToObjAnims;
 
 public:
+	void AddClass(int classId, int objAnimsId);
 	void Add(int objAnimsId, LPOBJECT_ANIMATIONS objectAnimations);
 	LPOBJECT_ANIMATIONS Get(int objAnimsId);
+	LPOBJECT_ANIMATIONS GetFromClassId(int classId);
+	int GetAnimaionsId(int classId);
 
 	static CObjectAnimationsLib* GetInstance();
 };

@@ -4,40 +4,13 @@
 #include "CreateObjectEvent.h"
 #include "RemoveObjectEvent.h"
 
-CBullet::CBullet(int classId, int x, int y, int sectionId, bool isFriendly) : CAnimatableObject::CAnimatableObject(classId, x, y, sectionId, ChooseAnimationsId(classId))
+CBullet::CBullet(int classId, int x, int y, int sectionId, bool isFriendly) : CAnimatableObject::CAnimatableObject(classId, x, y, sectionId)
 {
 	this->isFriendly = isFriendly;
 	this->isHiddenByForeground = false;
 	this->isUpdatedWhenOffScreen = true;
 
 	SetBoundingBoxInfo(classId);
-}
-
-int CBullet::ChooseAnimationsId(int classId)
-{
-	switch (classId)
-	{
-	case CLASS_SMALL_PINK_BULLET:
-		return SMALL_PINK_BULLET_SIDEVIEW_ANIMATIONS;
-	case CLASS_MEDIUM_PINK_BULLET:
-		return MEDIUM_PINK_BULLET_SIDEVIEW_ANIMATIONS;
-	case CLASS_LARGE_PINK_BULLET:
-		return LARGE_PINK_BULLET_SIDEVIEW_ANIMATIONS;
-	case CLASS_LARGE_GRAY_BULLET:
-		return LARGE_GRAY_BULLET_SIDEVIEW_ANIMATIONS;
-	case CLASS_SOPHIA_BULLET:
-		return BULLET_SOPHIA_SIDEVIEW_ANIMATIONS;
-	case CLASS_HOMING_MISSILE:
-		return HOMING_MISSILE_ANIMATIONS;
-	case CLASS_THUNDERBREAK:
-		return THUNDERBREAK_ANIMATIONS;
-	case CLASS_MULTIWARHEAD_MISSILE:
-		return MULTIWARHEAD_MISSILE_ANIMATIONS;
-
-	default:
-		DebugOut(L"[ERROR] Bullet Animation Id for class Id %d is not defined\n", classId);
-		return 0;
-	}
 }
 
 void CBullet::SetBoundingBoxInfo(int classId)

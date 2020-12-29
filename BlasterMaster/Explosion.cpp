@@ -4,29 +4,15 @@
 
 #pragma region init
 
-CExplosion::CExplosion(int classId, int x, int y, int sectionId, int animsId) : CAnimatableObject(classId, x, y, sectionId, classId)
+CExplosion::CExplosion(int classId, int x, int y, int sectionId, int animsId) : CAnimatableObject(classId, x, y, sectionId, animsId)
 {
 }
 
-CExplosion::CExplosion(int classId, int x, int y, int sectionId) : CAnimatableObject(classId, x, y, sectionId, ChooseAnimationsId(classId))
+CExplosion::CExplosion(int classId, int x, int y, int sectionId) : CAnimatableObject(classId, x, y, sectionId)
 {
 	ax = ay = vx = vy = 0;
 	this->isHiddenByForeground = false;
 	this->isUpdatedWhenOffScreen = true;
-}
-
-int CExplosion::ChooseAnimationsId(int classId)
-{
-	switch (classId)
-	{
-	case CLASS_SMALL_EXPLOSION_SIDEVIEW:
-		return SMALL_EXPLOSION_SIDEVIEW_ANIMATIONS;
-	case CLASS_LARGE_EXPLOSION_SIDEVIEW:
-		return LARGE_EXPLOSION_SIDEVIEW_ANIMATIONS;
-	default:
-		DebugOut(L"[ERROR] Explosion Animation Id for class Id %d is not defined", classId);
-		return 0;
-	}
 }
 
 #pragma endregion
