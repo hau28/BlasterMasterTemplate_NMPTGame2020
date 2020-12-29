@@ -77,6 +77,10 @@ private:
     bool flagFinishAnimationJasonDead = false;
 
     float yStartFalling, yEndFalling;
+
+    // CuteTN: switching scene with scene portal
+    LPGAMEOBJECT overlappingScenePortal = nullptr;
+
 public:     
     virtual void UpdateVelocity(DWORD dt);
     virtual void HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent);

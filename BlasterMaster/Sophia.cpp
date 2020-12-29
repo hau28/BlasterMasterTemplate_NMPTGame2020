@@ -324,7 +324,9 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
         flag_JasonJumpOut = true;
         updateBody();
         
-        CJasonJumpOutEvent* jasonJumpOutEvent = new CJasonJumpOutEvent(x, y, currentSectionId);
+        float xCenter, yCenter;
+        CGameObjectBehaviour::CalcBoundingBoxCenter(CSophia::GetInstance(), xCenter, yCenter);
+        CJasonJumpOutEvent* jasonJumpOutEvent = new CJasonJumpOutEvent(xCenter, yCenter, currentSectionId);
         CGame::AddGameEvent(jasonJumpOutEvent);
         //CSophia::GetInstance()->init_camBox_FollowCamera();
         vx = 0;
@@ -347,14 +349,6 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
 			Shoot();
     }
 
-    // CuteTN quick switching weapon select
-    if (keyCode == DIK_1)
-        CGameGlobal::GetInstance()->selectedWeapon = TypeWeapons::HomingMissile;
-    if (keyCode == DIK_2)
-        CGameGlobal::GetInstance()->selectedWeapon = TypeWeapons::ThunderBreak;
-    if (keyCode == DIK_3)
-        CGameGlobal::GetInstance()->selectedWeapon = TypeWeapons::MultiwarheadMissile;
-
     // CuteTN switch scene through scene portal
     if (keyCode == DIK_DOWN && overlappingScenePortal)
     {
@@ -362,7 +356,8 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
         if (portal)
         {
             SwitchSceneEvent* sse = new SwitchSceneEvent(portal);
-            CGame::AddGameEvent(sse);
+            if(sse->getIDNextScene() == ID_SCENE_END)
+				CGame::AddGameEvent(sse);
         }
     }
 

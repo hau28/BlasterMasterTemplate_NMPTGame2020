@@ -16,8 +16,8 @@ const int JASON_OVERHEAD_FACEDIR_RIGHT = 3;
 class CJasonOverhead : public CAnimatableObject
 {
 private:
-    const float JASON_OVERHEAD_MOVING_SPEED_X = 0.1f;
-    const float JASON_OVERHEAD_MOVING_SPEED_Y = 0.1f;
+    const float JASON_OVERHEAD_MOVING_SPEED_X = 0.006f;
+    const float JASON_OVERHEAD_MOVING_SPEED_Y = 0.006f;
 
     CJasonOverhead();
     void Init();

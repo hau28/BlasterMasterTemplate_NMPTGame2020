@@ -12,6 +12,7 @@
 #include "SwitchSceneEvent.h"
 #include "GameGlobal.h"
 #include "JasonOverhead.h"
+#include "GameObjectBehaviour.h"
 
 //#include "SoundManager.h"
 
@@ -332,8 +333,12 @@ void CGame::HandleGameEvent(LPGAME_EVENT gameEvent)
 		scene->SetPlayer(CJasonSideview::GetInstance());
 		LPSECTION section = scene->GetCurrentSection();
 		
+		CGameObjectBehaviour::SetBoundingBoxCenter(CJasonSideview::GetInstance(), castedEvent->xCenter, castedEvent->yCenter);
+		float newX, newY;
+		CJasonSideview::GetInstance()->GetPosition(newX, newY);
+
 		if (section != nullptr)
-			section->pushJasonSideview(castedEvent->x, castedEvent->y, castedEvent->sectionId);
+			section->pushJasonSideview(newX, newY, castedEvent->sectionId);
 
 		//SANH-CAMERA
 		CJasonSideview::GetInstance()->init_camBox();

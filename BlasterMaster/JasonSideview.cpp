@@ -264,12 +264,14 @@ void CJasonSideview::HandleKeysHold(DWORD dt)
     {
         vy = JASONSIDEVIEW_CLIMB_SPEED;
         animationHandlers[state]->startLoopIndex = 0;
+        yStartFalling = y;
     }
 
     if (IsKeyDown(DIK_UP) && flagClimb)
     {
         vy = -JASONSIDEVIEW_CLIMB_SPEED;
         animationHandlers[state]->startLoopIndex = 0;
+        yStartFalling = y;
     }
 }
 
@@ -315,7 +317,7 @@ void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)
                 SetState(JASONSIDEVIEW_STATE_IDLE_LEFT);
         }
         else
-            if (flagCanClimb)
+            if (flagCanClimb && !flagOnAir)
             {
                 vx = 0;
 
@@ -329,17 +331,29 @@ void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)
             }
     }
 
-    if (keyCode == DIK_DOWN  && !flagOnAir  )
+    if (keyCode == DIK_DOWN  && !flagOnAir)
     {
         flagCrawl = true;
 
-        if (flagTurnRight)
-            SetState(JASONSIDEVIEW_STATE_CRAWL_RIGHT);
+        if (overlappingScenePortal)
+        {
+            LPPORTAL portal = dynamic_cast<LPPORTAL>(overlappingScenePortal);
+            if (portal)
+            {
+                SwitchSceneEvent* sse = new SwitchSceneEvent(portal);
+				CGame::AddGameEvent(sse);
+            }
+        }
         else
-            SetState(JASONSIDEVIEW_STATE_CRAWL_LEFT);
+        {
+            if (flagTurnRight)
+                SetState(JASONSIDEVIEW_STATE_CRAWL_RIGHT);
+            else
+                SetState(JASONSIDEVIEW_STATE_CRAWL_LEFT);
+        }
     }
 
-    if (flagCanClimb && keyCode == DIK_DOWN && jason_t <ladderT)
+    if (flagCanClimb && keyCode == DIK_DOWN && jason_t < ladderT)
     {
         flagClimb = true;
         flagClimbOver = false;
@@ -384,7 +398,7 @@ void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)
     }
 
     // CuteTN: shoot
-    if (keyCode == DIK_C)
+    if (keyCode == DIK_C && !flagClimb)
     {
         CBullet_JasonSideview* bullet = new CBullet_JasonSideview(0, 0, 0, flagTurnRight ? 1 : -1);
         CGameObjectBehaviour::CreateObjectAtCenterOfAnother(bullet, this);
@@ -439,6 +453,12 @@ void CJasonSideview::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
             case CLASS_TILE_PORTAL:
             {
+                if (flagOnAir)
+                {
+                    CGameObjectBehaviour::BlockObject(dt, coEvent);
+                    break;
+                }
+
                 LPPORTAL fromPortal = dynamic_cast<LPPORTAL>(obj);
                 LPPORTAL toPortal = CPortalLib::GetInstance()->Get(fromPortal->associatedPortalId);
 
@@ -481,7 +501,6 @@ void CJasonSideview::GetBoundingBox(float& left, float& top, float& right, float
 
 void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
-
     if (flagOnAir)
         yStartFalling = min(yStartFalling, this->y);
 
@@ -563,6 +582,7 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
     if (CGame::GetInstance()->GetState() != GameState::SECTION_SWITCH_LEFT_JASON &&
         CGame::GetInstance()->GetState() != GameState::SECTION_SWITCH_RIGHT_JASON)
     {
+		overlappingScenePortal = nullptr;
         ResolveInteractions(dt, coObjs);
     }
 
@@ -664,6 +684,9 @@ CJasonSideview* CJasonSideview::InitInstance(int x, int y, int sectionId)
 
 void CJasonSideview::HandleOverlap(LPGAMEOBJECT overlappedObj)
 {
+    if (!overlappedObj)
+        return;
+
     //Thao vui long code o tren gium chung minh nhe
     if (!flagInvulnerable) {
         if (dynamic_cast<CEnemy*>(overlappedObj))
@@ -715,6 +738,11 @@ void CJasonSideview::HandleOverlap(LPGAMEOBJECT overlappedObj)
         LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(overlappedObj);
         if (tileArea->classId == CLASS_TILE_LADDER)
             flagCanClimb = true;
+    }
+
+    if (overlappedObj->classId == CLASS_TILE_SCENEPORTAL)
+    {
+        overlappingScenePortal = overlappedObj;
     }
 }
 

@@ -6,6 +6,7 @@
 #include "GameGlobal.h"
 #include "WalkInPortalEvent.h"
 #include "PlayScene.h"
+#include "SwitchSceneEvent.h"
 
 CJasonOverhead* CJasonOverhead::__instance = nullptr;
 
@@ -155,8 +156,8 @@ CJasonOverhead* CJasonOverhead::InitInstance(int x, int y, int sectionId)
 
 void CJasonOverhead::UpdateVelocity(DWORD dt)
 {
-    vx = MovingDirX * JASON_OVERHEAD_MOVING_SPEED_X;
-    vy = MovingDirY * JASON_OVERHEAD_MOVING_SPEED_Y;
+    vx = MovingDirX * JASON_OVERHEAD_MOVING_SPEED_X * dt;
+    vy = MovingDirY * JASON_OVERHEAD_MOVING_SPEED_Y * dt;
 }
 
 void CJasonOverhead::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
@@ -190,6 +191,19 @@ void CJasonOverhead::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
             CGame::GetInstance()->AddGameEvent(newEvent);
             // to do: create an event to CGame, let CGame handle switching section
             DebugOut(L"Jason to portal %d of section %d, tick %d\n", toPortal->associatedPortalId, toPortal->currentSectionId, GetTickCount());
+
+            break;
+        }
+
+        case CLASS_TILE_SCENEPORTAL:
+        {
+            LPPORTAL portal = dynamic_cast<LPPORTAL>(obj);
+            if (portal)
+            {
+                SwitchSceneEvent* sse = new SwitchSceneEvent(portal);
+                DebugOut(L"Switch to scene Id: %d\n", sse->getIDNextScene());
+                CGame::AddGameEvent(sse);
+            }
 
             break;
         }

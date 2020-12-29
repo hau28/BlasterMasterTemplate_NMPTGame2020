@@ -632,6 +632,22 @@ void CGameGlobal::AddToSelectedWeapon(int amount)
 
 void CGameGlobal::OpenMenuWeapon()
 {
+	//Update weapon selected
+	switch (this->selectedWeapon)
+	{
+	case TypeWeapons::HomingMissile:
+		idSelectedItem = 1;
+		break;
+	case TypeWeapons::ThunderBreak:
+		idSelectedItem = 2;
+		break;
+	case TypeWeapons::MultiwarheadMissile:
+		idSelectedItem = 3;
+		break;
+	default:
+		break;
+	}
+
 	this->isWeaponMenuActive = true;
 }
 void CGameGlobal::CloseMenuWeapon()

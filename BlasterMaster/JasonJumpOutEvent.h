@@ -5,18 +5,18 @@ class CJasonJumpOutEvent : public CGameEvent
 {
 public:
 	CJasonJumpOutEvent() {};
-	CJasonJumpOutEvent(float x, float y, int sectionId)
+	CJasonJumpOutEvent(float xCenter, float yCenter, int sectionId)
 	{
 		this->eventName = "JasonJumpOutEvent";
-		this->x = x;
-		this->y = y;
+		this->xCenter = xCenter;
+		this->yCenter = yCenter;
 		this->sectionId = sectionId;
 	}
 
 	/// <summary>
 	/// Jason initial position
 	/// </summary>
-	float x, y;
+	float xCenter, yCenter;
 
 	/// <summary>
 	/// Jason initial section Id
