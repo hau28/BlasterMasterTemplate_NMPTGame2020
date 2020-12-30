@@ -42,6 +42,23 @@ void CBullet::SetBoundingBoxInfo(int classId)
 		boundingBoxHeight = 8;
 		break;
 
+	case CLASS_JASON_OVERHEAD_BULLET:
+	case CLASS_JASON_OVERHEAD_GRENADE:
+		// 8 8 15 15
+		boundingBoxOffsetX = 8;
+		boundingBoxOffsetY = 8;
+		boundingBoxWidth = 8;
+		boundingBoxHeight = 8;
+		break;
+
+	case CLASS_ENEMY_OVERHEAD_BULLET:
+		// 9 8 16 15
+		boundingBoxOffsetX = 9;
+		boundingBoxOffsetY = 8;
+		boundingBoxWidth = 8;
+		boundingBoxHeight = 8;
+		break;
+
 	default:
 		break;
 	}

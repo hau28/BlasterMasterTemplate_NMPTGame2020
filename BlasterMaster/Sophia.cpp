@@ -46,6 +46,8 @@ void CSophia::Init(int classId, int x, int y)
     dyingEffectTimer->Stop();
 
     vulnerableFlashingEffect = new CObjectFlashingEffectPlayer(this, &flashingColors, SOPHIA_VULNERABLE_EFFECT_FLASHING_DURATION);
+
+    flagDead = false;
 };
 
 void CSophia::setGunState(int state) {
@@ -439,21 +441,35 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
         updateWheel();
     }
 
-    if (CGameGlobal::GetInstance()->get_healthSophia() <= 0)
+    if ((!flagDead) && (!flagOnAir) && CGameGlobal::GetInstance()->get_healthSophia() <= 0)
     {
         vx = 0;
         vy = 0;
 
         if (!dyingEffectTimer->IsRunning())
             dyingEffectTimer->Start();
+
+        // CuteTN To do: Sophia's explosion
+        Explode();
+
+        flagDead = true;
     }
 
 }
 
+void CSophia::Explode()
+{
+    const float SOPHIA_EXPLOSION_OFFSET_X = -9;
+    const float SOPHIA_EXPLOSION_OFFSET_Y = -8;
+
+    int explosionX = x + SOPHIA_EXPLOSION_OFFSET_X;
+    int explosionY = y + SOPHIA_EXPLOSION_OFFSET_Y;
+
+	CGameObjectBehaviour::CreateExplosion(CLASS_SOPHIA_EXPLOSION, explosionX, explosionY, currentSectionId);
+}
+
 void CSophia::UpdateVelocity(DWORD dt)
 {
-    
-
     //jump handler
     if (vy < 0 && !IsKeyDown(DIK_X) && ground - y > 48 && ground - y < 48.5)
         vy = 0;
@@ -653,6 +669,8 @@ void CSophia::GetBoundingBox(float &left, float &top, float &right, float &botto
 
 void CSophia::Render(float offsetX, float offsetY)
 {
+    if (flagDead)
+        return;
 
     LPSPRITE sprite = CSophiaAnimationSystem::GetInstance()->GetSprite(directionState, gunState, bodyState, wheelState);
     if (sprite)

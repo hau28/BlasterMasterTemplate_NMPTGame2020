@@ -103,6 +103,8 @@ private:
     // CuteTN: switching scene with scene portal
     LPGAMEOBJECT overlappingScenePortal = nullptr;
 
+    void Explode();
+
 public:
     virtual void UpdateVelocity(DWORD dt);
     virtual void HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent);
