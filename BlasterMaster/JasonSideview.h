@@ -97,9 +97,10 @@ public:
     void init_camBox();
     void resetState();
     void Init();
-
+    
     virtual void HandleTimerTick(LPTIMER sender);
     
+    void keyUptoFixState() { HandleKeys(15); HandleKeyDown(15, DIK_UP); }
     ~CJasonSideview();
 };
 

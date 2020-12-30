@@ -370,6 +370,12 @@ void CGame::HandleGameEvent(LPGAME_EVENT gameEvent)
 		if (event->getIDNextScene() == ID_SCENE_OVERHEAD && scene)
 		{
 			// CuteTN Note: really bad, really badddddd, bois
+
+			//Save state game sideview before switch scene overhead by SanhLike Cute
+			CGameGlobal * global = CGameGlobal::GetInstance();
+			global->saveJason();
+			global->saveSophia();
+			//
 			scene->InitSectionForOverhead(event->getPort());
 			scene->init_camBox();
 		}

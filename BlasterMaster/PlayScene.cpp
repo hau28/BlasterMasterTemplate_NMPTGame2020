@@ -237,6 +237,30 @@ void CPlayScene::InitSaveGameSideView()
 {
 	//Init follow save Game
 	CGameGlobal* global = CGameGlobal::GetInstance();
+
+	if (global->isOverheadtoSideView)
+	{
+		float x, y;
+		int idsection;
+		//Init savegame sophia
+		global->getInfoSophia(x, y, idsection);
+		Sections[idsection]->deleteSophia();
+		Sections[idsection]->pushSophia(x, y, idsection);
+		//Init savegame jason
+		global->getInfoJason(x, y, idsection);
+		Sections[idsection]->deleteJasonSideview();
+		Sections[idsection]->pushJasonSideview(x, y, idsection);
+		CGame::GetInstance()->SetState(GameState::PLAY_SIDEVIEW_JASON);
+		CJasonSideview::GetInstance()->resetState();
+		CSophia::GetInstance()->SetSpeed(0, 0);
+		global->isOverheadtoSideView = false;
+
+		//Keyup jason
+		CJasonSideview::GetInstance()->keyUptoFixState();
+		return;
+	}
+
+
 	global->resetHealth();
 
 	if (global->isSaved() == false)

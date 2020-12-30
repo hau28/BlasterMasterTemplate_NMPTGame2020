@@ -1,5 +1,7 @@
 #include "GameGlobal.h"
 #include "Sophia.h"
+#include "JasonSideview.h"
+#include "JasonOverhead.h"
 
 #define SCENE_SECTION_UNKNOWN -1
 #define SCENE_SECTION_TEXTURES 2
@@ -71,8 +73,8 @@ CGameGlobal* CGameGlobal::_instance = nullptr;
 CGameGlobal::CGameGlobal() {
 	//init healthSophia
 	this->healthSophia = MAX_HEALTH_SOPHIA;
-	this->healthJasonSideView = MAX_HEALTH_JASONSIDEVIEW;
-	this->healthJasonOverHead = MAX_HEALTH_JASONOVERHEAD;
+	this->healthJason = MAX_HEALTH_JASONSIDEVIEW;
+	this->healthJason= MAX_HEALTH_JASONOVERHEAD;
 
 	//init level Gun
 	this->levelGunPower = 0;
@@ -185,16 +187,15 @@ void CGameGlobal::beingAttackedByEnemy()
 		this->healthSophia -= BODY_DAMAGE_ENEMY;
 		break;
 	case CLASS_JASONSIDEVIEW:
-		this->healthJasonSideView -= BODY_DAMAGE_ENEMY;
+		this->healthJason -= BODY_DAMAGE_ENEMY;
 		break;
 	default:
-		this->healthJasonOverHead -= BODY_DAMAGE_ENEMY;
+		this->healthJason -= BODY_DAMAGE_ENEMY;
 		break;
 	}
 
 	if (this->healthSophia < 0) this->healthSophia = 0;
-	if (this->healthJasonSideView < 0) this->healthJasonSideView = 0;
-	if (this->healthJasonOverHead < 0) this->healthJasonOverHead = 0;
+	if (this->healthJason < 0) this->healthJason = 0;
 }
 
 void CGameGlobal::beingAttackedByBullet()
@@ -207,16 +208,15 @@ void CGameGlobal::beingAttackedByBullet()
 		this->healthSophia -= BODY_DAMAGE_BULLET;
 		break;
 	case CLASS_JASONSIDEVIEW:
-		this->healthJasonSideView -= BODY_DAMAGE_BULLET;
+		this->healthJason-= BODY_DAMAGE_BULLET;
 		break;
 	default:
-		this->healthJasonOverHead -= BODY_DAMAGE_BULLET;
+		this->healthJason -= BODY_DAMAGE_BULLET;
 		break;
 	}
 
 	if (this->healthSophia < 0) this->healthSophia = 0;
-	if (this->healthJasonSideView < 0) this->healthJasonSideView = 0;
-	if (this->healthJasonOverHead < 0) this->healthJasonOverHead = 0;
+	if (this->healthJason < 0) this->healthJason = 0;
 }
 
 void CGameGlobal::beingAttackedByLava()
@@ -228,10 +228,10 @@ void CGameGlobal::beingAttackedByLava()
 		this->healthSophia -= BODY_DAMAGE_LAVA;
 
 	if (idPlayer == CLASS_JASONSIDEVIEW)
-		this->healthJasonSideView -= BODY_DAMAGE_LAVA * 2;
+		this->healthJason -= BODY_DAMAGE_LAVA * 2;
 
 	if (this->healthSophia < 0) this->healthSophia = 0;
-	if (this->healthJasonSideView < 0) this->healthJasonSideView = 0;
+	if (this->healthJason < 0) this->healthJason = 0;
 
 }
 
@@ -245,16 +245,15 @@ void CGameGlobal::beingAttackedBySpike()
 		this->healthSophia -= BODY_DAMAGE_SPIKE;
 		break;
 	case CLASS_JASONSIDEVIEW:
-		this->healthJasonSideView -= BODY_DAMAGE_SPIKE*3;
+		this->healthJason -= BODY_DAMAGE_SPIKE*3;
 		break;
 	default:
-		this->healthJasonOverHead -= BODY_DAMAGE_SPIKE;
+		this->healthJason -= BODY_DAMAGE_SPIKE;
 		break;
 	}
 
 	if (this->healthSophia < 0) this->healthSophia = 0;
-	if (this->healthJasonSideView < 0) this->healthJasonSideView = 0;
-	if (this->healthJasonOverHead < 0) this->healthJasonOverHead = 0;
+	if (this->healthJason < 0) this->healthJason = 0;
 }
 
 void CGameGlobal::beingAttackedByDrop()
@@ -262,26 +261,26 @@ void CGameGlobal::beingAttackedByDrop()
 	int idPlayer = CGame::GetInstance()->GetCurrentPlayer()->classId;
 	if (idPlayer == CLASS_JASONSIDEVIEW)
 	{
-		this->healthJasonSideView -= BODY_DAMAGE_FALL;
+		this->healthJason -= BODY_DAMAGE_FALL;
 	}
 	
-	if (this->healthJasonSideView < 0) this->healthJasonSideView = 0;
+	if (this->healthJason < 0) this->healthJason = 0;
 }
 
 void CGameGlobal::beingAttackedByLowFall()
 {
 	int idPlayer = CGame::GetInstance()->GetCurrentPlayer()->classId;
-	if (idPlayer == CLASS_JASONSIDEVIEW)
+	if (idPlayer == CLASS_JASONSIDEVIEW || idPlayer == CLASS_JASONOVERHEAD)
 	{
-		this->healthJasonSideView -= BODY_DAMAGE_FALL/4;
+		this->healthJason -= BODY_DAMAGE_FALL/4;
 	}
 
-	if (this->healthJasonSideView < 0) this->healthJasonSideView = 0;
+	if (this->healthJason < 0) this->healthJason = 0;
 }
 
 void CGameGlobal::jasonJumpIntoSophia()
 {
-	healthJasonSideView = MAX_HEALTH_JASONSIDEVIEW;
+	healthJason = MAX_HEALTH_JASONSIDEVIEW;
 }
 void CGameGlobal::RenderHealth()
 {
@@ -292,10 +291,10 @@ void CGameGlobal::RenderHealth()
 			SupportRenderHeath(healthSophia);
 			break;
 		case CLASS_JASONSIDEVIEW:
-			SupportRenderHeath(healthJasonSideView);
+			SupportRenderHeath(healthJason);
 			break;
 		default:
-			SupportRenderHeath(healthJasonOverHead);
+			SupportRenderHeath(healthJason);
 			break;
 	}
 }
@@ -308,7 +307,7 @@ void CGameGlobal::RenderHealthGun()
 	Gun[ID_STATE_GUN]->Render(X_GUN + X_cam, Y_GUN + Y_cam);
 
 	//Render health 
-	int health = this->healthJasonOverHead;
+	int health = this->healthJason;
 	int flag_StateHealth = 0;
 	if (health > 0 && health <= 10)
 		flag_StateHealth = 1;
@@ -548,8 +547,7 @@ void CGameGlobal::SupportAnalysNumber(int number, int& first, int& second)
 void CGameGlobal::resetHealth()
 {
 	this->healthSophia = MAX_HEALTH_SOPHIA;
-	this->healthJasonSideView = MAX_HEALTH_JASONSIDEVIEW;
-	this->healthJasonOverHead = MAX_HEALTH_JASONOVERHEAD;
+	this->healthJason = MAX_HEALTH_JASONSIDEVIEW;
 }
 
 void CGameGlobal::saveGame()
@@ -590,6 +588,16 @@ void CGameGlobal::saveSophia()
 
 	this->IDSectionSophia = sophia->currentSectionId;
 }
+
+void CGameGlobal::saveJason()
+{
+	isOverheadtoSideView = true;
+	CJasonSideview* jason = CJasonSideview::GetInstance();
+	jason->GetPosition(this->jasonX, this->jasonY);
+
+	this->IDSectionJason = jason->currentSectionId;
+}
+
 bool CGameGlobal::CheckSophiaCanUseWeapon()
 {
 	switch (selectedWeapon)

@@ -45,7 +45,9 @@ private:
 	int flagPlayer = 1; // 1: Sophia 2:Jason SideView 3:Jason OverHead
 	float playerX = 0, playerY = 0;
 	float sophiaX = 0, sophiaY = 0;
+	float jasonX = 0, jasonY = 0;
 	int IDSectionSophia = 0;
+	int IDSectionJason = 0;
 	int IDCurrentSection = -1;
 
 	//AnimationHandler Render 
@@ -60,8 +62,7 @@ private:
 
 	//health player 
 	int healthSophia;
-	int healthJasonSideView;
-	int healthJasonOverHead;
+	int healthJason;
 
 	//Gun Power
 	int levelGunPower = 0; // [0..8]
@@ -90,8 +91,8 @@ public:
 	//get value methods
 	static CGameGlobal* GetInstance();
 	int get_healthSophia()		  { return this->healthSophia;		  }
-	int get_healthJasonSideView() { return this->healthJasonSideView; }
-	int get_healthJasonOverHead() { return this->healthJasonOverHead; }
+	int get_healthJasonSideView() { return this->healthJason; }
+	int get_healthJasonOverHead() { return this->healthJason; }
 
 	//event method
 	void getItem(Items item);
@@ -118,6 +119,7 @@ public:
 	void resetGame();
 
 	//Save game
+	bool isOverheadtoSideView = false;
 	bool isSaved() { return this->Saved; }
 	int getLeft() { return this->left; }
 	int getPlayer() { return this->flagPlayer; }
@@ -128,7 +130,9 @@ public:
 	void getCheckPoint(float& x, float& y) { x = this->playerX; y = this->playerY; }
 	void saveSophia();
 	void getInfoSophia(float& x, float& y, int& id) { x = this->sophiaX; y = this->sophiaY; id = this->IDSectionSophia; }
-	void beingAttackedByEnemy(CEnemy* enemy);
+
+	void saveJason();
+	void getInfoJason(float& x, float& y, int& id) { x = this->jasonX; y = this->jasonY; id = this->IDSectionJason; }
 
 	//CuteTN weapon
 	TypeWeapons selectedWeapon = TypeWeapons::MultiwarheadMissile;
