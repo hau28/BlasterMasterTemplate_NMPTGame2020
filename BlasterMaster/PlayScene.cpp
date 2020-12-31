@@ -237,6 +237,30 @@ void CPlayScene::InitSaveGameSideView()
 {
 	//Init follow save Game
 	CGameGlobal* global = CGameGlobal::GetInstance();
+
+	if (global->isOverheadtoSideView)
+	{
+		float x, y;
+		int idsection;
+		//Init savegame sophia
+		global->getInfoSophia(x, y, idsection);
+		Sections[idsection]->deleteSophia();
+		Sections[idsection]->pushSophia(x, y, idsection);
+		//Init savegame jason
+		global->getInfoJason(x, y, idsection);
+		Sections[idsection]->deleteJasonSideview();
+		Sections[idsection]->pushJasonSideview(x, y, idsection);
+		CGame::GetInstance()->SetState(GameState::PLAY_SIDEVIEW_JASON);
+		CJasonSideview::GetInstance()->resetState();
+		CSophia::GetInstance()->SetSpeed(0, 0);
+		global->isOverheadtoSideView = false;
+
+		//Keyup jason
+		CJasonSideview::GetInstance()->keyUptoFixState();
+		return;
+	}
+
+
 	global->resetHealth();
 
 	if (global->isSaved() == false)
@@ -608,9 +632,9 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			toPortal->GetSize(W_toPortal, H_toPortal);
 
 			toPortal->GetPosition(x_toPortal, y_toPortal);
-			Sections[CurrentSectionId]->pushJasonOverhead(x_toPortal + W_toPortal - 15, y_toPortal - 20, CurrentSectionId);
+			Sections[CurrentSectionId]->pushJasonOverhead(x_toPortal + W_toPortal, y_toPortal - 20, CurrentSectionId);
 			CJasonOverhead::GetInstance()->SnapToPortalMiddle(toPortal, false);
-			CJasonOverhead::GetInstance()->SetSpeed(0.11, 0);
+			CJasonOverhead::GetInstance()->SetSpeed(3, 0);
 			game->SetCamPos(0, cy);
 			init_camBox();
 
@@ -663,9 +687,9 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			int W_toPortal, H_toPortal;
 			toPortal->GetSize(W_toPortal, H_toPortal);
 			CurrentSectionId = NextSectionId;
-			Sections[CurrentSectionId]->pushJasonOverhead(x_toPortal - 20, y_toPortal - 20, CurrentSectionId);
+			Sections[CurrentSectionId]->pushJasonOverhead(x_toPortal - 30, y_toPortal - 20, CurrentSectionId);
 			CJasonOverhead::GetInstance()->SnapToPortalMiddle(toPortal, false);
-			CJasonSideview::GetInstance()->SetSpeed(-0.1, 0);
+			CJasonSideview::GetInstance()->SetSpeed(-3, 0);
 			game->SetCamPos(cx, cy);
 			init_camBox();
 
@@ -705,7 +729,7 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			int W_toPortal, H_toPortal;
 			toPortal->GetSize(W_toPortal, H_toPortal);
 			CurrentSectionId = NextSectionId;
-			Sections[CurrentSectionId]->pushJasonOverhead(x_toPortal, y_toPortal - H_toPortal, CurrentSectionId);
+			Sections[CurrentSectionId]->pushJasonOverhead(x_toPortal, y_toPortal - H_toPortal - 10, CurrentSectionId);
 			CJasonOverhead::GetInstance()->SnapToPortalMiddle(toPortal, true);
 			CJasonOverhead::GetInstance()->SetSpeed(0, -0.1);
 			game->SetCamPos(cx, cy);
