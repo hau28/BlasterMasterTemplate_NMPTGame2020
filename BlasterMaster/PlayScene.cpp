@@ -165,10 +165,6 @@ void CPlayScene::_ParseSection_SECTIONS(string line)
 		return;
 	}
 
-	// CuteTN To do: may us delete this later?
-	// set the first section as startup
-	if (CurrentSectionId == -1)
-		CurrentSectionId = section_ID;
 
 	//Add section
 	this->Sections[section_ID] = new CSection(background_ID, foreground_ID);
@@ -214,8 +210,15 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	LPGAMEOBJECT obj = CGameObjectFactory::Create(class_ID, Properties, sectionId);
 	
 	// current player
-	if (class_ID == CLASS_SOPHIA)
+	if (class_ID == CLASS_SOPHIA && CGame::GetInstance()->GetCurrentSceneId() == ID_SCENE_SIDEVIEW)
+	{
+		// CuteTN To do: may us delete this later?
+		// set the first section as startup
+		if (CurrentSectionId == -1)
+			CurrentSectionId = obj->currentSectionId;
+
 		this->player = obj;
+	}
 	
 	if (obj == nullptr)
 		DebugOut(L"[ERROR] Cannot create object with object Id: %d\n", obj_ID);
@@ -254,7 +257,7 @@ void CPlayScene::InitSaveGameSideView()
 		CJasonSideview::GetInstance()->resetState();
 		CSophia::GetInstance()->SetSpeed(0, 0);
 		global->isOverheadtoSideView = false;
-
+		CurrentSectionId = idsection;
 		//Keyup jason
 		CJasonSideview::GetInstance()->keyUptoFixState();
 		return;

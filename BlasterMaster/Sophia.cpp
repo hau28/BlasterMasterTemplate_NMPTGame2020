@@ -383,7 +383,9 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
         return;
     }
     // dirty demo
-    HandleKeys(dt);
+    
+    if(!flagDead)
+		HandleKeys(dt);
 
     portaling = 0;
     if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT)
@@ -443,8 +445,7 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
 
     if ((!flagDead) && (!flagOnAir) && CGameGlobal::GetInstance()->get_healthSophia() <= 0)
     {
-        vx = 0;
-        vy = 0;
+        vx = vy = 0;
 
         if (!dyingEffectTimer->IsRunning())
             dyingEffectTimer->Start();
@@ -454,7 +455,6 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
 
         flagDead = true;
     }
-
 }
 
 void CSophia::Explode()
@@ -470,6 +470,12 @@ void CSophia::Explode()
 
 void CSophia::UpdateVelocity(DWORD dt)
 {
+    if (flagDead)
+    {
+        vx = vy = 0;
+        return;
+    }
+
     //jump handler
     if (vy < 0 && !IsKeyDown(DIK_X) && ground - y > 48 && ground - y < 48.5)
         vy = 0;
@@ -584,14 +590,27 @@ void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
                 break;
             }
 
-            LPPORTAL fromPortal = dynamic_cast<LPPORTAL>(obj);
-            LPPORTAL toPortal = CPortalLib::GetInstance()->Get(fromPortal->associatedPortalId);
+            if (
+                (coEvent->nx < 0 && IsKeyDown(DIK_RIGHT)) ||
+                (coEvent->nx > 0 && IsKeyDown(DIK_LEFT)) ||
+                (coEvent->ny < 0 && IsKeyDown(DIK_DOWN)) ||
+                (coEvent->ny > 0 && IsKeyDown(DIK_UP)))
+            {
+                LPPORTAL fromPortal = dynamic_cast<LPPORTAL>(obj);
+                LPPORTAL toPortal = CPortalLib::GetInstance()->Get(fromPortal->associatedPortalId);
 
-            // Sanh code from here!
-            LPGAME_EVENT newEvent = new CWalkInPortalEvent("WalkInPortalEvent", fromPortal, toPortal);
-            CGame::GetInstance()->AddGameEvent(newEvent);
-            // to do: create an event to CGame, let CGame handle switching section
-            DebugOut(L"Sophia to portal %d of section %d\n", fromPortal->associatedPortalId, toPortal->currentSectionId);
+                // Sanh code from here!
+                LPGAME_EVENT newEvent = new CWalkInPortalEvent("WalkInPortalEvent", fromPortal, toPortal);
+                CGame::GetInstance()->AddGameEvent(newEvent);
+                // to do: create an event to CGame, let CGame handle switching section
+                DebugOut(L"Sophia to portal %d of section %d\n", fromPortal->associatedPortalId, toPortal->currentSectionId);
+            }
+            else
+            {
+                CGameObjectBehaviour::BlockObject(dt, coEvent);
+            }
+
+            break;
         }
         }
     }
@@ -819,7 +838,7 @@ void CSophia::ShootMultiwarheadMissile()
 		CGameObjectBehaviour::CreateObjectAtCenterOfAnother(bullet, this);
 
 		// CuteTN Note: believe me, it counts for each missile :)
-		//CGameGlobal::GetInstance()->AddToSelectedWeapon(-1);
+		CGameGlobal::GetInstance()->AddToSelectedWeapon(-1);
 	}
 
 }

@@ -7,7 +7,7 @@ class CSkull : public CEnemy
     const int SKULL_HEALTHPOINT = 3;
 
     const int SKULL_BOUNDBOX_WIDTH = 15;
-    const int SKULL_BOUNDBOX_HEIGHT = 21;
+    const int SKULL_BOUNDBOX_HEIGHT = 15;
     const int SKULL_BOUNDBOX_OFFSETX = 9;
     const int SKULL_BOUNDBOX_OFFSETY = 8;
 

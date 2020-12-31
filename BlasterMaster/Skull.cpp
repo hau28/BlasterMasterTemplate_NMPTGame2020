@@ -7,7 +7,6 @@
 
 CSkull::CSkull(int classId, int x, int y, int sectionId, int animsId) : CEnemy::CEnemy(classId, x, y, sectionId, animsId)
 {
-
 	this->isUpdatedWhenOffScreen = true;
 
 	timeDropBullet = GetTickCount();
@@ -15,6 +14,7 @@ CSkull::CSkull(int classId, int x, int y, int sectionId, int animsId) : CEnemy::
 	vy = 0;
 
 	healthPoint = SKULL_HEALTHPOINT;
+
 }
 
 bool CSkull::isOnTopOfPlayer()
@@ -51,10 +51,12 @@ void CSkull::UpdateVelocity(DWORD dt)
 			if (Xplayer < x)
 			{
 				vx = -SKULL_MOVE_SPEED;
+				SetState(SKULL_STATE_FLY_LEFT);
 			}
 			else
 			{
 				vx = SKULL_MOVE_SPEED;
+				SetState(SKULL_STATE_FLY_RIGHT);
 			}
 		}
 		flagAppeared = true;

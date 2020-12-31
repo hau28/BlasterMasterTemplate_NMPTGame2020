@@ -60,7 +60,7 @@ private:
     bool flagCrawl = false;
     bool flagJumpWalk;
     bool flagWalk;
-    bool flagCanClimb = true;
+    bool flagCanClimb = false;
     bool flagClimb;
     bool flagClimbOver;
     bool flagSwim = false;

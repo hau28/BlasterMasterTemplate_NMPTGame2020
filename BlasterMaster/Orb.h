@@ -8,7 +8,7 @@ const int ORB_BOUNDBOX_OFFSETX = 2;
 const int ORB_BOUNDBOX_OFFSETY = 2;
 
 const float ORB_MOVE_SPEED = 0.05f;
-const float ORB_CHASE_SPEED = 0.075f;
+const float ORB_CHASE_SPEED = 0.09f;
 const DWORD VERTICAL_PERIOD = 5000;
 
 class COrb : public CEnemy
