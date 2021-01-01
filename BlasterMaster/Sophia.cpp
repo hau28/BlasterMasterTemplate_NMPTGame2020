@@ -311,17 +311,17 @@ void CSophia::HandleKeyUp(DWORD dt, int keyCode)
         ax = SOPHIA_AX;
     }
 
-    if (vy < 0 && ground - y > 48.5 && keyCode == DIK_X)
+    if (vy < 0 && ground - y > 48.5 && keyCode == ControlKeys::JumpKey)
         vy = 0;
 }
 
 void CSophia::HandleKeyDown(DWORD dt, int keyCode)
 {
-    if (!flagOnAir && keyCode == DIK_X)
+    if (!flagOnAir && keyCode == ControlKeys::JumpKey)
     {
         vy = -SOPHIA_JUMP_FORCE;
     }
-    if (!flagOnAir && keyCode == DIK_RSHIFT)
+    if (!flagOnAir && keyCode == ControlKeys::SwitchPlayerKey)
     {
         flag_JasonJumpOut = true;
         updateBody();
@@ -334,16 +334,9 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
         vx = 0;
         ax = 0;
     }
-    //SANH_SWITCH SCENE
-    //Help Sanh fastly test switch scene
-    if (keyCode == DIK_SPACE)
-    {
-        CGameEvent* event = new SwitchSceneEvent(ID_SCENE_END);
-        CGame::AddGameEvent(event);
-    }
 
     // CuteTN Bullet
-    if (keyCode == DIK_C)
+    if (keyCode == ControlKeys::FireKey)
     {
         if (IsKeyDown(DIK_DOWN))
             ShootWeapon();
@@ -477,7 +470,7 @@ void CSophia::UpdateVelocity(DWORD dt)
     }
 
     //jump handler
-    if (vy < 0 && !IsKeyDown(DIK_X) && ground - y > 48 && ground - y < 48.5)
+    if (vy < 0 && !IsKeyDown(ControlKeys::JumpKey) && ground - y > 48 && ground - y < 48.5)
         vy = 0;
 
     vy += SOPHIA_GRAVITY * dt;

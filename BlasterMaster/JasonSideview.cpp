@@ -280,12 +280,12 @@ void CJasonSideview::HandleKeysHold(DWORD dt)
 
 void CJasonSideview::HandleKeyUp(DWORD dt, int keyCode)
 {
-    if ((keyCode == DIK_RIGHT || keyCode == DIK_LEFT /*|| keyCode == DIK_X*/) && !flagClimb )
+    if ((keyCode == DIK_RIGHT || keyCode == DIK_LEFT /*|| keyCode == ControlKeys::JumpKey*/) && !flagClimb )
     {
         if (flagCrawl && !flagOnAir)
             vx = 0;
 
-        if (!flagCrawl && !IsKeyDown(DIK_X))
+        if (!flagCrawl && !IsKeyDown(ControlKeys::JumpKey))
         {
             ax = JASONSIDEVIEW_AX*3;
             flagWalk = true;
@@ -372,7 +372,7 @@ void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)
     }
 
     // jason jump 
-    if (keyCode == DIK_X && !flagOnAir && !flagCrawl && !flagClimb)
+    if (keyCode == ControlKeys::JumpKey && !flagOnAir && !flagCrawl && !flagClimb)
     {
         vx = 0;
         vy -= JASONSIDEVIEW_JUMP_SPEED_Y;
@@ -384,7 +384,7 @@ void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)
     }
 
     //jason jump when climb
-    if (keyCode == DIK_X && flagClimb && !flagClimbOver)
+    if (keyCode == ControlKeys::JumpKey && flagClimb && !flagClimbOver)
     {
         vy = -JASONSIDEVIEW_JUMP_SPEED_Y /2 ;
         flagClimb = false;
@@ -401,7 +401,7 @@ void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)
     }
 
     // CuteTN: shoot
-    if (keyCode == DIK_C && !flagClimb)
+    if (keyCode == ControlKeys::FireKey && !flagClimb)
     {
         CBullet_JasonSideview* bullet = new CBullet_JasonSideview(0, 0, 0, flagTurnRight ? 1 : -1);
         CGameObjectBehaviour::CreateObjectAtCenterOfAnother(bullet, this);

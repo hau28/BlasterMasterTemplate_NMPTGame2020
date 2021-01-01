@@ -143,6 +143,7 @@
     <ClCompile Include="Bullet_MultiwarheadMissile.cpp" />
     <ClCompile Include="JasonOverhead.cpp" />
     <ClCompile Include="Bullet_ThunderBreak.cpp" />
+    <ClCompile Include="ControlKeys.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -267,6 +268,7 @@
     <ClInclude Include="Bullet_MultiwarheadMissile.h" />
     <ClInclude Include="JasonOverhead.h" />
     <ClInclude Include="Bullet_ThunderBreak.h" />
+    <ClInclude Include="ControlKeys.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="AnimationCore">

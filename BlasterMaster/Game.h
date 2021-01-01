@@ -11,6 +11,7 @@
 #include "CustomKeyEvent.h"
 #include "GameState.h"
 #include "Utils.h"
+#include "ControlKeys.h"
 #include "GameEvent.h"
 #include <iostream>
 #include <fstream>
