@@ -39,7 +39,6 @@ void CSophia::Init(int classId, int x, int y)
     invulnerableTimer->Stop();
     flagInvulnerable = false;
 
-    // CuteTN Test
     SetModifyColor(255, 255, 255);
 
     dyingEffectTimer = new CTimer(this, DYING_EFFECT_DURATION, 1);
@@ -48,6 +47,15 @@ void CSophia::Init(int classId, int x, int y)
     vulnerableFlashingEffect = new CObjectFlashingEffectPlayer(this, &flashingColors, SOPHIA_VULNERABLE_EFFECT_FLASHING_DURATION);
 
     flagDead = false;
+
+    // CuteTN
+    flagBulletReloaded = true;
+    bulletReloadTimer = new CTimer(this, SOPHIA_BULLET_RELOAD_DURATION, 1);
+    bulletReloadTimer->Stop();
+
+    flagHomingMissileReloaded = true;
+    homingMissileReloadTimer = new CTimer(this, SOPHIA_HOMING_MISSILE_RELOAD_DURATION, 1);
+    homingMissileReloadTimer->Stop();
 };
 
 void CSophia::setGunState(int state) {
@@ -258,6 +266,11 @@ void CSophia::updateBody()
 
 void CSophia::HandleKeysHold(DWORD dt)
 {
+    // CuteTN: Auto jump and fire
+    if (IsKeyDown(ControlKeys::AutoJumpKey))
+        HandleKeyDown(dt, ControlKeys::JumpKey);
+    if (IsKeyDown(ControlKeys::AutoFireKey))
+        HandleKeyDown(dt, ControlKeys::FireKey);
 
     if (IsKeyDown(DIK_RIGHT))
     {
@@ -341,7 +354,10 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
         if (IsKeyDown(DIK_DOWN))
             ShootWeapon();
         else
-			Shoot();
+        {
+            if(flagBulletReloaded && numberOfSophiaBullets < SOPHIA_MAX_BULLETS_ON_CAMERA)
+				Shoot();
+        }
     }
 
     // CuteTN switch scene through scene portal
@@ -367,6 +383,11 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
     //don't allow update when player is jason
     invulnerableTimer->Update(dt);
     dyingEffectTimer->Update(dt);
+
+    //CuteTN: allow shooting logics
+    bulletReloadTimer->Update(dt);
+    homingMissileReloadTimer->Update(dt);
+    CountSophiaBulletsAndWeapons(coObjs);
 
     this->coObjects = coObjs;
 
@@ -447,6 +468,40 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
         Explode();
 
         flagDead = true;
+    }
+}
+
+void CSophia::CountSophiaBulletsAndWeapons(vector<LPGAMEOBJECT>* coObjs)
+{
+    numberOfSophiaBullets = 0;
+    numberOfHomingMissiles = 0;
+    numberOfTopMultiwarheadMissiles = 0;
+    numberOfMiddleMultiwarheadMissiles = 0;
+    numberOfBottomMultiwarheadMissiles = 0;
+
+    for (auto obj : *coObjs)
+    {
+        switch (obj->classId)
+        {
+        case CLASS_SOPHIA_BULLET: numberOfSophiaBullets++; break;
+        case CLASS_HOMING_MISSILE: numberOfHomingMissiles++; break;
+        case CLASS_MULTIWARHEAD_MISSILE:
+        {
+            CBullet_MultiwarheadMissile* missile = dynamic_cast<CBullet_MultiwarheadMissile*>(obj);
+
+            float missile_vx, missile_vy;
+            missile->GetSpeed(missile_vx, missile_vy);
+
+            if (missile_vy > 0)
+                numberOfBottomMultiwarheadMissiles++;
+            else if (missile_vy < 0)
+                numberOfTopMultiwarheadMissiles++;
+            else
+                numberOfMiddleMultiwarheadMissiles++;
+
+            break;
+        }
+        }
     }
 }
 
@@ -760,6 +815,9 @@ void CSophia::Shoot()
     CGameObjectBehaviour::SetBoundingBoxCenter(bullet, sx, sy);
 
     CGameObjectBehaviour::CreateObject(bullet);
+
+    bulletReloadTimer->Start();
+    flagBulletReloaded = false;
 }
 
 void CSophia::ShootWeapon()
@@ -780,6 +838,9 @@ void CSophia::ShootWeapon()
 
 void CSophia::ShootHomingMissile()
 {
+    if (!flagHomingMissileReloaded)
+        return;
+
     int usesLeft = CBullet_HomingMissile::MAX_HOMING_MISSILE_PER_USE;
 
 	LPGAMEOBJECT targetObject = nullptr;
@@ -788,10 +849,14 @@ void CSophia::ShootHomingMissile()
     for (auto obj : *coObjects)
     {
         if (usesLeft == 0)
-            return;
+            break;
 
-		if (!CGameGlobal::GetInstance()->CheckSophiaCanUseWeapon())
-			continue;
+        // CuteTN Note: if the number of EXISTING homing missiles + the number of JUST USED ones is exceeded, prevent shooting :)
+        if (numberOfHomingMissiles + (CBullet_HomingMissile::MAX_HOMING_MISSILE_PER_USE - usesLeft) >= SOPHIA_MAX_HOMING_MISSILES_ON_CAMERA)
+            break;
+
+        if (!CGameGlobal::GetInstance()->CheckSophiaCanUseWeapon())
+            break;
 
         if (checkObjInCamera(obj) && dynamic_cast<CEnemy*>(obj))
         {
@@ -808,6 +873,14 @@ void CSophia::ShootHomingMissile()
             usesLeft--;
         }
     }
+
+    // if we have used at least 1 homing missile, we have to wait for the weapon to reload ;>
+    if (usesLeft < CBullet_HomingMissile::MAX_HOMING_MISSILE_PER_USE)
+    {
+        homingMissileReloadTimer->Start();
+        flagHomingMissileReloaded = false;
+    }
+
 }
 
 void CSophia::ShootMultiwarheadMissile()
@@ -826,6 +899,14 @@ void CSophia::ShootMultiwarheadMissile()
     {
 		if (!CGameGlobal::GetInstance()->CheckSophiaCanUseWeapon())
 			continue;
+
+        // dont allow using weapons when there are still weapons on the screen
+        if (initVy < 0 && numberOfTopMultiwarheadMissiles > 0)
+            continue;
+        if (initVy == 0 && numberOfMiddleMultiwarheadMissiles > 0)
+            continue;
+        if (initVy > 0 && numberOfBottomMultiwarheadMissiles > 0)
+            continue;
 
 		CBullet_MultiwarheadMissile* bullet = new CBullet_MultiwarheadMissile(0, 0, 0, initLeft, 0, initVy);
 		CGameObjectBehaviour::CreateObjectAtCenterOfAnother(bullet, this);
@@ -862,6 +943,16 @@ void CSophia::HandleTimerTick(LPTIMER sender)
         CGameGlobal::GetInstance()->resetHealth();
         CGame::AddGameEvent(event);
         dyingEffectTimer->Stop();
+    }
+
+    if (sender == bulletReloadTimer)
+    {
+        flagBulletReloaded = true;
+    }
+
+    if (sender == homingMissileReloadTimer)
+    {
+        flagHomingMissileReloaded = true;
     }
 }
 

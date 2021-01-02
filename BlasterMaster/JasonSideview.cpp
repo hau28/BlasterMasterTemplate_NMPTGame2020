@@ -209,6 +209,12 @@ void CJasonSideview::HandleKeys(DWORD dt)
 
 void CJasonSideview::HandleKeysHold(DWORD dt)
 {
+    // CuteTN: Auto jump and fire
+    if (IsKeyDown(ControlKeys::AutoJumpKey))
+        HandleKeyDown(dt, ControlKeys::JumpKey);
+    if (IsKeyDown(ControlKeys::AutoFireKey))
+        HandleKeyDown(dt, ControlKeys::FireKey);
+
     if (!flagClimb)
     {
         if (IsKeyDown(DIK_RIGHT))

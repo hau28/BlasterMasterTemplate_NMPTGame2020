@@ -89,12 +89,28 @@ private:
     void GetShootPosition(float& x, float &y);
     void GetGunDirection(float& dirX, float& dirY);
 
-    // CuteTN shoot
     void Shoot();
     void ShootWeapon();
     void ShootHomingMissile();
     void ShootMultiwarheadMissile();
     void ShootThunderBreak();
+
+    const int SOPHIA_BULLET_RELOAD_DURATION = 100;
+    const int SOPHIA_HOMING_MISSILE_RELOAD_DURATION = 100;
+    bool flagBulletReloaded, flagHomingMissileReloaded;
+    LPTIMER bulletReloadTimer;
+    LPTIMER homingMissileReloadTimer;
+
+    const int SOPHIA_MAX_BULLETS_ON_CAMERA = 3;
+    const int SOPHIA_MAX_HOMING_MISSILES_ON_CAMERA = 4;
+    int numberOfSophiaBullets;
+    int numberOfHomingMissiles;
+    int numberOfTopMultiwarheadMissiles;
+    int numberOfMiddleMultiwarheadMissiles;
+    int numberOfBottomMultiwarheadMissiles;
+
+    // CuteTN confess: what's SRP?
+    void CountSophiaBulletsAndWeapons(vector<LPGAMEOBJECT>* coObjs);
 
     // CuteTN Note:
     // we need to save the list of game object that's on the camera with SOPHIA so that we can find the target for homing missile
