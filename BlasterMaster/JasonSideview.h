@@ -81,6 +81,17 @@ private:
     // CuteTN: switching scene with scene portal
     LPGAMEOBJECT overlappingScenePortal = nullptr;
 
+    // CuteTN: reload and limit bullets
+    const int JASONSIDEVIEW_BULLET_RELOAD_DURATION = 100;
+    bool flagBulletReloaded;
+    LPTIMER bulletReloadTimer;
+
+    const int JASONSIDEVIEW_MAX_BULLETS_ON_CAMERA = 2;
+    int numberOfJasonSideviewBullets;
+    void CountJasonSideviewBullets(vector<LPGAMEOBJECT>* coObjs);
+
+    void Shoot();
+
 public:     
     virtual void UpdateVelocity(DWORD dt);
     virtual void HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent);

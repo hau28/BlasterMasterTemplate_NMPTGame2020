@@ -83,6 +83,11 @@ void CJasonSideview::Init()
     modifyR = modifyG = modifyB = 255;
 
     vulnerableFlashingEffect = new CObjectFlashingEffectPlayer(this, &flashingColors, JASONSIDEVIEW_VULNERABLE_EFFECT_FLASHING_DURATION);
+
+    // CuteTN
+    flagBulletReloaded = true;
+    bulletReloadTimer = new CTimer(this, JASONSIDEVIEW_BULLET_RELOAD_DURATION, 1);
+    bulletReloadTimer->Stop();
 }
 
 #pragma region key events handling
@@ -409,10 +414,30 @@ void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)
     // CuteTN: shoot
     if (keyCode == ControlKeys::FireKey && !flagClimb)
     {
-        CBullet_JasonSideview* bullet = new CBullet_JasonSideview(0, 0, 0, flagTurnRight ? 1 : -1);
-        CGameObjectBehaviour::CreateObjectAtCenterOfAnother(bullet, this);
+        if(flagBulletReloaded && numberOfJasonSideviewBullets < JASONSIDEVIEW_MAX_BULLETS_ON_CAMERA)
+			Shoot();
     }
 
+}
+
+void CJasonSideview::CountJasonSideviewBullets(vector<LPGAMEOBJECT>* coObjs)
+{
+    numberOfJasonSideviewBullets = 0;
+    
+    for (auto obj : *coObjs)
+    {
+        if (dynamic_cast<CBullet_JasonSideview*>(obj))
+            numberOfJasonSideviewBullets++;
+    }
+}
+
+void CJasonSideview::Shoot()
+{
+    CBullet_JasonSideview* bullet = new CBullet_JasonSideview(0, 0, 0, flagTurnRight ? 1 : -1);
+    CGameObjectBehaviour::CreateObjectAtCenterOfAnother(bullet, this);
+
+    bulletReloadTimer->Start();
+    flagBulletReloaded = false;
 }
 
 void CJasonSideview::UpdateVelocity(DWORD dt)
@@ -514,6 +539,9 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
         yStartFalling = min(yStartFalling, this->y);
 
     vulnerableFlashingEffect->Update(dt);
+
+    bulletReloadTimer->Update(dt);
+    CountJasonSideviewBullets(coObjs);
 
     // CuteTN Note: Handle knocked back here
     UpdateVelocity(dt);
@@ -770,6 +798,11 @@ void CJasonSideview::HandleTimerTick(LPTIMER sender)
         CGameGlobal::GetInstance()->resetHealth();
         CGame::AddGameEvent(event);
         dyingEffectTimer->Stop();
+    }
+
+    if (sender == bulletReloadTimer)
+    {
+        flagBulletReloaded = true;
     }
 }
 
