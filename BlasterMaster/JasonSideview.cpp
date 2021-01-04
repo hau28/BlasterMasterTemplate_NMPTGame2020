@@ -301,7 +301,7 @@ void CJasonSideview::HandleKeyUp(DWORD dt, int keyCode)
 void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)
 {
 
-    if (keyCode == DIK_UP && !flagClimbOver)
+    if (keyCode == DIK_UP )
     {
         if (flagCrawl)
         {
