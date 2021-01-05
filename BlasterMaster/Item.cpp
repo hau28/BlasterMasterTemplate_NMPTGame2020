@@ -4,7 +4,18 @@
 
 CItem::CItem(int classId, int x, int y, int sectionId, bool isFlashy) : CAnimatableObject::CAnimatableObject(classId, x, y, sectionId)
 {
+	x = int(x);
+	y = int(y);
+
 	this->isFlashy = isFlashy;
+
+	normalPhaseTimer = new CTimer(this, ITEM_NORMAL_PHASE_DURATION, 1);
+
+	blinkingPhaseTimer = new CTimer(this, ITEM_BLINKING_PHASE_DURATION, 1);
+	blinkingPhaseTimer->Stop();
+
+	blinkTimer = new CTimer(this, ITEM_BLINK_DURATION);
+	blinkTimer->Stop();
 }
 
 void CItem::UpdateVelocity(DWORD dt)
@@ -20,12 +31,8 @@ void CItem::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 		return;
 
 	LPGAMEOBJECT obj = coEvent->otherObject;
-
-	if (
-		obj->classId == CLASS_SOPHIA ||
-		obj->classId == CLASS_JASONSIDEVIEW ||
-		obj->classId == CLASS_JASONOVERHEAD
-		)
+	LPGAMEOBJECT player = CGame::GetInstance()->GetCurrentPlayer();
+	if (obj == player)
 	{
 		ApplyEffect(obj->classId);
 		CGameObjectBehaviour::RemoveObject(this);
@@ -34,11 +41,8 @@ void CItem::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 void CItem::HandleOverlap(LPGAMEOBJECT overlappedObj)
 {
-	if (
-		overlappedObj->classId == CLASS_SOPHIA ||
-		overlappedObj->classId == CLASS_JASONSIDEVIEW ||
-		overlappedObj->classId == CLASS_JASONOVERHEAD
-		)
+	LPGAMEOBJECT player = CGame::GetInstance()->GetCurrentPlayer();
+	if (overlappedObj == player)
 	{
 		ApplyEffect(overlappedObj->classId);
 		CGameObjectBehaviour::RemoveObject(this);
@@ -47,6 +51,10 @@ void CItem::HandleOverlap(LPGAMEOBJECT overlappedObj)
 
 void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
+	normalPhaseTimer->Update(dt);
+	blinkingPhaseTimer->Update(dt);
+	blinkTimer->Update(dt);
+
 	CAnimatableObject::Update(dt, coObjs);
 }
 
@@ -56,6 +64,25 @@ void CItem::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 	right = left + ITEM_BOUNDBOX_WIDTH;
 	top = y + ITEM_BOUNDBOX_OFFSETY;
 	bottom = top + ITEM_BOUNDBOX_HEIGHT;
+}
+
+void CItem::HandleTimerTick(CTimer* sender)
+{
+	if (sender == normalPhaseTimer)
+	{
+		blinkTimer->Start();
+		blinkingPhaseTimer->Start();
+	}
+
+	if (sender == blinkTimer)
+	{
+		modifyA = 255 - modifyA;
+	}
+
+	if (sender == blinkingPhaseTimer)
+	{
+		CGameObjectBehaviour::RemoveObject(this);
+	}
 }
 
 void CItem::ApplyEffect(int playerClassId)

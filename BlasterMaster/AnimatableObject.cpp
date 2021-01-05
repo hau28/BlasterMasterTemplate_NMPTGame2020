@@ -33,6 +33,12 @@ CAnimatableObject::CAnimatableObject(int classId, int x, int y, int sectionId) :
 {
 }
 
+void CAnimatableObject::SetModifyColor(int a, int r, int g, int b)
+{
+	modifyA = a;
+	SetModifyColor(r, g, b);
+}
+
 int CAnimatableObject::LookUpAnimationsId(int classId)
 {
 	return CObjectAnimationsLib::GetInstance()->GetAnimaionsId(classId);
@@ -162,7 +168,7 @@ void CAnimatableObject::Render(float offsetX, float offsetY)
 		DebugOut(L"[ERROR] Missing animation handler of state %d\n", state);
 	}
 
-	animationHandlers[state]->Render(x + offsetX, y + offsetY, 255, modifyR, modifyG, modifyB);
+	animationHandlers[state]->Render(x + offsetX, y + offsetY, modifyA, modifyR, modifyG, modifyB);
 	animationHandlers[state]->Update();
 }
 

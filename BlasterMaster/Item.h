@@ -1,6 +1,9 @@
 #pragma once
 #include "AnimatableObject.h"
-class CItem : public CAnimatableObject
+#include "ITimeTrackable.h"
+#include "Timer.h"
+
+class CItem : public CAnimatableObject, public ITimeTrackable
 {
 private:
 	const int ITEM_BOUNDBOX_OFFSETX = 4;
@@ -16,6 +19,14 @@ private:
 
 	bool isFlashy;
 
+	const int ITEM_NORMAL_PHASE_DURATION = 10000;
+	const int ITEM_BLINKING_PHASE_DURATION = 2000;
+	const int ITEM_BLINK_DURATION = 30;
+
+	LPTIMER normalPhaseTimer = nullptr;
+	LPTIMER blinkingPhaseTimer = nullptr;
+	LPTIMER blinkTimer = nullptr;
+
 public:
 	CItem() {};
 	CItem(int classId, int x, int y, int sectionId, bool isFlashy = false);
@@ -27,6 +38,8 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs);
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+
+	virtual void HandleTimerTick(CTimer* sender);
 
 	void ApplyEffect(int playerClassId);
 };
