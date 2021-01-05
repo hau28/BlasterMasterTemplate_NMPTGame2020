@@ -56,6 +56,7 @@ void CSophia::Init(int classId, int x, int y)
     flagHomingMissileReloaded = true;
     homingMissileReloadTimer = new CTimer(this, SOPHIA_HOMING_MISSILE_RELOAD_DURATION, 1);
     homingMissileReloadTimer->Stop();
+    
 };
 
 void CSophia::setGunState(int state) {
@@ -475,6 +476,7 @@ void CSophia::CountSophiaBulletsAndWeapons(vector<LPGAMEOBJECT>* coObjs)
 {
     numberOfSophiaBullets = 0;
     numberOfHomingMissiles = 0;
+    numberOfThunderBreak = 0;
     numberOfTopMultiwarheadMissiles = 0;
     numberOfMiddleMultiwarheadMissiles = 0;
     numberOfBottomMultiwarheadMissiles = 0;
@@ -485,6 +487,7 @@ void CSophia::CountSophiaBulletsAndWeapons(vector<LPGAMEOBJECT>* coObjs)
         {
         case CLASS_SOPHIA_BULLET: numberOfSophiaBullets++; break;
         case CLASS_HOMING_MISSILE: numberOfHomingMissiles++; break;
+        case CLASS_THUNDERBREAK: numberOfThunderBreak++; break;
         case CLASS_MULTIWARHEAD_MISSILE:
         {
             CBullet_MultiwarheadMissile* missile = dynamic_cast<CBullet_MultiwarheadMissile*>(obj);
@@ -920,6 +923,9 @@ void CSophia::ShootMultiwarheadMissile()
 void CSophia::ShootThunderBreak()
 {
     if (!CGameGlobal::GetInstance()->CheckSophiaCanUseWeapon())
+        return;
+
+    if (numberOfThunderBreak > 0)
         return;
 
     CBullet_ThunderBreak* bullet = new CBullet_ThunderBreak(0, 0, 0);
