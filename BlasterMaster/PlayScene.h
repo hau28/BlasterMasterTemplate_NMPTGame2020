@@ -65,7 +65,7 @@ public:
 	LPPORTAL toPortal;
 	float offset_x_SectionSwitch;
 	float offset_y_SectionSwitch;
-	void set_offset(LPPORTAL fromPortal, LPPORTAL toPortal, string direction);
+	void set_offset(LPPORTAL fromPortal, LPPORTAL toPortal, string direction);	
 	float camBoxLeft, camBoxRight, camBoxTop, camBoxBottom;
 	void init_camBox();
 	void update_camBox();
@@ -76,6 +76,7 @@ public:
 	void PreventCameraOverBoundingBox(float& cx, float& cy);
 	void ResetGameStateAfterSwichtSection();
 	bool isSectionSwitch();
+
 	//Sanh
 	LPSECTION GetCurrentSection() { return Sections[CurrentSectionId]; }
 	LPGAMEOBJECT GetPlayer() { return player; } 
