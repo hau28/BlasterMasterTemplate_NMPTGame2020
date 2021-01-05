@@ -7,7 +7,6 @@
 #include "Game.h"
 #include "Utils.h"
 
-#include "SoundManager.h"
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
 #define MAIN_WINDOW_TITLE L"BLASTER MASTER - GAME DO STUDIO"
@@ -181,6 +180,5 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH*2.5, SCREEN_HEIGHT*2.5, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
 
 	Run();
-	SoundManager::GetInstance()->Release();
 	return 0;
 }

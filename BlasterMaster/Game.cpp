@@ -10,7 +10,6 @@
 #include "JasonJumpInEvent.h"
 #include "Section.h"
 #include "SwitchSceneEvent.h"
-#include "SoundManager.h"
 
 #define SCENE_SIDEVIEW_ID 2
 
@@ -73,6 +72,11 @@ void CGame::Init(HWND hWnd)
 	srand(time(NULL));
 
 	OutputDebugString(L"[INFO] InitGame done;\n");
+}
+
+HWND CGame::getCurrentHWND()
+{
+	return hWnd;
 }
 
 void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha, bool flipX, int rotate, float offset_x, float offset_y, int modifyR, int modifyG, int modifyB)
@@ -226,7 +230,6 @@ CGame::~CGame()
 	if (backBuffer != nullptr) backBuffer->Release();
 	if (d3ddv != nullptr) d3ddv->Release();
 	if (d3d != nullptr) d3d->Release();
-	SoundManager::GetInstance()->Release();
 }
 
 CGameObject* CGame::GetCurrentPlayer()
@@ -447,10 +450,5 @@ void CGame::SwitchScene(int scene_id)
 	current_scene = scene_id;
 	LPSCENE s = scenes[scene_id];
 	// CGame::GetInstance()->SetKeyHandler(s->GetKeyEventHandler());
-	SoundManager::GetInstance()->StopSource();
-	if (scene_id == SCENE_SIDEVIEW_ID) //Main scene 
-		SoundManager::GetInstance()->PlaySoundInfinite("ThemeSong.wav");
-	else //interior 
-		SoundManager::GetInstance()->PlaySoundInfinite("InteriorTheme.wav");
 	s->Load();	
 }

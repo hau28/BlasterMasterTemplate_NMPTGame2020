@@ -47,6 +47,7 @@ public:
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();
+	void LoadSound();
 
 	unordered_map<int, LPSECTION> Sections;
 	int CurrentSectionId;

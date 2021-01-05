@@ -124,7 +124,7 @@ public:
 	static void AddGameEvent(LPGAME_EVENT gameEvent);
 	static void HandleGameEvents();
 	static void HandleGameEvent(LPGAME_EVENT gameEvent);
-
+	HWND getCurrentHWND();
 	static CGame * GetInstance();
 	~CGame();
 };
