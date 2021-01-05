@@ -9,6 +9,7 @@ protected:
 	CObjectFlashingEffectPlayer* flashingEffect = nullptr;
 
 	int healthPoint = 100;
+	virtual void DropItem();
 	virtual void Explode();
 	void PlayFlashingEffect();
 

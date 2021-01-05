@@ -149,6 +149,7 @@
     <ClCompile Include="Bullet_Skull.cpp" />
     <ClCompile Include="Bullet_ThunderBreak.cpp" />
     <ClCompile Include="ControlKeys.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="JasonOverhead.cpp" />
     <ClCompile Include="Insect.cpp" />
     <ClCompile Include="GameGlobal.cpp" />
@@ -211,6 +212,7 @@
     <ClInclude Include="Bullet_Sophia.h" />
     <ClInclude Include="Bullet_ThunderBreak.h" />
     <ClInclude Include="ControlKeys.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="JasonOverhead.h" />
     <ClInclude Include="GameGlobal.h" />
     <ClInclude Include="Explosion.h" />

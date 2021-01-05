@@ -5,8 +5,9 @@
 #define MAX_HEALTH_SOPHIA 80
 #define MAX_HEALTH_JASONSIDEVIEW 80
 #define MAX_HEALTH_JASONOVERHEAD 80
-#define BODY_DAMAGE_ENEMY 5 * 0
-#define BODY_DAMAGE_BULLET 5 * 0
+#define MAX_GUN_LEVEL 8
+#define BODY_DAMAGE_ENEMY 5 * 1
+#define BODY_DAMAGE_BULLET 5 * 1
 #define BODY_DAMAGE_LAVA 20 * 1
 #define BODY_DAMAGE_SPIKE 20 * 1
 #define BODY_DAMAGE_FALL 80
@@ -104,6 +105,10 @@ public:
 	void beingAttackedByLowFall();
 	void jasonJumpIntoSophia();
 
+	void AddToSophiaHealth(int amount);
+	void AddToJasonHealth(int amount);
+	void AddToGunLevel(int amount);
+
 	//Update
 	void Update(DWORD dt);
 	//Render
@@ -138,6 +143,10 @@ public:
 	TypeWeapons selectedWeapon = TypeWeapons::MultiwarheadMissile;
 	bool CheckSophiaCanUseWeapon();
 	void AddToSelectedWeapon(int amount);
+	
+	void AddToHomingMissile(int amount);
+	void AddToMultiwarheadMissile(int amount);
+	void AddToThunderBreak(int amount);
 
 	//Control key Weapon
 	void NextSelectedItem();
