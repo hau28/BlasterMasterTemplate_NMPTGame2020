@@ -7,12 +7,12 @@
 CBreakableBlock::CBreakableBlock(int classId, int x, int y, int sectionId, int animsId) : CAnimatableObject::CAnimatableObject(classId, x, y, sectionId, animsId)
 {
 	requireCrusherBeam = classId != CLASS_BREAKABLE_OVERHEAD_BG;
-	modifyA = 50;
+	modifyA = 0;
 	isDestroyed = false;
 	vx = vy = ax = ay = 0;
 
 	allowOverlapWithBlocks = true;
-	isUpdatedWhenOffScreen = false;
+	isUpdatedWhenOffScreen = true;
 	isHiddenByForeground = true;
 }
 
@@ -49,6 +49,17 @@ void CBreakableBlock::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 void CBreakableBlock::HandleOverlap(LPGAMEOBJECT overlappedObj)
 {
+}
+
+void CBreakableBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
+{
+	if (!checkObjInCamera(this))
+	{
+		isDestroyed = false;
+		modifyA = 0;
+	}
+
+	CAnimatableObject::Update(dt, coObjs);
 }
 
 void CBreakableBlock::GetBoundingBox(float& left, float& top, float& right, float& bottom)

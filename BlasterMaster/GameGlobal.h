@@ -153,7 +153,7 @@ public:
 	void BackSelectedItem();
 
 	// CuteTN
-	bool HasCrusherBeam = false;
+	bool HasCrusherBeam = true;
 };
 
 

@@ -142,51 +142,38 @@ void CSkull::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 	LPGAMEOBJECT obj = coEvent->otherObject;
 
-	if (dynamic_cast<LPTILE_AREA>(obj))
+	if (IsBlockableObject(obj))
 	{
-		LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(obj);
+		CGameObjectBehaviour::BlockObject(dt, coEvent);
 
-		switch (tileArea->classId)
+		if (coEvent->ny != 0)
 		{
+			vy = 0;
 
-		case CLASS_TILE_BLOCKABLE:
-		case CLASS_TILE_PORTAL:
-		{
-
-			CGameObjectBehaviour::BlockObject(dt, coEvent);
-
-			if (coEvent->ny != 0)
+			if (firstshoot % 2 != 0)
 			{
-				vy = 0;
-
-				if (firstshoot % 2 != 0)
-				{
-					vx = oldVX;
-					firstshoot++;
-				}
-				else
-					firstshoot++;
-
-				UpdateState();
-			};
-
-			if (coEvent->nx > 0)
-			{
-				vx = SKULL_MOVE_SPEED;
-				flagtouchwall = true;
-			};
-
-			if (coEvent->nx < 0)
-			{
-				vx = -SKULL_MOVE_SPEED;
-				flagtouchwall = true;
+				vx = oldVX;
+				firstshoot++;
 			}
+			else
+				firstshoot++;
 
 			UpdateState();
+		};
 
-			break;
+		if (coEvent->nx > 0)
+		{
+			vx = SKULL_MOVE_SPEED;
+			flagtouchwall = true;
+		};
+
+		if (coEvent->nx < 0)
+		{
+			vx = -SKULL_MOVE_SPEED;
+			flagtouchwall = true;
 		}
-		}
+
+		UpdateState();
 	}
 }
 

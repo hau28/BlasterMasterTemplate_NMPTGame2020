@@ -38,31 +38,20 @@ void CDome::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 	LPGAMEOBJECT obj = coEvent->otherObject;
 
-	if (dynamic_cast<LPTILE_AREA>(obj))
+	if (IsBlockableObject(obj))
 	{
-		LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(obj);
+		CGameObjectBehaviour::BlockObject(dt, coEvent);
 
-		switch (tileArea->classId)
-		{
-		case CLASS_TILE_BLOCKABLE:
-		case CLASS_TILE_PORTAL:
-		{
-			CGameObjectBehaviour::BlockObject(dt, coEvent);
+		if (coEvent->nx != 0)
+			flagTouchVerticalBlock = true;
 
-			if (coEvent->nx != 0)
-				flagTouchVerticalBlock = true;
+		if (coEvent->ny != 0)
+			flagTouchHorizontalBlock = true;
 
-			if (coEvent->ny != 0)
-				flagTouchHorizontalBlock = true;
+		flagFirstLand = true;
 
-			flagFirstLand = true;
-
-			if (flagShooting)
-				EndShooting();
-
-			break;
-		}
-		}
+		if (flagShooting)
+			EndShooting();
 	}
 }
 
