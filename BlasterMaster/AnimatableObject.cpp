@@ -2,6 +2,7 @@
 
 #include "TileArea.h"
 #include "CollisionSolver.h"
+#include "BreakableBlock.h"
 
 vector<Color> CAnimatableObject::flashingColors =
 {
@@ -79,21 +80,37 @@ void CAnimatableObject::GetBoundingBox(float& left, float& top, float& right, fl
 void CAnimatableObject::DeoverlapWithBlockableTiles(vector<LPGAMEOBJECT>* coObjs)
 {
 	for(auto obj : *coObjs)
-		if (dynamic_cast<LPTILE_AREA>(obj))
+		if (IsBlockableObject(obj))
 		{
-			LPTILE_AREA tiles = dynamic_cast<LPTILE_AREA>(obj);
+			float dx, dy;
+			dx = dy = 0;
 
-			if (tiles->classId == CLASS_TILE_BLOCKABLE)
-			{
-				float dx, dy;
-				dx = dy = 0;
+			CCollisionSolver::DeOverlap(this, obj, dx, dy);
 
-				CCollisionSolver::DeOverlap(this, obj, dx, dy);
-
-				this->x += dx;
-				this->y += dy;
-			}
+			this->x += dx;
+			this->y += dy;
 		}
+}
+
+bool CAnimatableObject::IsBlockableObject(LPGAMEOBJECT obj)
+{
+	if (obj == nullptr)
+		return false;
+
+	if (   obj->classId == CLASS_TILE_BLOCKABLE 
+		|| obj->classId == CLASS_TILE_BLOCKABLE_O)
+		return true;
+
+	if (dynamic_cast<CBreakableBlock*>(obj))
+	{
+		CBreakableBlock* bb = dynamic_cast<CBreakableBlock*>(obj);
+		if (bb->IsDestroyed())
+			return false;
+		else
+			return true;
+	}
+
+	return false;
 }
 
 void CAnimatableObject::CheckCollision(DWORD dt, vector<LPGAMEOBJECT>* coObjs, vector<LPCOLLISIONEVENT>& coEvents)
@@ -105,7 +122,7 @@ void CAnimatableObject::HandleCollisionWithWalls(DWORD dt, vector<LPCOLLISIONEVE
 {
 	for (auto event_ : *coEvents)
 	{
-		if (event_->otherObject->classId == CLASS_TILE_BLOCKABLE && event_->nx != 0)
+		if (IsBlockableObject(event_->otherObject) && event_->nx != 0)
 		{
 			event_->ny = 0;
 			event_->rdx = 0;
@@ -118,7 +135,7 @@ void CAnimatableObject::HandleCollisionWithBlockableTiles(DWORD dt, vector<LPCOL
 {
 	for (auto event_ : *coEvents)
 	{
-		if (event_->otherObject->classId == CLASS_TILE_BLOCKABLE)
+		if (IsBlockableObject(event_->otherObject))
 		{
 			HandleCollision(dt, event_);
 		}

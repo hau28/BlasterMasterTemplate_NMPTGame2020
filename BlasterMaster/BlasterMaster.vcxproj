@@ -140,6 +140,7 @@
   <ItemGroup>
     <ClCompile Include="AnimatableObject.cpp" />
     <ClCompile Include="Animations.cpp" />
+    <ClCompile Include="BreakableBlock.cpp" />
     <ClCompile Include="Bullet_Floater.cpp" />
     <ClCompile Include="Bullet_HomingMissile.cpp" />
     <ClCompile Include="Bullet_JasonSideview.cpp" />
@@ -201,6 +202,7 @@
   <ItemGroup>
     <ClInclude Include="AnimatableObject.h" />
     <ClInclude Include="Animations.h" />
+    <ClInclude Include="BreakableBlock.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Bullet_Floater.h" />
     <ClInclude Include="Bullet_HomingMissile.h" />

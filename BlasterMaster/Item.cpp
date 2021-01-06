@@ -15,7 +15,7 @@ CItem::CItem(int classId, int x, int y, int sectionId, bool isFlashy) : CAnimata
 	x = int(x);
 	y = int(y);
 
-	this->isFlashy = true;
+	this->isFlashy = isFlashy;
 
 	normalPhaseTimer = new CTimer(this, ITEM_NORMAL_PHASE_DURATION, 1);
 

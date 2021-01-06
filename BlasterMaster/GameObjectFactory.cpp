@@ -85,6 +85,14 @@ LPGAMEOBJECT CGameObjectFactory::Create(int classId, map<string, string> propert
 		result = new CInsect(classId, x, y, sectionId, animsId);
 		break;
 
+	case CLASS_BREAKABLE_BLUE_BG:
+	case CLASS_BREAKABLE_GREEN_BG:
+	case CLASS_BREAKABLE_OVERHEAD_BG:
+		GetAnimatableObjectProps(properties, x, y, animsId, sectionId);
+		result = new CBreakableBlock(classId, x, y, sectionId, animsId);
+		break;
+
+
 	default:
 		return nullptr;
 		break;
@@ -131,6 +139,10 @@ int CGameObjectFactory::GetSideviewEquivalentClassId(int classId)
 		return CLASS_TILE_SCENEPORTAL;
 	case CLASS_TILE_SPIKE_O:
 		return CLASS_TILE_SPIKE;
+	case CLASS_ITEM_POWER_O:
+		return CLASS_ITEM_HOVER;
+	case CLASS_ITEM_HOVER_O:
+
 	default:
 		return classId;
 	}

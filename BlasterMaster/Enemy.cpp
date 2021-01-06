@@ -14,6 +14,14 @@ void CEnemy::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 	flashingEffect->Update(dt);
 }
 
+bool CEnemy::IsBlockableObject(LPGAMEOBJECT obj)
+{
+	if (obj->classId == CLASS_TILE_PORTAL || obj->classId == CLASS_TILE_PORTAL_O)
+		return true;
+
+	return CAnimatableObject::IsBlockableObject(obj);
+}
+
 int CEnemy::GetHealthPoint()
 {
 	return healthPoint;

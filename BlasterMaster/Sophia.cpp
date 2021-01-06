@@ -13,6 +13,7 @@
 #include "Bullet_ThunderBreak.h"
 #include "SwitchSceneEvent.h"
 #include "GameGlobal.h"
+#include "BreakableBlock.h"
 
 CSophia::CSophia(int classId, int x, int y)
 {
@@ -614,23 +615,20 @@ void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
     LPGAMEOBJECT obj = coEvent->otherObject;
 
+    if (IsBlockableObject(obj))
+    {
+        CGameObjectBehaviour::BlockObject(dt, coEvent);
+
+        if (coEvent->ny < 0)
+            flagOnAir = false;
+    }
+
     if (dynamic_cast<LPTILE_AREA>(obj))
     {
         LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(obj);
 
         switch (tileArea->classId)
         {
-        case CLASS_TILE_BLOCKABLE:
-        {
-            CGameObjectBehaviour::BlockObject(dt, coEvent);
-
-            if (coEvent->ny < 0)
-                flagOnAir = false;
-
-
-            break;
-        }
-
         case CLASS_TILE_PORTAL:
         {
             // CuteTN Note: if the player is on air, do not invoke walk in portal event
@@ -665,7 +663,6 @@ void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
         }
         }
     }
-
 }
 
 void CSophia::HandleOverlap(LPGAMEOBJECT overlappedObj)

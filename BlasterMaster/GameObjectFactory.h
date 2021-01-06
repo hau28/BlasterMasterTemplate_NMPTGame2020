@@ -16,6 +16,7 @@
 #include "Jumper.h"
 #include "Orb.h"
 #include "Insect.h"
+#include "BreakableBlock.h"
 
 /// <summary>
 /// The Abstract factory for creating game objects

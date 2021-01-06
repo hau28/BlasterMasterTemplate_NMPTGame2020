@@ -40,6 +40,8 @@ public:
 	virtual void CheckOverlaps(vector<LPGAMEOBJECT>* coObjs, vector<LPGAMEOBJECT>& overlappedObjs);
 	virtual void HandleOverlaps(vector<LPGAMEOBJECT>* overlappedObjs);
 
+	virtual bool IsBlockableObject(LPGAMEOBJECT obj);
+
 	/// <summary>
 	/// set the position to move the enemy a bit so that it won't hit the blockable walls
 	/// </summary>

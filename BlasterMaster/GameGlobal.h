@@ -152,6 +152,8 @@ public:
 	void NextSelectedItem();
 	void BackSelectedItem();
 
+	// CuteTN
+	bool HasCrusherBeam = false;
 };
 
 
