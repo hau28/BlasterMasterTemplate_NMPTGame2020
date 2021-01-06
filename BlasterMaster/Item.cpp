@@ -2,12 +2,20 @@
 #include "GameGlobal.h"
 #include "GameObjectBehaviour.h"
 
+
+vector<Color> CItem::itemFlashingColors =
+{
+	{255, 0, 255}, // purple
+	{0, 255, 0}, // green
+	{255, 255, 255} // white
+};
+
 CItem::CItem(int classId, int x, int y, int sectionId, bool isFlashy) : CAnimatableObject::CAnimatableObject(classId, x, y, sectionId)
 {
 	x = int(x);
 	y = int(y);
 
-	this->isFlashy = isFlashy;
+	this->isFlashy = true;
 
 	normalPhaseTimer = new CTimer(this, ITEM_NORMAL_PHASE_DURATION, 1);
 
@@ -16,6 +24,12 @@ CItem::CItem(int classId, int x, int y, int sectionId, bool isFlashy) : CAnimata
 
 	blinkTimer = new CTimer(this, ITEM_BLINK_DURATION);
 	blinkTimer->Stop();
+
+	if (this->isFlashy)
+	{
+		flashingEffectPlayer = new CObjectFlashingEffectPlayer(this, &itemFlashingColors, ITEM_FLASHING_COLOR_DURATION, true);
+		flashingEffectPlayer->Play();
+	}
 }
 
 void CItem::UpdateVelocity(DWORD dt)
@@ -54,6 +68,11 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 	normalPhaseTimer->Update(dt);
 	blinkingPhaseTimer->Update(dt);
 	blinkTimer->Update(dt);
+
+	if (isFlashy)
+	{
+		flashingEffectPlayer->Update(dt);
+	}
 
 	CAnimatableObject::Update(dt, coObjs);
 }
@@ -134,4 +153,14 @@ void CItem::ApplyEffect(int playerClassId)
 	default:
 		break;
 	}
+}
+
+CItem::~CItem()
+{
+	delete normalPhaseTimer;
+	delete blinkingPhaseTimer;
+	delete blinkTimer;
+	delete flashingEffectPlayer;
+
+	CAnimatableObject::~CAnimatableObject();
 }

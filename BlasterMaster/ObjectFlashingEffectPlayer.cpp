@@ -1,12 +1,18 @@
 #include "ObjectFlashingEffectPlayer.h"
 
-CObjectFlashingEffectPlayer::CObjectFlashingEffectPlayer(CAnimatableObject* hostObj, vector<Color>* colorScript, int frameDuration)
+CObjectFlashingEffectPlayer::CObjectFlashingEffectPlayer(CAnimatableObject* hostObj, vector<Color>* colorScript, int frameDuration, bool enableRepeat)
 {
 	this->hostObject = hostObj;
 	this->colorScript = colorScript;
 
+	this->enableRepeat = enableRepeat;
+
 	// why +1? we need a frame to reset modified colors
-	timer = new CTimer(this, frameDuration, colorScript->size() + 1);
+	if (enableRepeat)
+		timer = new CTimer(this, frameDuration);
+	else
+		timer = new CTimer(this, frameDuration, colorScript->size() + 1);
+
 	timer->Stop();
 }
 
@@ -29,7 +35,10 @@ void CObjectFlashingEffectPlayer::HandleTimerTick(LPTIMER sender)
 		currentFrameIndex++;
 	}
 	else
-		SetColor({ 255, 255, 255 });
+		if (enableRepeat)
+			currentFrameIndex = 0;
+		else
+			SetColor({ 255, 255, 255 });
 }
 
 void CObjectFlashingEffectPlayer::SetColor(Color color)

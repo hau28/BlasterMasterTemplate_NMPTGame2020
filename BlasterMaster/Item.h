@@ -2,6 +2,7 @@
 #include "AnimatableObject.h"
 #include "ITimeTrackable.h"
 #include "Timer.h"
+#include "ObjectFlashingEffectPlayer.h"
 
 class CItem : public CAnimatableObject, public ITimeTrackable
 {
@@ -27,6 +28,10 @@ private:
 	LPTIMER blinkingPhaseTimer = nullptr;
 	LPTIMER blinkTimer = nullptr;
 
+	static const int ITEM_FLASHING_COLOR_DURATION = 30;
+	static vector<Color> itemFlashingColors;
+	CObjectFlashingEffectPlayer* flashingEffectPlayer = nullptr;
+
 public:
 	CItem() {};
 	CItem(int classId, int x, int y, int sectionId, bool isFlashy = false);
@@ -42,6 +47,8 @@ public:
 	virtual void HandleTimerTick(CTimer* sender);
 
 	void ApplyEffect(int playerClassId);
+
+	virtual ~CItem();
 };
 
 typedef CItem* LPITEM;
