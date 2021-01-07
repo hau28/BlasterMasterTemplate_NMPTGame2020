@@ -13,6 +13,7 @@
 #define BODY_DAMAGE_FALL 80
 
 #define MAX_AMMUNITIONS 99
+#define ID_SECTION_BOSS 1000649
 
 enum class Items {
 	PowerGrey, // add 1 bar
@@ -50,6 +51,7 @@ private:
 	int IDSectionSophia = 0;
 	int IDSectionJason = 0;
 	int IDCurrentSection = -1;
+	int isEffectFaded = false;
 
 	//AnimationHandler Render 
 	CObjectAnimationHanlders HealthPow;
@@ -60,6 +62,7 @@ private:
 	CObjectAnimationHanlders Numbers;
 	CObjectAnimationHanlders SelectedLeft;
 	CObjectAnimationHanlders SelectedRight;
+	CObjectAnimationHanlders EffectFaded;
 
 	//health player 
 	int healthSophia;
@@ -96,6 +99,7 @@ public:
 	int get_healthJasonOverHead() { return this->healthJason; }
 
 	//event method
+	void initEffectFaded();
 	void getItem(Items item);
 	void beingAttackedByEnemy();
 	void beingAttackedByBullet();
@@ -111,10 +115,13 @@ public:
 
 	//Update
 	void Update(DWORD dt);
+	void UpdateEffect(DWORD dt);
+
 	//Render
 	void RenderHealth();
 	void RenderHealthGun();
 	void RenderWeapon();
+	void RenderEffect();
 	void OpenMenuWeapon();
 	void CloseMenuWeapon();
 	bool isMenuWeaponOpen() { return this->isWeaponMenuActive; }

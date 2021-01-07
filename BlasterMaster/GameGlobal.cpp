@@ -41,6 +41,8 @@
 #define STATE_SELECTION_RIGHT	11020
 #define ID_GUN 55555
 #define ID_HEALTHOVERHEAD 66666
+#define ID_EFFECT 77777
+#define ID_STATE_EFFECT 12000
 
 #define HEALTHOH0 9431
 
@@ -132,12 +134,28 @@ CGameGlobal::CGameGlobal() {
 
 	objAnims = CObjectAnimationsLib::GetInstance()->Get(ID_HEALTHOVERHEAD);
 	HealthOverhead = objAnims->GenerateAnimationHanlders();
+
+	objAnims = CObjectAnimationsLib::GetInstance()->Get(ID_EFFECT);
+	EffectFaded = objAnims->GenerateAnimationHanlders();
 }
 
 void CGameGlobal::Update(DWORD dt)
 {
 	SelectedLeft[STATE_SELECTION_LEFT]->Update();
 	SelectedRight[STATE_SELECTION_RIGHT]->Update();
+}
+
+void CGameGlobal::UpdateEffect(DWORD dt)
+{
+	if (isEffectFaded)
+	{
+		EffectFaded[ID_STATE_EFFECT]->Update();
+		if (EffectFaded[ID_STATE_EFFECT]->currentFrameIndex == EffectFaded[ID_STATE_EFFECT]->animation->GetNumberOfFrames() - 1)
+		{
+			isEffectFaded = false;
+			EffectFaded[ID_STATE_EFFECT]->currentFrameIndex = 0;
+		}
+	}
 }
 
 CGameGlobal* CGameGlobal::GetInstance()
@@ -266,7 +284,6 @@ void CGameGlobal::beingAttackedByDrop()
 	
 	if (this->healthJason < 0) this->healthJason = 0;
 }
-
 void CGameGlobal::beingAttackedByLowFall()
 {
 	int idPlayer = CGame::GetInstance()->GetCurrentPlayer()->classId;
@@ -277,7 +294,6 @@ void CGameGlobal::beingAttackedByLowFall()
 
 	if (this->healthJason < 0) this->healthJason = 0;
 }
-
 void CGameGlobal::jasonJumpIntoSophia()
 {
 	healthJason = MAX_HEALTH_JASONSIDEVIEW;
@@ -319,7 +335,6 @@ void CGameGlobal::RenderHealth()
 			break;
 	}
 }
-
 void CGameGlobal::RenderHealthGun()
 {
 	float X_cam, Y_cam;
@@ -349,7 +364,6 @@ void CGameGlobal::RenderHealthGun()
 	CGame::GetInstance()->GetCamPos(X_cam, Y_cam);
 	HealthOverhead[flag_StateHealth + HEALTHOH0]->Render(X_cam + X_HEALTH, Y_cam + Y_HEALTH + 30);
 }
-
 void CGameGlobal::RenderWeapon()
 {
 	if (!isMenuWeaponOpen())
@@ -393,7 +407,6 @@ void CGameGlobal::RenderWeapon()
 	SelectedLeft[STATE_SELECTION_LEFT]->Render(X_Selected, Y_Selected);
 	SelectedRight[STATE_SELECTION_RIGHT]->Render(X_Selected + OFFSETBETWEEN, Y_Selected);
 }
-
 void CGameGlobal::_ParseSection_TEXTURES(string line)
 {
 	vector<string> tokens = split(line);
@@ -492,7 +505,6 @@ void CGameGlobal::_ParseSection_OBJECT_ANIMATIONS(string line)
 	// Add to lib
 	CObjectAnimationsLib::GetInstance()->Add(objectAni_id, objAni);
 }
-
 int CGameGlobal::SupportGetIDNumber(int number)
 {
 	switch (number)
@@ -589,6 +601,7 @@ void CGameGlobal::savePlayer(int kindPlayer)
 
 	DebugOut(L"\n Save game %d, x : %f , y : %f ", kindPlayer, playerX, playerY);
 }
+
 void CGameGlobal::subLeft()
 {
 	if (left == -1) return;
@@ -694,6 +707,7 @@ void CGameGlobal::OpenMenuWeapon()
 
 	this->isWeaponMenuActive = true;
 }
+
 void CGameGlobal::CloseMenuWeapon()
 {
 	this->isWeaponMenuActive = false;
@@ -724,10 +738,27 @@ void CGameGlobal::NextSelectedItem()
 	else
 		this->idSelectedItem = 1;
 }
+
 void CGameGlobal::BackSelectedItem()
 {
 	if (this->idSelectedItem > 1)
 		this->idSelectedItem--;
 	else
 		this->idSelectedItem = 3;
+}
+
+//Effect Faded boss
+void CGameGlobal::RenderEffect()
+{
+	if (this->isEffectFaded == false)
+		return;
+	float camx, camy;
+	CGame::GetInstance()->GetCamPos(camx, camy);
+	EffectFaded[ID_STATE_EFFECT]->Render(camx, camy);
+	DebugOut(L"\nok");
+}
+
+void CGameGlobal::initEffectFaded()
+{
+	this->isEffectFaded = true; 
 }

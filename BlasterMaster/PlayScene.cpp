@@ -358,6 +358,7 @@ void CPlayScene::InitSaveGameOverhead()
 
 void CPlayScene::Load()
 {
+	CGameGlobal::GetInstance()->initEffectFaded();
 	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
 
 	ifstream f;
@@ -818,6 +819,7 @@ void CPlayScene::Update(DWORD dt)
 	//Can't update objs while menu wepon open 
 	HandleKeys(dt);
 	CGameGlobal* global = CGameGlobal::GetInstance();
+	global->UpdateEffect(dt);
 	if (global->isMenuWeaponOpen())
 	{
 		global->Update(dt);
@@ -878,14 +880,18 @@ void CPlayScene::Render()
 	{
 		Sections[NextSectionId]->Render(this->offset_x_SectionSwitch,this->offset_y_SectionSwitch);
 	}
+	CGameGlobal* global = CGameGlobal::GetInstance();
 
-	//HEALTH POW
-	CGameGlobal * global = CGameGlobal::GetInstance();
+	//HEA * global = CGameGlobal::GetInstance();LTH POW
+
 	if (player->classId == CLASS_JASONOVERHEAD)
 		global->RenderHealthGun();
 	else
 		global->RenderHealth();
 	global->RenderWeapon();
+
+	//Render effect
+	global->RenderEffect();
 }
 
 void CPlayScene::set_offset(LPPORTAL fromPortal, LPPORTAL toPortal, string direction)

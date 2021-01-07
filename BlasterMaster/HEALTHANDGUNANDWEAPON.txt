@@ -12,6 +12,13 @@
 9008 	.\textures\Global\SelectedWeapon3.png
 9009 	.\textures\Global\SelectedWeapon4.png
 
+9010 	.\textures\Global\Black.png
+9011 	.\textures\Global\Black1.png
+9012 	.\textures\Global\Black2.png
+9013 	.\textures\Global\Black3.png
+9014 	.\textures\Global\Black4.png
+9015 	.\textures\Global\Black5.png
+
 [SPRITES]
 #ID	TextureId	left	top	right	bottom
 9011	9001		0	0	9	88
@@ -23,6 +30,14 @@
 9017	9001		54	0	63	88
 9018	9001		63	0	72	88
 9019	9001		72	0	81	88
+
+#Effect
+9410	9010		0	0	256	240
+9411	9011		0	0	256	240
+9412	9012		0	0	256	240
+9413	9013		0	0	256	240
+9414	9014		0	0	256	240
+9415	9015		0	0	256	240
 
 #health overhead
 9511	9001		0	30	9	88
@@ -114,6 +129,8 @@
 10018	9118	100000
 10019	9119	100000
 
+10101	9410	1500	9411 	100	9412	100	9413	100	9414	100 	9414 100
+	
 [STATE_ANIMATIONS]
 #ID	AnimId	FlipX	FlipY	TimesR90
 9031	9021	0	0	0
@@ -161,6 +178,8 @@
 11118	10018	0	0	0
 11119	10019	0	0	0
 
+12000	10101	0	0	0
+
 [OBJECT_ANIMATIONS]
 #ID	StateAnimId1	StateAnimId2	...
 9041	9031	9032	9033	9034 	9035	9036	9037	9038	9039
@@ -174,3 +193,5 @@
 55555	11111	11112	11113	11114	11115	11116	11117	11118	11119
 
 66666	9431	9432	9433	9434 	9435	9436	9437	9438	9439
+
+77777	12000
