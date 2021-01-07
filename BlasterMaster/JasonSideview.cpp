@@ -454,6 +454,26 @@ void CJasonSideview::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
     LPGAMEOBJECT obj = coEvent->otherObject;
     
+    if (IsBlockableObject(obj))
+    {
+        if (coEvent->ny < 0)
+        {
+            flagOnAir = false;
+
+            if (abs(this->y - yStartFalling) > 2)
+                yEndFalling = this->y;
+
+            CheckDistance(yStartFalling, yEndFalling);
+        }
+
+        if (flagClimb)
+            ;
+        else
+            CGameObjectBehaviour::BlockObject(dt, coEvent);
+
+        this->allowOverlapWithBlocks = true;
+    }
+
     if (dynamic_cast<LPTILE_AREA>(obj))
     {
         LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(obj);
@@ -461,29 +481,6 @@ void CJasonSideview::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
         switch (tileArea->classId)
         {
             flagCanClimb = true;
-
-            case CLASS_TILE_BLOCKABLE:
-            {
-
-                if (coEvent->ny < 0)
-                {
-                    flagOnAir = false;
-
-                    if (abs(this->y - yStartFalling) > 2)
-                        yEndFalling = this->y;
-
-                    CheckDistance(yStartFalling, yEndFalling);
-                }
-
-                if (flagClimb)
-                    ;
-                else
-                    CGameObjectBehaviour::BlockObject(dt, coEvent);
-                
-                this->allowOverlapWithBlocks = true;
-
-                break;
-            }
 
             case CLASS_TILE_PORTAL:
             {

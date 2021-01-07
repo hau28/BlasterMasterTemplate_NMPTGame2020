@@ -144,6 +144,11 @@
     <ClCompile Include="JasonOverhead.cpp" />
     <ClCompile Include="Bullet_ThunderBreak.cpp" />
     <ClCompile Include="ControlKeys.cpp" />
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="BreakableBlock.cpp" />
+    <ClCompile Include="Sound.cpp">
+      <Filter>GameManagers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -269,6 +274,11 @@
     <ClInclude Include="JasonOverhead.h" />
     <ClInclude Include="Bullet_ThunderBreak.h" />
     <ClInclude Include="ControlKeys.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="BreakableBlock.h" />
+    <ClInclude Include="Sound.h">
+      <Filter>GameManagers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="AnimationCore">

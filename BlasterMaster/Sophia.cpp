@@ -13,6 +13,7 @@
 #include "Bullet_ThunderBreak.h"
 #include "SwitchSceneEvent.h"
 #include "GameGlobal.h"
+#include "BreakableBlock.h"
 
 CSophia::CSophia(int classId, int x, int y)
 {
@@ -56,6 +57,7 @@ void CSophia::Init(int classId, int x, int y)
     flagHomingMissileReloaded = true;
     homingMissileReloadTimer = new CTimer(this, SOPHIA_HOMING_MISSILE_RELOAD_DURATION, 1);
     homingMissileReloadTimer->Stop();
+    
 };
 
 void CSophia::setGunState(int state) {
@@ -475,6 +477,7 @@ void CSophia::CountSophiaBulletsAndWeapons(vector<LPGAMEOBJECT>* coObjs)
 {
     numberOfSophiaBullets = 0;
     numberOfHomingMissiles = 0;
+    numberOfThunderBreak = 0;
     numberOfTopMultiwarheadMissiles = 0;
     numberOfMiddleMultiwarheadMissiles = 0;
     numberOfBottomMultiwarheadMissiles = 0;
@@ -485,6 +488,7 @@ void CSophia::CountSophiaBulletsAndWeapons(vector<LPGAMEOBJECT>* coObjs)
         {
         case CLASS_SOPHIA_BULLET: numberOfSophiaBullets++; break;
         case CLASS_HOMING_MISSILE: numberOfHomingMissiles++; break;
+        case CLASS_THUNDERBREAK: numberOfThunderBreak++; break;
         case CLASS_MULTIWARHEAD_MISSILE:
         {
             CBullet_MultiwarheadMissile* missile = dynamic_cast<CBullet_MultiwarheadMissile*>(obj);
@@ -611,23 +615,20 @@ void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
     LPGAMEOBJECT obj = coEvent->otherObject;
 
+    if (IsBlockableObject(obj))
+    {
+        CGameObjectBehaviour::BlockObject(dt, coEvent);
+
+        if (coEvent->ny < 0)
+            flagOnAir = false;
+    }
+
     if (dynamic_cast<LPTILE_AREA>(obj))
     {
         LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(obj);
 
         switch (tileArea->classId)
         {
-        case CLASS_TILE_BLOCKABLE:
-        {
-            CGameObjectBehaviour::BlockObject(dt, coEvent);
-
-            if (coEvent->ny < 0)
-                flagOnAir = false;
-
-
-            break;
-        }
-
         case CLASS_TILE_PORTAL:
         {
             // CuteTN Note: if the player is on air, do not invoke walk in portal event
@@ -662,7 +663,6 @@ void CSophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
         }
         }
     }
-
 }
 
 void CSophia::HandleOverlap(LPGAMEOBJECT overlappedObj)
@@ -920,6 +920,9 @@ void CSophia::ShootMultiwarheadMissile()
 void CSophia::ShootThunderBreak()
 {
     if (!CGameGlobal::GetInstance()->CheckSophiaCanUseWeapon())
+        return;
+
+    if (numberOfThunderBreak > 0)
         return;
 
     CBullet_ThunderBreak* bullet = new CBullet_ThunderBreak(0, 0, 0);

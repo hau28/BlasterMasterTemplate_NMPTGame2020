@@ -61,43 +61,33 @@ void CInsect::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 	LPGAMEOBJECT obj = coEvent->otherObject;
 
-	if (dynamic_cast<LPTILE_AREA>(obj))
+	if (IsBlockableObject(obj))
 	{
-		LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(obj);
+		CGameObjectBehaviour::BlockObject(dt, coEvent);
 
-		switch (tileArea->classId)
+		if (coEvent->ny > 0)
 		{
-			case CLASS_TILE_BLOCKABLE:
-			case CLASS_TILE_PORTAL:
-			{
-				CGameObjectBehaviour::BlockObject(dt, coEvent);
-
-				if (coEvent->ny > 0)
-				{
-					flagtouchwall = true;
-					vy = INSECT_FALL_SPEED_Y;
-				}
-
-				if (coEvent->ny < 0)
-				{
-					flagtouchwall = false;
-					vy = -INSECT_MOVEUP_SPEED_Y;
-				}
-					
-				if (coEvent->nx < 0)
-				{
-					turnRight = true;
-				}
-
-				if (coEvent->nx > 0)
-				{
-					turnRight = false;
-				}
-
-				UpdateState();
-				break;
-			}
+			flagtouchwall = true;
+			vy = INSECT_FALL_SPEED_Y;
 		}
+
+		if (coEvent->ny < 0)
+		{
+			flagtouchwall = false;
+			vy = -INSECT_MOVEUP_SPEED_Y;
+		}
+
+		if (coEvent->nx < 0)
+		{
+			turnRight = true;
+		}
+
+		if (coEvent->nx > 0)
+		{
+			turnRight = false;
+		}
+
+		UpdateState();
 	}
 }
 

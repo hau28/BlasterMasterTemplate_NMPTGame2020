@@ -153,28 +153,17 @@ void COrb::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 		LPGAMEOBJECT obj = coEvent->otherObject;
 
-		if (dynamic_cast<LPTILE_AREA>(obj))
+		if (IsBlockableObject(obj))
 		{
-			LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(obj);
+			CGameObjectBehaviour::BlockObject(dt, coEvent);
 
-			switch (tileArea->classId)
-			{
-			case CLASS_TILE_BLOCKABLE:
-			case CLASS_TILE_PORTAL:
-			{
-				CGameObjectBehaviour::BlockObject(dt, coEvent);
-
-				if (!suicide) {
-					if (coEvent->nx != 0)
-					{
-						flagTurn = coEvent->nx*10;
-						vx = coEvent->nx * ORB_MOVE_SPEED;
-						UpdateState();
-					}
+			if (!suicide) {
+				if (coEvent->nx != 0)
+				{
+					flagTurn = coEvent->nx * 10;
+					vx = coEvent->nx * ORB_MOVE_SPEED;
+					UpdateState();
 				}
-
-				break;
-			}
 			}
 		}
 

@@ -9,6 +9,7 @@ protected:
 	CObjectFlashingEffectPlayer* flashingEffect = nullptr;
 
 	int healthPoint = 100;
+	virtual void DropItem();
 	virtual void Explode();
 	void PlayFlashingEffect();
 
@@ -16,6 +17,7 @@ public:
 	CEnemy() {};
 	CEnemy(int classId, int x, int y, int sectionId, int animsId);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs);
+	virtual bool IsBlockableObject(LPGAMEOBJECT obj);
 
 	int GetHealthPoint();
 

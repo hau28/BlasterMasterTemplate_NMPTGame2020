@@ -140,6 +140,7 @@
   <ItemGroup>
     <ClCompile Include="AnimatableObject.cpp" />
     <ClCompile Include="Animations.cpp" />
+    <ClCompile Include="BreakableBlock.cpp" />
     <ClCompile Include="Bullet_Floater.cpp" />
     <ClCompile Include="Bullet_HomingMissile.cpp" />
     <ClCompile Include="Bullet_JasonSideview.cpp" />
@@ -149,6 +150,7 @@
     <ClCompile Include="Bullet_Skull.cpp" />
     <ClCompile Include="Bullet_ThunderBreak.cpp" />
     <ClCompile Include="ControlKeys.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="JasonOverhead.cpp" />
     <ClCompile Include="Insect.cpp" />
     <ClCompile Include="GameGlobal.cpp" />
@@ -175,7 +177,7 @@
     <ClCompile Include="Ship.cpp" />
     <ClCompile Include="Skull.cpp" />
     <ClCompile Include="SophiaAnimationSystem.cpp" />
-    <ClCompile Include="SoundManager.cpp" />
+    <ClCompile Include="Sound.cpp" />
     <ClCompile Include="SwitchSceneEvent.cpp" />
     <ClCompile Include="TileArea.cpp" />
     <ClCompile Include="CustomKeyEvent.cpp" />
@@ -200,6 +202,7 @@
   <ItemGroup>
     <ClInclude Include="AnimatableObject.h" />
     <ClInclude Include="Animations.h" />
+    <ClInclude Include="BreakableBlock.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Bullet_Floater.h" />
     <ClInclude Include="Bullet_HomingMissile.h" />
@@ -211,6 +214,7 @@
     <ClInclude Include="Bullet_Sophia.h" />
     <ClInclude Include="Bullet_ThunderBreak.h" />
     <ClInclude Include="ControlKeys.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="JasonOverhead.h" />
     <ClInclude Include="GameGlobal.h" />
     <ClInclude Include="Explosion.h" />
@@ -235,7 +239,7 @@
     <ClInclude Include="Ship.h" />
     <ClInclude Include="Skull.h" />
     <ClInclude Include="SophiaAnimationSystem.h" />
-    <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="Sound.h" />
     <ClInclude Include="SwitchSceneEvent.h" />
     <ClInclude Include="TileArea.h" />
     <ClInclude Include="CustomKeyEvent.h" />

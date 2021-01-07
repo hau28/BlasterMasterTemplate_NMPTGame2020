@@ -5,7 +5,8 @@
 #include "GameGlobal.h"
 #include "GameObjectBehaviour.h"
 
-//#include "SoundManager.h"
+#include "Sound.h"
+
 
 using namespace std;
 
@@ -30,6 +31,50 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath, int startupSectionId) : CScene(
 #define SCENE_CLASSES	9
 #define SCENE_OBJECTS	10
 #define MAX_SCENE_LINE 1024
+
+void CPlayScene::LoadSound() {
+	Sound::getInstance()->loadSound((char*)"Sound/intro.wav", "intro");
+	Sound::getInstance()->loadSound((char*)"Sound/enter.wav", "enter");
+	Sound::getInstance()->loadSound((char*)"Sound/area2.wav", "area2");
+	Sound::getInstance()->loadSound((char*)"Sound/credit.wav", "credit");
+	Sound::getInstance()->loadSound((char*)"Sound/earthquake.wav", "earthquake");
+	Sound::getInstance()->loadSound((char*)"Sound/peace.wav", "peace");
+	//Sound::getInstance()->play("intro", false, 1);
+
+	// sophia sound
+	Sound::getInstance()->loadSound((char*)"Sound/sophia_fall_ground.wav", "sophia_fall_ground");
+	Sound::getInstance()->loadSound((char*)"Sound/jump.wav", "sophia_jump");
+	Sound::getInstance()->loadSound((char*)"Sound/sophia_bullet_explosion.wav", "sophia_bullet_explosion");
+	Sound::getInstance()->loadSound((char*)"Sound/sophia_shoot.wav", "sophia_shoot");
+	Sound::getInstance()->loadSound((char*)"Sound/sophia_explosion.wav", "sophia_explosion");
+
+	Sound::getInstance()->loadSound((char*)"Sound/jason_sideview_shoot.wav", "jason_sideview_shoot");
+	Sound::getInstance()->loadSound((char*)"Sound/bullet_explosion.wav", "bullet_explosion");
+	Sound::getInstance()->loadSound((char*)"Sound/swap_player.wav", "swap_player");
+	Sound::getInstance()->loadSound((char*)"Sound/item.wav", "item");
+	Sound::getInstance()->loadSound((char*)"Sound/scene_change.wav", "scene_change");
+	Sound::getInstance()->loadSound((char*)"Sound/lava.wav", "lava");
+	Sound::getInstance()->loadSound((char*)"Sound/thunder.wav", "thunder");
+	Sound::getInstance()->loadSound((char*)"Sound/multiwarhead.wav", "multiwarhead");
+
+	// enemies
+	Sound::getInstance()->loadSound((char*)"Sound/worm_moving.wav", "worm_moving");
+	Sound::getInstance()->loadSound((char*)"Sound/insect_fly_down.wav", "insect_fly_down");
+	Sound::getInstance()->loadSound((char*)"Sound/jump.wav", "jumper_jump");
+	Sound::getInstance()->loadSound((char*)"Sound/skull_bomb.wav", "skull_bomb");
+	Sound::getInstance()->loadSound((char*)"Sound/mine.wav", "mine");
+	Sound::getInstance()->loadSound((char*)"Sound/dome_jump.wav", "dome_jump");
+	Sound::getInstance()->loadSound((char*)"Sound/teleport.wav", "teleport");
+	Sound::getInstance()->loadSound((char*)"Sound/teleporter_shoot.wav", "teleporter_shoot");
+	Sound::getInstance()->loadSound((char*)"Sound/entering_boss_scene.wav", "entering_boss_scene");
+
+	Sound::getInstance()->setVolume(85, "");
+	//Sound::getInstance()->setVolume(90, "area2");
+	Sound::getInstance()->setVolume(90, "sophia_explosion");
+	Sound::getInstance()->setVolume(90, "sophia_fall_ground");
+	Sound::getInstance()->setVolume(90, "sophia_bullet_explosion");
+	Sound::getInstance()->setVolume(90, "lava");
+}
 
 void CPlayScene::_ParseSection_TEXTURES(string line)
 {
@@ -376,6 +421,11 @@ void CPlayScene::Load()
 	}
 
 	init_camBox();
+
+	LoadSound();
+	//play(name, isLoop, times)
+	Sound::getInstance()->play("area2", true, 0);
+	// Sound::getInstance()->stop("area2");
 }
 
 void CPlayScene::init_camBox()
@@ -597,8 +647,8 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			CSophia::GetInstance()->SetSpeed(0.1, 0);
 			DebugOut(L"\ncx == %f, cy == %f",x_toPortal, y_toPortal);
 
-			global->savePlayer(1);
-			global->saveSophia();
+			global->savePlayer(1, 25, 0);
+			global->saveSophia(25,0);
 		}
 
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT_JASON)
@@ -618,8 +668,7 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			CJasonSideview::GetInstance()->SetSpeed(0.1, 0);
 			game->SetCamPos(0, cy);
 			init_camBox();
-
-			global->savePlayer(2);
+			global->savePlayer(2, 20, 0);
 		}
 
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_OVERHEAD_RIGHT)
@@ -659,8 +708,8 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			CSophia::GetInstance()->SetSpeed(-0.1, 0);
 			init_camBox();
 
-			global->savePlayer(1);
-			global->saveSophia();
+			global->savePlayer(1, -40, 0);
+			global->saveSophia(-40,0);
 		}
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT_JASON)
 		if (cx + game->GetScreenWidth() <= 0)
@@ -677,7 +726,7 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			game->SetCamPos(cx, cy);
 			init_camBox();
 
-			global->savePlayer(2);
+			global->savePlayer(2, -25, 0);
 		}
 
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_OVERHEAD_LEFT)
@@ -1052,8 +1101,11 @@ void CPlayScene::HandleKeyDown(DWORD dt, int keyCode)
 	{
 		global->NextSelectedItem();
 	}
-	if ((keyCode == DIK_LEFT || keyCode == DIK_DOWN ) && global->isMenuWeaponOpen())
+	if ((keyCode == DIK_LEFT || keyCode == DIK_DOWN) && global->isMenuWeaponOpen())
 	{
 		global->BackSelectedItem();
 	}
+}
+
+CPlayScene::~CPlayScene() {
 }

@@ -96,7 +96,7 @@ private:
     void ShootThunderBreak();
 
     const int SOPHIA_BULLET_RELOAD_DURATION = 100;
-    const int SOPHIA_HOMING_MISSILE_RELOAD_DURATION = 100;
+    const int SOPHIA_HOMING_MISSILE_RELOAD_DURATION = 120;
     bool flagBulletReloaded, flagHomingMissileReloaded;
     LPTIMER bulletReloadTimer;
     LPTIMER homingMissileReloadTimer;
@@ -105,6 +105,7 @@ private:
     const int SOPHIA_MAX_HOMING_MISSILES_ON_CAMERA = 4;
     int numberOfSophiaBullets;
     int numberOfHomingMissiles;
+    int numberOfThunderBreak;
     int numberOfTopMultiwarheadMissiles;
     int numberOfMiddleMultiwarheadMissiles;
     int numberOfBottomMultiwarheadMissiles;

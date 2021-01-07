@@ -84,6 +84,14 @@ void CBullet::Explode(int explosionClassId)
 	CGameObjectBehaviour::Explode(this, explosionClassId, x, y);
 }
 
+bool CBullet::IsBlockableObject(LPGAMEOBJECT obj)
+{
+	if (obj->classId == CLASS_TILE_PORTAL || obj->classId == CLASS_TILE_PORTAL_O)
+		return true;
+
+	return CAnimatableObject::IsBlockableObject(obj);
+}
+
 void CBullet::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x + boundingBoxOffsetX;

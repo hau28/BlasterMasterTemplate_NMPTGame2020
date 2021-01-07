@@ -304,6 +304,27 @@ void CGameGlobal::jasonJumpIntoSophia()
 {
 	healthJason = MAX_HEALTH_JASONSIDEVIEW;
 }
+
+void CGameGlobal::AddToSophiaHealth(int amount)
+{
+	healthSophia += amount;
+	healthSophia = max(healthSophia, 0);
+	healthSophia = min(healthSophia, MAX_HEALTH_SOPHIA);
+}
+void CGameGlobal::AddToJasonHealth(int amount)
+{
+	healthJason += amount;
+	healthJason = max(healthJason, 0);
+	healthJason = min(healthJason, MAX_HEALTH_JASONSIDEVIEW);
+}
+
+void CGameGlobal::AddToGunLevel(int amount)
+{
+	levelGunPower += amount;
+	levelGunPower = max(levelGunPower, 0);
+	levelGunPower = min(levelGunPower, MAX_GUN_LEVEL);
+}
+
 void CGameGlobal::RenderHealth()
 {
 	int ID_Player = CGame::GetInstance()->GetCurrentPlayer()->classId;
@@ -574,12 +595,14 @@ void CGameGlobal::saveGame()
 	game->GetCurrentPlayer()->GetPosition(playerX, playerY);
 }
 
-void CGameGlobal::savePlayer(int kindPlayer)
+void CGameGlobal::savePlayer(int kindPlayer, float offx, float offy)
 {
-
 	this->Saved = true;
 	CGame* game = CGame::GetInstance();
 	game->GetCurrentPlayer()->GetPosition(playerX, playerY);
+
+	playerX += offx;
+	playerY += offy;
 
 	flagPlayer = kindPlayer;
 	IDCurrentSection = game->GetCurrentPlayer()->currentSectionId;
@@ -600,21 +623,25 @@ void CGameGlobal::resetGame()
 	this->Saved = false;
 }
 
-void CGameGlobal::saveSophia()
+void CGameGlobal::saveSophia(float offx, float offy)
 {
 	CSophia * sophia = CSophia::GetInstance();
 	sophia->GetPosition(this->sophiaX, this->sophiaY);
 
 	this->IDSectionSophia = sophia->currentSectionId;
+	this->sophiaX += offx;
+	this->sophiaY += offy;
 }
 
-void CGameGlobal::saveJason()
+void CGameGlobal::saveJason(float offx, float offy)
 {
 	isOverheadtoSideView = true;
 	CJasonSideview* jason = CJasonSideview::GetInstance();
 	jason->GetPosition(this->jasonX, this->jasonY);
 
 	this->IDSectionJason = jason->currentSectionId;
+	this->jasonX += offx;
+	this->jasonY += offy;
 }
 
 bool CGameGlobal::CheckSophiaCanUseWeapon()
@@ -638,23 +665,38 @@ void CGameGlobal::AddToSelectedWeapon(int amount)
 	switch (selectedWeapon)
 	{
 	case TypeWeapons::HomingMissile:
-		ammunitions_HomingMissile += amount;
-		ammunitions_HomingMissile = min(ammunitions_HomingMissile, MAX_AMMUNITIONS);
-		ammunitions_HomingMissile = max(ammunitions_HomingMissile, 0);
+		AddToHomingMissile(amount);
 		break;
 
 	case TypeWeapons::ThunderBreak:
-		ammunitions_ThunderBreak += amount;
-		ammunitions_ThunderBreak = min(ammunitions_ThunderBreak, MAX_AMMUNITIONS);
-		ammunitions_ThunderBreak = max(ammunitions_ThunderBreak, 0);
+		AddToThunderBreak(amount);
 		break;
 
 	case TypeWeapons::MultiwarheadMissile:
-		ammunitions_MultiwarheadMissile += amount;
-		ammunitions_MultiwarheadMissile = min(ammunitions_MultiwarheadMissile, MAX_AMMUNITIONS);
-		ammunitions_MultiwarheadMissile = max(ammunitions_MultiwarheadMissile, 0);
+		AddToMultiwarheadMissile(amount);
 		break;
 	}
+}
+
+void CGameGlobal::AddToHomingMissile(int amount)
+{
+	ammunitions_HomingMissile += amount;
+	ammunitions_HomingMissile = min(ammunitions_HomingMissile, MAX_AMMUNITIONS);
+	ammunitions_HomingMissile = max(ammunitions_HomingMissile, 0);
+}
+
+void CGameGlobal::AddToMultiwarheadMissile(int amount)
+{
+	ammunitions_MultiwarheadMissile += amount;
+	ammunitions_MultiwarheadMissile = min(ammunitions_MultiwarheadMissile, MAX_AMMUNITIONS);
+	ammunitions_MultiwarheadMissile = max(ammunitions_MultiwarheadMissile, 0);
+}
+
+void CGameGlobal::AddToThunderBreak(int amount)
+{
+	ammunitions_ThunderBreak += amount;
+	ammunitions_ThunderBreak = min(ammunitions_ThunderBreak, MAX_AMMUNITIONS);
+	ammunitions_ThunderBreak = max(ammunitions_ThunderBreak, 0);
 }
 
 void CGameGlobal::OpenMenuWeapon()

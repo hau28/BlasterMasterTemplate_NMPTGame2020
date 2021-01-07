@@ -49,26 +49,15 @@ void CBullet_Skull::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 	LPGAMEOBJECT obj = coEvent->otherObject;
 
-	if (dynamic_cast<LPTILE_AREA>(obj))
+	if (IsBlockableObject(obj))
 	{
-		LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(obj);
+		float oldVy = vy;
 
-		switch (tileArea->classId)
-		{
-		case CLASS_TILE_BLOCKABLE:
-		case CLASS_TILE_PORTAL:
-		{
-			float oldVy = vy;
+		CGameObjectBehaviour::BlockObject(dt, coEvent);
 
-			CGameObjectBehaviour::BlockObject(dt, coEvent);
-			
-			// CuteTN Note: bouncing logic
-			if (coEvent->ny < 0)
-				vy = -oldVy;
-
-			break;
-		}
-		}
+		// CuteTN Note: bouncing logic
+		if (coEvent->ny < 0)
+			vy = -oldVy;
 	}
 }
 

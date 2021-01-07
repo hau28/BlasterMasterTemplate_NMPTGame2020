@@ -79,6 +79,11 @@ void CGame::Init(HWND hWnd)
 	OutputDebugString(L"[INFO] InitGame done;\n");
 }
 
+HWND CGame::getCurrentHWND()
+{
+	return hWnd;
+}
+
 void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha, bool flipX, int rotate, float offset_x, float offset_y, int modifyR, int modifyG, int modifyB)
 {
 	int width = round(right - left);

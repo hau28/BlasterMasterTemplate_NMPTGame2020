@@ -84,37 +84,25 @@ void CPanda::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 	LPGAMEOBJECT obj = coEvent->otherObject;
 
-	if (dynamic_cast<LPTILE_AREA>(obj))
+	if (IsBlockableObject(obj))
 	{
-		LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(obj);
+		CGameObjectBehaviour::BlockObject(dt, coEvent);
 
-		switch (tileArea->classId)
+		if (coEvent->ny < 0)
 		{
-
-		case CLASS_TILE_BLOCKABLE:
-		case CLASS_TILE_PORTAL:
-		{
-			CGameObjectBehaviour::BlockObject(dt, coEvent);
-			
-			if (coEvent->ny < 0)
+			flagOnAir = false;
+			if (flagTouchWall)
 			{
-				flagOnAir = false;
-				if (flagTouchWall)
-				{
-					vy = -PANDA_JUMP;
-				}
+				vy = -PANDA_JUMP;
 			}
-
-			if (coEvent->nx != 0)
-			{
-				flagTouchWall = true;
-
-				if (!isGoingToPlayer)
-					isGoingToPlayer = true;
-			}
-
-			break;
 		}
+
+		if (coEvent->nx != 0)
+		{
+			flagTouchWall = true;
+
+			if (!isGoingToPlayer)
+				isGoingToPlayer = true;
 		}
 	}
 }

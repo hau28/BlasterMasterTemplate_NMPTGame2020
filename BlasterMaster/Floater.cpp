@@ -53,10 +53,7 @@ void CFloater::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 	LPGAMEOBJECT obj = coEvent->otherObject;
 
-	switch (obj->classId)
-	{
-	case CLASS_TILE_BLOCKABLE:
-	case CLASS_TILE_PORTAL:
+	if (IsBlockableObject(obj))
 	{
 		float oldVX = vx;
 		float oldVY = vy;
@@ -73,9 +70,6 @@ void CFloater::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 		};
 
 		UpdateState();
-
-		break;
-	}
 	}
 }
 

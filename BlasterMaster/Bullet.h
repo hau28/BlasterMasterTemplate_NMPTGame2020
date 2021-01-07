@@ -26,6 +26,8 @@ public:
 
     virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs);
 
+    virtual bool IsBlockableObject(LPGAMEOBJECT obj);
+
     virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 
     virtual void CalcExplosionCenterPos(float& explosionX, float& explosionY);

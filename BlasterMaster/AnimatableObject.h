@@ -9,6 +9,7 @@ protected:
 	int modifyR = 255;
 	int modifyG = 255;
 	int modifyB = 255;
+	int modifyA = 255;
 
 	static vector<Color> flashingColors;
 	int LookUpAnimationsId(int classId);
@@ -24,6 +25,7 @@ public:
 	CAnimatableObject(int classId, int x, int y, int sectionId);
 
 	virtual void SetModifyColor(int r, int g, int b);
+	virtual void SetModifyColor(int a, int r, int g, int b);
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) = 0;
 
@@ -37,6 +39,8 @@ public:
 	virtual void HandleOverlap(LPGAMEOBJECT overlappedObj) = 0;
 	virtual void CheckOverlaps(vector<LPGAMEOBJECT>* coObjs, vector<LPGAMEOBJECT>& overlappedObjs);
 	virtual void HandleOverlaps(vector<LPGAMEOBJECT>* overlappedObjs);
+
+	virtual bool IsBlockableObject(LPGAMEOBJECT obj);
 
 	/// <summary>
 	/// set the position to move the enemy a bit so that it won't hit the blockable walls

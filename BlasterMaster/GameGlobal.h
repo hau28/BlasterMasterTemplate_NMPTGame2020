@@ -5,8 +5,9 @@
 #define MAX_HEALTH_SOPHIA 80
 #define MAX_HEALTH_JASONSIDEVIEW 80
 #define MAX_HEALTH_JASONOVERHEAD 80
-#define BODY_DAMAGE_ENEMY 5 * 0
-#define BODY_DAMAGE_BULLET 5 * 0
+#define MAX_GUN_LEVEL 8
+#define BODY_DAMAGE_ENEMY 5 * 1
+#define BODY_DAMAGE_BULLET 5 * 1
 #define BODY_DAMAGE_LAVA 20 * 1
 #define BODY_DAMAGE_SPIKE 20 * 1
 #define BODY_DAMAGE_FALL 80
@@ -109,6 +110,10 @@ public:
 	void beingAttackedByLowFall();
 	void jasonJumpIntoSophia();
 
+	void AddToSophiaHealth(int amount);
+	void AddToJasonHealth(int amount);
+	void AddToGunLevel(int amount);
+
 	//Update
 	void Update(DWORD dt);
 	void UpdateEffect(DWORD dt);
@@ -133,18 +138,22 @@ public:
 	int getPlayer() { return this->flagPlayer; }
 	int getCurrentSection() { return this->IDCurrentSection; }
 	void saveGame();
-	void savePlayer(int kindPlayer);
+	void savePlayer(int kindPlayer, float offx = 0, float offy = 0);
 	void subLeft();
 	void getCheckPoint(float& x, float& y) { x = this->playerX; y = this->playerY; }
-	void saveSophia();
+	void saveSophia(float offx = 0, float offy = 0);
 	void getInfoSophia(float& x, float& y, int& id) { x = this->sophiaX; y = this->sophiaY; id = this->IDSectionSophia; }
-	void saveJason();
+	void saveJason(float offx = 0, float offy = 0);
 	void getInfoJason(float& x, float& y, int& id) { x = this->jasonX; y = this->jasonY; id = this->IDSectionJason; }
 
 	//CuteTN weapon
 	TypeWeapons selectedWeapon = TypeWeapons::MultiwarheadMissile;
 	bool CheckSophiaCanUseWeapon();
 	void AddToSelectedWeapon(int amount);
+	
+	void AddToHomingMissile(int amount);
+	void AddToMultiwarheadMissile(int amount);
+	void AddToThunderBreak(int amount);
 
 	//Control key Weapon
 	void NextSelectedItem();
@@ -155,6 +164,9 @@ public:
 	bool isEffectFaded = false;
 	bool isEffectBoss = false;
 	void openEffectFlashingBoss();
+	
+	// CuteTN
+	bool HasCrusherBeam = true;
 };
 
 

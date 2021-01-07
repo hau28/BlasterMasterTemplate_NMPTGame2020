@@ -31,20 +31,10 @@ void CBullet_JasonSideview::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 	LPGAMEOBJECT obj = coEvent->otherObject;
 
-	if (dynamic_cast<LPTILE_AREA>(obj))
+	if (IsBlockableObject(obj))
 	{
-		LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(obj);
-
-		switch (tileArea->classId)
-		{
-		case CLASS_TILE_BLOCKABLE:
-		case CLASS_TILE_PORTAL:
-		{
-			CGameObjectBehaviour::BlockObject(dt, coEvent);
-			Explode(CLASS_SMALL_EXPLOSION_SIDEVIEW);
-			break;
-		}
-		}
+		CGameObjectBehaviour::BlockObject(dt, coEvent);
+		Explode(CLASS_SMALL_EXPLOSION_SIDEVIEW);
 	}
 
 	if (dynamic_cast<CEnemy*>(obj))
