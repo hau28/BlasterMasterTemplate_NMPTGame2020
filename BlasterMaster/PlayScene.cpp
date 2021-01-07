@@ -649,6 +649,7 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 
 			global->savePlayer(1, 25, 0);
 			global->saveSophia(25,0);
+			CSophia::GetInstance()->Start_invulnerableTimer();
 		}
 
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT_JASON)
@@ -669,6 +670,7 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			game->SetCamPos(0, cy);
 			init_camBox();
 			global->savePlayer(2, 20, 0);
+			CJasonSideview::GetInstance()->Start_invulnerableTimer();
 		}
 
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_OVERHEAD_RIGHT)
@@ -709,8 +711,10 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			init_camBox();
 
 			global->savePlayer(1, -40, 0);
-			global->saveSophia(-40,0);
+			global->saveSophia(-40,0); 
+			CSophia::GetInstance()->Start_invulnerableTimer();
 		}
+
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT_JASON)
 		if (cx + game->GetScreenWidth() <= 0)
 		{
@@ -725,8 +729,8 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			CJasonSideview::GetInstance()->SetSpeed(-0.11, 0);
 			game->SetCamPos(cx, cy);
 			init_camBox();
-
 			global->savePlayer(2, -25, 0);
+			CJasonSideview::GetInstance()->Start_invulnerableTimer();
 		}
 
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_OVERHEAD_LEFT)

@@ -936,12 +936,13 @@ void CSophia::HandleTimerTick(LPTIMER sender)
     if (sender == invulnerableTimer)
     {
         flagInvulnerable = false;
+        invulnerableTimer->interval = INVULNERABLE_DURATION;
     }
 
     if (sender == dyingEffectTimer)
     {
         // To do: switch scene
-        Sleep(4000);
+        Sleep(2000);
         CGameEvent* event = new SwitchSceneEvent(ID_SCENE_INTRO);
         CGameGlobal::GetInstance()->resetHealth();
         CGame::AddGameEvent(event);
@@ -963,4 +964,11 @@ CSophia::~CSophia()
 {
     DebugOut(L"Thy cuteeee\n");
     CAnimatableObject::~CAnimatableObject();
+}
+
+void CSophia::Start_invulnerableTimer()
+{
+    flagInvulnerable = true;
+    invulnerableTimer = new CTimer(this, INVULNERABLE_DURATION*4, 1);
+    invulnerableTimer->Start();
 }
