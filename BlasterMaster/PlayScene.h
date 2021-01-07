@@ -49,6 +49,7 @@ public:
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();
+	void LoadSound();
 
 	void InitSaveGameSideView();
 	void InitSaveGameOverhead();
@@ -86,7 +87,7 @@ public:
 	
 	//friend class CPlayScenceKeyHandler;
 
-	//~CPlayScene();
+	~CPlayScene();
 };
 
 typedef CPlayScene* LPPLAYSCENE;

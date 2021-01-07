@@ -7,7 +7,6 @@
 #include "Game.h"
 #include "Utils.h"
 
-#include "SoundManager.h"
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
 #define MAIN_WINDOW_TITLE L"BLASTER MASTER - GAME DO STUDIO"
