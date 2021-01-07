@@ -137,6 +137,11 @@ CGameGlobal::CGameGlobal() {
 
 	objAnims = CObjectAnimationsLib::GetInstance()->Get(ID_EFFECT);
 	EffectFaded = objAnims->GenerateAnimationHanlders();
+
+	//Init timer effect
+	this->isEffectBoss = false;
+	effectBossFlashingTimer = new CTimer(this, BOSS_EFFECT_DURATION, 1);
+	effectBossFlashingTimer->Stop();
 }
 
 void CGameGlobal::Update(DWORD dt)
@@ -147,6 +152,7 @@ void CGameGlobal::Update(DWORD dt)
 
 void CGameGlobal::UpdateEffect(DWORD dt)
 {
+	effectBossFlashingTimer->Update(dt);
 	if (isEffectFaded)
 	{
 		EffectFaded[ID_STATE_EFFECT]->Update();
@@ -725,4 +731,18 @@ void CGameGlobal::RenderEffect()
 void CGameGlobal::initEffectFaded()
 {
 	this->isEffectFaded = true; 
+}
+
+void CGameGlobal::openEffectFlashingBoss()
+{
+	this->isEffectBoss = true;
+	this->effectBossFlashingTimer->Start();
+}
+
+void CGameGlobal::HandleTimerTick(LPTIMER sender)
+{
+	if (sender == effectBossFlashingTimer)
+	{
+		this->isEffectBoss = false;
+	}
 }

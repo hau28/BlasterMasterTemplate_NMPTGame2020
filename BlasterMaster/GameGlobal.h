@@ -34,12 +34,12 @@ enum class TypeWeapons
 	ThunderBreak,
 };
 
-class CGameGlobal
+class CGameGlobal : public ITimeTrackable
 {
 private:
 	CGameGlobal();
 	static CGameGlobal * _instance;
-
+	const int BOSS_EFFECT_DURATION = 2000;
 	//Save Game
 	bool Saved = false;
 	int left = 3;
@@ -50,7 +50,7 @@ private:
 	int IDSectionSophia = 0;
 	int IDSectionJason = 0;
 	int IDCurrentSection = -1;
-	int isEffectFaded = false;
+	LPTIMER effectBossFlashingTimer;
 
 	//AnimationHandler Render 
 	CObjectAnimationHanlders HealthPow;
@@ -92,8 +92,9 @@ private:
 public:
 	//reset health
 	//get value methods
+	const int ID_SECTION_BOSSOVERHEAD = 1000649;
 	static CGameGlobal* GetInstance();
-	int get_healthSophia()		  { return this->healthSophia;		  }
+	int get_healthSophia() { return this->healthSophia; }
 	int get_healthJasonSideView() { return this->healthJason; }
 	int get_healthJasonOverHead() { return this->healthJason; }
 
@@ -137,7 +138,6 @@ public:
 	void getCheckPoint(float& x, float& y) { x = this->playerX; y = this->playerY; }
 	void saveSophia();
 	void getInfoSophia(float& x, float& y, int& id) { x = this->sophiaX; y = this->sophiaY; id = this->IDSectionSophia; }
-
 	void saveJason();
 	void getInfoJason(float& x, float& y, int& id) { x = this->jasonX; y = this->jasonY; id = this->IDSectionJason; }
 
@@ -149,7 +149,12 @@ public:
 	//Control key Weapon
 	void NextSelectedItem();
 	void BackSelectedItem();
+	virtual void HandleTimerTick(LPTIMER sender);
 
+	//Effect
+	bool isEffectFaded = false;
+	bool isEffectBoss = false;
+	void openEffectFlashingBoss();
 };
 
 

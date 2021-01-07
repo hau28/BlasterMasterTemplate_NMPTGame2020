@@ -739,6 +739,8 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			init_camBox();
 
 			global->savePlayer(3);
+			if (CurrentSectionId == global->ID_SECTION_BOSSOVERHEAD)
+				global->openEffectFlashingBoss();
 		}
 }
 

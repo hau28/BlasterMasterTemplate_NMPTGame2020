@@ -5,6 +5,9 @@
 #include "JasonSideview.h"
 #include "GameObjectBehaviour.h"
 #include "JasonOverhead.h"
+#include "GameGlobal.h"
+#include <stdlib.h>    
+#include <time.h>  
 
 CSection::CSection(int bgTextureId, int fgTextureId)
 {
@@ -81,9 +84,20 @@ void CSection::Render(float offset_x, float offset_y)
 void CSection::RenderTexture(int textureId, float offset_x, float offset_y)
 {
 	LPDIRECT3DTEXTURE9 backgroundTexture = CTextures::GetInstance()->Get(textureId);
+
+	//EFFECT BOSS - SANHLIKE CUTE
+	CGameGlobal * global = CGameGlobal::GetInstance();
+	if (global->isEffectBoss)
+	{
+		int R = rand() % 255;
+		int G = rand() % 255;
+		int B = rand() % 255;
+		int A = 255;
+		CGame::GetInstance()->Draw(offset_x, offset_y, backgroundTexture, 0, 0, bgWidth, bgHeight, A,false,0,0,0,R,G,B);
+	}
+	else
 	CGame::GetInstance()->Draw(offset_x, offset_y, backgroundTexture, 0, 0, bgWidth, bgHeight);
 }
-
 
 //SANH-CAMERA
 void CSection::deleteSophia()
