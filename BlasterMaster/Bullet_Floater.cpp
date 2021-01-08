@@ -2,6 +2,7 @@
 
 #include "TileArea.h"
 #include "GameObjectBehaviour.h"
+#include "Sound.h"
 
 CBullet_Floater::CBullet_Floater(float x, float y, int sectionId, float dirX, float dirY) : CBullet::CBullet(CLASS_SMALL_PINK_BULLET, x, y, sectionId, false)
 {
@@ -27,6 +28,7 @@ void CBullet_Floater::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 	if (IsBlockableObject(obj))
 	{
+		Sound::getInstance()->play("small_pink_bullet_to_wall", false, 1);
 		CGameObjectBehaviour::BlockObject(dt, coEvent);
 		Explode(CLASS_SMALL_EXPLOSION_SIDEVIEW);
 	}

@@ -1,7 +1,7 @@
 #include "Enemy.h"
 #include "GameObjectBehaviour.h"
 #include "Item.h"
-
+#include "Sound.h"
 
 CEnemy::CEnemy(int classId, int x, int y, int sectionId, int animsId) : CAnimatableObject::CAnimatableObject(classId, x, y, sectionId, animsId)
 {
@@ -74,6 +74,7 @@ void CEnemy::DropItem()
 
 void CEnemy::Explode()
 {
+	Sound::getInstance()->play("enemy_die", false, 1);
 	CGameObjectBehaviour::ExplodeAtCenter(this, CLASS_LARGE_EXPLOSION_SIDEVIEW);
 }
 

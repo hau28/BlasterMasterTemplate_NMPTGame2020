@@ -133,7 +133,6 @@
     <ClCompile Include="ObjectFlashingEffectPlayer.cpp" />
     <ClCompile Include="Insect.cpp" />
     <ClCompile Include="Bullet_Floater.cpp" />
-    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Bullet_Mine.cpp" />
     <ClCompile Include="Bullet_Skull.cpp" />
     <ClCompile Include="GameGlobal.cpp">
@@ -263,7 +262,6 @@
     <ClInclude Include="ObjectFlashingEffectPlayer.h" />
     <ClInclude Include="Insect.h" />
     <ClInclude Include="Bullet_Floater.h" />
-    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Bullet_Mine.h" />
     <ClInclude Include="Bullet_Skull.h" />
     <ClInclude Include="GameGlobal.h">
@@ -304,121 +302,121 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Media Include="Sound\3Missile.wav">
+    <Media Include="Sound\Blaster Master SFX (32).wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\BigObjectJump.wav">
+    <Media Include="Sound\Blaster Master SFX (33).wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\BossEnter.wav">
+    <Media Include="Sound\Blaster Master SFX (35).wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\DomeFLying.wav">
+    <Media Include="Sound\Blaster Master SFX (37).wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\DomeWalking.wav">
+    <Media Include="Sound\bullet_explosion.wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\DontKnow.wav">
+    <Media Include="Sound\credit.wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\EnemyDie.wav">
+    <Media Include="Sound\dome_jump.wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\EnemyOnHit.wav">
+    <Media Include="Sound\earthquake.wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\Explosive_bullet.wav">
+    <Media Include="Sound\enemy_die.wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\EyeballSHOT.wav">
+    <Media Include="Sound\enter.wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\FullHeath.wav">
+    <Media Include="Sound\entering_boss_scene.wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\Grenade.wav">
+    <Media Include="Sound\fire.wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\HomingMissile.wav">
+    <Media Include="Sound\insect_fly_down.wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\Insect.wav">
+    <Media Include="Sound\intro.wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\InteriorTheme.wav">
+    <Media Include="Sound\jason_bullet.wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\JasonBullet.wav">
+    <Media Include="Sound\jason_die.wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\JasonDie.wav">
+    <Media Include="Sound\jason_got_hit.wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\JasonGotHit_Interior.wav">
+    <Media Include="Sound\jason_got_hit_overhead.wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\JasonGotHit_Outside.wav">
+    <Media Include="Sound\jason_sideview_shoot.wav">
       <Filter>Sound</Filter>
     </Media>
     <Media Include="Sound\JasonJump.wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\JumperJump.wav">
+    <Media Include="Sound\jump.wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\Master SFX (11).wav">
+    <Media Include="Sound\lava.wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\Master SFX (12).wav">
+    <Media Include="Sound\man1.wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\Master SFX (25).wav">
+    <Media Include="Sound\mine.wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\Master SFX (27).wav">
+    <Media Include="Sound\multiwarhead.wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\Master SFX (32).wav">
+    <Media Include="Sound\peace.wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\Master SFX (33).wav">
+    <Media Include="Sound\scene_change.wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\Master SFX (37).wav">
+    <Media Include="Sound\skull_bomb.wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\MineExplosion.wav">
+    <Media Include="Sound\sophia_explosion.wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\MineWaiting.wav">
+    <Media Include="Sound\sophia_fall_ground.wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\PowerUp.wav">
+    <Media Include="Sound\sophia_got_hit.wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\SkullBullet.wav">
+    <Media Include="Sound\sophia_shoot.wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\SophiaBullet.wav">
+    <Media Include="Sound\swap_player.wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\SophiaDie.wav">
+    <Media Include="Sound\teleport.wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\SophiaGoingSmall.wav">
+    <Media Include="Sound\teleporter_shoot.wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\swapSophiaAndJason.wav">
+    <Media Include="Sound\thunder.wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\TeleporterMoving.wav">
+    <Media Include="Sound\worm_moving.wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\ThemeSong.wav">
+    <Media Include="Sound\small_pink_bullet_to_wall.wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\WormMoving_CannonShot_TeleporterShot.wav">
+    <Media Include="Sound\area2.wav">
       <Filter>Sound</Filter>
     </Media>
   </ItemGroup>
