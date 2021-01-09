@@ -143,6 +143,7 @@
     <ClCompile Include="BreakableBlock.cpp" />
     <ClCompile Include="Bullet_Floater.cpp" />
     <ClCompile Include="Bullet_HomingMissile.cpp" />
+    <ClCompile Include="Bullet_JasonOverhead.cpp" />
     <ClCompile Include="Bullet_JasonSideview.cpp" />
     <ClCompile Include="Bullet_Mine.cpp" />
     <ClCompile Include="Bullet_MultiwarheadMissile.cpp" />
@@ -206,6 +207,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Bullet_Floater.h" />
     <ClInclude Include="Bullet_HomingMissile.h" />
+    <ClInclude Include="Bullet_JasonOverhead.h" />
     <ClInclude Include="Bullet_JasonSideview.h" />
     <ClInclude Include="Bullet_Mine.h" />
     <ClInclude Include="Bullet_MultiwarheadMissile.h" />

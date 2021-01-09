@@ -7,6 +7,7 @@
 #include "WalkInPortalEvent.h"
 #include "PlayScene.h"
 #include "SwitchSceneEvent.h"
+#include "Bullet_JasonOverhead.h"
 
 CJasonOverhead* CJasonOverhead::__instance = nullptr;
 
@@ -25,6 +26,16 @@ void CJasonOverhead::Init()
     animationHandlers = objAnims->GenerateAnimationHanlders();
 
     this->allowOverlapWithBlocks = true;
+
+    invulnerableTimer = new CTimer(this, INVULNERABLE_DURATION, 1);
+    invulnerableTimer->Stop();
+
+    dyingEffectTimer = new CTimer(this, DYING_EFFECT_DURATION, 1);
+    dyingEffectTimer->Stop();
+
+    flagBulletReloaded = true;
+    bulletReloadTimer = new CTimer(this, JASONOVERHEAD_BULLET_RELOAD_DURATION, 1);
+    bulletReloadTimer->Stop();
 
     //invulnerableTimer = new CTimer(this, INVULNERABLE_DURATION, 1);
     //invulnerableTimer->Stop();
@@ -67,6 +78,11 @@ void CJasonOverhead::HandleKeyUp(DWORD dt, int keyCode)
 
 void CJasonOverhead::HandleKeyDown(DWORD dt, int keyCode)
 {
+    if (keyCode == ControlKeys::FireKey)
+    {
+        if (flagBulletReloaded && numberOfJasonOverheadBullets < max_bullets_on_cam)
+            Shoot();
+    }
 }
 
 void CJasonOverhead::HandleKeysHold(DWORD dt)
@@ -134,6 +150,93 @@ void CJasonOverhead::UpdateState()
     SetState(newState);
 }
 
+void CJasonOverhead::GetShootPosition(float& x, float& y, float dx, float dy)
+{
+    const int JASONOVERHEAD_GUNUP_OFFSETX_FROM_CENTER = 6;
+    const int JASONOVERHEAD_GUNUP_OFFSETY_FROM_CENTER = -28;
+
+    const int JASONOVERHEAD_GUNDOWN_OFFSET_FROM_CENTER = -6;
+
+    const int JASONOVERHEAD_GUNLEFTRIGHT_OFFSETY_FROM_CENTER = -12;
+    const int JASONOVERHEAD_GUNLEFT_OFFSETX_FROM_CENTER = -12; 
+    const int JASONOVERHEAD_GUNTRIGHT_OFFSETX_FROM_CENTER = 12;
+    // set the bullet center equals to Sophia center
+    CGameObjectBehaviour::CalcBoundingBoxCenter(this, x, y);
+
+    if (dy == 1)
+    {
+        x += JASONOVERHEAD_GUNDOWN_OFFSET_FROM_CENTER;
+    }
+
+    if (dy == -1)
+    {
+        x += JASONOVERHEAD_GUNUP_OFFSETX_FROM_CENTER;
+        y += JASONOVERHEAD_GUNUP_OFFSETY_FROM_CENTER;
+    }
+
+    if (dx == -1)
+    {
+        x += JASONOVERHEAD_GUNLEFT_OFFSETX_FROM_CENTER;
+        y += JASONOVERHEAD_GUNLEFTRIGHT_OFFSETY_FROM_CENTER;
+    }
+
+    if (dx == 1)
+    {
+        x += JASONOVERHEAD_GUNTRIGHT_OFFSETX_FROM_CENTER;
+        y += JASONOVERHEAD_GUNLEFTRIGHT_OFFSETY_FROM_CENTER;
+    }
+}
+
+void CJasonOverhead::CountJasonOverheadBullets(vector<LPGAMEOBJECT>* coObjs)
+{
+    numberOfJasonOverheadBullets = 0;
+
+    for (auto obj : *coObjs)
+    {
+        if (dynamic_cast<CBullet_JasonOverhead*>(obj))
+            numberOfJasonOverheadBullets++;
+    }
+}
+
+void CJasonOverhead::Shoot()
+{
+    float dx = 0, dy = 0, sx, sy;
+
+    if (state == JASONOVERHEAD_STATE_IDLE_DOWN || state == JASONOVERHEAD_STATE_WALK_DOWN || state == JASONOVERHEAD_STATE_IDLE_UP || state == JASONOVERHEAD_STATE_WALK_UP)
+    {
+        if (state == JASONOVERHEAD_STATE_IDLE_DOWN || state == JASONOVERHEAD_STATE_WALK_DOWN)
+        {
+            dy = 1;
+        }
+        if (state == JASONOVERHEAD_STATE_IDLE_UP || state == JASONOVERHEAD_STATE_WALK_UP)
+        {
+            dy = -1;
+        }
+    }
+    if (state == JASONOVERHEAD_STATE_IDLE_LEFT || state == JASONOVERHEAD_STATE_WALK_LEFT)
+    {
+        dx = -1;
+    }
+    if (state == JASONOVERHEAD_STATE_IDLE_RIGHT || state == JASONOVERHEAD_STATE_WALK_RIGHT)
+    {
+        dx = 1;
+    }
+
+    CBullet_JasonOverhead* bullet = new CBullet_JasonOverhead(x, y, currentSectionId, dx, dy, gunlevel);
+
+    if (gunlevel == 3 || gunlevel ==2)
+    {
+        max_bullets_on_cam = 3;
+    }
+
+    GetShootPosition(sx, sy, dx,dy);
+    CGameObjectBehaviour::SetBoundingBoxCenter(bullet, sx, sy);
+    CGameObjectBehaviour::CreateObject(bullet);
+
+    bulletReloadTimer->Start();
+    flagBulletReloaded = false;
+}
+
 void CJasonOverhead::SnapToPortalMiddle(LPGAMEOBJECT portal, bool snapX)
 {
     float oldX = x, oldY = y;
@@ -146,6 +249,29 @@ void CJasonOverhead::SnapToPortalMiddle(LPGAMEOBJECT portal, bool snapX)
         y = oldY;
     else
         x = oldX;
+}
+
+void CJasonOverhead::HandleTimerTick(LPTIMER sender)
+{
+    if (sender == invulnerableTimer)
+    {
+        flagInvulnerable = false;
+    }
+
+    if (sender == dyingEffectTimer)
+    {
+        // To do: switch scene
+        Sleep(4000);
+        CGameEvent* event = new SwitchSceneEvent(ID_SCENE_INTRO);
+        CGameGlobal::GetInstance()->resetHealth();
+        CGame::AddGameEvent(event);
+        dyingEffectTimer->Stop();
+    }
+
+    if (sender == bulletReloadTimer)
+    {
+        flagBulletReloaded = true;
+    }
 }
 
 CJasonOverhead* CJasonOverhead::GetInstance()
@@ -246,6 +372,9 @@ void CJasonOverhead::HandleOverlap(LPGAMEOBJECT overlappedObj)
 
 void CJasonOverhead::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
+    bulletReloadTimer->Update(dt);
+    CountJasonOverheadBullets(coObjs);
+
     HandleKeys(dt);
     CAnimatableObject::Update(dt, coObjs);
     UpdateState();
