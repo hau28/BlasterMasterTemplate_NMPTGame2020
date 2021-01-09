@@ -17,6 +17,7 @@
 #include "Orb.h"
 #include "Insect.h"
 #include "BreakableBlock.h"
+#include "Item.h"
 
 /// <summary>
 /// The Abstract factory for creating game objects
@@ -26,6 +27,7 @@ class CGameObjectFactory
 	static void GetAnimatableObjectProps(map<string, string> properties, int& x, int& y, int& animsId, int& sectionId);
 	static void GetTileAreaObjectProps(map<string, string> properties, int& x, int& y, int& width, int& height, int&sectionId);
 	static void GetPortalProps(map<string, string> properties, int& x, int& y, int& width, int& height, int&sectionId, int&associatedPortalId);
+	static void GetItemProps(map<string, string> properties, int& x, int& y, int& animsId, int& sectionId, int& isFlashy);
 	static int GetSideviewEquivalentClassId(int classId);
 
 public:
