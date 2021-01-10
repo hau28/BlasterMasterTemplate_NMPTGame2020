@@ -48,50 +48,11 @@ Sound::Sound(HWND hWnd)
 }
 
 void Sound::loadGameSounds() {
-	Sound::getInstance()->loadSound((char*)"Sound/intro.wav", "intro");
-	Sound::getInstance()->loadSound((char*)"Sound/enter.wav", "enter");
-	Sound::getInstance()->loadSound((char*)"Sound/area2.wav", "area2");
-	Sound::getInstance()->loadSound((char*)"Sound/credit.wav", "credit");
-	Sound::getInstance()->loadSound((char*)"Sound/earthquake.wav", "earthquake");
-	Sound::getInstance()->loadSound((char*)"Sound/peace.wav", "peace");
-	//Sound::getInstance()->play("intro", false, 1);
-
-	//bullet sounds
-	Sound::getInstance()->loadSound((char*)"Sound/small_pink_bullet_to_wall.wav", "small_pink_bullet_to_wall");
-
-	// player sound
-	Sound::getInstance()->loadSound((char*)"Sound/sophia_fall_ground.wav", "sophia_fall_ground");
-	Sound::getInstance()->loadSound((char*)"Sound/jump.wav", "sophia_jump");
-	Sound::getInstance()->loadSound((char*)"Sound/sophia_bullet_explosion.wav", "sophia_bullet_explosion");
-	Sound::getInstance()->loadSound((char*)"Sound/sophia_shoot.wav", "sophia_shoot");
-	Sound::getInstance()->loadSound((char*)"Sound/sophia_explosion.wav", "sophia_explosion");
-	Sound::getInstance()->loadSound((char*)"Sound/jason_got_hit.wav", "jason_got_hit");
-	Sound::getInstance()->loadSound((char*)"Sound/jason_sideview_shoot.wav", "jason_sideview_shoot");
-	Sound::getInstance()->loadSound((char*)"Sound/bullet_explosion.wav", "bullet_explosion");
-	Sound::getInstance()->loadSound((char*)"Sound/swap_player.wav", "swap_player");
-	Sound::getInstance()->loadSound((char*)"Sound/enemy_die.wav", "enemy_die");
-	Sound::getInstance()->loadSound((char*)"Sound/scene_change.wav", "scene_change");
-	Sound::getInstance()->loadSound((char*)"Sound/lava.wav", "lava");
-	Sound::getInstance()->loadSound((char*)"Sound/thunder.wav", "thunder");
-	Sound::getInstance()->loadSound((char*)"Sound/multiwarhead.wav", "multiwarhead");
-
-	// enemies
-	Sound::getInstance()->loadSound((char*)"Sound/worm_moving.wav", "worm_moving");
-	Sound::getInstance()->loadSound((char*)"Sound/insect_fly_down.wav", "insect_fly_down");
-	Sound::getInstance()->loadSound((char*)"Sound/enemy_jump.wav", "enemy_jump");
-	Sound::getInstance()->loadSound((char*)"Sound/skull_bomb.wav", "skull_bomb");
-	Sound::getInstance()->loadSound((char*)"Sound/mine.wav", "mine");
-	Sound::getInstance()->loadSound((char*)"Sound/dome_jump.wav", "dome_jump");
-	Sound::getInstance()->loadSound((char*)"Sound/teleport.wav", "teleport");
-	Sound::getInstance()->loadSound((char*)"Sound/teleporter_shoot.wav", "teleporter_shoot");
-	Sound::getInstance()->loadSound((char*)"Sound/entering_boss_scene.wav", "entering_boss_scene");
-
-	Sound::getInstance()->setVolume(85, "");
-	//Sound::getInstance()->setVolume(90, "area2");
-	Sound::getInstance()->setVolume(90, "sophia_explosion");
-	Sound::getInstance()->setVolume(90, "sophia_fall_ground");
-	Sound::getInstance()->setVolume(90, "sophia_bullet_explosion");
-	Sound::getInstance()->setVolume(90, "lava");
+	//WORLD SOUND
+	Sound::getInstance()->loadSound(AREA2);
+	Sound::getInstance()->loadSound(SMALL_PINK_BULLET_TO_WALL);
+	Sound::getInstance()->loadSound(ENEMY_DIE);
+	Sound::getInstance()->loadSound(JASON_GOT_HIT);
 }
 
 Sound::~Sound()
@@ -129,7 +90,7 @@ float Sound::getVolume()
 	return volume;
 }
 
-void Sound::loadSound(char* fileName, std::string name)
+void Sound::loadSound(std::string name)
 {
 	if (soundBufferMap.find(name) != soundBufferMap.end())
 		return;
@@ -141,6 +102,9 @@ void Sound::loadSound(char* fileName, std::string name)
 	unsigned char* wavData;
 	unsigned char* bufferPtr;
 	unsigned long bufferSize;
+
+	string fileNameTemp = ("Sound/" + name + ".wav").c_str();
+	char* fileName = &fileNameTemp[0];
 
 	int error = fopen_s(&filePtr, fileName, "rb");
 	if (error != 0)

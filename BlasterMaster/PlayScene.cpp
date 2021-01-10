@@ -379,7 +379,7 @@ void CPlayScene::Load()
 
 	init_camBox();
 	//play(name, isLoop, times)
-	Sound::getInstance()->play("area2", true, 0);
+	Sound::getInstance()->play(AREA2, true, 0);
 	// Sound::getInstance()->stop("area2");
 }
 

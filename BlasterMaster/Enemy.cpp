@@ -74,7 +74,7 @@ void CEnemy::DropItem()
 
 void CEnemy::Explode()
 {
-	Sound::getInstance()->play("enemy_die", false, 1);
+	Sound::getInstance()->play(ENEMY_DIE, false, 1);
 	CGameObjectBehaviour::ExplodeAtCenter(this, CLASS_LARGE_EXPLOSION_SIDEVIEW);
 }
 

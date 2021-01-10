@@ -101,7 +101,7 @@ void CJasonSideview::PlayVulnerableFlasingEffect()
 
 void CJasonSideview::HandleOnDamage()
 {
-    Sound::getInstance()->play("jason_got_hit", false, 1);
+    Sound::getInstance()->play(JASON_GOT_HIT, false, 1);
 	flagInvulnerable = true;
 	invulnerableTimer->Start();
     PlayVulnerableFlasingEffect();
