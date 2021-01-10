@@ -33,6 +33,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath, int startupSectionId) : CScene(
 #define MAX_SCENE_LINE 1024
 
 void CPlayScene::LoadSound() {
+	return;
 	Sound::getInstance()->loadSound((char*)"Sound/intro.wav", "intro");
 	Sound::getInstance()->loadSound((char*)"Sound/enter.wav", "enter");
 	Sound::getInstance()->loadSound((char*)"Sound/area2.wav", "area2");
@@ -353,7 +354,24 @@ void CPlayScene::InitSaveGameSideView()
 }
 void CPlayScene::InitSaveGameOverhead()
 {
+	DebugOut(L"\n init over");
+	CGame::GetInstance()->SetState(GameState::PLAY_OVERHEAD);
+	CGameGlobal * global = CGameGlobal::GetInstance();
+	
+	if (global->getPlayer() != 3) // Khong phai reset o overhead 
+		return;
 
+	float xPlayer, yPlayer;
+	int idSection;
+
+	global->getCheckPoint(xPlayer, yPlayer);
+	idSection = global->getCurrentSection();
+
+	DebugOut(L"\n get info");
+	CurrentSectionId = idSection;
+
+	Sections[idSection]->deleteJasonOverhead();
+	Sections[idSection]->pushJasonOverhead(xPlayer, yPlayer, idSection);
 }
 
 void CPlayScene::Load()
@@ -1037,8 +1055,11 @@ void CPlayScene::InitSectionForOverhead(int port)
 	}
 
 	if (!portal)
+	{
+		/*DebugOut(L"\nok2");*/ //Please don't remove it because it's all
 		return;
-
+	}
+	
 	float playerCenterX, playerCenterY;
 	CGameObjectBehaviour::CalcBoundingBoxCenter(portal, playerCenterX, playerCenterY);
 	CGameObjectBehaviour::SetBoundingBoxCenter(CJasonOverhead::GetInstance(), playerCenterX, playerCenterY);
@@ -1049,7 +1070,7 @@ void CPlayScene::InitSectionForOverhead(int port)
 	CJasonOverhead::GetInstance()->currentSectionId = CurrentSectionId;
 
 	GetCurrentSection()->pushJasonOverhead(playerX, playerY, CJasonOverhead::GetInstance()->currentSectionId);
-
+	CGameGlobal::GetInstance()->savePlayer(3);
 	DebugOut(L"Section ID = %d, Section Jason overhead = %d", CurrentSectionId, CJasonOverhead::GetInstance()->currentSectionId);
 }
 

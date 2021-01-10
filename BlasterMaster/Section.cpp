@@ -24,8 +24,6 @@ CSection::CSection(int bgTextureId, int fgTextureId)
 	bgHeight = surfaceDesc.Height;
 }
 
-
-
 void CSection::Update(DWORD dt)
 {
 	// CuteTN to do: filter out the neccessary objects to update
@@ -165,8 +163,9 @@ void CSection::deleteJasonOverhead()
 void CSection::pushJasonOverhead(float x, float y, int sectionID)
 {
 	this->deleteJasonOverhead();
-	CJasonOverhead::GetInstance()->SetPosition(x, y);
-	CJasonOverhead::GetInstance()->currentSectionId = sectionID;
+	//CJasonOverhead::GetInstance()->SetPosition(x, y);
+	//CJasonOverhead::GetInstance()->currentSectionId = sectionID;
+	CJasonOverhead::InitInstance(x, y, sectionID);
 	Objects.push_back(CJasonOverhead::GetInstance());
 }
 void CSection::addObject(LPGAMEOBJECT obj)

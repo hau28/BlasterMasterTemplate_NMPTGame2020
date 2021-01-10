@@ -767,7 +767,6 @@ void CGameGlobal::RenderEffect()
 	float camx, camy;
 	CGame::GetInstance()->GetCamPos(camx, camy);
 	EffectFaded[ID_STATE_EFFECT]->Render(camx, camy);
-	DebugOut(L"\nok");
 }
 
 void CGameGlobal::initEffectFaded()
