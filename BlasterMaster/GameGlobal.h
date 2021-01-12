@@ -69,8 +69,8 @@ private:
 	int healthJason;
 
 	//Gun Power
-	int levelGunPower = 0; // [0..8]
-
+	int levelGunPower = 4; // [0..8]
+	
 	//Weapons
 	bool isWeaponMenuActive = false;
 	int idSelectedItem = 1;
@@ -108,6 +108,7 @@ public:
 	void beingAttackedByDrop();
 	void beingAttackedByLowFall();
 	void jasonJumpIntoSophia();
+	int GetLevelGun() { return this->levelGunPower; };
 
 	void AddToSophiaHealth(int amount);
 	void AddToJasonHealth(int amount);

@@ -1,4 +1,4 @@
-#include "Bullet_JasonOverhead.h"
+﻿#include "Bullet_JasonOverhead.h"
 #include "GameObjectBehaviour.h"
 
 #include "TileArea.h"
@@ -6,13 +6,19 @@
 #include "RemoveObjectEvent.h"
 
 
-CBullet_JasonOverhead::CBullet_JasonOverhead(float x, float y, int sectionId, int dirX, int dirY, int level) : CBullet::CBullet(CLASS_JASON_OVERHEAD_BULLET, x, y, sectionId, false)
+CBullet_JasonOverhead::CBullet_JasonOverhead(float x, float y, int sectionId, int dirX, int dirY, int level, int index) : CBullet::CBullet(CLASS_JASON_OVERHEAD_BULLET, x, y, sectionId, false)
 {
+	startx = dirX;
 	bulletLevel = level;
-	if (bulletLevel <= 4)
-	{ // bullets 1 -> 4
-		bulletLine = new Straight(speed, bulletLevel, dirX, dirY);
-	}
+	if (bulletLevel < 4) // bullets 0-> 3
+		bulletLine = new StraightLine(speed, bulletLevel, dirX, dirY);
+
+	if (bulletLevel == 4 || bulletLevel==5)
+		bulletLine = new CircleLine(speed, bulletLevel, dirX, dirY);
+	
+	if (bulletLevel > 5)
+		bulletLine = new WaveLine(speed, bulletLevel, dirX, dirY);
+
 }
 
 void CBullet_JasonOverhead::UpdateVelocity(DWORD dt)
@@ -25,8 +31,9 @@ void CBullet_JasonOverhead::UpdateVelocity(DWORD dt)
 	}
 
 	bulletLine->Update(dt);
-	vx = speed * bulletLine->getVx();
-	vy = speed * bulletLine->getVy();
+	vx = speed*2 * bulletLine->getVx();
+	vy = speed*2 * bulletLine->getVy();
+	
 }
 
 void CBullet_JasonOverhead::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
@@ -37,6 +44,15 @@ void CBullet_JasonOverhead::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 		return;
 
 	LPGAMEOBJECT obj = coEvent->otherObject;
+
+	if (IsBlockableObject(obj))
+	{
+		if (coEvent->nx != 0)
+		{
+			CGameObjectBehaviour::BlockObject(dt, coEvent);
+			Explode(CLASS_SMALL_EXPLOSION_SIDEVIEW);
+		}
+	}
 
 	if (dynamic_cast<LPTILE_AREA>(obj))
 	{
@@ -82,12 +98,12 @@ void CBullet_JasonOverhead::UpdatePosition(DWORD dt)
 		if (abs(x - startX) >= BULLET_JASON_OVERHEAD_DISTANCE)
 		{
 			x = startX + (vx > 0 ? 1 : -1) * BULLET_JASON_OVERHEAD_DISTANCE;
-			CGameObjectBehaviour::RemoveObject(this);
+			Explode(CLASS_EXPLOSION_OVERHEAD);
 		}
-		if (abs(y - startY) >= BULLET_JASON_OVERHEAD_DISTANCE) 
+		if (abs(y - startY) >= BULLET_JASON_OVERHEAD_DISTANCE)
 		{
-			y = startX + (vx > 0 ? 1 : -1) * BULLET_JASON_OVERHEAD_DISTANCE;
-			CGameObjectBehaviour::RemoveObject(this);
+			y = startY + (vy > 0 ? 1 : -1) * BULLET_JASON_OVERHEAD_DISTANCE;
+			Explode(CLASS_EXPLOSION_OVERHEAD);
 		}
 	}
 
@@ -95,22 +111,86 @@ void CBullet_JasonOverhead::UpdatePosition(DWORD dt)
 
 void CBullet_JasonOverhead::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
+	if (startx == x)
+	{
+		flagOver = true;
+	}
 	CBullet::Update(dt, coObjs);
 }
 
-void BulletJasonOverheadLine::Update(float dt)
+void BulletJasonOverheadLine::Update(DWORD dt)
 {
 	//thy cute	
-
 }
 
-Straight::Straight(float& speed, int level, int dx, int dy) {
-	speed = 0.2;
-	//livingTime = BASE_LIVINGTIME * (level >= 2 ? 99999 : 1); //all bullets which its level is higher than 2 is not disapear automatically
+StraightLine::StraightLine(float& speed, int level, int dx, int dy) {
+	speed = BULLET_JASONOVERHEAD_SPEED;
 
 	if (dx == 0) vx = 0;
 	else vx = (dx < 0 ? -1 : 1);
 
 	if (dy == 0) vy = 0;
 	else vy = (dy < 0 ? -1 : 1);
+}
+
+CircleLine::CircleLine(float& speed, int level, int dx, int dy)
+{
+	speed = BULLET_JASONOVERHEAD_SPEED * (level == 5 ? 1 : 0.5);
+	
+	if (dx == 0)
+	{
+		vx = 0;
+		if (dy == -1)
+		{
+			vy = -1;
+			curAngle = -90;
+		}
+		else
+		{
+			vy = 1;
+			curAngle = 90;
+		}
+	}
+	else
+	{
+		vy = 0;
+		if (dx == -1)
+		{
+			vx = -1;
+			curAngle = 180;
+		}
+		else
+		{
+			vx = 1;
+			curAngle = 0;
+		}
+	}
+
+	dir = arrDir[iDir];
+	iDir = (iDir + 1) % 4;
+}
+
+int CircleLine::iDir = 0;
+int CircleLine::arrDir[4] = { 0,1,0,-1 };
+
+void CircleLine::Update(DWORD dt)
+{
+	float alpha = 2* pi * dt * dir;
+
+	float newVX = vx * cos(alpha) - vy * sin(alpha) ;
+	float newVY = vy * cos(alpha) + vx * sin(alpha);
+
+	vx = newVX;
+	vy = newVY;
+
+}
+
+WaveLine::WaveLine(float& speed, int level, int dx, int dy)
+{
+	
+}
+
+void WaveLine::Update(DWORD dt)
+{
+	
 }

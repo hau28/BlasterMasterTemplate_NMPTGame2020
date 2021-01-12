@@ -42,7 +42,8 @@ private:
     bool flagInvulnerable;
     LPTIMER bulletReloadTimer;
 
-    const int JASONOVERHEAD_BULLET_RELOAD_DURATION = 150;
+    const int JASONOVERHEAD_BULLET_RELOAD_DURATION = 100;
+    //const int JASONOVERHEAD_BULLETLEVEL45_RELOAD_DURATION = 300;
 
     bool flagBulletReloaded;
     LPTIMER invulnerableTimer = nullptr;
@@ -57,7 +58,8 @@ private:
 
     static CJasonOverhead* __instance;
 
-    int gunlevel = 3;
+    int gunlevel = 4;
+
 public:
     virtual void UpdateVelocity(DWORD dt);
     virtual void HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent);
@@ -70,5 +72,7 @@ public:
 
     static CJasonOverhead* GetInstance();
     static CJasonOverhead* InitInstance(int x, int y, int sectionId);
+
+
 };
 

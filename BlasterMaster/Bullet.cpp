@@ -43,6 +43,12 @@ void CBullet::SetBoundingBoxInfo(int classId)
 		break;
 
 	case CLASS_JASON_OVERHEAD_BULLET:
+		boundingBoxOffsetX = 9;
+		boundingBoxOffsetY = 8;
+		boundingBoxWidth = 8;
+		boundingBoxHeight = 8;
+		break;
+
 	case CLASS_JASON_OVERHEAD_GRENADE:
 		// 8 8 15 15
 		boundingBoxOffsetX = 8;

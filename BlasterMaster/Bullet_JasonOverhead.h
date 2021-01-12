@@ -5,21 +5,44 @@
 class BulletJasonOverheadLine {
 protected:
 	const float pi = 3.14;
+	const float BULLET_JASONOVERHEAD_SPEED = 0.1;
 
 	float vx = 1;
 	float vy = 1;
-	float Deg2Rad(float deg) { return deg * pi / 180; }
+
+	bool flagover = false;
 public:
 	float getVx() { return vx; }
 	float getVy() { return vy; }
-	virtual void Update(float dt);
+	virtual void Update(DWORD dt);
 };
 
-class Straight : public BulletJasonOverheadLine {
+class StraightLine : public BulletJasonOverheadLine {
 private:
 
 public:
-	Straight(float& speed, int level, int dx, int dy);
+	StraightLine(float& speed, int level, int dx, int dy);
+};
+
+class CircleLine : public BulletJasonOverheadLine {
+private:
+	static int iDir;
+	static int arrDir[4];
+
+	int dir;
+	float curAngle;
+
+public:
+	CircleLine(float& speed, int level, int dx, int dy);
+	void Update(DWORD dt);
+};
+
+class WaveLine : public BulletJasonOverheadLine {
+private:
+
+public:
+	WaveLine(float& speed, int level, int dx, int dy);
+	void Update(DWORD dt);
 };
 
 class CBullet_JasonOverhead : public CBullet
@@ -29,23 +52,29 @@ private:
 	/// the starting position of the bullet, we need it because the bullet auto explode after a short while.
 	/// this is initialize at the first call of UpdateVelocity
 	/// </summary>
-	
+
 	bool flagStartedMoving = false;
-	int startX = 0;
-	int startY = 0;
+	float startX = 0;
+	float startY = 0;
+	int startx;
 	const float BULLET_JASON_OVERHEAD_DISTANCE = 4 * 16;
 
 	float speed;
 	BulletJasonOverheadLine* bulletLine;
 	int bulletLevel;
+	
+	bool flagOver = false;
 public:
 	CBullet_JasonOverhead() {};
-	CBullet_JasonOverhead(float x, float y, int sectionId, int dirX, int dirY, int level);
+	CBullet_JasonOverhead(float x, float y, int sectionId, int dirX, int dirY, int level, int index);
 	virtual void UpdateVelocity(DWORD dt);
 	virtual void HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent);
 	virtual void HandleOverlap(LPGAMEOBJECT overlappedObj);
 	virtual void CalcExplosionCenterPos(float& explosionX, float& explosionY);
 	virtual void UpdatePosition(DWORD dt);
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs);
+
+	bool getflag() { return flagOver; };
+	
 };
 typedef CBullet_JasonOverhead* LPBULLET_JASONOVERHEAD;

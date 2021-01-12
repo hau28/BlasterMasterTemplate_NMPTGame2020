@@ -222,12 +222,16 @@ void CJasonOverhead::Shoot()
         dx = 1;
     }
 
-    CBullet_JasonOverhead* bullet = new CBullet_JasonOverhead(x, y, currentSectionId, dx, dy, gunlevel);
+    gunlevel = CGameGlobal::GetInstance()->GetLevelGun();
 
+    CBullet_JasonOverhead* bullet = new CBullet_JasonOverhead(x, y, currentSectionId, dx, dy, 7, numberOfJasonOverheadBullets);
+    // CBullet_JasonOverhead* bullet = new CBullet_JasonOverhead(x, y, currentSectionId, dx, dy, gunlevel, numberOfJasonOverheadBullets);
     if (gunlevel == 3 || gunlevel ==2)
     {
         max_bullets_on_cam = 3;
     }
+    else 
+        max_bullets_on_cam = 999;
 
     GetShootPosition(sx, sy, dx,dy);
     CGameObjectBehaviour::SetBoundingBoxCenter(bullet, sx, sy);
