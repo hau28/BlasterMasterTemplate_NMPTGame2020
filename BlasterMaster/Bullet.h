@@ -15,6 +15,8 @@ protected:
     CBullet(int classId, int x, int y, int sectionId, bool isFriendly);
 
 public:
+    static const float BULLET_OVERHEAD_OFFSET_FROM_SHADOW;
+
     // isFriendly = true when this bullet cannot damage the player.
     bool isFriendly = false;
     int damage = 0;

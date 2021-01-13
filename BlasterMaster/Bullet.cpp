@@ -4,6 +4,8 @@
 #include "CreateObjectEvent.h"
 #include "RemoveObjectEvent.h"
 
+const float CBullet::BULLET_OVERHEAD_OFFSET_FROM_SHADOW = 13;
+
 CBullet::CBullet(int classId, int x, int y, int sectionId, bool isFriendly) : CAnimatableObject::CAnimatableObject(classId, x, y, sectionId)
 {
 	this->isFriendly = isFriendly;
@@ -44,9 +46,9 @@ void CBullet::SetBoundingBoxInfo(int classId)
 
 	case CLASS_JASON_OVERHEAD_BULLET:
 		boundingBoxOffsetX = 9;
-		boundingBoxOffsetY = 8;
+		boundingBoxOffsetY = 8 + BULLET_OVERHEAD_OFFSET_FROM_SHADOW;
 		boundingBoxWidth = 8;
-		boundingBoxHeight = 8;
+		boundingBoxHeight = 3;
 		break;
 
 	case CLASS_JASON_OVERHEAD_GRENADE:
@@ -54,15 +56,16 @@ void CBullet::SetBoundingBoxInfo(int classId)
 		boundingBoxOffsetX = 8;
 		boundingBoxOffsetY = 8;
 		boundingBoxWidth = 8;
-		boundingBoxHeight = 8;
+		boundingBoxHeight = 3;
 		break;
 
+	// use bullet's shadow in overhead
 	case CLASS_ENEMY_OVERHEAD_BULLET:
 		// 9 8 16 15
 		boundingBoxOffsetX = 9;
-		boundingBoxOffsetY = 8;
+		boundingBoxOffsetY = 8 + BULLET_OVERHEAD_OFFSET_FROM_SHADOW;
 		boundingBoxWidth = 8;
-		boundingBoxHeight = 8;
+		boundingBoxHeight = 3;
 		break;
 
 	default:

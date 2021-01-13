@@ -6,10 +6,10 @@
 #include "RemoveObjectEvent.h"
 
 
-CBullet_JasonOverhead::CBullet_JasonOverhead(float x, float y, int sectionId, int dirX, int dirY, int level, int index) : CBullet::CBullet(CLASS_JASON_OVERHEAD_BULLET, x, y, sectionId, false)
+CBullet_JasonOverhead::CBullet_JasonOverhead(float x, float y, int sectionId, int dirX, int dirY, int level, int index) : CBullet::CBullet(CLASS_JASON_OVERHEAD_BULLET, x, y, sectionId, true)
 {
 	startx = dirX;
-	bulletLevel = level;
+	bulletLevel = 0;
 	if (bulletLevel < 4) // bullets 0-> 3
 		bulletLine = new StraightLine(speed, bulletLevel, dirX, dirY);
 
@@ -19,6 +19,8 @@ CBullet_JasonOverhead::CBullet_JasonOverhead(float x, float y, int sectionId, in
 	if (bulletLevel > 5)
 		bulletLine = new WaveLine(speed, bulletLevel, dirX, dirY);
 
+	isHiddenByForeground = true;
+	isUpdatedWhenOffScreen = true;
 }
 
 void CBullet_JasonOverhead::UpdateVelocity(DWORD dt)
@@ -47,27 +49,11 @@ void CBullet_JasonOverhead::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 	if (IsBlockableObject(obj))
 	{
-		if (coEvent->nx != 0)
-		{
-			CGameObjectBehaviour::BlockObject(dt, coEvent);
-			Explode(CLASS_SMALL_EXPLOSION_SIDEVIEW);
-		}
-	}
-
-	if (dynamic_cast<LPTILE_AREA>(obj))
-	{
-		LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(obj);
-
-		switch (tileArea->classId)
-		{
-		case CLASS_TILE_BLOCKABLE:
-		case CLASS_TILE_PORTAL:
-		{
-			CGameObjectBehaviour::BlockObject(dt, coEvent);
-			Explode(CLASS_EXPLOSION_OVERHEAD);
-			break;
-		}
-		}
+		//if (coEvent->nx != 0)
+		//{
+		CGameObjectBehaviour::BlockObject(dt, coEvent);
+		Explode(CLASS_EXPLOSION_OVERHEAD);
+		//}
 	}
 
 	if (dynamic_cast<CEnemy*>(obj))
@@ -88,6 +74,8 @@ void CBullet_JasonOverhead::HandleOverlap(LPGAMEOBJECT overlappedObj)
 
 void CBullet_JasonOverhead::CalcExplosionCenterPos(float& explosionX, float& explosionY)
 {
+	CBullet::CalcExplosionCenterPos(explosionX, explosionY);
+	explosionY -= BULLET_OVERHEAD_OFFSET_FROM_SHADOW;
 }
 
 void CBullet_JasonOverhead::UpdatePosition(DWORD dt)
@@ -98,12 +86,14 @@ void CBullet_JasonOverhead::UpdatePosition(DWORD dt)
 		if (abs(x - startX) >= BULLET_JASON_OVERHEAD_DISTANCE)
 		{
 			x = startX + (vx > 0 ? 1 : -1) * BULLET_JASON_OVERHEAD_DISTANCE;
-			Explode(CLASS_EXPLOSION_OVERHEAD);
+			CGameObjectBehaviour::RemoveObject(this);
+			// Explode(CLASS_EXPLOSION_OVERHEAD);
 		}
 		if (abs(y - startY) >= BULLET_JASON_OVERHEAD_DISTANCE)
 		{
 			y = startY + (vy > 0 ? 1 : -1) * BULLET_JASON_OVERHEAD_DISTANCE;
-			Explode(CLASS_EXPLOSION_OVERHEAD);
+			CGameObjectBehaviour::RemoveObject(this);
+			// Explode(CLASS_EXPLOSION_OVERHEAD);
 		}
 	}
 

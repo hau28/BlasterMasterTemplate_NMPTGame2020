@@ -7,7 +7,7 @@
 CBreakableBlock::CBreakableBlock(int classId, int x, int y, int sectionId, int animsId) : CAnimatableObject::CAnimatableObject(classId, x, y, sectionId, animsId)
 {
 	requireCrusherBeam = classId != CLASS_BREAKABLE_OVERHEAD_BG;
-	modifyA = 0;
+	modifyA = 255;
 	isDestroyed = false;
 	vx = vy = ax = ay = 0;
 

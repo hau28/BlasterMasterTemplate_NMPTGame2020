@@ -11,7 +11,14 @@ CExplosion::CExplosion(int classId, int x, int y, int sectionId, int animsId) : 
 CExplosion::CExplosion(int classId, int x, int y, int sectionId) : CAnimatableObject(classId, x, y, sectionId)
 {
 	ax = ay = vx = vy = 0;
-	this->isHiddenByForeground = false;
+
+	// only hidden by foreground when the explosion is in sideview
+	// CuteTN Note: Dirtyyyyyyyyyyyyyyyyyyyyyyyy
+	if (classId == CLASS_SMALL_EXPLOSION_SIDEVIEW || classId == CLASS_LARGE_EXPLOSION_SIDEVIEW || classId == CLASS_SOPHIA_EXPLOSION)
+		this->isHiddenByForeground = false;
+	else
+		this->isHiddenByForeground = true;
+
 	this->isUpdatedWhenOffScreen = true;
 }
 

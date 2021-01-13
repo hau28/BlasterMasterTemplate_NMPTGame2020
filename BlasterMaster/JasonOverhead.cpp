@@ -185,6 +185,8 @@ void CJasonOverhead::GetShootPosition(float& x, float& y, float dx, float dy)
         x += JASONOVERHEAD_GUNTRIGHT_OFFSETX_FROM_CENTER;
         y += JASONOVERHEAD_GUNLEFTRIGHT_OFFSETY_FROM_CENTER;
     }
+    
+    y += CBullet_JasonOverhead::BULLET_OVERHEAD_OFFSET_FROM_SHADOW;
 }
 
 void CJasonOverhead::CountJasonOverheadBullets(vector<LPGAMEOBJECT>* coObjs)
