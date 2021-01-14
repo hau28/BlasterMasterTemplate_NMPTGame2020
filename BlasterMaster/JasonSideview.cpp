@@ -10,6 +10,7 @@
 #include "JasonJumpInEvent.h"
 #include "Bullet_JasonSideview.h"
 #include "SwitchSceneEvent.h"
+#include "Sound.h"
 
 CJasonSideview* CJasonSideview::__instance = nullptr;
 
@@ -100,6 +101,7 @@ void CJasonSideview::PlayVulnerableFlasingEffect()
 
 void CJasonSideview::HandleOnDamage()
 {
+    Sound::getInstance()->play(JASON_GOT_HIT, false, 1);
 	flagInvulnerable = true;
 	invulnerableTimer->Start();
     PlayVulnerableFlasingEffect();

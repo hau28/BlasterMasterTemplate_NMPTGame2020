@@ -9,6 +9,12 @@
 #pragma comment(lib, "dxguid.lib")
 #pragma comment(lib, "winmm.lib")
 
+//DECLARE SOUND FILE NAME
+const std::string AREA2 = "area2";
+const std::string SMALL_PINK_BULLET_TO_WALL = "small_pink_bullet_to_wall";
+const std::string ENEMY_DIE = "enemy_die";
+const std::string JASON_GOT_HIT = "jason_got_hit";
+
 class Sound
 {
 public:
@@ -31,7 +37,8 @@ public:
 	float volume;
 	void static create(HWND hWnd);
 	void setVolume(float percentage, std::string name = "");
-	void loadSound(char* fileName, std::string name);
+	void loadSound(std::string name);
+	void loadGameSounds();
 	void play(std::string name, bool infiniteLoop, int times);
 	void stop(std::string name = "");
 	float getVolume();

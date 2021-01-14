@@ -85,6 +85,19 @@ LPGAMEOBJECT CGameObjectFactory::Create(int classId, map<string, string> propert
 		result = new CInsect(classId, x, y, sectionId, animsId);
 		break;
 
+	case CLASS_TELEPORTER:
+		GetAnimatableObjectProps(properties, x, y, animsId, sectionId);
+		result = new CTeleporter(classId, x, y, sectionId, animsId);
+		break;
+	case CLASS_CANNON:
+		GetAnimatableObjectProps(properties, x, y, animsId, sectionId);
+		result = new CCannon(classId, x, y, sectionId, animsId);
+		break;
+	case CLASS_EYEBALL:
+		GetAnimatableObjectProps(properties, x, y, animsId, sectionId);
+		result = new CEyeball(classId, x, y, sectionId, animsId);
+		break;
+	
 	case CLASS_BREAKABLE_BLUE_BG:
 	case CLASS_BREAKABLE_GREEN_BG:
 	case CLASS_BREAKABLE_OVERHEAD_BG:
