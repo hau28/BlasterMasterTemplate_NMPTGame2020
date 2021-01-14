@@ -5,6 +5,7 @@
 #include "CreateObjectEvent.h"
 #include "RemoveObjectEvent.h"
 #include "Utils.h"
+#include "Bullet_Eyeball.h"
 
 void CEyeball::UpdateState()
 {
@@ -68,7 +69,7 @@ void CEyeball::approach() {
 	}
 	stopSpeed = RandomFloat(EYEBALL_STOP_SPEED - 0.001, EYEBALL_STOP_SPEED + 0.001);
 	flagMove = true;
-
+	ShootPlayer();
 }
 
 void CEyeball::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
@@ -82,13 +83,39 @@ void CEyeball::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 	if (IsBlockableObject(obj))
 	{
+		float oldVX = vx;
+		float oldVY = vy;
+
+		CGameObjectBehaviour::BlockObject(dt, coEvent);
+
+		if (coEvent->nx != 0)
+		{
+			vx = -oldVX;
+			if (flagRight)
+				flagRight = false;
+			else flagRight = true;
+		};
+		if (coEvent->ny != 0)
+		{
+			vy = -oldVY;
+			if (flagDown)
+				flagDown = false;
+			else flagDown = true;
+		};
 	}
 }
 
 
 void CEyeball::ShootPlayer()
 {
+	float dirX, dirY; // direction to the player
+	CGameObjectBehaviour::CalcDirectionToPlayer(this, dirX, dirY);
 
+	float Xplayer, Yplayer;
+	CGame::GetInstance()->GetCurrentPlayer()->GetPosition(Xplayer, Yplayer);
+
+		CBullet_Eyeball* bullet = new CBullet_Eyeball(0, 0, 0, dirX, dirY);
+		CGameObjectBehaviour::CreateObjectAtCenterOfAnother(bullet, this);
 }
 
 void CEyeball::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
@@ -127,6 +154,10 @@ void CEyeball::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 				flagMove = false;
 			}
 		}
+	}
+	if (!flagMove) {
+		vx = 0;
+		vy = 0;
 	}
 	CEnemy::Update(dt, coObjs);
 }
