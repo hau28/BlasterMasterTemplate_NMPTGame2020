@@ -5,7 +5,7 @@ LPGAMEOBJECT CGameObjectFactory::Create(int classId, map<string, string> propert
 	LPGAMEOBJECT result = nullptr;
 	sectionId = -1;
 
-	int x, y, width, height, animsId, portalId, initLeft, rotation, behaviorId, isClockwise;
+	int x, y, width, height, animsId, portalId, initLeft, rotation, behaviorId, isClockwise, isFlashy;
 
 	// CuteTN Note: dirty dirty very dirty code here
 	// convert classId of scene Overhead into the equivalent ones in Sideview
@@ -92,6 +92,15 @@ LPGAMEOBJECT CGameObjectFactory::Create(int classId, map<string, string> propert
 		result = new CBreakableBlock(classId, x, y, sectionId, animsId);
 		break;
 
+	case CLASS_ITEM_GUN:
+	case CLASS_ITEM_POWER:
+	case CLASS_ITEM_HOVER:
+	case CLASS_ITEM_MULTIWARHEADMISSILE:
+	case CLASS_ITEM_HOMINGMISSILE:
+	case CLASS_ITEM_THUNDERBREAK:
+		GetItemProps(properties, x, y, animsId, sectionId, isFlashy);
+		result = new CItem(classId, x, y, sectionId, isFlashy);
+		break;
 
 	default:
 		return nullptr;
@@ -127,6 +136,12 @@ void CGameObjectFactory::GetPortalProps(map<string, string> properties, int& x, 
 	associatedPortalId = atoi(properties["Portal"].c_str());
 }
 
+void CGameObjectFactory::GetItemProps(map<string, string> properties, int& x, int& y, int& animsId, int& sectionId, int& isFlashy)
+{
+	GetAnimatableObjectProps(properties, x, y, animsId, sectionId);
+	isFlashy = atoi(properties["IsFlashy"].c_str());
+}
+
 int CGameObjectFactory::GetSideviewEquivalentClassId(int classId)
 {
 	switch (classId)
@@ -139,9 +154,19 @@ int CGameObjectFactory::GetSideviewEquivalentClassId(int classId)
 		return CLASS_TILE_SCENEPORTAL;
 	case CLASS_TILE_SPIKE_O:
 		return CLASS_TILE_SPIKE;
+
 	case CLASS_ITEM_POWER_O:
-		return CLASS_ITEM_HOVER;
+		return CLASS_ITEM_POWER;
 	case CLASS_ITEM_HOVER_O:
+		return CLASS_ITEM_HOVER;
+	case CLASS_ITEM_GUN_O:
+		return CLASS_ITEM_GUN;
+	case CLASS_ITEM_HOMINGMISSILE_O:
+		return CLASS_ITEM_HOMINGMISSILE;
+	case CLASS_ITEM_MULTIWARHEADMISSILE_O:
+		return CLASS_ITEM_MULTIWARHEADMISSILE;
+	case CLASS_ITEM_THUNDERBREAK_O:
+		return CLASS_ITEM_THUNDERBREAK;
 
 	default:
 		return classId;

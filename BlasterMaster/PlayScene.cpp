@@ -306,6 +306,9 @@ void CPlayScene::InitSaveGameSideView()
 		CurrentSectionId = idsection;
 		//Keyup jason
 		CJasonSideview::GetInstance()->keyUptoFixState();
+		
+		//Fix reset game nham
+		global->savePlayer(2);
 		return;
 	}
 
@@ -352,6 +355,7 @@ void CPlayScene::InitSaveGameSideView()
 	}
 	init_camBox();
 }
+
 void CPlayScene::InitSaveGameOverhead()
 {
 	DebugOut(L"\n init over");
