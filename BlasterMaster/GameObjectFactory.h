@@ -17,6 +17,9 @@
 #include "Orb.h"
 #include "Insect.h"
 #include "BreakableBlock.h"
+#include "Teleporter.h"
+#include "Cannon.h"
+#include "Eyeball.h"
 
 /// <summary>
 /// The Abstract factory for creating game objects

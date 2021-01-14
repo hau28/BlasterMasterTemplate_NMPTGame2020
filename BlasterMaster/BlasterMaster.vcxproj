@@ -149,7 +149,9 @@
     <ClCompile Include="Bullet_Ship.cpp" />
     <ClCompile Include="Bullet_Skull.cpp" />
     <ClCompile Include="Bullet_ThunderBreak.cpp" />
+    <ClCompile Include="Cannon.cpp" />
     <ClCompile Include="ControlKeys.cpp" />
+    <ClCompile Include="Eyeball.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="JasonOverhead.cpp" />
     <ClCompile Include="Insect.cpp" />
@@ -179,6 +181,7 @@
     <ClCompile Include="SophiaAnimationSystem.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="SwitchSceneEvent.cpp" />
+    <ClCompile Include="Teleporter.cpp" />
     <ClCompile Include="TileArea.cpp" />
     <ClCompile Include="CustomKeyEvent.cpp" />
     <ClCompile Include="Dome.cpp" />
@@ -213,7 +216,9 @@
     <ClInclude Include="Bullet_Skull.h" />
     <ClInclude Include="Bullet_Sophia.h" />
     <ClInclude Include="Bullet_ThunderBreak.h" />
+    <ClInclude Include="Cannon.h" />
     <ClInclude Include="ControlKeys.h" />
+    <ClInclude Include="Eyeball.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="JasonOverhead.h" />
     <ClInclude Include="GameGlobal.h" />
@@ -241,6 +246,7 @@
     <ClInclude Include="SophiaAnimationSystem.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="SwitchSceneEvent.h" />
+    <ClInclude Include="Teleporter.h" />
     <ClInclude Include="TileArea.h" />
     <ClInclude Include="CustomKeyEvent.h" />
     <ClInclude Include="Dome.h" />
@@ -263,44 +269,9 @@
   </ItemGroup>
   <ItemGroup>
     <Media Include="Sound\area2.wav" />
-    <Media Include="Sound\Blaster Master SFX (32).wav" />
-    <Media Include="Sound\Blaster Master SFX (33).wav" />
-    <Media Include="Sound\Blaster Master SFX (35).wav" />
-    <Media Include="Sound\Blaster Master SFX (37).wav" />
-    <Media Include="Sound\bullet_explosion.wav" />
-    <Media Include="Sound\credit.wav" />
-    <Media Include="Sound\dome_jump.wav" />
-    <Media Include="Sound\earthquake.wav" />
     <Media Include="Sound\enemy_die.wav" />
-    <Media Include="Sound\enter.wav" />
-    <Media Include="Sound\entering_boss_scene.wav" />
-    <Media Include="Sound\fire.wav" />
-    <Media Include="Sound\insect_fly_down.wav" />
-    <Media Include="Sound\intro.wav" />
-    <Media Include="Sound\JasonJump.wav" />
-    <Media Include="Sound\jason_bullet.wav" />
-    <Media Include="Sound\jason_die.wav" />
     <Media Include="Sound\jason_got_hit.wav" />
-    <Media Include="Sound\jason_got_hit_overhead.wav" />
-    <Media Include="Sound\jason_sideview_shoot.wav" />
-    <Media Include="Sound\jump.wav" />
-    <Media Include="Sound\lava.wav" />
-    <Media Include="Sound\man1.wav" />
-    <Media Include="Sound\mine.wav" />
-    <Media Include="Sound\multiwarhead.wav" />
-    <Media Include="Sound\peace.wav" />
-    <Media Include="Sound\scene_change.wav" />
-    <Media Include="Sound\skull_bomb.wav" />
     <Media Include="Sound\small_pink_bullet_to_wall.wav" />
-    <Media Include="Sound\sophia_explosion.wav" />
-    <Media Include="Sound\sophia_fall_ground.wav" />
-    <Media Include="Sound\sophia_got_hit.wav" />
-    <Media Include="Sound\sophia_shoot.wav" />
-    <Media Include="Sound\swap_player.wav" />
-    <Media Include="Sound\teleport.wav" />
-    <Media Include="Sound\teleporter_shoot.wav" />
-    <Media Include="Sound\thunder.wav" />
-    <Media Include="Sound\worm_moving.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
