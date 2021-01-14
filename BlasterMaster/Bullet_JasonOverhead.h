@@ -4,8 +4,8 @@
 
 class BulletJasonOverheadLine {
 protected:
-	const float pi = 3.14;
-	const float BULLET_JASONOVERHEAD_SPEED = 0.1;
+	const float pi = 3.141592654;
+	const float BULLET_JASONOVERHEAD_SPEED = 0.15;
 
 	float vx = 1;
 	float vy = 1;
@@ -26,11 +26,22 @@ public:
 
 class CircleLine : public BulletJasonOverheadLine {
 private:
+	const float BULLET_JASONOVERHEAD_SMALL_CIRCLE_RADIUS = 16;
+	const float BULLET_JASONOVERHEAD_LARGE_CIRCLE_RADIUS = 32;
+	const float BULLET_JASONOVERHEAD_INCREASING_CIRCLE_RADIUS = 10;
+
 	static int iDir;
 	static int arrDir[4];
 
 	int dir;
 	float curAngle;
+
+	float angularVelocity;
+	float speed;
+	float radius;
+
+	float sumAngle = 0;
+	int roundCount = 0;
 
 public:
 	CircleLine(float& speed, int level, int dx, int dy);
