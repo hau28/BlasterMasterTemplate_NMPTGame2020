@@ -227,7 +227,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	else
 	{
 		obj->objectId = obj_ID;
-		Sections[sectionId]->Objects.push_back(obj);
+		// Sections[sectionId]->Objects.push_back(obj);
+		Sections[sectionId]->addObject(obj);
 
 		// add portal to library
 		if (obj->classId == CLASS_TILE_PORTAL)

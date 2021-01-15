@@ -54,7 +54,8 @@ public:
 	void SeekAndRemove(CGameObject* obj, bool deleteAfterRemoving);
 	void Clear();
 
-	vector<CGameObject*> GetObjectsInArea(int dt, int areaX, int areaY, int areaWidth, int areaHeight);
+	vector<CGameObject*> GetObjectsInArea(int areaX, int areaY, int areaWidth, int areaHeight);
+	vector<CGameObject*> GetAllObjects();
 	void ClearObjectsInArea(int dt, int areaX, int areaY, int areaWidth, int areaHeight);
 };
 

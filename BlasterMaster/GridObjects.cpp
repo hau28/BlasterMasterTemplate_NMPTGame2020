@@ -115,10 +115,12 @@ void CGridObjects::Clear()
 	largeObjs.clear();
 }
 
-vector<CGameObject*> CGridObjects::GetObjectsInArea(int dt, int areaX, int areaY, int areaWidth, int areaHeight)
+vector<CGameObject*> CGridObjects::GetObjectsInArea(int areaX, int areaY, int areaWidth, int areaHeight)
 {
 	int leftColumn, topRow, rightColumn, bottomRow;
 	CalcGridRange(areaX, areaY, areaWidth, areaHeight, leftColumn, topRow, rightColumn, bottomRow);
+
+	//DebugOut(L"CuteTN Debug: happy %d %d %d %d\n", leftColumn, topRow, rightColumn, bottomRow);
 
 	// CuteTN Note:
 	// Shallow copy a vector I think...
@@ -129,9 +131,28 @@ vector<CGameObject*> CGridObjects::GetObjectsInArea(int dt, int areaX, int areaY
 		for (int c = leftColumn; c <= rightColumn; c++)
 		{
 			for (auto obj : cells[r][c])
+			{
 				result.push_back(obj);
+			}
 		}
 	
+	return result;
+}
+
+vector<CGameObject*> CGridObjects::GetAllObjects()
+{
+	// CuteTN Note:
+	// Shallow copy a vector I think...
+	// rep: yeah I was right
+	vector<LPGAMEOBJECT> result = largeObjs;
+
+	for (int r = 0; r < rowsCount; r++)
+		for (int c = 0; c < colsCount; c++)
+		{
+			for (auto obj : cells[r][c])
+				result.push_back(obj);
+		}
+
 	return result;
 }
 

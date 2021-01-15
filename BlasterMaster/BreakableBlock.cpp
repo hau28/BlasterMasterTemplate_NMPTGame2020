@@ -90,6 +90,9 @@ void CBreakableBlock::Render(float offsetX, float offsetY)
 		DebugOut(L"[ERROR] Missing animation handler of state %d\n", state);
 	}
 
-	animationHandlers[state]->Render(x + offsetX, y + offsetY, modifyA, modifyR, modifyG, modifyB);
-	animationHandlers[state]->Render(x+1 + offsetX, y+1 + offsetY, modifyA, modifyR, modifyG, modifyB);
+	if (modifyA)
+	{
+		animationHandlers[state]->Render(x + offsetX, y + offsetY, modifyA, modifyR, modifyG, modifyB);
+		animationHandlers[state]->Render(x + 1 + offsetX, y + 1 + offsetY, modifyA, modifyR, modifyG, modifyB);
+	}
 }
