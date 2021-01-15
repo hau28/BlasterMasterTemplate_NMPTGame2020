@@ -153,6 +153,7 @@
     <ClCompile Include="Cannon.cpp" />
     <ClCompile Include="ControlKeys.cpp" />
     <ClCompile Include="Eyeball.cpp" />
+    <ClCompile Include="GridObjects.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="JasonOverhead.cpp" />
     <ClCompile Include="Insect.cpp" />
@@ -221,6 +222,7 @@
     <ClInclude Include="Cannon.h" />
     <ClInclude Include="ControlKeys.h" />
     <ClInclude Include="Eyeball.h" />
+    <ClInclude Include="GridObjects.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="JasonOverhead.h" />
     <ClInclude Include="GameGlobal.h" />

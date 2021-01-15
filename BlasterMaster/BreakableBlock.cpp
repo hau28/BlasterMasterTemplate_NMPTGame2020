@@ -6,6 +6,10 @@
 
 CBreakableBlock::CBreakableBlock(int classId, int x, int y, int sectionId, int animsId) : CAnimatableObject::CAnimatableObject(classId, x, y, sectionId, animsId)
 {
+	// CuteTN hot fix: Fix off-by-one error from resource :)
+	// this->x++;
+	// this->y++;
+
 	requireCrusherBeam = classId != CLASS_BREAKABLE_OVERHEAD_BG;
 	modifyA = 0;
 	isDestroyed = false;
@@ -77,4 +81,15 @@ void CBreakableBlock::Explode()
 
 	this->isDestroyed = true;
 	this->modifyA = 255;
+}
+
+void CBreakableBlock::Render(float offsetX, float offsetY)
+{
+	if (!animationHandlers[state])
+	{
+		DebugOut(L"[ERROR] Missing animation handler of state %d\n", state);
+	}
+
+	animationHandlers[state]->Render(x + offsetX, y + offsetY, modifyA, modifyR, modifyG, modifyB);
+	animationHandlers[state]->Render(x+1 + offsetX, y+1 + offsetY, modifyA, modifyR, modifyG, modifyB);
 }
