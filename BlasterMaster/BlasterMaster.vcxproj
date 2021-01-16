@@ -142,10 +142,12 @@
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="BossArm.cpp" />
     <ClCompile Include="BossHand.cpp" />
+    <ClCompile Include="Grenade_JasonOverhead.cpp" />
     <ClCompile Include="BreakableBlock.cpp" />
     <ClCompile Include="Bullet_Eyeball.cpp" />
     <ClCompile Include="Bullet_Floater.cpp" />
     <ClCompile Include="Bullet_HomingMissile.cpp" />
+    <ClCompile Include="Bullet_JasonOverhead.cpp" />
     <ClCompile Include="Bullet_JasonSideview.cpp" />
     <ClCompile Include="Bullet_Mine.cpp" />
     <ClCompile Include="Bullet_MultiwarheadMissile.cpp" />
@@ -213,11 +215,13 @@
     <ClInclude Include="Boss.h" />
     <ClInclude Include="BossArm.h" />
     <ClInclude Include="BossHand.h" />
+    <ClInclude Include="Grenade_JasonOverhead.h" />
     <ClInclude Include="BreakableBlock.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Bullet_Eyeball.h" />
     <ClInclude Include="Bullet_Floater.h" />
     <ClInclude Include="Bullet_HomingMissile.h" />
+    <ClInclude Include="Bullet_JasonOverhead.h" />
     <ClInclude Include="Bullet_JasonSideview.h" />
     <ClInclude Include="Bullet_Mine.h" />
     <ClInclude Include="Bullet_MultiwarheadMissile.h" />
@@ -251,6 +255,7 @@
     <ClInclude Include="Portal.h" />
     <ClInclude Include="PortalLib.h" />
     <ClInclude Include="RemoveObjectEvent.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Ship.h" />
     <ClInclude Include="Skull.h" />
     <ClInclude Include="SophiaAnimationSystem.h" />
@@ -282,6 +287,9 @@
     <Media Include="Sound\enemy_die.wav" />
     <Media Include="Sound\jason_got_hit.wav" />
     <Media Include="Sound\small_pink_bullet_to_wall.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="BlasterMaster.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

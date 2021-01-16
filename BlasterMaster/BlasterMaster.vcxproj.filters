@@ -156,6 +156,8 @@
     <ClCompile Include="Boss.cpp" />
     <ClCompile Include="BossArm.cpp" />
     <ClCompile Include="BossHand.cpp" />
+    <ClCompile Include="Bullet_JasonOverhead.cpp" />
+    <ClCompile Include="Grenade_JasonOverhead.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -293,6 +295,9 @@
     <ClInclude Include="Boss.h" />
     <ClInclude Include="BossArm.h" />
     <ClInclude Include="BossHand.h" />
+    <ClInclude Include="Bullet_JasonOverhead.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Grenade_JasonOverhead.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="AnimationCore">
@@ -330,5 +335,8 @@
     <Media Include="Sound\area2.wav">
       <Filter>Sound</Filter>
     </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="BlasterMaster.rc" />
   </ItemGroup>
 </Project>

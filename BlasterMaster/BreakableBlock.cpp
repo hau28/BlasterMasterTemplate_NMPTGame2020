@@ -11,7 +11,7 @@ CBreakableBlock::CBreakableBlock(int classId, int x, int y, int sectionId, int a
 	// this->y++;
 
 	requireCrusherBeam = classId != CLASS_BREAKABLE_OVERHEAD_BG;
-	modifyA = 0;
+	modifyA = 255;
 	isDestroyed = false;
 	vx = vy = ax = ay = 0;
 

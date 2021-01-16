@@ -15,6 +15,8 @@ private:
 	const float BULLET_JASON_SIDEVIEW_SPEED = 0.18f;
 	const float BULLET_JASON_SIDEVIEW_DISTANCE = 6 * 16;
 
+	const float BULLET_JASONOVERHEAD_SPEED = 0.3;
+
 public:
 	CBullet_JasonSideview() {};
 	CBullet_JasonSideview(float x, float y, int section, float dirX);

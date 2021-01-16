@@ -457,7 +457,7 @@
 
 [OBJECTS]
 #ObjId	ClassId	Properties...
-4 3	Preview TEXTURE_SOPHIA_R0C6	Animations SOPHIA_ANIMATIONS	Section 377	X 35	Y 118	
+4 3	Preview TEXTURE_SOPHIA_R0C6	Animations SOPHIA_ANIMATIONS	Section 911	X 35	Y 118	
 379 255	Section 377	X 0	Y 224	Width 1024	Height 32	
 380 255	Section 377	X 0	Y 192	Width 288	Height 32	
 381 255	Section 377	X 0	Y 160	Width 320	Height 16	
