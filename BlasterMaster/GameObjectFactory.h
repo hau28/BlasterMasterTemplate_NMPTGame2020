@@ -18,6 +18,7 @@
 #include "Insect.h"
 #include "BreakableBlock.h"
 #include "Item.h"
+#include "Boss.h"
 
 /// <summary>
 /// The Abstract factory for creating game objects

@@ -149,6 +149,8 @@
       <Filter>GameManagers</Filter>
     </ClCompile>
     <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="BossArm.cpp" />
+    <ClCompile Include="BossHand.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -279,6 +281,8 @@
       <Filter>GameManagers</Filter>
     </ClInclude>
     <ClInclude Include="Boss.h" />
+    <ClInclude Include="BossArm.h" />
+    <ClInclude Include="BossHand.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="AnimationCore">

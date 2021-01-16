@@ -41,7 +41,7 @@ private:
 	CGameGlobal();
 	static CGameGlobal * _instance;
 	const int BOSS_EFFECT_DURATION = 2000;
-	const int BOSS_EFFECT_FADE_IN_DURATION = 700;
+	const int BOSS_EFFECT_FADE_IN_DURATION = 500;
 	//Save Game
 
 	bool Saved = false;

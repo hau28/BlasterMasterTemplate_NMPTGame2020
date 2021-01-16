@@ -140,6 +140,8 @@
   <ItemGroup>
     <ClCompile Include="AnimatableObject.cpp" />
     <ClCompile Include="Animations.cpp" />
+    <ClCompile Include="BossArm.cpp" />
+    <ClCompile Include="BossHand.cpp" />
     <ClCompile Include="BreakableBlock.cpp" />
     <ClCompile Include="Bullet_Floater.cpp" />
     <ClCompile Include="Bullet_HomingMissile.cpp" />
@@ -204,6 +206,8 @@
     <ClInclude Include="AnimatableObject.h" />
     <ClInclude Include="Animations.h" />
     <ClInclude Include="Boss.h" />
+    <ClInclude Include="BossArm.h" />
+    <ClInclude Include="BossHand.h" />
     <ClInclude Include="BreakableBlock.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Bullet_Floater.h" />

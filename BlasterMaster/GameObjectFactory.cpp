@@ -101,6 +101,10 @@ LPGAMEOBJECT CGameObjectFactory::Create(int classId, map<string, string> propert
 		GetItemProps(properties, x, y, animsId, sectionId, isFlashy);
 		result = new CItem(classId, x, y, sectionId, isFlashy);
 		break;
+	case CLASS_BOSS_BODY:
+		GetAnimatableObjectProps(properties, x, y, animsId, sectionId);
+		result = new CBoss(classId, x, y, sectionId, animsId);
+		break;
 
 	default:
 		return nullptr;
