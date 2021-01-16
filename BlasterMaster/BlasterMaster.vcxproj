@@ -140,6 +140,7 @@
   <ItemGroup>
     <ClCompile Include="AnimatableObject.cpp" />
     <ClCompile Include="Animations.cpp" />
+    <ClCompile Include="Grenade_JasonOverhead.cpp" />
     <ClCompile Include="BreakableBlock.cpp" />
     <ClCompile Include="Bullet_Floater.cpp" />
     <ClCompile Include="Bullet_HomingMissile.cpp" />
@@ -203,6 +204,7 @@
   <ItemGroup>
     <ClInclude Include="AnimatableObject.h" />
     <ClInclude Include="Animations.h" />
+    <ClInclude Include="Grenade_JasonOverhead.h" />
     <ClInclude Include="BreakableBlock.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Bullet_Floater.h" />
@@ -238,6 +240,7 @@
     <ClInclude Include="Portal.h" />
     <ClInclude Include="PortalLib.h" />
     <ClInclude Include="RemoveObjectEvent.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Ship.h" />
     <ClInclude Include="Skull.h" />
     <ClInclude Include="SophiaAnimationSystem.h" />
@@ -303,6 +306,9 @@
     <Media Include="Sound\TeleporterMoving.wav" />
     <Media Include="Sound\ThemeSong.wav" />
     <Media Include="Sound\WormMoving_CannonShot_TeleporterShot.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="BlasterMaster.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

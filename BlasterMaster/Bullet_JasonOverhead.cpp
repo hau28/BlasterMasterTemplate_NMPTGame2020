@@ -13,7 +13,7 @@ CBullet_JasonOverhead::CBullet_JasonOverhead(float x, float y, int sectionId, in
 	if (bulletLevel < 4) // bullets 0-> 3
 		bulletLine = new StraightLine(speed, bulletLevel, dirX, dirY);
 
-	if (bulletLevel == 4 || bulletLevel==5)
+	if (bulletLevel == 4 || bulletLevel ==5 )
 		bulletLine = new CircleLine(speed, bulletLevel, dirX, dirY);
 	
 	if (bulletLevel > 5)
@@ -93,7 +93,7 @@ void CBullet_JasonOverhead::UpdatePosition(DWORD dt)
 		{
 			y = startY + (vy > 0 ? 1 : -1) * BULLET_JASON_OVERHEAD_DISTANCE;
 			CGameObjectBehaviour::RemoveObject(this);
-			// Explode(CLASS_EXPLOSION_OVERHEAD);
+			Explode(CLASS_EXPLOSION_OVERHEAD);
 		}
 	}
 
@@ -177,10 +177,14 @@ void CircleLine::Update(DWORD dt)
 
 WaveLine::WaveLine(float& speed, int level, int dx, int dy)
 {
-	
+	speed = BULLET_JASONOVERHEAD_SPEED * (level == 7 ? 1 : 0.5);
+
+	if (dx == 0) vx = 0; else vx = (dx < 0 ? -1 : 1);
+	if (dy == 0) vy = 0; else vy = (dy < 0 ? -1 : 1);
 }
 
 void WaveLine::Update(DWORD dt)
 {
 	
 }
+

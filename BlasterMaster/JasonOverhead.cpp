@@ -8,6 +8,7 @@
 #include "PlayScene.h"
 #include "SwitchSceneEvent.h"
 #include "Bullet_JasonOverhead.h"
+#include "Grenade_JasonOverhead.h"
 
 CJasonOverhead* CJasonOverhead::__instance = nullptr;
 
@@ -37,15 +38,10 @@ void CJasonOverhead::Init()
     bulletReloadTimer = new CTimer(this, JASONOVERHEAD_BULLET_RELOAD_DURATION, 1);
     bulletReloadTimer->Stop();
 
-    //invulnerableTimer = new CTimer(this, INVULNERABLE_DURATION, 1);
-    //invulnerableTimer->Stop();
+    flaggrenadeReloaded = true;
+    grenadeReloadTimer = new CTimer(this, JASONOVERHEAD_GRENADE_RELOAD_DURATION, 1);
+    grenadeReloadTimer->Stop();
 
-    //dyingEffectTimer = new CTimer(this, DYING_EFFECT_DURATION, 1);
-    //dyingEffectTimer->Stop();
-
-    //flagInvulnerable = false;
-
-    //vulnerableFlashingEffect = new CObjectFlashingEffectPlayer(this, &flashingColors, JASONSIDEVIEW_VULNERABLE_EFFECT_FLASHING_DURATION);
 }
 
 
@@ -82,6 +78,12 @@ void CJasonOverhead::HandleKeyDown(DWORD dt, int keyCode)
     {
         if (flagBulletReloaded && numberOfJasonOverheadBullets < max_bullets_on_cam)
             Shoot();
+    }
+
+    if (keyCode == ControlKeys::JumpKey)
+    {
+        if (flaggrenadeReloaded)
+            DropBomb();
     }
 }
 
@@ -154,9 +156,7 @@ void CJasonOverhead::GetShootPosition(float& x, float& y, float dx, float dy)
 {
     const int JASONOVERHEAD_GUNUP_OFFSETX_FROM_CENTER = 6;
     const int JASONOVERHEAD_GUNUP_OFFSETY_FROM_CENTER = -28;
-
     const int JASONOVERHEAD_GUNDOWN_OFFSET_FROM_CENTER = -6;
-
     const int JASONOVERHEAD_GUNLEFTRIGHT_OFFSETY_FROM_CENTER = -12;
     const int JASONOVERHEAD_GUNLEFT_OFFSETX_FROM_CENTER = -12; 
     const int JASONOVERHEAD_GUNTRIGHT_OFFSETX_FROM_CENTER = 12;
@@ -189,6 +189,16 @@ void CJasonOverhead::GetShootPosition(float& x, float& y, float dx, float dy)
     y += CBullet_JasonOverhead::BULLET_OVERHEAD_OFFSET_FROM_SHADOW;
 }
 
+void CJasonOverhead::GetDropBombPosition(float& x, float& y, float dx, float dy)
+{
+    const int JASONOVERHEAD_GRENADE_OFFSETY_FROM_CENTER = -15;
+
+    CGameObjectBehaviour::CalcBoundingBoxCenter(this, x, y);
+
+    y += JASONOVERHEAD_GRENADE_OFFSETY_FROM_CENTER;
+    y += CBullet_JasonOverhead::BULLET_OVERHEAD_OFFSET_FROM_SHADOW;
+}
+
 void CJasonOverhead::CountJasonOverheadBullets(vector<LPGAMEOBJECT>* coObjs)
 {
     numberOfJasonOverheadBullets = 0;
@@ -204,6 +214,49 @@ void CJasonOverhead::Shoot()
 {
     float dx = 0, dy = 0, sx, sy;
 
+    checkDxDy(dx,dy);
+
+    gunlevel = CGameGlobal::GetInstance()->GetLevelGun();
+
+    CBullet_JasonOverhead* bullet = new CBullet_JasonOverhead(x, y, currentSectionId, dx, dy, 0, numberOfJasonOverheadBullets);
+    // CBullet_JasonOverhead* bullet = new CBullet_JasonOverhead(x, y, currentSectionId, dx, dy, gunlevel, numberOfJasonOverheadBullets);
+    if (gunlevel == 3 || gunlevel ==2)
+    {
+        max_bullets_on_cam = 3;
+    }
+    else 
+        max_bullets_on_cam = 999;
+
+    GetShootPosition(sx, sy, dx,dy);
+    CGameObjectBehaviour::SetBoundingBoxCenter(bullet, sx, sy);
+    CGameObjectBehaviour::CreateObject(bullet);
+
+    bulletReloadTimer->Start();
+    flagBulletReloaded = false;
+}
+
+void CJasonOverhead::DropBomb()
+{
+    float dx = 0, dy = 0, sx, sy;
+
+    checkDxDy(dx, dy);
+
+    if (IsMoving())
+        distance = GRENADE_DISTANCE_FAR;
+    else
+        distance = GRENADE_DISTANCE;
+    CGrenade_JasonOverhead* bomb = new CGrenade_JasonOverhead(x, y, currentSectionId, dx, dy, distance);
+    GetDropBombPosition(sx, sy, dx, dy);
+    CGameObjectBehaviour::SetBoundingBoxCenter(bomb, sx, sy);
+    CGameObjectBehaviour::CreateObject(bomb);
+
+    grenadeReloadTimer->Start();
+    flaggrenadeReloaded = false;
+    
+}
+
+void CJasonOverhead::checkDxDy(float& dx, float& dy)
+{
     if (state == JASONOVERHEAD_STATE_IDLE_DOWN || state == JASONOVERHEAD_STATE_WALK_DOWN || state == JASONOVERHEAD_STATE_IDLE_UP || state == JASONOVERHEAD_STATE_WALK_UP)
     {
         if (state == JASONOVERHEAD_STATE_IDLE_DOWN || state == JASONOVERHEAD_STATE_WALK_DOWN)
@@ -223,24 +276,6 @@ void CJasonOverhead::Shoot()
     {
         dx = 1;
     }
-
-    gunlevel = CGameGlobal::GetInstance()->GetLevelGun();
-
-    CBullet_JasonOverhead* bullet = new CBullet_JasonOverhead(x, y, currentSectionId, dx, dy, 7, numberOfJasonOverheadBullets);
-    // CBullet_JasonOverhead* bullet = new CBullet_JasonOverhead(x, y, currentSectionId, dx, dy, gunlevel, numberOfJasonOverheadBullets);
-    if (gunlevel == 3 || gunlevel ==2)
-    {
-        max_bullets_on_cam = 3;
-    }
-    else 
-        max_bullets_on_cam = 999;
-
-    GetShootPosition(sx, sy, dx,dy);
-    CGameObjectBehaviour::SetBoundingBoxCenter(bullet, sx, sy);
-    CGameObjectBehaviour::CreateObject(bullet);
-
-    bulletReloadTimer->Start();
-    flagBulletReloaded = false;
 }
 
 void CJasonOverhead::SnapToPortalMiddle(LPGAMEOBJECT portal, bool snapX)
@@ -277,6 +312,11 @@ void CJasonOverhead::HandleTimerTick(LPTIMER sender)
     if (sender == bulletReloadTimer)
     {
         flagBulletReloaded = true;
+    }
+
+    if (sender == grenadeReloadTimer)
+    {
+        flaggrenadeReloaded = true;
     }
 }
 
@@ -379,6 +419,7 @@ void CJasonOverhead::HandleOverlap(LPGAMEOBJECT overlappedObj)
 void CJasonOverhead::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
     bulletReloadTimer->Update(dt);
+    grenadeReloadTimer->Update(dt);
     CountJasonOverheadBullets(coObjs);
 
     HandleKeys(dt);

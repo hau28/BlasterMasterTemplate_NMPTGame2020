@@ -54,7 +54,7 @@ void CBullet::SetBoundingBoxInfo(int classId)
 	case CLASS_JASON_OVERHEAD_GRENADE:
 		// 8 8 15 15
 		boundingBoxOffsetX = 8;
-		boundingBoxOffsetY = 8;
+		boundingBoxOffsetY = 8 + BULLET_OVERHEAD_OFFSET_FROM_SHADOW;
 		boundingBoxWidth = 8;
 		boundingBoxHeight = 3;
 		break;
@@ -91,6 +91,11 @@ void CBullet::Explode(int explosionClassId)
 	delete temp;
 
 	CGameObjectBehaviour::Explode(this, explosionClassId, x, y);
+}
+
+void CBullet::ExplodeGrenade(DWORD timetolive)
+{
+
 }
 
 bool CBullet::IsBlockableObject(LPGAMEOBJECT obj)

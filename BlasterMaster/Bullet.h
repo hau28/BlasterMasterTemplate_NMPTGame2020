@@ -39,6 +39,8 @@ public:
     /// <para> this function would set the exploding position itself </para>
     /// </summary>
     virtual void Explode(int explosionClassId);
+
+    virtual void ExplodeGrenade(DWORD timetolive);
 };
 
 typedef CBullet* LPBULLET;

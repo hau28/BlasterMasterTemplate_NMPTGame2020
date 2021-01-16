@@ -24,6 +24,9 @@ private:
 
     const int DYING_EFFECT_DURATION = 1700;
 
+    const float GRENADE_DISTANCE = 2.5 * 16;
+    const float GRENADE_DISTANCE_FAR = 4 * 16;
+
     CJasonOverhead();
     void Init();
 
@@ -36,25 +39,34 @@ private:
     int MovingDirY = 0;
 
     bool IsMoving();
+    float distance;
 
     int FaceDir = 1;
 
     bool flagInvulnerable;
+
+    bool flagBulletReloaded;
     LPTIMER bulletReloadTimer;
 
     const int JASONOVERHEAD_BULLET_RELOAD_DURATION = 100;
+    const int JASONOVERHEAD_GRENADE_RELOAD_DURATION = 50;
     //const int JASONOVERHEAD_BULLETLEVEL45_RELOAD_DURATION = 300;
 
-    bool flagBulletReloaded;
+    bool flaggrenadeReloaded;
+    LPTIMER grenadeReloadTimer;
+
     LPTIMER invulnerableTimer = nullptr;
     LPTIMER dyingEffectTimer = nullptr;
 
     void UpdateState();
     void GetShootPosition(float& x, float& y, float dx, float dy);
+    void GetDropBombPosition(float& x, float& y, float dx, float dy);
     int max_bullets_on_cam = 2;
     int numberOfJasonOverheadBullets;
     void CountJasonOverheadBullets(vector<LPGAMEOBJECT>* coObjs);
     void Shoot();
+    void DropBomb();
+    void checkDxDy(float& dx, float& dy);
 
     static CJasonOverhead* __instance;
 
