@@ -112,7 +112,7 @@ void CEyeball::ShootPlayer()
 	CGameObjectBehaviour::CalcDirectionToPlayer(this, dirX, dirY);
 
 	float Xplayer, Yplayer;
-	CGame::GetInstance()->GetCurrentPlayer()->GetPosition(Xplayer, Yplayer);
+	CGameObjectBehaviour::CalcBoundingBoxCenter(CGame::GetInstance()->GetCurrentPlayer(), Xplayer, Yplayer);
 
 		CBullet_Eyeball* bullet = new CBullet_Eyeball(0, 0, 0, dirX, dirY);
 		CGameObjectBehaviour::CreateObjectAtCenterOfAnother(bullet, this);

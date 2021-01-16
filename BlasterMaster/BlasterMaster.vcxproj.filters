@@ -158,6 +158,8 @@
     <ClCompile Include="BossHand.cpp" />
     <ClCompile Include="Bullet_JasonOverhead.cpp" />
     <ClCompile Include="Grenade_JasonOverhead.cpp" />
+    <ClCompile Include="Bullet_Teleporter.cpp" />
+    <ClCompile Include="Bullet_Cannon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -298,6 +300,8 @@
     <ClInclude Include="Bullet_JasonOverhead.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Grenade_JasonOverhead.h" />
+    <ClInclude Include="Bullet_Teleporter.h" />
+    <ClInclude Include="Bullet_Cannon.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="AnimationCore">
