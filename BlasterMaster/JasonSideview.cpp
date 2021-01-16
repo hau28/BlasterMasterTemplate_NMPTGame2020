@@ -293,7 +293,7 @@ void CJasonSideview::HandleKeyUp(DWORD dt, int keyCode)
 {
     if ((keyCode == DIK_RIGHT || keyCode == DIK_LEFT /*|| keyCode == ControlKeys::JumpKey*/) && !flagClimb )
     {
-        if ((flagCrawl && !flagOnAir)|| (!flagCrawl && IsKeyDown(ControlKeys::JumpKey)))
+        if ((flagCrawl && !flagOnAir)|| (!flagCrawl && !flagJumpWalk))
             vx = 0;
 
         if (!flagCrawl && !IsKeyDown(ControlKeys::JumpKey))

@@ -16,6 +16,7 @@ private:
 	int startx;
 	/*const float GRENADE_JASON_OVERHEAD_DISTANCE = 2.5 * 16;*/
 	const float GRENADE_VELOCITY = 0.3;
+	const float GRENADE_VELOCITY_y = 0.002;
 
 	float speed;
 	int bulletLevel;

@@ -200,6 +200,6 @@ WaveLine::WaveLine(float& speed, int level, int dx, int dy)
 
 void WaveLine::Update(DWORD dt)
 {
-	
+
 }
 

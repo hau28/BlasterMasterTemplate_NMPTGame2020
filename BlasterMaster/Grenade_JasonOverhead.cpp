@@ -59,13 +59,13 @@ void CGrenade_JasonOverhead::UpdateVelocity(DWORD dt)
 			if (iDir == 1)
 			{
 				vx = -GRENADE_VELOCITY;
-				vy = dt * 0.002;
+				vy = dt * GRENADE_VELOCITY_y;
 			}
 
 			if (iDir == 3)
 			{
 				vx = GRENADE_VELOCITY;
-				vy = dt * 0.002;
+				vy = dt * GRENADE_VELOCITY_y;
 			}
 
 			if (iDir == 2)
@@ -148,18 +148,10 @@ void CGrenade_JasonOverhead::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 
 	if (boom)
 	{
-		if (boomCount + 4 )
-		{
-
-		}
-		else
-			boom = false;
-
 		if (boomCount == COUNT_EXPLOSION)
 		{
 			Explode(CLASS_EXPLOSION_OVERHEAD);
 		}
-
 	}
 
 	CBullet::Update(dt, coObjs);
@@ -193,11 +185,6 @@ void CGrenade_JasonOverhead::HandleTimerTick(LPTIMER sender)
 
 		CGameObjectBehaviour::SetBoundingBoxCenter(explosion2, sx + dx, sy + dy);
 		CGameObjectBehaviour::CreateObject(explosion2);
-
-		DebugOut(L"Thycute 11111 %d\n", boom);
-		DebugOut(L"Thycute %d\n", boom * 2 - 1);
-		DebugOut(L"Thycute %d\n", boom * 2);
-
 
 		if (flagexplode)
 		{
