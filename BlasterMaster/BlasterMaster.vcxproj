@@ -149,6 +149,7 @@
     <ClCompile Include="Bullet_MultiwarheadMissile.cpp" />
     <ClCompile Include="Bullet_Ship.cpp" />
     <ClCompile Include="Bullet_Skull.cpp" />
+    <ClCompile Include="Bullet_Teleporter.cpp" />
     <ClCompile Include="Bullet_ThunderBreak.cpp" />
     <ClCompile Include="Cannon.cpp" />
     <ClCompile Include="ControlKeys.cpp" />
@@ -217,6 +218,7 @@
     <ClInclude Include="Bullet_Ship.h" />
     <ClInclude Include="Bullet_Skull.h" />
     <ClInclude Include="Bullet_Sophia.h" />
+    <ClInclude Include="Bullet_Teleporter.h" />
     <ClInclude Include="Bullet_ThunderBreak.h" />
     <ClInclude Include="Cannon.h" />
     <ClInclude Include="ControlKeys.h" />
