@@ -13,7 +13,7 @@
 #define BODY_DAMAGE_FALL 80
 
 #define MAX_AMMUNITIONS 99
-#define ID_SECTION_BOSS 1000649
+#define ID_SECTION_BOSS 1000959
 
 enum class Items {
 	PowerGrey, // add 1 bar
@@ -41,7 +41,9 @@ private:
 	CGameGlobal();
 	static CGameGlobal * _instance;
 	const int BOSS_EFFECT_DURATION = 2000;
+	const int BOSS_EFFECT_FADE_IN_DURATION = 700;
 	//Save Game
+
 	bool Saved = false;
 	int left = 3;
 	int flagPlayer = 1; // 1: Sophia 2:Jason SideView 3:Jason OverHead
@@ -52,6 +54,7 @@ private:
 	int IDSectionJason = 0;
 	int IDCurrentSection = -1;
 	LPTIMER effectBossFlashingTimer;
+	LPTIMER effectBossFadeInTimer;
 
 	//AnimationHandler Render 
 	CObjectAnimationHanlders HealthPow;
@@ -63,6 +66,8 @@ private:
 	CObjectAnimationHanlders SelectedLeft;
 	CObjectAnimationHanlders SelectedRight;
 	CObjectAnimationHanlders EffectFaded;
+	CObjectAnimationHanlders EffectFadedIn;
+	CObjectAnimationHanlders EffectFadedOut;
 
 	//health player 
 	int healthSophia;
@@ -93,7 +98,8 @@ private:
 public:
 	//reset health
 	//get value methods
-	const int ID_SECTION_BOSSOVERHEAD = 1000649;
+	const int ID_SECTION_BOSSOVERHEAD = 1000959;
+	bool stateBossBlackBackground = false;
 	static CGameGlobal* GetInstance();
 	int get_healthSophia() { return this->healthSophia; }
 	int get_healthJasonSideView() { return this->healthJason; }
@@ -163,10 +169,13 @@ public:
 	//Effect
 	bool isEffectFaded = false;
 	bool isEffectBoss = false;
+	bool isEffectBossFadeIn = false;
 	void openEffectFlashingBoss();
 	
 	// CuteTN
 	bool HasCrusherBeam = true;
+
+
 };
 
 

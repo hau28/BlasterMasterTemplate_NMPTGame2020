@@ -149,6 +149,7 @@
     <ClCompile Include="Bullet_Ship.cpp" />
     <ClCompile Include="Bullet_Skull.cpp" />
     <ClCompile Include="Bullet_ThunderBreak.cpp" />
+    <ClCompile Include="Boss.cpp" />
     <ClCompile Include="ControlKeys.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="JasonOverhead.cpp" />
@@ -202,6 +203,7 @@
   <ItemGroup>
     <ClInclude Include="AnimatableObject.h" />
     <ClInclude Include="Animations.h" />
+    <ClInclude Include="Boss.h" />
     <ClInclude Include="BreakableBlock.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Bullet_Floater.h" />

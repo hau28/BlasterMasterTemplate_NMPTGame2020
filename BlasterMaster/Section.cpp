@@ -85,6 +85,11 @@ void CSection::RenderTexture(int textureId, float offset_x, float offset_y)
 
 	//EFFECT BOSS - SANHLIKE CUTE
 	CGameGlobal * global = CGameGlobal::GetInstance();
+	if (global->stateBossBlackBackground)
+	{
+		CGame::GetInstance()->setBackGroundColor(0, 0, 0);
+		return;
+	}
 	if (global->isEffectBoss)
 	{
 		int R = rand() % 255;
