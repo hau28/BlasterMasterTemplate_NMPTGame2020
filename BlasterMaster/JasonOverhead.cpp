@@ -29,8 +29,8 @@ void CJasonOverhead::Init()
     //invulnerableTimer = new CTimer(this, INVULNERABLE_DURATION, 1);
     //invulnerableTimer->Stop();
 
-    //dyingEffectTimer = new CTimer(this, DYING_EFFECT_DURATION, 1);
-    //dyingEffectTimer->Stop();
+    dyingEffectTimer = new CTimer(this, DYING_EFFECT_DURATION, 1);
+    dyingEffectTimer->Stop();
 
     //flagInvulnerable = false;
 
@@ -67,6 +67,14 @@ void CJasonOverhead::HandleKeyUp(DWORD dt, int keyCode)
 
 void CJasonOverhead::HandleKeyDown(DWORD dt, int keyCode)
 {
+    if (keyCode == DIK_T)
+    {
+        CGameGlobal::GetInstance()->beingAttackedByEnemy();
+        CGameGlobal::GetInstance()->beingAttackedByEnemy();
+        CGameGlobal::GetInstance()->beingAttackedByEnemy();
+        CGameGlobal::GetInstance()->beingAttackedByEnemy();
+        CGameGlobal::GetInstance()->beingAttackedByEnemy();
+    }
 }
 
 void CJasonOverhead::HandleKeysHold(DWORD dt)
@@ -91,7 +99,8 @@ bool CJasonOverhead::IsMoving()
 void CJasonOverhead::UpdateState()
 {
     int newState = state;
-
+    if (state == JASONOVERHEAD_STATE_DEAD)
+        return;
     if (IsMoving())
     {
         if (MovingDirX != 0 && MovingDirY != 0)
@@ -131,6 +140,13 @@ void CJasonOverhead::UpdateState()
         }
     }
 
+    if (CGameGlobal::GetInstance()->get_healthJasonOverHead() <= 0)
+    {
+        DebugOut(L"TT\n");
+        newState = JASONOVERHEAD_STATE_DEAD;
+        dyingEffectTimer->Start();
+    }
+
     SetState(newState);
 }
 
@@ -161,6 +177,7 @@ CJasonOverhead* CJasonOverhead::GetInstance()
 CJasonOverhead* CJasonOverhead::InitInstance(int x, int y, int sectionId)
 {
     GetInstance();
+    __instance->Init();
     __instance->SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
     __instance->SetPosition(x, y);
     __instance->currentSectionId = sectionId;
@@ -246,6 +263,7 @@ void CJasonOverhead::HandleOverlap(LPGAMEOBJECT overlappedObj)
 
 void CJasonOverhead::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
+    dyingEffectTimer->Update(dt);
     HandleKeys(dt);
     CAnimatableObject::Update(dt, coObjs);
     UpdateState();
@@ -268,4 +286,16 @@ void CJasonOverhead::GetBoundingBox(float& left, float& top, float& right, float
     top = y + JASONOVERHEAD_BOUNDBOX_OFFSETY;
     right = left + JASONOVERHEAD_BOUNDBOX_WIDTH;
     bottom = top + JASONOVERHEAD_BOUNDBOX_HEIGHT;
+}
+
+void CJasonOverhead::HandleTimerTick(LPTIMER sender)
+{
+    if (sender == dyingEffectTimer)
+    {
+        DebugOut(L"\nhahhahaaha");
+        CGameEvent* event = new SwitchSceneEvent(ID_SCENE_INTRO);
+        CGameGlobal::GetInstance()->resetHealth();
+        CGame::AddGameEvent(event);
+        dyingEffectTimer->Stop();
+    }
 }

@@ -13,7 +13,7 @@
 #define BODY_DAMAGE_FALL 80
 
 #define MAX_AMMUNITIONS 99
-#define ID_SECTION_BOSS 1000649
+#define ID_SECTION_BOSS 1000959
 
 enum class Items {
 	PowerGrey, // add 1 bar
@@ -35,13 +35,15 @@ enum class TypeWeapons
 	ThunderBreak,
 };
 
-class CGameGlobal
+class CGameGlobal : public ITimeTrackable
 {
 private:
 	CGameGlobal();
 	static CGameGlobal * _instance;
-
+	const int BOSS_EFFECT_DURATION = 2000;
+	const int BOSS_EFFECT_FADE_IN_DURATION = 500;
 	//Save Game
+
 	bool Saved = false;
 	int left = 3;
 	int flagPlayer = 1; // 1: Sophia 2:Jason SideView 3:Jason OverHead
@@ -51,7 +53,8 @@ private:
 	int IDSectionSophia = 0;
 	int IDSectionJason = 0;
 	int IDCurrentSection = -1;
-	int isEffectFaded = false;
+	LPTIMER effectBossFlashingTimer;
+	LPTIMER effectBossFadeInTimer;
 
 	//AnimationHandler Render 
 	CObjectAnimationHanlders HealthPow;
@@ -63,6 +66,8 @@ private:
 	CObjectAnimationHanlders SelectedLeft;
 	CObjectAnimationHanlders SelectedRight;
 	CObjectAnimationHanlders EffectFaded;
+	CObjectAnimationHanlders EffectFadedIn;
+	CObjectAnimationHanlders EffectFadedOut;
 
 	//health player 
 	int healthSophia;
@@ -93,8 +98,10 @@ private:
 public:
 	//reset health
 	//get value methods
+	const int ID_SECTION_BOSSOVERHEAD = 1000959;
+	bool stateBossBlackBackground = false;
 	static CGameGlobal* GetInstance();
-	int get_healthSophia()		  { return this->healthSophia;		  }
+	int get_healthSophia() { return this->healthSophia; }
 	int get_healthJasonSideView() { return this->healthJason; }
 	int get_healthJasonOverHead() { return this->healthJason; }
 
@@ -137,13 +144,12 @@ public:
 	int getPlayer() { return this->flagPlayer; }
 	int getCurrentSection() { return this->IDCurrentSection; }
 	void saveGame();
-	void savePlayer(int kindPlayer);
+	void savePlayer(int kindPlayer, float offx = 0, float offy = 0);
 	void subLeft();
 	void getCheckPoint(float& x, float& y) { x = this->playerX; y = this->playerY; }
-	void saveSophia();
+	void saveSophia(float offx = 0, float offy = 0);
 	void getInfoSophia(float& x, float& y, int& id) { x = this->sophiaX; y = this->sophiaY; id = this->IDSectionSophia; }
-
-	void saveJason();
+	void saveJason(float offx = 0, float offy = 0);
 	void getInfoJason(float& x, float& y, int& id) { x = this->jasonX; y = this->jasonY; id = this->IDSectionJason; }
 
 	//CuteTN weapon
@@ -158,9 +164,18 @@ public:
 	//Control key Weapon
 	void NextSelectedItem();
 	void BackSelectedItem();
+	virtual void HandleTimerTick(LPTIMER sender);
 
+	//Effect
+	bool isEffectFaded = false;
+	bool isEffectBoss = false;
+	bool isEffectBossFadeIn = false;
+	void openEffectFlashingBoss();
+	
 	// CuteTN
 	bool HasCrusherBeam = true;
+
+
 };
 
 

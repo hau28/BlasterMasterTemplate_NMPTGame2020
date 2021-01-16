@@ -42,7 +42,10 @@
 #define ID_GUN 55555
 #define ID_HEALTHOVERHEAD 66666
 #define ID_EFFECT 77777
+#define ID_FADE_IN 88888
+#define ID_FADE_OUT 99999
 #define ID_STATE_EFFECT 12000
+#define ID_STATE_EFFECT_FADE_IN 13000
 
 #define HEALTHOH0 9431
 
@@ -137,6 +140,18 @@ CGameGlobal::CGameGlobal() {
 
 	objAnims = CObjectAnimationsLib::GetInstance()->Get(ID_EFFECT);
 	EffectFaded = objAnims->GenerateAnimationHanlders();
+
+	objAnims = CObjectAnimationsLib::GetInstance()->Get(ID_FADE_IN);
+	EffectFadedIn = objAnims->GenerateAnimationHanlders();
+
+	//Init timer effect
+	this->isEffectBoss = false;
+	effectBossFlashingTimer = new CTimer(this, BOSS_EFFECT_DURATION, 1);
+	effectBossFlashingTimer->Stop();
+	
+	this->isEffectBossFadeIn = false;
+	effectBossFadeInTimer = new CTimer(this, BOSS_EFFECT_FADE_IN_DURATION, 1);
+	effectBossFadeInTimer->Stop();
 }
 
 void CGameGlobal::Update(DWORD dt)
@@ -147,6 +162,8 @@ void CGameGlobal::Update(DWORD dt)
 
 void CGameGlobal::UpdateEffect(DWORD dt)
 {
+	effectBossFadeInTimer->Update(dt);
+	effectBossFlashingTimer->Update(dt);
 	if (isEffectFaded)
 	{
 		EffectFaded[ID_STATE_EFFECT]->Update();
@@ -156,6 +173,15 @@ void CGameGlobal::UpdateEffect(DWORD dt)
 			EffectFaded[ID_STATE_EFFECT]->currentFrameIndex = 0;
 		}
 	}
+	if (isEffectBossFadeIn)
+	{
+		EffectFadedIn[ID_STATE_EFFECT_FADE_IN]->Update();
+		if (EffectFadedIn[ID_STATE_EFFECT_FADE_IN]->currentFrameIndex == EffectFadedIn[ID_STATE_EFFECT_FADE_IN]->animation->GetNumberOfFrames() - 1)
+		{
+			isEffectBossFadeIn = false;
+			EffectFadedIn[ID_STATE_EFFECT_FADE_IN]->currentFrameIndex = 0;
+		}
+	 }
 }
 
 CGameGlobal* CGameGlobal::GetInstance()
@@ -589,12 +615,14 @@ void CGameGlobal::saveGame()
 	game->GetCurrentPlayer()->GetPosition(playerX, playerY);
 }
 
-void CGameGlobal::savePlayer(int kindPlayer)
+void CGameGlobal::savePlayer(int kindPlayer, float offx, float offy)
 {
-
 	this->Saved = true;
 	CGame* game = CGame::GetInstance();
 	game->GetCurrentPlayer()->GetPosition(playerX, playerY);
+
+	playerX += offx;
+	playerY += offy;
 
 	flagPlayer = kindPlayer;
 	IDCurrentSection = game->GetCurrentPlayer()->currentSectionId;
@@ -615,21 +643,25 @@ void CGameGlobal::resetGame()
 	this->Saved = false;
 }
 
-void CGameGlobal::saveSophia()
+void CGameGlobal::saveSophia(float offx, float offy)
 {
 	CSophia * sophia = CSophia::GetInstance();
 	sophia->GetPosition(this->sophiaX, this->sophiaY);
 
 	this->IDSectionSophia = sophia->currentSectionId;
+	this->sophiaX += offx;
+	this->sophiaY += offy;
 }
 
-void CGameGlobal::saveJason()
+void CGameGlobal::saveJason(float offx, float offy)
 {
 	isOverheadtoSideView = true;
 	CJasonSideview* jason = CJasonSideview::GetInstance();
 	jason->GetPosition(this->jasonX, this->jasonY);
 
 	this->IDSectionJason = jason->currentSectionId;
+	this->jasonX += offx;
+	this->jasonY += offy;
 }
 
 bool CGameGlobal::CheckSophiaCanUseWeapon()
@@ -750,15 +782,40 @@ void CGameGlobal::BackSelectedItem()
 //Effect Faded boss
 void CGameGlobal::RenderEffect()
 {
-	if (this->isEffectFaded == false)
-		return;
 	float camx, camy;
 	CGame::GetInstance()->GetCamPos(camx, camy);
-	EffectFaded[ID_STATE_EFFECT]->Render(camx, camy);
-	DebugOut(L"\nok");
+	if (this->isEffectFaded)
+	{
+		EffectFaded[ID_STATE_EFFECT]->Render(camx, camy);
+	}
+	if (this->isEffectBossFadeIn)
+	{
+		EffectFadedIn[ID_STATE_EFFECT_FADE_IN]->Render(camx, camy);
+	}
 }
 
 void CGameGlobal::initEffectFaded()
 {
 	this->isEffectFaded = true; 
+}
+
+void CGameGlobal::openEffectFlashingBoss()
+{
+	this->isEffectBoss = true;
+	this->effectBossFlashingTimer->Start();
+}
+
+void CGameGlobal::HandleTimerTick(LPTIMER sender)
+{
+	if (sender == effectBossFlashingTimer)
+	{
+		this->isEffectBoss = false;
+		this->isEffectBossFadeIn = true;
+		effectBossFadeInTimer->Start();
+	}
+	if (sender == effectBossFadeInTimer)
+	{
+		this->isEffectBossFadeIn = false;
+		stateBossBlackBackground = true;
+	}
 }

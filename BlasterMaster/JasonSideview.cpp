@@ -787,6 +787,7 @@ void CJasonSideview::HandleTimerTick(LPTIMER sender)
     if (sender == invulnerableTimer)
     {
         flagInvulnerable = false;
+        invulnerableTimer->interval = INVULNERABLE_DURATION;
     }
 
     if (sender == dyingEffectTimer)
@@ -809,4 +810,11 @@ CJasonSideview::~CJasonSideview()
 {
     DebugOut(L"Thyyyyy cute\n");
     CAnimatableObject::~CAnimatableObject();
+}
+
+void CJasonSideview::Start_invulnerableTimer()
+{
+    flagInvulnerable = true;
+    invulnerableTimer = new CTimer(this, INVULNERABLE_DURATION * 4, 1);
+    invulnerableTimer->Start();
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include "AnimatableObject.h"
+#include "Timer.h"
 
 // 2 25 21 31
 
@@ -13,12 +14,13 @@ const int JASON_OVERHEAD_FACEDIR_DOWN = 1;
 const int JASON_OVERHEAD_FACEDIR_LEFT = 2;
 const int JASON_OVERHEAD_FACEDIR_RIGHT = 3;
 
-class CJasonOverhead : public CAnimatableObject
+class CJasonOverhead : public CAnimatableObject, public ITimeTrackable
 {
 private:
     const float JASON_OVERHEAD_MOVING_SPEED_X = 0.006f;
     const float JASON_OVERHEAD_MOVING_SPEED_Y = 0.006f;
-
+    const int DYING_EFFECT_DURATION = 1000;
+    LPTIMER dyingEffectTimer = nullptr;
     CJasonOverhead();
     void Init();
 
@@ -45,7 +47,7 @@ public:
     virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
     virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs);
     void SnapToPortalMiddle(LPGAMEOBJECT portal, bool snapX);
-
+    virtual void HandleTimerTick(LPTIMER sender);
     static CJasonOverhead* GetInstance();
     static CJasonOverhead* InitInstance(int x, int y, int sectionId);
 };

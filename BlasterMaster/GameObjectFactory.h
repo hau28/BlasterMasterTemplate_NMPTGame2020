@@ -21,6 +21,7 @@
 #include "Teleporter.h"
 #include "Cannon.h"
 #include "Eyeball.h"
+#include "Boss.h"
 
 /// <summary>
 /// The Abstract factory for creating game objects

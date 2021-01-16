@@ -1,4 +1,4 @@
-#include "Game.h"
+﻿#include "Game.h"
 #include "PlayScene.h"
 #include "IntroScene.h"
 #include "EndingScene.h"
@@ -482,6 +482,7 @@ void CGame::Load(LPCWSTR gameFile)
 
 void CGame::SwitchScene(int scene_id)
 {
+	DebugOut(L"ddđ");
 	DebugOut(L"[INFO] Switching to scene %d\n", scene_id);
 
 	scenes[current_scene]->Unload();

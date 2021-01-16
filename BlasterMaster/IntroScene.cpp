@@ -37,7 +37,7 @@ void CIntroScene::HandleKeyEnter()
 	for (auto e : keyEvents)
 	{
 		int keyCode = e->GetKeyCode();
-		if (keyCode == DIK_X && e->IsDown())
+		if (e->IsDown())
 		{
 			switch (state)
 			{
@@ -71,7 +71,7 @@ void CIntroScene::HandleKeyEnter()
 				break;
 			}
 		}
-		if ((keyCode == DIK_SPACE) && e->IsDown())
+		if ((keyCode == DIK_SPACE || keyCode == DIK_RETURN) && e->IsDown())
 		{
 			switch (state)
 			{
@@ -229,8 +229,9 @@ void CIntroScene::Update(DWORD dt)
 		if (isLeftFinished && animationHandlers[state]->currentFrameIndex == animationHandlers[state]->startLoopIndex)
 		{
 			animationHandlers[state]->Reset();
-			//CGame::GetInstance()->SwitchScene(ID_SCENE_END);
 			CGameEvent* event = new SwitchSceneEvent(ID_SCENE_SIDEVIEW);
+			if (CGameGlobal::GetInstance()->getPlayer() == 3)
+				event = new SwitchSceneEvent(ID_SCENE_OVERHEAD);
 			CGame::AddGameEvent(event);
 		}
 		isIntroFinished = isTitleFinished = isFilmFinished = false;
@@ -241,6 +242,8 @@ void CIntroScene::Update(DWORD dt)
 			animationHandlers[state]->Reset();
 			//CGame::GetInstance()->SwitchScene(ID_SCENE_END);
 			CGameEvent* event = new SwitchSceneEvent(ID_SCENE_SIDEVIEW);
+			if (CGameGlobal::GetInstance()->getPlayer() == 3)
+				event = new SwitchSceneEvent(ID_SCENE_OVERHEAD);
 			CGame::AddGameEvent(event);
 			isIntroFinished = isTitleFinished = isFilmFinished = false;
 		}
