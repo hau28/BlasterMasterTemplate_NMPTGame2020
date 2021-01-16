@@ -3,10 +3,10 @@
 #include "Timer.h"
 
 
-const int CANNON_BOUNDBOX_WIDTH = 15;
-const int CANNON_BOUNDBOX_HEIGHT = 15;
-const int CANNON_BOUNDBOX_OFFSETX = 8;
-const int CANNON_BOUNDBOX_OFFSETY = 0;
+const int CANNON_BOUNDBOX_WIDTH = 20;
+const int CANNON_BOUNDBOX_HEIGHT = 24;
+const int CANNON_BOUNDBOX_OFFSETX = 6;
+const int CANNON_BOUNDBOX_OFFSETY = 4;
 
 const float CANNON_FLY_SPEED = 0.06f;
 const float CANNON_BULLET_SPEED = 0.08f;
@@ -23,11 +23,9 @@ private:
     const int DELAY_BETWEEN_SHOTS = 300;
     const int SHOOT_DURATION = 250;
     void UpdateState();
-
-    LPTIMER shootPhaseTimer;
-    LPTIMER singleShotTimer;
-    LPTIMER shootTimer;
-    void ShootPlayer();
+    bool flagVertical, flagHorizontal;
+    void ShootVertical();
+    void ShootHorizontal();
 
 public:
     CCannon() {};

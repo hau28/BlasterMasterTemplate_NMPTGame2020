@@ -4,6 +4,7 @@
 
 #include "CreateObjectEvent.h"
 #include "RemoveObjectEvent.h"
+#include "Bullet_Cannon.h"
 
 void CCannon::UpdateState()
 {
@@ -15,10 +16,8 @@ CCannon::CCannon(int classId, int x, int y, int sectionId, int animsId) : CEnemy
 	healthPoint = CANNON_HEALTHPOINT;
 
 	UpdateState();
-
-	singleShotTimer = new CTimer(this, DELAY_BETWEEN_SHOTS, SHOT_PER_SHOOTING_PHASE);
-	shootPhaseTimer = new CTimer(this, DELAY_BETWEEN_SHOOTING_PHASES);
-	shootTimer = new CTimer(this, SHOOT_DURATION);
+	flagVertical = true;
+	flagHorizontal = true;
 
 };
 
@@ -37,16 +36,39 @@ void CCannon::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 }
 
 
-void CCannon::ShootPlayer()
+void CCannon::ShootHorizontal()
 {
+	CBullet_Cannon* bullet1 = new CBullet_Cannon(0, 0, 0, 1, 0);
+	CGameObjectBehaviour::CreateObjectAtCenterOfAnother(bullet1, this);
 
+	CBullet_Cannon* bullet2 = new CBullet_Cannon(0, 0, 0, -1, 0);
+	CGameObjectBehaviour::CreateObjectAtCenterOfAnother(bullet2, this);
+}
+
+void CCannon::ShootVertical()
+{
+	CBullet_Cannon* bullet1 = new CBullet_Cannon(0, 0, 0, 0, 1);
+	CGameObjectBehaviour::CreateObjectAtCenterOfAnother(bullet1, this);
+	CBullet_Cannon* bullet2 = new CBullet_Cannon(0, 0, 0, 0, -1);
+	CGameObjectBehaviour::CreateObjectAtCenterOfAnother(bullet2, this);
 }
 
 void CCannon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
-	singleShotTimer->Update(dt);
-	shootPhaseTimer->Update(dt);
-	shootTimer->Update(dt);
+	if (animationHandlers[state]->currentFrameIndex == 2) {
+		flagVertical = true;
+		if (flagHorizontal) {
+			ShootHorizontal();
+			flagHorizontal = false;
+		}
+	}
+	if (animationHandlers[state]->currentFrameIndex == 0) {
+		flagHorizontal = true;
+		if (flagVertical) {
+			ShootVertical();
+			flagVertical = false;
+		}
+	}
 	CEnemy::Update(dt, coObjs);
 }
 
@@ -60,14 +82,5 @@ void CCannon::GetBoundingBox(float& left, float& top, float& right, float& botto
 
 void CCannon::HandleTimerTick(LPTIMER sender)
 {
-	if (sender == singleShotTimer)
-	{
-	}
-	if (sender == shootTimer) {
 
-	}
-
-	if (sender == shootPhaseTimer)
-	{
-	}
 }

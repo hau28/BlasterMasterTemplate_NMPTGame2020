@@ -30,7 +30,7 @@ void CBullet_Teleporter::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 	{
 		Sound::getInstance()->play(SMALL_PINK_BULLET_TO_WALL, false, 1);
 		CGameObjectBehaviour::BlockObject(dt, coEvent);
-		Explode(CLASS_SMALL_EXPLOSION_SIDEVIEW);
+		Explode(CLASS_EXPLOSION_OVERHEAD);
 	}
 }
 
