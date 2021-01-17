@@ -31,3 +31,8 @@ void CBossHand::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 void CBossHand::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
 }
+
+bool CBossHand::IsBlockableObject(LPGAMEOBJECT obj)
+{
+	return false;
+}

@@ -40,16 +40,22 @@ void CJasonOverhead::Init()
 
 void CJasonOverhead::HandleKeys(DWORD dt)
 {
+    auto keyEvents = NewKeyEvents();
     //Khong nhan phim khi chuyen section
     if (dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene()))
     {
         CPlayScene* _playScene= dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
         if (_playScene->isSectionSwitch())
+        {
+            for (auto e : keyEvents)
+            {
+                int keyCode = e->GetKeyCode();
+                    HandleKeyUp(dt, keyCode);
+            }
             return;
+        }
     }
     HandleKeysHold(dt);
-
-    auto keyEvents = NewKeyEvents();
 
     for (auto e : keyEvents)
     {
@@ -178,8 +184,8 @@ CJasonOverhead* CJasonOverhead::InitInstance(int x, int y, int sectionId)
 {
     GetInstance();
     __instance->Init();
-    __instance->SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
     __instance->SetPosition(x, y);
+    __instance->UpdateState();
     __instance->currentSectionId = sectionId;
 
     return __instance;
