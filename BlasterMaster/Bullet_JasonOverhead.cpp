@@ -9,9 +9,8 @@
 CBullet_JasonOverhead::CBullet_JasonOverhead(float x, float y, int sectionId, int dirX, int dirY, int level, int index) : CBullet::CBullet(CLASS_JASON_OVERHEAD_BULLET, x, y, sectionId, true)
 {
 	startx = dirX;
-
 	this->bulletLevel = level;
-
+	bulletLevel = 4;
 	if (bulletLevel < 4) // bullets 0-> 3
 		bulletLine = new StraightLine(speed, bulletLevel, dirX, dirY);
 
@@ -135,7 +134,7 @@ CircleLine::CircleLine(float& speed, int level, int dx, int dy)
 	if (dx == 0)
 	{
 		vx = 0;
-		vy = (dx == -1 ? -1 : 1);
+		vy = (dy == -1 ? -1 : 1);
 	}
 	else
 	{
@@ -144,7 +143,7 @@ CircleLine::CircleLine(float& speed, int level, int dx, int dy)
 	}
 
 	dir = arrDir[iDir];
-	iDir = (iDir + 1) % 2;
+	iDir = (iDir + 1) % 4;
 
 	// CuteTN
 	this->angularVelocity = speed / radius;
