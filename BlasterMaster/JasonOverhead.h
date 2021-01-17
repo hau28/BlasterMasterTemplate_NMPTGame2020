@@ -21,8 +21,8 @@ class CJasonOverhead : public CAnimatableObject, public ITimeTrackable
 private:
     const float JASON_OVERHEAD_MOVING_SPEED_X = 0.006f;
     const float JASON_OVERHEAD_MOVING_SPEED_Y = 0.006f;
+    const int DYING_EFFECT_DURATION = 1000;
 
-    const int DYING_EFFECT_DURATION = 1700;
 
     const float GRENADE_DISTANCE = 2.5 * 16;
     const float GRENADE_DISTANCE_FAR = 4 * 16;

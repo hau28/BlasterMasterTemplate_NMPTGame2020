@@ -183,6 +183,7 @@ void CAnimatableObject::Render(float offsetX, float offsetY)
 	if (!animationHandlers[state])
 	{
 		DebugOut(L"[ERROR] Missing animation handler of state %d\n", state);
+		return; //sanh - fix reset game
 	}
 
 	animationHandlers[state]->Render(x + offsetX, y + offsetY, modifyA, modifyR, modifyG, modifyB);

@@ -32,50 +32,6 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath, int startupSectionId) : CScene(
 #define SCENE_OBJECTS	10
 #define MAX_SCENE_LINE 1024
 
-void CPlayScene::LoadSound() {
-	Sound::getInstance()->loadSound((char*)"Sound/intro.wav", "intro");
-	Sound::getInstance()->loadSound((char*)"Sound/enter.wav", "enter");
-	Sound::getInstance()->loadSound((char*)"Sound/area2.wav", "area2");
-	Sound::getInstance()->loadSound((char*)"Sound/credit.wav", "credit");
-	Sound::getInstance()->loadSound((char*)"Sound/earthquake.wav", "earthquake");
-	Sound::getInstance()->loadSound((char*)"Sound/peace.wav", "peace");
-	//Sound::getInstance()->play("intro", false, 1);
-
-	// sophia sound
-	Sound::getInstance()->loadSound((char*)"Sound/sophia_fall_ground.wav", "sophia_fall_ground");
-	Sound::getInstance()->loadSound((char*)"Sound/jump.wav", "sophia_jump");
-	Sound::getInstance()->loadSound((char*)"Sound/sophia_bullet_explosion.wav", "sophia_bullet_explosion");
-	Sound::getInstance()->loadSound((char*)"Sound/sophia_shoot.wav", "sophia_shoot");
-	Sound::getInstance()->loadSound((char*)"Sound/sophia_explosion.wav", "sophia_explosion");
-
-	Sound::getInstance()->loadSound((char*)"Sound/jason_sideview_shoot.wav", "jason_sideview_shoot");
-	Sound::getInstance()->loadSound((char*)"Sound/bullet_explosion.wav", "bullet_explosion");
-	Sound::getInstance()->loadSound((char*)"Sound/swap_player.wav", "swap_player");
-	Sound::getInstance()->loadSound((char*)"Sound/item.wav", "item");
-	Sound::getInstance()->loadSound((char*)"Sound/scene_change.wav", "scene_change");
-	Sound::getInstance()->loadSound((char*)"Sound/lava.wav", "lava");
-	Sound::getInstance()->loadSound((char*)"Sound/thunder.wav", "thunder");
-	Sound::getInstance()->loadSound((char*)"Sound/multiwarhead.wav", "multiwarhead");
-
-	// enemies
-	Sound::getInstance()->loadSound((char*)"Sound/worm_moving.wav", "worm_moving");
-	Sound::getInstance()->loadSound((char*)"Sound/insect_fly_down.wav", "insect_fly_down");
-	Sound::getInstance()->loadSound((char*)"Sound/jump.wav", "jumper_jump");
-	Sound::getInstance()->loadSound((char*)"Sound/skull_bomb.wav", "skull_bomb");
-	Sound::getInstance()->loadSound((char*)"Sound/mine.wav", "mine");
-	Sound::getInstance()->loadSound((char*)"Sound/dome_jump.wav", "dome_jump");
-	Sound::getInstance()->loadSound((char*)"Sound/teleport.wav", "teleport");
-	Sound::getInstance()->loadSound((char*)"Sound/teleporter_shoot.wav", "teleporter_shoot");
-	Sound::getInstance()->loadSound((char*)"Sound/entering_boss_scene.wav", "entering_boss_scene");
-
-	Sound::getInstance()->setVolume(85, "");
-	//Sound::getInstance()->setVolume(90, "area2");
-	Sound::getInstance()->setVolume(90, "sophia_explosion");
-	Sound::getInstance()->setVolume(90, "sophia_fall_ground");
-	Sound::getInstance()->setVolume(90, "sophia_bullet_explosion");
-	Sound::getInstance()->setVolume(90, "lava");
-}
-
 void CPlayScene::_ParseSection_TEXTURES(string line)
 {
 	vector<string> tokens = split(line);
@@ -270,7 +226,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	else
 	{
 		obj->objectId = obj_ID;
-		Sections[sectionId]->Objects.push_back(obj);
+		// Sections[sectionId]->Objects.push_back(obj);
+		Sections[sectionId]->addObject(obj);
 
 		// add portal to library
 		if (obj->classId == CLASS_TILE_PORTAL)
@@ -305,6 +262,9 @@ void CPlayScene::InitSaveGameSideView()
 		CurrentSectionId = idsection;
 		//Keyup jason
 		CJasonSideview::GetInstance()->keyUptoFixState();
+		
+		//Fix reset game nham
+		global->savePlayer(2);
 		return;
 	}
 
@@ -351,9 +311,27 @@ void CPlayScene::InitSaveGameSideView()
 	}
 	init_camBox();
 }
+
 void CPlayScene::InitSaveGameOverhead()
 {
+	DebugOut(L"\n init over");
+	CGame::GetInstance()->SetState(GameState::PLAY_OVERHEAD);
+	CGameGlobal * global = CGameGlobal::GetInstance();
+	
+	if (global->getPlayer() != 3) // Khong phai reset o overhead 
+		return;
 
+	float xPlayer, yPlayer;
+	int idSection;
+
+	global->getCheckPoint(xPlayer, yPlayer);
+	idSection = global->getCurrentSection();
+
+	DebugOut(L"\n get info");
+	CurrentSectionId = idSection;
+
+	Sections[idSection]->deleteJasonOverhead();
+	Sections[idSection]->pushJasonOverhead(xPlayer, yPlayer, idSection);
 }
 
 void CPlayScene::Load()
@@ -421,10 +399,8 @@ void CPlayScene::Load()
 	}
 
 	init_camBox();
-
-	LoadSound();
 	//play(name, isLoop, times)
-	Sound::getInstance()->play("area2", true, 0);
+	Sound::getInstance()->play(AREA2, true, 0);
 	// Sound::getInstance()->stop("area2");
 }
 
@@ -647,8 +623,9 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			CSophia::GetInstance()->SetSpeed(0.1, 0);
 			DebugOut(L"\ncx == %f, cy == %f",x_toPortal, y_toPortal);
 
-			global->savePlayer(1);
-			global->saveSophia();
+			global->savePlayer(1, 25, 0);
+			global->saveSophia(25,0);
+			CSophia::GetInstance()->Start_invulnerableTimer();
 		}
 
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_RIGHT_JASON)
@@ -668,8 +645,8 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			CJasonSideview::GetInstance()->SetSpeed(0.1, 0);
 			game->SetCamPos(0, cy);
 			init_camBox();
-
-			global->savePlayer(2);
+			global->savePlayer(2, 20, 0);
+			CJasonSideview::GetInstance()->Start_invulnerableTimer();
 		}
 
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_OVERHEAD_RIGHT)
@@ -709,9 +686,11 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			CSophia::GetInstance()->SetSpeed(-0.1, 0);
 			init_camBox();
 
-			global->savePlayer(1);
-			global->saveSophia();
+			global->savePlayer(1, -40, 0);
+			global->saveSophia(-40,0); 
+			CSophia::GetInstance()->Start_invulnerableTimer();
 		}
+
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_LEFT_JASON)
 		if (cx + game->GetScreenWidth() <= 0)
 		{
@@ -726,8 +705,8 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			CJasonSideview::GetInstance()->SetSpeed(-0.11, 0);
 			game->SetCamPos(cx, cy);
 			init_camBox();
-
-			global->savePlayer(2);
+			global->savePlayer(2, -25, 0);
+			CJasonSideview::GetInstance()->Start_invulnerableTimer();
 		}
 
 	if (CGame::GetInstance()->GetState() == GameState::SECTION_SWITCH_OVERHEAD_LEFT)
@@ -789,6 +768,8 @@ void CPlayScene::ResetGameStateAfterSwichtSection()
 			init_camBox();
 
 			global->savePlayer(3);
+			if (CurrentSectionId == global->ID_SECTION_BOSSOVERHEAD)
+				global->openEffectFlashingBoss();
 		}
 }
 
@@ -1032,8 +1013,11 @@ void CPlayScene::InitSectionForOverhead(int port)
 	}
 
 	if (!portal)
+	{
+		/*DebugOut(L"\nok2");*/ //Please don't remove it because it's all
 		return;
-
+	}
+	
 	float playerCenterX, playerCenterY;
 	CGameObjectBehaviour::CalcBoundingBoxCenter(portal, playerCenterX, playerCenterY);
 	CGameObjectBehaviour::SetBoundingBoxCenter(CJasonOverhead::GetInstance(), playerCenterX, playerCenterY);
@@ -1044,7 +1028,7 @@ void CPlayScene::InitSectionForOverhead(int port)
 	CJasonOverhead::GetInstance()->currentSectionId = CurrentSectionId;
 
 	GetCurrentSection()->pushJasonOverhead(playerX, playerY, CJasonOverhead::GetInstance()->currentSectionId);
-
+	CGameGlobal::GetInstance()->savePlayer(3);
 	DebugOut(L"Section ID = %d, Section Jason overhead = %d", CurrentSectionId, CJasonOverhead::GetInstance()->currentSectionId);
 }
 

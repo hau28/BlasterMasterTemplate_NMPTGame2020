@@ -60,14 +60,23 @@ void CFloater::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 		CGameObjectBehaviour::BlockObject(dt, coEvent);
 
-		if (coEvent->nx != 0)
+		if (coEvent->nx * oldVX < 0)
 		{
 			vx = -oldVX;
-		};
-		if (coEvent->ny != 0)
+		}
+		else
+		{
+			vx = oldVX;
+		}
+
+		if (coEvent->ny * oldVY < 0)
 		{
 			vy = -oldVY;
-		};
+		}
+		else
+		{
+			vy = oldVY;
+		}
 
 		UpdateState();
 	}

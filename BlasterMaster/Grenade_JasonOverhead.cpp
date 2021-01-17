@@ -159,7 +159,6 @@ void CGrenade_JasonOverhead::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 
 void CGrenade_JasonOverhead::HandleTimerTick(LPTIMER sender)
 {
-	DebugOut(L"ihihihiaahahah\n");
 	if (sender == explosionTimer)
 	{
 		boomCount++;

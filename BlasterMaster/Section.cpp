@@ -5,6 +5,9 @@
 #include "JasonSideview.h"
 #include "GameObjectBehaviour.h"
 #include "JasonOverhead.h"
+#include "GameGlobal.h"
+#include <stdlib.h>    
+#include <time.h>  
 
 CSection::CSection(int bgTextureId, int fgTextureId)
 {
@@ -19,9 +22,9 @@ CSection::CSection(int bgTextureId, int fgTextureId)
 
 	bgWidth = surfaceDesc.Width;
 	bgHeight = surfaceDesc.Height;
+
+	gridObjects = new CGridObjects(bgWidth, bgHeight);
 }
-
-
 
 void CSection::Update(DWORD dt)
 {
@@ -30,9 +33,16 @@ void CSection::Update(DWORD dt)
 	// collision objects for static object, i.e. tiles
 	//vector<LPGAMEOBJECT> coObjs_static;
 	//coObjs_static.clear();
-	int cnt = 0;
 
-	for (auto obj : Objects)
+	float cx, cy, cw, ch;
+	CGame::GetInstance()->GetCamPos(cx, cy);
+	cw = CGame::GetInstance()->GetScreenWidth();
+	ch = CGame::GetInstance()->GetScreenHeight();
+
+	vector<LPGAMEOBJECT> objects = gridObjects->GetObjectsInArea(cx, cy, cw, ch);
+	gridObjects->ClearObjectsInArea(dt, cx, cy, cw, ch);
+
+	for (auto obj : objects)
 	{
 		if (!obj)
 			continue;
@@ -43,25 +53,32 @@ void CSection::Update(DWORD dt)
 		{
 			if (obj->isUpdatedWhenOffScreen || checkObjInCamera(obj, SCREEN_EXTEND_OFFSET_DEFAULT))
 			{
-				obj->Update(dt, &Objects);
+				obj->Update(dt, &objects);
 			}
 		}
+	}
+
+	for (auto obj : objects)
+	{
+		if (obj)
+			gridObjects->Add(obj);
 	}
 }
 
 //SANH-CAMERA:
 void CSection::Render(float offset_x, float offset_y)
 {
+	float cx, cy, cw, ch;
+	CGame::GetInstance()->GetCamPos(cx, cy);
+	cw = CGame::GetInstance()->GetScreenWidth();
+	ch = CGame::GetInstance()->GetScreenHeight();
+
+	vector<LPGAMEOBJECT> objects = gridObjects->GetObjectsInArea(cx, cy, cw, ch);
+
 	// CuteTN Note: the order of rendering would be implemented here :)
 	RenderTexture(backgroundTextureId, offset_x, offset_y);
 
-	//if (GameState::PLAY_OVERHEAD == CGame::GetInstance()->GetState())
-	//{
-	//	CJasonOverhead::GetInstance()->SetPosition(60, 60);
-	//	CJasonOverhead::GetInstance()->Render(0, 0);
-	//}
-
-	for (auto obj : Objects)
+	for (auto obj : objects)
 	{
 		if (checkObjInCamera(obj, SCREEN_EXTEND_OFFSET_DEFAULT))
 			if(obj->isHiddenByForeground)
@@ -70,7 +87,7 @@ void CSection::Render(float offset_x, float offset_y)
 
 	RenderTexture(foregroundTextureId, offset_x, offset_y);
 
-	for (auto obj : Objects)
+	for (auto obj : objects)
 	{
 		if (checkObjInCamera(obj, SCREEN_EXTEND_OFFSET_DEFAULT))
 			if (!obj->isHiddenByForeground)
@@ -81,22 +98,30 @@ void CSection::Render(float offset_x, float offset_y)
 void CSection::RenderTexture(int textureId, float offset_x, float offset_y)
 {
 	LPDIRECT3DTEXTURE9 backgroundTexture = CTextures::GetInstance()->Get(textureId);
+
+	//EFFECT BOSS - SANHLIKE CUTE
+	CGameGlobal * global = CGameGlobal::GetInstance();
+	if (global->stateBossBlackBackground)
+	{
+		CGame::GetInstance()->setBackGroundColor(0, 0, 0);
+		return;
+	}
+	if (global->isEffectBoss)
+	{
+		int R = rand() % 255;
+		int G = rand() % 255;
+		int B = rand() % 255;
+		int A = 255;
+		CGame::GetInstance()->Draw(offset_x, offset_y, backgroundTexture, 0, 0, bgWidth, bgHeight, A,false,0,0,0,R,G,B);
+	}
+	else
 	CGame::GetInstance()->Draw(offset_x, offset_y, backgroundTexture, 0, 0, bgWidth, bgHeight);
 }
-
 
 //SANH-CAMERA
 void CSection::deleteSophia()
 {
-	int index = -1;
-	for (int i=0; i<Objects.size(); i++)
-		if (Objects[i]->classId == CLASS_SOPHIA)
-		{
-			index = i;
-			break;
-		}
-	if (index == -1) return;
-	Objects.erase(Objects.begin()+index);
+	gridObjects->SeekAndRemove(CSophia::GetInstance(), false);
 }
 
 void CSection::pushSophia(float x, float y, int sectionID)
@@ -104,21 +129,13 @@ void CSection::pushSophia(float x, float y, int sectionID)
 	this->deleteSophia();
 	CSophia::GetInstance()->SetPosition(x, y);
 	CSophia::GetInstance()->currentSectionId = sectionID;
-	Objects.push_back(CSophia::GetInstance());
+	//Objects.push_back(CSophia::GetInstance());
+	gridObjects->Add(CSophia::GetInstance());
 }
 
 void CSection::deleteJasonSideview()
 {
-	int index = -1;
-	for (int i = 0; i < Objects.size(); i++)
-		if (Objects[i]->classId == CLASS_JASONSIDEVIEW)
-		{
-			index = i;
-			break;
-		}
-	if (index == -1)
-		return;
-	Objects.erase(Objects.begin() + index);
+	gridObjects->SeekAndRemove(CJasonSideview::GetInstance(), false);
 }
 
 void CSection::pushJasonSideview(float x, float y, int sectionID)
@@ -130,37 +147,34 @@ void CSection::pushJasonSideview(float x, float y, int sectionID)
 	CJasonSideview::GetInstance()->SetPosition(x, y);
 	CJasonSideview::GetInstance()->currentSectionId = sectionID;
 	CJasonSideview::InitInstance(x, y, sectionID);
-	Objects.push_back(CJasonSideview::GetInstance());
+
+	//Objects.push_back(CJasonSideview::GetInstance());
+	gridObjects->Add(CJasonSideview::GetInstance());
 }
 
 
 void CSection::deleteJasonOverhead()
 {
-	int index = -1;
-	for (int i = 0; i < Objects.size(); i++)
-		if (Objects[i]->classId == CLASS_JASONOVERHEAD)
-		{
-			index = i;
-			break;
-		}
-	if (index == -1)
-		return;
-	Objects.erase(Objects.begin() + index);
+	gridObjects->SeekAndRemove(CJasonOverhead::GetInstance(), false);
 }
 
 void CSection::pushJasonOverhead(float x, float y, int sectionID)
 {
 	this->deleteJasonOverhead();
-	CJasonOverhead::GetInstance()->SetPosition(x, y);
-	CJasonOverhead::GetInstance()->currentSectionId = sectionID;
-	Objects.push_back(CJasonOverhead::GetInstance());
+
+	//CJasonOverhead::GetInstance()->SetPosition(x, y);
+	//CJasonOverhead::GetInstance()->currentSectionId = sectionID;
+	CJasonOverhead::InitInstance(x, y, sectionID);
+
+	//Objects.push_back(CJasonOverhead::GetInstance());
+	gridObjects->Add(CJasonOverhead::GetInstance());
 }
 void CSection::addObject(LPGAMEOBJECT obj)
 {
 	if (!obj)
 		return;
 
-	Objects.push_back(obj);
+	gridObjects->Add(obj);
 }
 
 /// <summary>
@@ -173,27 +187,18 @@ void CSection::removeObject(LPGAMEOBJECT obj, bool deleteAfterRemoving)
 	if (!obj)
 		return;
 
-	for (int i = 0; i < Objects.size(); i++)
-		if (Objects[i] == obj)
-		{
-			if (deleteAfterRemoving)
-			{
-				delete Objects[i];
-				Objects[i] = nullptr;
-			}
-
-			Objects.erase(Objects.begin() + i);
-			break;
-		}
+	gridObjects->SeekAndRemove(obj, deleteAfterRemoving);
 }
 
 LPPORTAL CSection::findScenePortal(int port)
 {
-	for (int i = 0; i < Objects.size(); i++)
+	vector<LPGAMEOBJECT> objects = gridObjects->GetAllObjects();
+
+	for (int i = 0; i < objects.size(); i++)
 	{
-		if (Objects[i]->classId == CLASS_TILE_SCENEPORTAL)
+		if (objects[i]->classId == CLASS_TILE_SCENEPORTAL)
 		{
-			LPPORTAL portal = dynamic_cast<LPPORTAL>(Objects[i]);
+			LPPORTAL portal = dynamic_cast<LPPORTAL>(objects[i]);
 			if (portal->port == port)
 				return portal;
 		}

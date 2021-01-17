@@ -9,7 +9,7 @@
 CBullet_JasonOverhead::CBullet_JasonOverhead(float x, float y, int sectionId, int dirX, int dirY, int level, int index) : CBullet::CBullet(CLASS_JASON_OVERHEAD_BULLET, x, y, sectionId, true)
 {
 	startx = dirX;
-	bulletLevel = 8;
+
 	if (bulletLevel < 4) // bullets 0-> 3
 		bulletLine = new StraightLine(speed, bulletLevel, dirX, dirY);
 
@@ -19,7 +19,7 @@ CBullet_JasonOverhead::CBullet_JasonOverhead(float x, float y, int sectionId, in
 	}
 	
 	if (bulletLevel > 5)
-		bulletLine = new WaveLine(speed, bulletLevel, dirX, dirY, livingTime );
+		bulletLine = new WaveLine(speed, bulletLevel, dirX, dirY);
 
 	isHiddenByForeground = true;
 	isUpdatedWhenOffScreen = true;
@@ -133,37 +133,19 @@ CircleLine::CircleLine(float& speed, int level, int dx, int dy)
 	if (dx == 0)
 	{
 		vx = 0;
-		if (dy == -1)
-		{
-			vy = -1;
-			curAngle = -90;
-		}
-		else
-		{ 
-			vy = 1;
-			curAngle = 90;
-		}
+		vy = (dx == -1 ? -1 : 1);
 	}
 	else
 	{
 		vy = 0;
-		if (dx == -1)
-		{
-			vx = -1;
-			curAngle = 180;
-		}
-		else
-		{
-			vx = 1;
-			curAngle = 0;
-		}
+		vx = (dx == -1 ? -1 : 1);
 	}
 
 	dir = arrDir[iDir];
-	iDir = (iDir + 1) % 4;
+	iDir = (iDir + 1) % 2;
 
 	// CuteTN
-	this->angularVelocity = speed / radius * (rand() % 3 - 1);
+	this->angularVelocity = speed / radius;
 }
 
 int CircleLine::iDir = 0;
@@ -172,7 +154,7 @@ int CircleLine::arrDir[4] = { 0,1,0,-1 };
 void CircleLine::Update(DWORD dt)
 {
 	// float alpha = 2* pi * dt * dir;
-	float alpha = angularVelocity * dt;
+	float alpha = angularVelocity * dt * dir;
 
 	float newVX = vx * cos(alpha) - vy * sin(alpha);
 	float newVY = vy * cos(alpha) + vx * sin(alpha);
@@ -185,60 +167,68 @@ void CircleLine::Update(DWORD dt)
 	if (curRoundCount > roundCount)
 	{
 		radius += (curRoundCount - roundCount) * BULLET_JASONOVERHEAD_INCREASING_CIRCLE_RADIUS;
-		angularVelocity = (angularVelocity ? ((angularVelocity > 0) ? 1 : -1) : 0) * speed / radius;
+		angularVelocity = speed / radius;
 		roundCount = curRoundCount;
 	}
 }
 
-WaveLine::WaveLine(float& speed, int level, int dx, int dy, float& livingTime)
+void WaveLine::Init(int dx, int dy)
 {
-	speed = BULLET_JASONOVERHEAD_SPEED * 0.5;
+	if (dx == 1)
+		direction = 3;
 
-	speed = BULLET_JASONOVERHEAD_SPEED * 0.5;
-	livingTime = BASE_LIVINGTIME * 99999;
+	if (dx == -1)
+		direction = 1;
 
-	if (dx == 0) vx = 0; else vx = (dx < 0 ? -1 : 1);
-	if (dy == 0) vy = 0; else vy = (dy < 0 ? -1 : 1);
-	isHorizontal = (dx != 0); //if not horizontal, definately veritcal
-	fiOffset = BASE_FI_OFFSET; //level8 bullets wave faster
+	if (dy == 1)
+		direction = 4;
 
-	//get new delay
-	delay = nextDelay;
-	nextDelay += DELAY_WAVE_OFFSET;
-	if (nextDelay > DELAY_WAVE_MAX) nextDelay = 0;
-
-	//get new direction
-	direction = nextDirection;
-	nextDirection = -nextDirection;
-
-	//level 8 adjustment
-	if (level == 8) {
-		fiOffset *= 2;
-		direction *= 2;
-		spreadDiv = 1.25; //no shrink
-	}
+	if (dy == -1)
+		direction = 2;
 }
 
-float WaveLine::nextDelay = 0;
-float WaveLine::nextDirection = 1;
+WaveLine::WaveLine(float& speed, int level, int dx, int dy)
+{
+	//speed = (level == 6 ? BULLET_JASONOVERHEAD_SPEED * 0.5 : BULLET_JASONOVERHEAD_SPEED*0.7);
+	speed = BULLET_JASONOVERHEAD_SPEED;
+	Init(dx, dy);
+	
+	originalAngle = arrAngle[iAngle];
+	iAngle = (iAngle + 1) % 2;
+
+	velocity = (level == 6 ? BULLET_JASONOVERHEAD_SPEED : BULLET_JASONOVERHEAD_SPEED * 2);
+}
+
+int WaveLine::iAngle = 0;
+int WaveLine::arrAngle[2] = { 60,220 };
 
 void WaveLine::Update(DWORD dt)
 {
-	delay -= dt;
-	if (delay > 0) return;
-
-	fi += fiOffset * dt;
-	if (abs(sin(fi)) <= dt) {
-		spread /= spreadDiv;
+	updateTime += 50;
+	omega -= 0.05;
+	if (direction == 4)
+	{
+		vx = AMPLITUDE * cos(updateTime + originalAngle);
+		vy = velocity;
 	}
 
-	if (isHorizontal) { //flying horizontal - adjust vy
-		vy = cos(fi) * spread * direction; //cos(fi) la dao ham cua sin(fi)
-
+	if (direction == 2)
+	{
+		vx = AMPLITUDE * cos(updateTime + originalAngle);
+		vy = -velocity;
 	}
-	else { //flying vertical - adjust vx
-		vx = cos(fi) * spread * direction;
 
+	if (direction == 3)
+	{
+		vy = AMPLITUDE * cos(updateTime + originalAngle);
+		vx = velocity;
 	}
+
+	if (direction == 1)
+	{
+		vy = AMPLITUDE * cos(updateTime + originalAngle);
+		vx = -velocity;
+	}
+
 }
 

@@ -146,6 +146,8 @@ public:
     static CSophia *InitInstance(int classId, int x, int y, int sectionId);
     virtual void HandleTimerTick(LPTIMER sender);
 
+    void Start_invulnerableTimer();
+
     ~CSophia();
 };
 

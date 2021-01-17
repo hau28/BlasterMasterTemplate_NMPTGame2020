@@ -10,6 +10,7 @@
 #include "JasonJumpInEvent.h"
 #include "Bullet_JasonSideview.h"
 #include "SwitchSceneEvent.h"
+#include "Sound.h"
 
 CJasonSideview* CJasonSideview::__instance = nullptr;
 
@@ -100,6 +101,7 @@ void CJasonSideview::PlayVulnerableFlasingEffect()
 
 void CJasonSideview::HandleOnDamage()
 {
+    Sound::getInstance()->play(JASON_GOT_HIT, false, 1);
 	flagInvulnerable = true;
 	invulnerableTimer->Start();
     PlayVulnerableFlasingEffect();
@@ -786,6 +788,7 @@ void CJasonSideview::HandleTimerTick(LPTIMER sender)
     if (sender == invulnerableTimer)
     {
         flagInvulnerable = false;
+        invulnerableTimer->interval = INVULNERABLE_DURATION;
     }
 
     if (sender == dyingEffectTimer)
@@ -808,4 +811,11 @@ CJasonSideview::~CJasonSideview()
 {
     DebugOut(L"Thyyyyy cute\n");
     CAnimatableObject::~CAnimatableObject();
+}
+
+void CJasonSideview::Start_invulnerableTimer()
+{
+    flagInvulnerable = true;
+    invulnerableTimer = new CTimer(this, INVULNERABLE_DURATION * 4, 1);
+    invulnerableTimer->Start();
 }

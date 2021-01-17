@@ -8,49 +8,50 @@
 63	.\textures\Items\ThunderBreak_Item.png
 65	.\textures\Items\HomingMissile_Item.png
 67	.\textures\Items\MultiwarheadMissile_Item.png
-94	.\textures\Bullets\Bullet1.png
-104	.\textures\Bullets\Bullet2.png
-109	.\textures\Bullets\Bullet3.png
-128	.\textures\Bullets\Bullet4.png
-133	.\textures\Bullets\Items.png
-152	.\textures\Bullets\SophiaExplosion.png
-252	.\Textures\Characters\Dome.png
-268	.\Textures\Characters\Floater.png
-280	.\Textures\Characters\Insect.png
-289	.\Textures\Characters\Jumper.png
-303	.\Textures\Characters\Mine.png
-311	.\Textures\Characters\Orb.png
-334	.\Textures\Characters\Ship.png
-343	.\Textures\Characters\Skull.png
-355	.\textures\Characters\Panda.png
-363	.\Textures\SideviewSections\A.png
-365	.\textures\SideviewForeground\A_Foreground.png
-413	.\textures\BreakableBlocks\BreakableBlueBG.png
-415	.\textures\BreakableBlocks\BreakableGreenBG.png
-425	.\Textures\SideviewSections\B.png
-427	.\textures\SideviewForeground\B_Foreground.png
-519	.\Textures\SideviewSections\C.png
-521	.\textures\SideviewForeground\C_Foreground.png
-544	.\Textures\SideviewSections\D.png
-546	.\textures\SideviewForeground\D_Foreground.png
-631	.\Textures\SideviewSections\E.png
-633	.\textures\SideviewForeground\E_Foreground.png
-653	.\Textures\SideviewSections\F.png
-655	.\textures\SideviewForeground\F_Foreground.png
-781	.\Textures\SideviewSections\G.png
-783	.\textures\SideviewForeground\G_Foreground.png
-803	.\Textures\SideviewSections\H.png
-805	.\textures\SideviewForeground\H_Foreground.png
-837	.\Textures\SideviewSections\I.png
-839	.\textures\SideviewForeground\I_Foreground.png
-895	.\Textures\SideviewSections\J.png
-897	.\textures\SideviewForeground\J_Foreground.png
-912	.\Textures\SideviewSections\K.png
-914	.\textures\SideviewForeground\K_Foreground.png
-928	.\Textures\SideviewSections\L.png
-930	.\textures\SideviewForeground\L_Foreground.png
-947	.\Textures\SideviewSections\M.png
-949	.\textures\SideviewForeground\M_Foreground.png
+69	.\textures\Items\CrusherBeam_Item.png
+100	.\textures\Bullets\Bullet1.png
+110	.\textures\Bullets\Bullet2.png
+115	.\textures\Bullets\Bullet3.png
+134	.\textures\Bullets\Bullet4.png
+139	.\textures\Bullets\Items.png
+158	.\textures\Bullets\SophiaExplosion.png
+262	.\Textures\Characters\Dome.png
+278	.\Textures\Characters\Floater.png
+290	.\Textures\Characters\Insect.png
+299	.\Textures\Characters\Jumper.png
+313	.\Textures\Characters\Mine.png
+321	.\Textures\Characters\Orb.png
+344	.\Textures\Characters\Ship.png
+353	.\Textures\Characters\Skull.png
+365	.\textures\Characters\Panda.png
+373	.\Textures\SideviewSections\A.png
+375	.\textures\SideviewForeground\A_Foreground.png
+423	.\textures\BreakableBlocks\BreakableBlueBG.png
+425	.\textures\BreakableBlocks\BreakableGreenBG.png
+435	.\Textures\SideviewSections\B.png
+437	.\textures\SideviewForeground\B_Foreground.png
+529	.\Textures\SideviewSections\C.png
+531	.\textures\SideviewForeground\C_Foreground.png
+554	.\Textures\SideviewSections\D.png
+556	.\textures\SideviewForeground\D_Foreground.png
+641	.\Textures\SideviewSections\E.png
+643	.\textures\SideviewForeground\E_Foreground.png
+663	.\Textures\SideviewSections\F.png
+665	.\textures\SideviewForeground\F_Foreground.png
+791	.\Textures\SideviewSections\G.png
+793	.\textures\SideviewForeground\G_Foreground.png
+813	.\Textures\SideviewSections\H.png
+815	.\textures\SideviewForeground\H_Foreground.png
+847	.\Textures\SideviewSections\I.png
+849	.\textures\SideviewForeground\I_Foreground.png
+907	.\Textures\SideviewSections\J.png
+909	.\textures\SideviewForeground\J_Foreground.png
+924	.\Textures\SideviewSections\K.png
+926	.\textures\SideviewForeground\K_Foreground.png
+940	.\Textures\SideviewSections\L.png
+942	.\textures\SideviewForeground\L_Foreground.png
+959	.\Textures\SideviewSections\M.png
+961	.\textures\SideviewForeground\M_Foreground.png
 
 [SPRITES]
 #ID	TextureId	left	top	right	bottom
@@ -89,115 +90,116 @@
 64	63		0	0	15	15
 66	65		0	0	15	15
 68	67		0	0	15	15
-95	94		0	0	15	15
-96	94		16	0	31	15
-97	94		32	0	47	15
-98	94		48	0	63	15
-99	94		64	0	79	15
-100	94		80	0	95	15
-101	94		96	0	111	15
-102	94		112	0	127	15
-103	94		128	0	143	15
-105	104		0	0	23	23
-106	104		24	0	47	23
-107	104		48	0	71	23
-108	104		72	0	95	23
-110	109		0	0	23	23
-111	109		24	0	47	23
-112	109		48	0	71	23
-113	109		72	0	95	23
-114	109		96	0	119	23
-115	109		120	0	143	23
-116	109		144	0	167	23
-117	109		168	0	191	23
-118	109		192	0	215	23
-119	109		216	0	239	23
-120	109		240	0	263	23
-121	109		264	0	287	23
-122	109		288	0	311	23
-123	109		312	0	335	23
-124	109		336	0	359	23
-125	109		360	0	383	23
-126	109		384	0	407	23
-127	109		408	0	431	23
-129	128		0	0	15	15
-130	128		0	16	15	31
-131	128		0	32	15	47
-132	128		0	48	15	63
-134	133		0	0	31	31
-135	133		0	32	31	63
-136	133		0	64	31	95
-137	133		32	0	63	31
-138	133		32	32	63	63
-139	133		32	64	63	95
-140	133		64	0	95	31
-141	133		64	32	95	63
-142	133		64	64	95	95
-143	133		96	0	127	31
-144	133		96	32	127	63
-145	133		96	64	127	95
-146	133		128	0	159	31
-147	133		128	32	159	63
-148	133		128	64	159	95
-149	133		160	0	191	31
-150	133		160	32	191	63
-151	133		160	64	191	95
-153	152		0	0	63	47
-154	152		64	0	127	47
-253	252		0	0	31	31
-254	252		32	0	63	31
-269	268		0	0	31	15
-270	268		32	0	63	15
-281	280		0	0	31	31
-282	280		32	0	63	31
-290	289		0	0	17	26
-291	289		18	0	35	26
-292	289		36	0	53	26
-293	289		54	0	71	26
-304	303		0	0	15	9
-305	303		16	0	31	9
-312	311		0	0	18	18
-313	311		19	0	37	18
-314	311		38	0	56	18
-315	311		57	0	75	18
-316	311		76	0	94	18
-317	311		95	0	113	18
-318	311		114	0	132	18
-319	311		133	0	151	18
-335	334		0	0	31	31
-336	334		32	0	63	31
-344	343		0	0	31	31
-345	343		32	0	63	31
-356	355		0	0	31	31
-357	355		32	0	63	31
-364	363		0	0	1023	255
-366	365		0	0	1023	255
-414	413		0	0	15	15
-416	415		0	0	15	15
-426	425		0	0	511	1279
-428	427		0	0	511	1279
-520	519		0	0	511	255
-522	521		0	0	511	255
-545	544		0	0	511	1023
-547	546		0	0	511	1023
-632	631		0	0	511	255
-634	633		0	0	511	255
-654	653		0	0	511	1791
-656	655		0	0	511	1791
-782	781		0	0	511	255
-784	783		0	0	511	255
-804	803		0	0	511	255
-806	805		0	0	511	255
-838	837		0	0	511	511
-840	839		0	0	511	511
-896	895		0	0	511	255
-898	897		0	0	511	255
-913	912		0	0	255	255
-915	914		0	0	255	255
-929	928		0	0	767	255
-931	930		0	0	767	255
-948	947		0	0	255	767
-950	949		0	0	255	767
+70	69		0	0	24	16
+101	100		0	0	15	15
+102	100		16	0	31	15
+103	100		32	0	47	15
+104	100		48	0	63	15
+105	100		64	0	79	15
+106	100		80	0	95	15
+107	100		96	0	111	15
+108	100		112	0	127	15
+109	100		128	0	143	15
+111	110		0	0	23	23
+112	110		24	0	47	23
+113	110		48	0	71	23
+114	110		72	0	95	23
+116	115		0	0	23	23
+117	115		24	0	47	23
+118	115		48	0	71	23
+119	115		72	0	95	23
+120	115		96	0	119	23
+121	115		120	0	143	23
+122	115		144	0	167	23
+123	115		168	0	191	23
+124	115		192	0	215	23
+125	115		216	0	239	23
+126	115		240	0	263	23
+127	115		264	0	287	23
+128	115		288	0	311	23
+129	115		312	0	335	23
+130	115		336	0	359	23
+131	115		360	0	383	23
+132	115		384	0	407	23
+133	115		408	0	431	23
+135	134		0	0	15	15
+136	134		0	16	15	31
+137	134		0	32	15	47
+138	134		0	48	15	63
+140	139		0	0	31	31
+141	139		0	32	31	63
+142	139		0	64	31	95
+143	139		32	0	63	31
+144	139		32	32	63	63
+145	139		32	64	63	95
+146	139		64	0	95	31
+147	139		64	32	95	63
+148	139		64	64	95	95
+149	139		96	0	127	31
+150	139		96	32	127	63
+151	139		96	64	127	95
+152	139		128	0	159	31
+153	139		128	32	159	63
+154	139		128	64	159	95
+155	139		160	0	191	31
+156	139		160	32	191	63
+157	139		160	64	191	95
+159	158		0	0	63	47
+160	158		64	0	127	47
+263	262		0	0	31	31
+264	262		32	0	63	31
+279	278		0	0	31	15
+280	278		32	0	63	15
+291	290		0	0	31	31
+292	290		32	0	63	31
+300	299		0	0	17	26
+301	299		18	0	35	26
+302	299		36	0	53	26
+303	299		54	0	71	26
+314	313		0	0	15	9
+315	313		16	0	31	9
+322	321		0	0	18	18
+323	321		19	0	37	18
+324	321		38	0	56	18
+325	321		57	0	75	18
+326	321		76	0	94	18
+327	321		95	0	113	18
+328	321		114	0	132	18
+329	321		133	0	151	18
+345	344		0	0	31	31
+346	344		32	0	63	31
+354	353		0	0	31	31
+355	353		32	0	63	31
+366	365		0	0	31	31
+367	365		32	0	63	31
+374	373		0	0	1023	255
+376	375		0	0	1023	255
+424	423		0	0	15	15
+426	425		0	0	15	15
+436	435		0	0	511	1279
+438	437		0	0	511	1279
+530	529		0	0	511	255
+532	531		0	0	511	255
+555	554		0	0	511	1023
+557	556		0	0	511	1023
+642	641		0	0	511	255
+644	643		0	0	511	255
+664	663		0	0	511	1791
+666	665		0	0	511	1791
+792	791		0	0	511	255
+794	793		0	0	511	255
+814	813		0	0	511	255
+816	815		0	0	511	255
+848	847		0	0	511	511
+850	849		0	0	511	511
+908	907		0	0	511	255
+910	909		0	0	511	255
+925	924		0	0	255	255
+927	926		0	0	255	255
+941	940		0	0	767	255
+943	942		0	0	767	255
+960	959		0	0	255	767
+962	961		0	0	255	767
 
 [ANIMATIONS]
 #ID	SpriteId1	Duration1	SpriteId2	Duration2	...
@@ -208,51 +210,53 @@
 39	22		70		28		70		26		70		24		70		22		70		28		70		26		70		24		70		22		70		28		70		26		70		24		70		22		300		28		100		30		500		
 40	10		100		8		100		
 41	11		100		29		100		
-69	58		100		
-70	60		100		
-71	62		100		
-72	64		100		
-73	66		100		
-74	68		100		
-155	95		100		
-156	96		100		
-157	97		100		
-158	98		100		
-159	113		20		110		20		113		20		112		20		111		20		110		200		
-160	114		20		110		20		114		20		113		20		112		20		111		20		110		200		
-161	107		100		
-185	126		100		
-192	120		100		
-196	119		100		
-200	122		20		110		20		122		20		123		20		110		100		
-204	124		10		110		100		
-208	125		10		110		100		
-212	129		10		
-213	130		10		
-214	131		10		
-215	132		10		
-222	102		20		103		30		
-223	102		10		
-238	154		20		110		20		154		20		153		20		110		100		
-255	253		100		254		100		
-256	253		100		
-271	269		100		
-272	270		100		269		1000		
-283	281		50		282		50		
-294	290		150		291		200		292		150		293		200		
-295	290		100		
-306	304		300		305		300		
-320	314		100		
-321	318		30		313		30		312		30		319		30		314		300		
-322	314		30		315		30		316		30		317		30		318		300		
-323	314		30		315		30		316		30		317		30		318		30		313		30		312		30		319		30		
-324	318		30		313		30		312		30		319		30		314		30		315		30		316		30		317		30		
-337	335		180		336		180		
-346	345		70		344		1000		
-347	344		100		
-358	356		180		357		140		
-417	414		100		
-418	416		100		
+71	58		100		
+72	60		100		
+73	62		100		
+74	64		100		
+75	66		100		
+76	68		100		
+77	70		100		
+161	101		100		
+162	102		100		
+163	103		100		
+164	104		100		
+165	119		20		116		20		119		20		118		20		117		20		116		200		
+166	120		20		116		20		120		20		119		20		118		20		117		20		116		200		
+167	113		100		
+191	132		100		
+198	126		100		
+202	125		100		
+206	128		20		116		20		128		20		129		20		116		100		
+210	130		10		116		100		
+214	131		10		116		100		
+218	135		10		
+219	136		10		
+220	137		10		
+221	138		10		
+228	108		20		109		30		
+229	108		10		
+244	160		20		116		20		160		20		159		20		116		100		
+248	153		100		
+265	263		100		264		100		
+266	263		100		
+281	279		100		
+282	280		100		279		1000		
+293	291		50		292		50		
+304	300		150		301		200		302		150		303		200		
+305	300		100		
+316	314		300		315		300		
+330	324		100		
+331	328		30		323		30		322		30		329		30		324		300		
+332	324		30		325		30		326		30		327		30		328		300		
+333	324		30		325		30		326		30		327		30		328		30		323		30		322		30		329		30		
+334	328		30		323		30		322		30		329		30		324		30		325		30		326		30		327		30		
+347	345		180		346		180		
+356	355		70		354		1000		
+357	354		100		
+368	366		180		367		140		
+427	424		100		
+428	426		100		
 
 [STATE_ANIMATIONS]
 #ID	AnimId	FlipX	FlipY	TimesR90
@@ -268,683 +272,691 @@
 52	36	1	0	0
 53	41	1	0	0
 54	39	0	0	0
-76	69	0	0	0
-78	70	0	0	0
-80	71	0	0	0
-82	72	0	0	0
-84	73	0	0	0
-86	74	0	0	0
-163	155	0	0	0
-165	156	0	0	0
-167	157	0	0	0
-169	158	0	0	0
-171	159	0	0	0
-173	160	0	0	0
-175	161	0	0	0
-176	161	1	0	0
-177	161	0	0	1
-187	185	0	0	0
-188	185	0	0	1
-189	185	0	0	2
-190	185	0	0	3
-194	192	0	0	0
-198	196	0	0	0
-202	200	0	0	0
-206	204	0	0	0
-210	208	0	0	0
-217	212	0	0	0
-218	213	0	0	0
-219	214	0	0	0
-220	215	0	0	0
-225	222	0	0	0
-226	222	1	0	0
-228	222	0	0	0
-229	222	0	0	1
-230	222	0	0	2
-231	222	0	0	3
-232	223	0	0	0
-233	223	0	0	1
-234	223	0	0	2
-235	223	0	0	3
-240	238	0	0	0
-258	255	0	0	0
-259	255	0	0	1
-260	255	0	0	2
-261	255	0	0	3
-262	256	0	0	0
-263	256	0	0	1
-264	256	0	0	2
-265	256	0	0	3
-274	271	0	0	0
-275	271	1	0	0
-276	272	0	0	0
-277	272	1	0	0
-285	283	0	0	0
-286	283	1	0	0
-297	294	0	0	0
-298	294	1	0	0
-299	295	0	0	0
-300	295	1	0	0
-308	306	1	0	0
-326	320	0	0	0
-327	320	1	0	0
-328	321	0	0	0
-329	322	0	0	0
-330	323	0	0	0
-331	324	0	0	0
-339	337	0	0	0
-340	337	1	0	0
+79	71	0	0	0
+81	72	0	0	0
+83	73	0	0	0
+85	74	0	0	0
+87	75	0	0	0
+89	76	0	0	0
+91	77	0	0	0
+169	161	0	0	0
+171	162	0	0	0
+173	163	0	0	0
+175	164	0	0	0
+177	165	0	0	0
+179	166	0	0	0
+181	167	0	0	0
+182	167	1	0	0
+183	167	0	0	1
+193	191	0	0	0
+194	191	0	0	1
+195	191	0	0	2
+196	191	0	0	3
+200	198	0	0	0
+204	202	0	0	0
+208	206	0	0	0
+212	210	0	0	0
+216	214	0	0	0
+223	218	0	0	0
+224	219	0	0	0
+225	220	0	0	0
+226	221	0	0	0
+231	228	0	0	0
+232	228	1	0	0
+234	228	0	0	0
+235	228	0	0	1
+236	228	0	0	2
+237	228	0	0	3
+238	229	0	0	0
+239	229	0	0	1
+240	229	0	0	2
+241	229	0	0	3
+246	244	0	0	0
+250	248	0	0	0
+268	265	0	0	0
+269	265	0	0	1
+270	265	0	0	2
+271	265	0	0	3
+272	266	0	0	0
+273	266	0	0	1
+274	266	0	0	2
+275	266	0	0	3
+284	281	0	0	0
+285	281	1	0	0
+286	282	0	0	0
+287	282	1	0	0
+295	293	0	0	0
+296	293	1	0	0
+307	304	0	0	0
+308	304	1	0	0
+309	305	0	0	0
+310	305	1	0	0
+318	316	1	0	0
+336	330	0	0	0
+337	330	1	0	0
+338	331	0	0	0
+339	332	0	0	0
+340	333	0	0	0
+341	334	0	0	0
 349	347	0	0	0
 350	347	1	0	0
-351	346	0	0	0
-352	346	1	0	0
-360	358	0	0	0
-361	358	1	0	0
-420	417	0	0	0
-422	418	0	0	0
+359	357	0	0	0
+360	357	1	0	0
+361	356	0	0	0
+362	356	1	0	0
+370	368	0	0	0
+371	368	1	0	0
+430	427	0	0	0
+432	428	0	0	0
 
 [OBJECT_ANIMATIONS]
 #ID	StateAnimId1	StateAnimId2	...
 42	43		44		45		46		47		48		49		50		51		52		53		54		
-75	76		
-77	78		
-79	80		
-81	82		
-83	84		
-85	86		
-162	163		
-164	165		
-166	167		
+78	79		
+80	81		
+82	83		
+84	85		
+86	87		
+88	89		
+90	91		
 168	169		
 170	171		
 172	173		
-174	175		176		177		
-186	187		188		189		190		
-193	194		
-197	198		
-201	202		
-205	206		
-209	210		
-216	217		218		219		220		
-224	225		226		
-227	228		229		230		231		232		233		234		235		
-239	240		
-257	258		259		260		261		262		263		264		265		
-273	274		275		276		277		
-284	285		286		
-296	297		298		299		300		
-307	308		
-325	326		327		328		329		330		331		
-338	339		340		
-348	349		350		351		352		
-359	360		361		
-419	420		
-421	422		
+174	175		
+176	177		
+178	179		
+180	181		182		183		
+192	193		194		195		196		
+199	200		
+203	204		
+207	208		
+211	212		
+215	216		
+222	223		224		225		226		
+230	231		232		
+233	234		235		236		237		238		239		240		241		
+245	246		
+249	250		
+267	268		269		270		271		272		273		274		275		
+283	284		285		286		287		
+294	295		296		
+306	307		308		309		310		
+317	318		
+335	336		337		338		339		340		341		
+348	349		350		
+358	359		360		361		362		
+369	370		371		
+429	430		
+431	432		
 
 [COLLISION_BOXES]
 #SpriteId	left	top	right	bottom
 
 [SECTIONS]
 #SectionId	Background	Foreground
-367		363		365
-429		425		427
-523		519		521
-548		544		546
-635		631		633
-657		653		655
-785		781		783
-807		803		805
-841		837		839
-899		895		897
-916		912		914
-932		928		930
-951		947		949
+377		373		375
+439		435		437
+533		529		531
+558		554		556
+645		641		643
+667		663		665
+795		791		793
+817		813		815
+851		847		849
+911		907		909
+928		924		926
+944		940		942
+963		959		961
 
 [CLASSES]
 #ClassId	AnimationsId
 3 -1
 55 -1
-87 75
-88 77
-89 79
-90 81
-91 83
-92 85
-178 162
-179 164
-180 166
-181 168
-182 174
-183 170
-184 172
-191 186
-195 193
-199 197
-203 201
-207 205
-211 209
-221 216
-236 224
-237 227
-241 239
-245 -1
-246 -1
-247 -1
-248 -1
-249 -1
-250 -1
-266 257
-278 273
-287 284
-301 296
-309 307
-332 325
-341 338
-353 348
-362 359
-423 419
-424 421
+92 78
+93 80
+94 82
+95 84
+96 86
+97 88
+98 90
+184 168
+185 170
+186 172
+187 174
+188 180
+189 176
+190 178
+197 192
+201 199
+205 203
+209 207
+213 211
+217 215
+227 222
+242 230
+243 233
+247 245
+251 249
+255 -1
+256 -1
+257 -1
+258 -1
+259 -1
+260 -1
+276 267
+288 283
+297 294
+311 306
+319 317
+342 335
+351 348
+363 358
+372 369
+433 429
+434 431
 
 [OBJECTS]
 #ObjId	ClassId	Properties...
-4 3	Preview TEXTURE_SOPHIA_R0C6	Animations SOPHIA_ANIMATIONS	Section 899	X 35	Y 118	
-369 245	Section 367	X 0	Y 224	Width 1024	Height 32	
-370 245	Section 367	X 0	Y 192	Width 288	Height 32	
-371 245	Section 367	X 0	Y 160	Width 320	Height 16	
-372 245	Section 367	X 0	Y 0	Width 32	Height 256	
-373 245	Section 367	X 0	Y 0	Width 1024	Height 32	
-374 245	Section 367	X 48	Y 32	Width 32	Height 32	
-375 245	Section 367	X 112	Y 32	Width 32	Height 48	
-376 245	Section 367	X 176	Y 32	Width 32	Height 32	
-377 245	Section 367	X 240	Y 32	Width 32	Height 80	
-378 245	Section 367	X 304	Y 32	Width 32	Height 48	
-379 245	Section 367	X 368	Y 32	Width 32	Height 32	
-380 245	Section 367	X 432	Y 32	Width 32	Height 32	
-381 245	Section 367	X 496	Y 32	Width 32	Height 48	
-382 245	Section 367	X 560	Y 32	Width 32	Height 32	
-383 245	Section 367	X 624	Y 32	Width 32	Height 80	
-384 245	Section 367	X 688	Y 32	Width 32	Height 32	
-385 245	Section 367	X 752	Y 32	Width 32	Height 32	
-386 245	Section 367	X 816	Y 32	Width 32	Height 48	
-387 245	Section 367	X 880	Y 32	Width 32	Height 80	
-388 245	Section 367	X 976	Y 32	Width 48	Height 128	
-389 245	Section 367	X 384	Y 160	Width 128	Height 16	
-390 245	Section 367	X 400	Y 192	Width 80	Height 32	
-391 245	Section 367	X 576	Y 160	Width 128	Height 16	
-392 245	Section 367	X 768	Y 160	Width 256	Height 32	
-393 245	Section 367	X 592	Y 192	Width 80	Height 32	
-394 245	Section 367	X 784	Y 192	Width 240	Height 32	
-395 278	Preview 270	Animations 273	Section 367	X 824	Y 83	
-396 362	Preview 356	Animations 359	Section 367	X 140	Y 32	
-397 362	Preview 356	Animations 359	Section 367	X 204	Y 32	
-398 362	Preview 356	Animations 359	Section 367	X 468	Y 32	
-399 362	Preview 356	Animations 359	Section 367	X 910	Y 32	
-400 362	Preview 356	Animations 359	Section 367	X 846	Y 32	
-401 266	Preview 253	Animations 257	Section 367	X 256	Y 136	Rotation 0	IsClockwise 1	
-402 266	Preview 253	Animations 257	Section 367	X 280	Y 32	Rotation 3	IsClockwise 1	
-403 278	Preview 270	Animations 273	Section 367	X 592	Y 64	
-404 278	Preview 270	Animations 273	Section 367	X 912	Y 88	
-405 245	Section 367	X 944	Y 32	Width 80	Height 96	
-406 246	Section 367	X 960	Y 128	Width 64	Height 32	Portal 481	
-407 247	Section 367	X 0	Y 208	Width 1024	Height 16	
-408 245	Section 367	X 0	Y 176	Width 304	Height 16	
-409 245	Section 367	X 384	Y 176	Width 112	Height 16	
-410 245	Section 367	X 576	Y 176	Width 112	Height 16	
-431 245	Section 429	X 0	Y 0	Width 512	Height 48	
-432 245	Section 429	X 0	Y 0	Width 32	Height 1280	
-433 245	Section 429	X 0	Y 48	Width 112	Height 16	
-434 245	Section 429	X 272	Y 48	Width 240	Height 16	
-435 245	Section 429	X 144	Y 48	Width 32	Height 16	
-436 245	Section 429	X 208	Y 48	Width 32	Height 16	
-437 245	Section 429	X 480	Y 0	Width 32	Height 1280	
-438 245	Section 429	X 96	Y 96	Width 256	Height 32	
-439 245	Section 429	X 416	Y 96	Width 96	Height 32	
-440 245	Section 429	X 0	Y 160	Width 160	Height 32	
-441 245	Section 429	X 256	Y 128	Width 32	Height 80	
-442 245	Section 429	X 352	Y 160	Width 160	Height 32	
-443 245	Section 429	X 96	Y 224	Width 416	Height 16	
-444 245	Section 429	X 96	Y 240	Width 16	Height 16	
-445 245	Section 429	X 144	Y 240	Width 32	Height 16	
-446 245	Section 429	X 208	Y 240	Width 32	Height 16	
-447 245	Section 429	X 272	Y 240	Width 32	Height 16	
-448 245	Section 429	X 336	Y 240	Width 176	Height 16	
-449 245	Section 429	X 0	Y 288	Width 352	Height 32	
-450 245	Section 429	X 352	Y 352	Width 64	Height 32	
-451 245	Section 429	X 96	Y 416	Width 256	Height 32	
-452 245	Section 429	X 0	Y 480	Width 96	Height 32	
-453 245	Section 429	X 0	Y 544	Width 224	Height 32	
-454 245	Section 429	X 288	Y 544	Width 128	Height 32	
-455 245	Section 429	X 416	Y 608	Width 96	Height 32	
-456 245	Section 429	X 96	Y 672	Width 320	Height 32	
-457 245	Section 429	X 0	Y 736	Width 96	Height 32	
-458 245	Section 429	X 256	Y 704	Width 32	Height 80	
-459 245	Section 429	X 416	Y 736	Width 96	Height 32	
-460 245	Section 429	X 96	Y 800	Width 64	Height 32	
-461 245	Section 429	X 224	Y 800	Width 192	Height 32	
-462 245	Section 429	X 0	Y 864	Width 224	Height 32	
-463 245	Section 429	X 320	Y 832	Width 32	Height 80	
-464 245	Section 429	X 416	Y 864	Width 96	Height 32	
-465 245	Section 429	X 160	Y 928	Width 256	Height 32	
-466 245	Section 429	X 0	Y 1008	Width 112	Height 16	
-467 245	Section 429	X 0	Y 992	Width 160	Height 16	
-468 245	Section 429	X 144	Y 1008	Width 16	Height 16	
-469 245	Section 429	X 256	Y 960	Width 32	Height 80	
-470 245	Section 429	X 416	Y 992	Width 96	Height 32	
-471 245	Section 429	X 96	Y 1056	Width 320	Height 32	
-472 245	Section 429	X 0	Y 1120	Width 96	Height 32	
-473 245	Section 429	X 0	Y 1152	Width 48	Height 32	
-474 245	Section 429	X 320	Y 1088	Width 32	Height 80	
-475 245	Section 429	X 416	Y 1120	Width 96	Height 32	
-476 245	Section 429	X 0	Y 1184	Width 160	Height 32	
-477 245	Section 429	X 224	Y 1184	Width 288	Height 32	
-478 245	Section 429	X 464	Y 1152	Width 48	Height 32	
-479 245	Section 429	X 0	Y 1248	Width 512	Height 32	
-480 245	Section 429	X 464	Y 128	Width 48	Height 32	
-481 246	Section 429	X 0	Y 1152	Width 64	Height 32	Portal 406	
-482 246	Section 429	X 448	Y 1152	Width 64	Height 32	Portal 739	
-483 246	Section 429	X 448	Y 128	Width 64	Height 32	Portal 538	
-484 247	Section 429	X 112	Y 48	Width 160	Height 16	
-485 247	Section 429	X 112	Y 240	Width 224	Height 16	
-486 247	Section 429	X 112	Y 1008	Width 32	Height 16	
-487 278	Preview 270	Animations 273	Section 429	X 96	Y 1125	
-488 278	Preview 270	Animations 273	Section 429	X 128	Y 1098	
-489 278	Preview 270	Animations 273	Section 429	X 128	Y 1162	
-490 362	Preview 356	Animations 359	Section 429	X 208	Y 266	
-491 332	Preview 314	Animations 325	Section 429	X 240	Y 336	InitLeft 0	Aggressive 1	
-492 332	Preview 314	Animations 325	Section 429	X 208	Y 480	InitLeft 0	Aggressive 1	
-493 332	Preview 314	Animations 325	Section 429	X 80	Y 352	InitLeft 0	Aggressive 1	
-494 266	Preview 253	Animations 257	Section 429	X 384	Y 1160	Rotation 0	IsClockwise 1	
-495 266	Preview 253	Animations 257	Section 429	X 368	Y 1080	Rotation 2	IsClockwise 1	
-496 266	Preview 253	Animations 257	Section 429	X 432	Y 1096	Rotation 0	IsClockwise 0	
-497 287	Preview 282	Animations 284	Section 429	X 384	Y 464	InitLeft 0	
-498 301	Preview 291	Animations 296	Section 429	X 48	Y 964	InitLeft 0	
-499 266	Preview 253	Animations 257	Section 429	X 256	Y 1160	Rotation 0	IsClockwise 1	
-500 287	Preview 282	Animations 284	Section 429	X 336	Y 736	InitLeft 0	
-501 287	Preview 282	Animations 284	Section 429	X 352	Y 592	InitLeft 0	
-502 301	Preview 291	Animations 296	Section 429	X 304	Y 1028	InitLeft 0	
-503 287	Preview 282	Animations 284	Section 429	X 432	Y 928	InitLeft 0	
-504 362	Preview 356	Animations 359	Section 429	X 144	Y 266	
-505 266	Preview 253	Animations 257	Section 429	X 144	Y 72	Rotation 0	IsClockwise 1	
-506 266	Preview 253	Animations 257	Section 429	X 208	Y 72	Rotation 0	IsClockwise 1	
-507 266	Preview 253	Animations 257	Section 429	X 304	Y 72	Rotation 0	IsClockwise 0	
-508 423	Preview 414	Animations 419	Section 429	X 320	Y 1168	
-509 423	Preview 414	Animations 419	Section 429	X 336	Y 1168	
-510 423	Preview 414	Animations 419	Section 429	X 256	Y 1040	
-511 423	Preview 414	Animations 419	Section 429	X 272	Y 1040	
-512 423	Preview 414	Animations 419	Section 429	X 320	Y 912	
-513 423	Preview 414	Animations 419	Section 429	X 336	Y 912	
-514 423	Preview 414	Animations 419	Section 429	X 272	Y 784	
-515 423	Preview 414	Animations 419	Section 429	X 256	Y 784	
-516 423	Preview 414	Animations 419	Section 429	X 256	Y 208	
-517 423	Preview 414	Animations 419	Section 429	X 272	Y 208	
-525 245	Section 523	X 0	Y 0	Width 512	Height 80	
-526 245	Section 523	X 0	Y 160	Width 512	Height 96	
-527 245	Section 523	X 0	Y 80	Width 32	Height 80	
-528 245	Section 523	X 32	Y 0	Width 16	Height 112	
-529 245	Section 523	X 96	Y 0	Width 16	Height 112	
-530 245	Section 523	X 160	Y 0	Width 16	Height 112	
-531 245	Section 523	X 224	Y 0	Width 16	Height 112	
-532 245	Section 523	X 288	Y 0	Width 16	Height 112	
-533 245	Section 523	X 352	Y 0	Width 16	Height 112	
-534 245	Section 523	X 416	Y 0	Width 16	Height 112	
-535 245	Section 523	X 480	Y 80	Width 32	Height 80	
-536 245	Section 523	X 32	Y 128	Width 32	Height 16	
-537 245	Section 523	X 448	Y 128	Width 32	Height 16	
-538 246	Section 523	X 0	Y 128	Width 64	Height 32	Portal 483	
-539 246	Section 523	X 448	Y 128	Width 64	Height 32	Portal 605	
-540 353	Preview 344	Animations 348	Section 523	X 152	Y 105	InitLeft 0	
-541 353	Preview 344	Animations 348	Section 523	X 280	Y 105	InitLeft 0	
-542 353	Preview 344	Animations 348	Section 523	X 408	Y 105	InitLeft 0	
-550 245	Section 548	X 0	Y 0	Width 512	Height 64	
-551 245	Section 548	X 0	Y 0	Width 32	Height 1024	
-552 245	Section 548	X 480	Y 0	Width 32	Height 1024	
-553 245	Section 548	X 0	Y 992	Width 512	Height 32	
-554 245	Section 548	X 352	Y 96	Width 64	Height 32	
-555 245	Section 548	X 0	Y 96	Width 96	Height 32	
-556 245	Section 548	X 0	Y 160	Width 96	Height 32	
-557 245	Section 548	X 144	Y 224	Width 16	Height 16	
-558 245	Section 548	X 96	Y 224	Width 16	Height 16	
-559 245	Section 548	X 96	Y 240	Width 64	Height 16	
-560 245	Section 548	X 0	Y 288	Width 96	Height 32	
-561 245	Section 548	X 160	Y 288	Width 16	Height 16	
-562 245	Section 548	X 160	Y 304	Width 64	Height 16	
-563 245	Section 548	X 208	Y 288	Width 16	Height 16	
-564 245	Section 548	X 96	Y 352	Width 16	Height 16	
-565 245	Section 548	X 96	Y 368	Width 64	Height 16	
-566 245	Section 548	X 144	Y 352	Width 16	Height 16	
-567 245	Section 548	X 224	Y 352	Width 64	Height 32	
-568 245	Section 548	X 0	Y 416	Width 96	Height 32	
-569 245	Section 548	X 160	Y 416	Width 64	Height 32	
-570 245	Section 548	X 288	Y 416	Width 16	Height 16	
-571 245	Section 548	X 288	Y 432	Width 64	Height 16	
-572 245	Section 548	X 336	Y 416	Width 16	Height 16	
-573 245	Section 548	X 96	Y 480	Width 64	Height 32	
-574 245	Section 548	X 224	Y 480	Width 192	Height 32	
-575 245	Section 548	X 0	Y 544	Width 96	Height 32	
-576 245	Section 548	X 160	Y 544	Width 16	Height 16	
-577 245	Section 548	X 208	Y 544	Width 144	Height 16	
-578 245	Section 548	X 160	Y 560	Width 192	Height 16	
-579 245	Section 548	X 0	Y 608	Width 288	Height 32	
-580 245	Section 548	X 352	Y 608	Width 64	Height 32	
-581 245	Section 548	X 96	Y 672	Width 128	Height 32	
-582 245	Section 548	X 0	Y 736	Width 48	Height 16	
-583 245	Section 548	X 80	Y 736	Width 80	Height 16	
-584 245	Section 548	X 0	Y 752	Width 160	Height 16	
-585 245	Section 548	X 288	Y 672	Width 16	Height 16	
-586 245	Section 548	X 336	Y 672	Width 80	Height 16	
-587 245	Section 548	X 288	Y 688	Width 128	Height 16	
-588 245	Section 548	X 224	Y 736	Width 16	Height 16	
-589 245	Section 548	X 272	Y 736	Width 80	Height 16	
-590 245	Section 548	X 224	Y 752	Width 128	Height 16	
-591 245	Section 548	X 96	Y 800	Width 80	Height 16	
-592 245	Section 548	X 208	Y 800	Width 80	Height 16	
-593 245	Section 548	X 96	Y 816	Width 192	Height 16	
-594 245	Section 548	X 352	Y 800	Width 64	Height 32	
-595 245	Section 548	X 32	Y 864	Width 16	Height 64	
-596 245	Section 548	X 32	Y 880	Width 64	Height 16	
-597 245	Section 548	X 80	Y 864	Width 16	Height 16	
-598 245	Section 548	X 160	Y 864	Width 64	Height 32	
-599 245	Section 548	X 288	Y 864	Width 224	Height 32	
-600 245	Section 548	X 0	Y 928	Width 160	Height 32	
-601 245	Section 548	X 224	Y 928	Width 128	Height 32	
-602 245	Section 548	X 464	Y 896	Width 16	Height 32	
-603 245	Section 548	X 416	Y 928	Width 96	Height 32	
-604 245	Section 548	X 32	Y 128	Width 16	Height 32	
-605 246	Section 548	X 0	Y 896	Width 64	Height 32	Portal 539	
-606 246	Section 548	X 448	Y 896	Width 64	Height 32	Portal 650	
-607 246	Section 548	X 0	Y 128	Width 64	Height 32	Portal 736	
-608 248	Section 548	X 112	Y 224	Width 32	Height 16	
-609 248	Section 548	X 176	Y 288	Width 32	Height 16	
-610 248	Section 548	X 304	Y 416	Width 32	Height 16	
-611 248	Section 548	X 112	Y 352	Width 32	Height 16	
-612 248	Section 548	X 176	Y 544	Width 32	Height 16	
-613 248	Section 548	X 304	Y 672	Width 32	Height 16	
-614 248	Section 548	X 48	Y 736	Width 32	Height 16	
-615 248	Section 548	X 240	Y 736	Width 32	Height 16	
-616 248	Section 548	X 176	Y 800	Width 32	Height 16	
-617 248	Section 548	X 48	Y 864	Width 32	Height 16	
-618 362	Preview 356	Animations 359	Section 548	X 176	Y 796	
-619 309	Preview 305	Animations 307	Section 548	X 304	Y 981	
-620 362	Preview 356	Animations 359	Section 548	X 384	Y 971	
-621 362	Preview 356	Animations 359	Section 548	X 432	Y 971	
-622 362	Preview 356	Animations 359	Section 548	X 304	Y 667	
-623 362	Preview 356	Animations 359	Section 548	X 304	Y 523	
-624 332	Preview 314	Animations 325	Section 548	X 112	Y 544	InitLeft 0	Aggressive 0	
-625 332	Preview 314	Animations 325	Section 548	X 128	Y 560	InitLeft 0	Aggressive 0	
-626 362	Preview 356	Animations 359	Section 548	X 112	Y 347	
-627 362	Preview 356	Animations 359	Section 548	X 304	Y 411	
-628 362	Preview 356	Animations 359	Section 548	X 176	Y 283	
-629 362	Preview 356	Animations 359	Section 548	X 112	Y 219	
-637 245	Section 635	X 0	Y 0	Width 512	Height 80	
-638 245	Section 635	X 0	Y 160	Width 512	Height 96	
-639 245	Section 635	X 0	Y 0	Width 32	Height 256	
-640 245	Section 635	X 480	Y 0	Width 32	Height 256	
-641 245	Section 635	X 32	Y 0	Width 16	Height 112	
-642 245	Section 635	X 96	Y 0	Width 16	Height 112	
-643 245	Section 635	X 160	Y 0	Width 16	Height 112	
-644 245	Section 635	X 224	Y 0	Width 16	Height 112	
-645 245	Section 635	X 288	Y 0	Width 16	Height 112	
-646 245	Section 635	X 352	Y 0	Width 16	Height 112	
-647 245	Section 635	X 416	Y 0	Width 16	Height 112	
-648 245	Section 635	X 448	Y 128	Width 64	Height 16	
-649 245	Section 635	X 0	Y 128	Width 64	Height 16	
-650 246	Section 635	X 0	Y 128	Width 64	Height 32	Portal 606	
-651 250	Section 635	X 448	Y 144	Width 16	Height 16	Portal 4	
-659 245	Section 657	X 0	Y 0	Width 512	Height 64	
-660 245	Section 657	X 0	Y 0	Width 32	Height 1792	
-661 245	Section 657	X 480	Y 0	Width 32	Height 1792	
-662 245	Section 657	X 0	Y 1760	Width 512	Height 32	
-663 245	Section 657	X 416	Y 96	Width 96	Height 32	
-664 245	Section 657	X 64	Y 128	Width 32	Height 16	
-665 245	Section 657	X 224	Y 160	Width 64	Height 32	
-666 245	Section 657	X 416	Y 160	Width 96	Height 32	
-667 245	Section 657	X 464	Y 128	Width 16	Height 32	
-668 245	Section 657	X 288	Y 224	Width 128	Height 32	
-669 245	Section 657	X 32	Y 352	Width 64	Height 16	
-670 245	Section 657	X 160	Y 352	Width 192	Height 16	
-671 245	Section 657	X 32	Y 368	Width 320	Height 16	
-672 245	Section 657	X 224	Y 288	Width 64	Height 32	
-673 245	Section 657	X 416	Y 352	Width 96	Height 32	
-674 245	Section 657	X 352	Y 416	Width 64	Height 32	
-675 245	Section 657	X 0	Y 480	Width 96	Height 32	
-676 245	Section 657	X 160	Y 480	Width 64	Height 16	
-677 245	Section 657	X 288	Y 480	Width 192	Height 16	
-678 245	Section 657	X 160	Y 496	Width 320	Height 16	
-679 245	Section 657	X 96	Y 544	Width 64	Height 32	
-680 245	Section 657	X 416	Y 608	Width 96	Height 32	
-681 245	Section 657	X 0	Y 608	Width 288	Height 32	
-682 245	Section 657	X 288	Y 672	Width 224	Height 32	
-683 245	Section 657	X 464	Y 640	Width 16	Height 32	
-684 245	Section 657	X 96	Y 736	Width 64	Height 16	
-685 245	Section 657	X 224	Y 736	Width 64	Height 16	
-686 245	Section 657	X 96	Y 752	Width 192	Height 16	
-687 245	Section 657	X 0	Y 800	Width 96	Height 32	
-688 245	Section 657	X 0	Y 864	Width 288	Height 16	
-689 245	Section 657	X 352	Y 864	Width 64	Height 16	
-690 245	Section 657	X 0	Y 880	Width 416	Height 16	
-691 245	Section 657	X 416	Y 928	Width 96	Height 32	
-692 245	Section 657	X 160	Y 896	Width 32	Height 80	
-693 245	Section 657	X 0	Y 928	Width 96	Height 32	
-694 245	Section 657	X 32	Y 896	Width 16	Height 32	
-695 245	Section 657	X 96	Y 992	Width 192	Height 32	
-696 245	Section 657	X 352	Y 992	Width 160	Height 32	
-697 245	Section 657	X 160	Y 1024	Width 32	Height 80	
-698 245	Section 657	X 288	Y 1056	Width 64	Height 32	
-699 245	Section 657	X 0	Y 1056	Width 160	Height 32	
-700 245	Section 657	X 160	Y 1120	Width 192	Height 32	
-701 245	Section 657	X 416	Y 1120	Width 96	Height 32	
-702 245	Section 657	X 0	Y 1120	Width 128	Height 32	
-703 245	Section 657	X 96	Y 1152	Width 32	Height 16	
-704 245	Section 657	X 352	Y 1184	Width 176	Height 32	
-705 245	Section 657	X 464	Y 1152	Width 16	Height 32	
-706 245	Section 657	X 0	Y 1184	Width 160	Height 32	
-707 245	Section 657	X 0	Y 1248	Width 224	Height 16	
-708 245	Section 657	X 288	Y 1248	Width 128	Height 32	
-709 245	Section 657	X 96	Y 1376	Width 64	Height 16	
-710 245	Section 657	X 224	Y 1376	Width 192	Height 16	
-711 245	Section 657	X 96	Y 1392	Width 320	Height 16	
-712 245	Section 657	X 416	Y 1312	Width 96	Height 32	
-713 245	Section 657	X 416	Y 1440	Width 96	Height 32	
-714 245	Section 657	X 288	Y 1408	Width 32	Height 96	
-715 245	Section 657	X 288	Y 1504	Width 224	Height 32	
-716 245	Section 657	X 0	Y 1440	Width 96	Height 32	
-717 245	Section 657	X 0	Y 1264	Width 288	Height 16	
-718 245	Section 657	X 0	Y 1504	Width 224	Height 32	
-719 245	Section 657	X 160	Y 1536	Width 32	Height 80	
-720 245	Section 657	X 224	Y 1568	Width 64	Height 32	
-721 245	Section 657	X 160	Y 1632	Width 256	Height 32	
-722 245	Section 657	X 416	Y 1696	Width 96	Height 32	
-723 245	Section 657	X 0	Y 1632	Width 96	Height 32	
-724 245	Section 657	X 0	Y 1696	Width 160	Height 32	
-725 245	Section 657	X 32	Y 1664	Width 16	Height 32	
-726 248	Section 657	X 96	Y 352	Width 64	Height 16	
-727 248	Section 657	X 160	Y 736	Width 64	Height 16	
-728 248	Section 657	X 288	Y 864	Width 64	Height 16	
-729 248	Section 657	X 224	Y 1248	Width 64	Height 16	
-730 248	Section 657	X 160	Y 1376	Width 64	Height 16	
-731 248	Section 657	X 224	Y 480	Width 64	Height 16	
-732 245	Section 657	X 0	Y 160	Width 96	Height 32	
-733 245	Section 657	X 32	Y 1152	Width 16	Height 32	
-734 246	Section 657	X 0	Y 1664	Width 64	Height 32	Portal 945	
-735 246	Section 657	X 0	Y 1152	Width 64	Height 32	Portal 925	
-736 246	Section 657	X 448	Y 1152	Width 64	Height 32	Portal 607	
-737 246	Section 657	X 448	Y 640	Width 64	Height 32	Portal 795	
-738 246	Section 657	X 448	Y 128	Width 64	Height 32	Portal 831	
-739 246	Section 657	X 0	Y 896	Width 64	Height 32	Portal 482	
-740 249	Section 657	X 48	Y 158	Width 16	Height 192	
-741 250	Section 657	X 64	Y 144	Width 16	Height 16	Portal 3	
-742 287	Preview 282	Animations 284	Section 657	X 384	Y 1056	InitLeft 0	
-743 287	Preview 282	Animations 284	Section 657	X 256	Y 1168	InitLeft 0	
-744 287	Preview 282	Animations 284	Section 657	X 320	Y 1312	InitLeft 0	
-745 362	Preview 356	Animations 359	Section 657	X 320	Y 1408	
-746 362	Preview 356	Animations 359	Section 657	X 256	Y 1280	
-747 362	Preview 356	Animations 359	Section 657	X 432	Y 1419	
-748 362	Preview 356	Animations 359	Section 657	X 176	Y 1371	
-749 309	Preview 305	Animations 307	Section 657	X 144	Y 1492	
-750 266	Preview 253	Animations 257	Section 657	X 240	Y 1659	Rotation 2	IsClockwise 0	
-751 266	Preview 253	Animations 257	Section 657	X 320	Y 1659	Rotation 2	IsClockwise 1	
-752 362	Preview 356	Animations 359	Section 657	X 384	Y 1739	
-753 362	Preview 356	Animations 359	Section 657	X 432	Y 1739	
-754 266	Preview 253	Animations 257	Section 657	X 24	Y 1600	Rotation 1	IsClockwise 1	
-755 278	Preview 270	Animations 273	Section 657	X 112	Y 1024	
-756 287	Preview 282	Animations 284	Section 657	X 264	Y 928	InitLeft 0	
-757 278	Preview 270	Animations 273	Section 657	X 132	Y 976	
-758 309	Preview 305	Animations 307	Section 657	X 112	Y 980	
-759 309	Preview 305	Animations 307	Section 657	X 384	Y 852	
-760 309	Preview 305	Animations 307	Section 657	X 240	Y 852	
-761 309	Preview 305	Animations 307	Section 657	X 240	Y 724	
-762 353	Preview 344	Animations 348	Section 657	X 368	Y 636	InitLeft 0	
-763 353	Preview 344	Animations 348	Section 657	X 32	Y 508	InitLeft 0	
-764 278	Preview 270	Animations 273	Section 657	X 48	Y 992	
-765 287	Preview 282	Animations 284	Section 657	X 416	Y 400	InitLeft 0	
-766 287	Preview 282	Animations 284	Section 657	X 320	Y 400	InitLeft 0	
-767 301	Preview 291	Animations 296	Section 657	X 304	Y 320	InitLeft 0	
-768 301	Preview 291	Animations 296	Section 657	X 432	Y 320	InitLeft 0	
-769 332	Preview 314	Animations 325	Section 657	X 112	Y 288	InitLeft 1	Aggressive 0	
-770 332	Preview 314	Animations 325	Section 657	X 176	Y 304	InitLeft 0	Aggressive 0	
-771 301	Preview 291	Animations 296	Section 657	X 352	Y 192	InitLeft 1	
-772 424	Preview 416	Animations 421	Section 657	X 160	Y 1616	
-773 424	Preview 416	Animations 421	Section 657	X 176	Y 1616	
-774 424	Preview 416	Animations 421	Section 657	X 96	Y 1168	
-775 424	Preview 416	Animations 421	Section 657	X 112	Y 1168	
-776 424	Preview 416	Animations 421	Section 657	X 160	Y 1104	
-777 424	Preview 416	Animations 421	Section 657	X 176	Y 1104	
-778 424	Preview 416	Animations 421	Section 657	X 160	Y 976	
-779 424	Preview 416	Animations 421	Section 657	X 176	Y 976	
-787 245	Section 785	X 0	Y 0	Width 512	Height 64	
-788 245	Section 785	X 0	Y 0	Width 32	Height 256	
-789 245	Section 785	X 0	Y 96	Width 96	Height 32	
-790 245	Section 785	X 0	Y 160	Width 96	Height 32	
-791 245	Section 785	X 0	Y 224	Width 512	Height 32	
-792 245	Section 785	X 480	Y 0	Width 32	Height 256	
-793 245	Section 785	X 384	Y 192	Width 32	Height 16	
-794 245	Section 785	X 32	Y 128	Width 16	Height 32	
-795 246	Section 785	X 0	Y 128	Width 64	Height 32	Portal 737	
-796 250	Section 785	X 384	Y 208	Width 16	Height 16	Portal 2	
-797 341	Preview 336	Animations 338	Section 785	X 136	Y 135	InitLeft 1	
-798 341	Preview 336	Animations 338	Section 785	X 392	Y 151	InitLeft 1	
-799 309	Preview 305	Animations 307	Section 785	X 96	Y 214	
-800 309	Preview 305	Animations 307	Section 785	X 208	Y 214	
-801 309	Preview 305	Animations 307	Section 785	X 336	Y 214	
-809 245	Section 807	X 0	Y 0	Width 32	Height 256	
-810 245	Section 807	X 0	Y 192	Width 512	Height 64	
-811 245	Section 807	X 0	Y 128	Width 64	Height 16	
-812 245	Section 807	X 0	Y 160	Width 96	Height 96	
-813 245	Section 807	X 160	Y 160	Width 64	Height 96	
-814 245	Section 807	X 288	Y 160	Width 64	Height 96	
-815 245	Section 807	X 416	Y 160	Width 96	Height 96	
-816 245	Section 807	X 0	Y 144	Width 48	Height 16	
-817 245	Section 807	X 448	Y 128	Width 64	Height 16	
-818 245	Section 807	X 464	Y 144	Width 48	Height 16	
-819 245	Section 807	X 0	Y 0	Width 512	Height 32	
-820 245	Section 807	X 480	Y 0	Width 32	Height 256	
-821 245	Section 807	X 32	Y 32	Width 32	Height 16	
-822 245	Section 807	X 96	Y 32	Width 48	Height 16	
-823 245	Section 807	X 112	Y 48	Width 32	Height 16	
-824 245	Section 807	X 160	Y 32	Width 32	Height 16	
-825 245	Section 807	X 224	Y 32	Width 32	Height 16	
-826 245	Section 807	X 288	Y 32	Width 48	Height 16	
-827 245	Section 807	X 304	Y 48	Width 32	Height 16	
-828 245	Section 807	X 352	Y 32	Width 32	Height 16	
-829 245	Section 807	X 416	Y 32	Width 48	Height 16	
-830 245	Section 807	X 432	Y 48	Width 32	Height 16	
-831 246	Section 807	X 0	Y 128	Width 64	Height 32	Portal 738	
-832 246	Section 807	X 448	Y 128	Width 64	Height 32	Portal 877	
-833 332	Preview 314	Animations 325	Section 807	X 192	Y 48	InitLeft 0	Aggressive 1	
-834 332	Preview 314	Animations 325	Section 807	X 264	Y 56	InitLeft 0	Aggressive 1	
-835 332	Preview 314	Animations 325	Section 807	X 320	Y 64	InitLeft 0	Aggressive 1	
-843 245	Section 841	X 0	Y 0	Width 512	Height 32	
-844 245	Section 841	X 0	Y 0	Width 32	Height 512	
-845 245	Section 841	X 160	Y 112	Width 256	Height 48	
-846 245	Section 841	X 128	Y 112	Width 320	Height 16	
-847 245	Section 841	X 480	Y 0	Width 32	Height 512	
-848 245	Section 841	X 448	Y 176	Width 64	Height 16	
-849 245	Section 841	X 448	Y 304	Width 64	Height 16	
-850 245	Section 841	X 448	Y 432	Width 64	Height 16	
-851 245	Section 841	X 0	Y 496	Width 512	Height 16	
-852 245	Section 841	X 0	Y 400	Width 48	Height 112	
-853 245	Section 841	X 0	Y 144	Width 48	Height 48	
-854 245	Section 841	X 32	Y 160	Width 64	Height 128	
-855 245	Section 841	X 0	Y 128	Width 64	Height 16	
-856 245	Section 841	X 32	Y 176	Width 96	Height 16	
-857 245	Section 841	X 352	Y 160	Width 64	Height 128	
-858 245	Section 841	X 352	Y 240	Width 96	Height 16	
-859 245	Section 841	X 32	Y 224	Width 384	Height 64	
-860 245	Section 841	X 160	Y 288	Width 64	Height 128	
-861 245	Section 841	X 128	Y 368	Width 128	Height 16	
-862 245	Section 841	X 288	Y 352	Width 80	Height 64	
-863 245	Section 841	X 400	Y 352	Width 16	Height 32	
-864 245	Section 841	X 336	Y 368	Width 112	Height 16	
-865 245	Section 841	X 352	Y 384	Width 64	Height 32	
-866 245	Section 841	X 288	Y 416	Width 64	Height 80	
-867 245	Section 841	X 256	Y 432	Width 64	Height 16	
-868 245	Section 841	X 32	Y 416	Width 64	Height 80	
-869 245	Section 841	X 64	Y 432	Width 64	Height 16	
-870 245	Section 841	X 0	Y 384	Width 64	Height 16	
-871 245	Section 841	X 0	Y 480	Width 112	Height 16	
-872 245	Section 841	X 144	Y 480	Width 96	Height 16	
-873 245	Section 841	X 272	Y 480	Width 240	Height 16	
-874 245	Section 841	X 160	Y 96	Width 80	Height 16	
-875 245	Section 841	X 272	Y 96	Width 32	Height 16	
-876 245	Section 841	X 336	Y 96	Width 80	Height 16	
-877 246	Section 841	X 0	Y 128	Width 64	Height 32	Portal 832	
-878 246	Section 841	X 0	Y 384	Width 64	Height 32	Portal 909	
-879 248	Section 841	X 240	Y 96	Width 96	Height 16	
-880 248	Section 841	X 368	Y 352	Width 32	Height 16	
-881 248	Section 841	X 112	Y 480	Width 160	Height 16	
-882 301	Preview 291	Animations 296	Section 841	X 104	Y 148	InitLeft 1	
-883 301	Preview 291	Animations 296	Section 841	X 136	Y 84	InitLeft 0	
-884 301	Preview 291	Animations 296	Section 841	X 424	Y 340	InitLeft 1	
-885 301	Preview 291	Animations 296	Section 841	X 184	Y 452	InitLeft 1	
-886 278	Preview 270	Animations 273	Section 841	X 176	Y 64	
-887 278	Preview 270	Animations 273	Section 841	X 256	Y 48	
-888 278	Preview 270	Animations 273	Section 841	X 336	Y 32	
-889 278	Preview 270	Animations 273	Section 841	X 368	Y 48	
-890 332	Preview 314	Animations 325	Section 841	X 440	Y 78	InitLeft 1	Aggressive 0	
-891 332	Preview 314	Animations 325	Section 841	X 440	Y 142	InitLeft 1	Aggressive 0	
-892 332	Preview 314	Animations 325	Section 841	X 440	Y 206	InitLeft 0	Aggressive 0	
-893 332	Preview 314	Animations 325	Section 841	X 440	Y 270	InitLeft 0	Aggressive 0	
-901 245	Section 899	X 0	Y 0	Width 512	Height 64	
-902 245	Section 899	X 0	Y 0	Width 32	Height 256	
-903 245	Section 899	X 64	Y 160	Width 32	Height 16	
-904 245	Section 899	X 480	Y 0	Width 32	Height 256	
-905 245	Section 899	X 416	Y 160	Width 96	Height 96	
-906 245	Section 899	X 0	Y 192	Width 512	Height 64	
-907 245	Section 899	X 448	Y 128	Width 64	Height 16	
-908 245	Section 899	X 464	Y 144	Width 48	Height 16	
-909 246	Section 899	X 448	Y 128	Width 64	Height 32	Portal 878	
-910 250	Section 899	X 64	Y 176	Width 16	Height 16	Portal 1	
-918 245	Section 916	X 0	Y 0	Width 256	Height 64	
-919 245	Section 916	X 0	Y 0	Width 32	Height 256	
-920 245	Section 916	X 224	Y 0	Width 32	Height 256	
-921 245	Section 916	X 160	Y 160	Width 96	Height 96	
-922 245	Section 916	X 192	Y 128	Width 64	Height 16	
-923 245	Section 916	X 208	Y 144	Width 48	Height 16	
-924 245	Section 916	X 0	Y 192	Width 256	Height 64	
-925 246	Section 916	X 192	Y 128	Width 64	Height 32	Portal 735	
-926 250	Section 916	X 64	Y 176	Width 16	Height 16	Portal 0	
-934 245	Section 932	X 0	Y 0	Width 768	Height 64	
-935 245	Section 932	X 0	Y 0	Width 32	Height 256	
-936 245	Section 932	X 0	Y 128	Width 64	Height 16	
-937 245	Section 932	X 0	Y 144	Width 48	Height 112	
-938 245	Section 932	X 32	Y 160	Width 64	Height 96	
-939 245	Section 932	X 80	Y 192	Width 608	Height 64	
-940 245	Section 932	X 672	Y 160	Width 96	Height 96	
-941 245	Section 932	X 720	Y 144	Width 48	Height 112	
-942 245	Section 932	X 704	Y 128	Width 64	Height 16	
-943 245	Section 932	X 736	Y 0	Width 32	Height 256	
-944 246	Section 932	X 0	Y 128	Width 64	Height 32	Portal 963	
-945 246	Section 932	X 704	Y 128	Width 64	Height 32	Portal 734	
-953 245	Section 951	X 0	Y 0	Width 256	Height 64	
-954 245	Section 951	X 0	Y 0	Width 32	Height 768	
-955 245	Section 951	X 224	Y 0	Width 32	Height 768	
-956 245	Section 951	X 160	Y 96	Width 96	Height 32	
-957 245	Section 951	X 208	Y 128	Width 48	Height 32	
-958 245	Section 951	X 96	Y 160	Width 160	Height 32	
-959 245	Section 951	X 160	Y 608	Width 96	Height 32	
-960 245	Section 951	X 208	Y 640	Width 48	Height 32	
-961 245	Section 951	X 160	Y 672	Width 96	Height 32	
-962 245	Section 951	X 0	Y 736	Width 256	Height 32	
-963 246	Section 951	X 192	Y 640	Width 64	Height 32	Portal 944	
+4 3	Preview TEXTURE_SOPHIA_R0C6	Animations SOPHIA_ANIMATIONS	Section 911	X 35	Y 118	
+379 255	Section 377	X 0	Y 224	Width 1024	Height 32	
+380 255	Section 377	X 0	Y 192	Width 288	Height 32	
+381 255	Section 377	X 0	Y 160	Width 320	Height 16	
+382 255	Section 377	X 0	Y 0	Width 32	Height 256	
+383 255	Section 377	X 0	Y 0	Width 1024	Height 32	
+384 255	Section 377	X 48	Y 32	Width 32	Height 32	
+385 255	Section 377	X 112	Y 32	Width 32	Height 48	
+386 255	Section 377	X 176	Y 32	Width 32	Height 32	
+387 255	Section 377	X 240	Y 32	Width 32	Height 80	
+388 255	Section 377	X 304	Y 32	Width 32	Height 48	
+389 255	Section 377	X 368	Y 32	Width 32	Height 32	
+390 255	Section 377	X 432	Y 32	Width 32	Height 32	
+391 255	Section 377	X 496	Y 32	Width 32	Height 48	
+392 255	Section 377	X 560	Y 32	Width 32	Height 32	
+393 255	Section 377	X 624	Y 32	Width 32	Height 80	
+394 255	Section 377	X 688	Y 32	Width 32	Height 32	
+395 255	Section 377	X 752	Y 32	Width 32	Height 32	
+396 255	Section 377	X 816	Y 32	Width 32	Height 48	
+397 255	Section 377	X 880	Y 32	Width 32	Height 80	
+398 255	Section 377	X 976	Y 32	Width 48	Height 128	
+399 255	Section 377	X 384	Y 160	Width 128	Height 16	
+400 255	Section 377	X 400	Y 192	Width 80	Height 32	
+401 255	Section 377	X 576	Y 160	Width 128	Height 16	
+402 255	Section 377	X 768	Y 160	Width 256	Height 32	
+403 255	Section 377	X 592	Y 192	Width 80	Height 32	
+404 255	Section 377	X 784	Y 192	Width 240	Height 32	
+405 288	Preview 280	Animations 283	Section 377	X 824	Y 83	
+406 372	Preview 366	Animations 369	Section 377	X 140	Y 32	
+407 372	Preview 366	Animations 369	Section 377	X 204	Y 32	
+408 372	Preview 366	Animations 369	Section 377	X 468	Y 32	
+409 372	Preview 366	Animations 369	Section 377	X 910	Y 32	
+410 372	Preview 366	Animations 369	Section 377	X 846	Y 32	
+411 276	Preview 263	Animations 267	Section 377	X 256	Y 136	Rotation 0	IsClockwise 1	
+412 276	Preview 263	Animations 267	Section 377	X 280	Y 32	Rotation 3	IsClockwise 1	
+413 288	Preview 280	Animations 283	Section 377	X 592	Y 64	
+414 288	Preview 280	Animations 283	Section 377	X 912	Y 88	
+415 255	Section 377	X 944	Y 32	Width 80	Height 96	
+416 256	Section 377	X 960	Y 128	Width 64	Height 32	Portal 491	
+417 257	Section 377	X 0	Y 208	Width 1024	Height 16	
+418 255	Section 377	X 0	Y 176	Width 304	Height 16	
+419 255	Section 377	X 384	Y 176	Width 112	Height 16	
+420 255	Section 377	X 576	Y 176	Width 112	Height 16	
+441 255	Section 439	X 0	Y 0	Width 512	Height 48	
+442 255	Section 439	X 0	Y 0	Width 32	Height 1280	
+443 255	Section 439	X 0	Y 48	Width 112	Height 16	
+444 255	Section 439	X 272	Y 48	Width 240	Height 16	
+445 255	Section 439	X 144	Y 48	Width 32	Height 16	
+446 255	Section 439	X 208	Y 48	Width 32	Height 16	
+447 255	Section 439	X 480	Y 0	Width 32	Height 1280	
+448 255	Section 439	X 96	Y 96	Width 256	Height 32	
+449 255	Section 439	X 416	Y 96	Width 96	Height 32	
+450 255	Section 439	X 0	Y 160	Width 160	Height 32	
+451 255	Section 439	X 256	Y 128	Width 32	Height 80	
+452 255	Section 439	X 352	Y 160	Width 160	Height 32	
+453 255	Section 439	X 96	Y 224	Width 416	Height 16	
+454 255	Section 439	X 96	Y 240	Width 16	Height 16	
+455 255	Section 439	X 144	Y 240	Width 32	Height 16	
+456 255	Section 439	X 208	Y 240	Width 32	Height 16	
+457 255	Section 439	X 272	Y 240	Width 32	Height 16	
+458 255	Section 439	X 336	Y 240	Width 176	Height 16	
+459 255	Section 439	X 0	Y 288	Width 352	Height 32	
+460 255	Section 439	X 352	Y 352	Width 64	Height 32	
+461 255	Section 439	X 96	Y 416	Width 256	Height 32	
+462 255	Section 439	X 0	Y 480	Width 96	Height 32	
+463 255	Section 439	X 0	Y 544	Width 224	Height 32	
+464 255	Section 439	X 288	Y 544	Width 128	Height 32	
+465 255	Section 439	X 416	Y 608	Width 96	Height 32	
+466 255	Section 439	X 96	Y 672	Width 320	Height 32	
+467 255	Section 439	X 0	Y 736	Width 96	Height 32	
+468 255	Section 439	X 256	Y 704	Width 32	Height 80	
+469 255	Section 439	X 416	Y 736	Width 96	Height 32	
+470 255	Section 439	X 96	Y 800	Width 64	Height 32	
+471 255	Section 439	X 224	Y 800	Width 192	Height 32	
+472 255	Section 439	X 0	Y 864	Width 224	Height 32	
+473 255	Section 439	X 320	Y 832	Width 32	Height 80	
+474 255	Section 439	X 416	Y 864	Width 96	Height 32	
+475 255	Section 439	X 160	Y 928	Width 256	Height 32	
+476 255	Section 439	X 0	Y 1008	Width 112	Height 16	
+477 255	Section 439	X 0	Y 992	Width 160	Height 16	
+478 255	Section 439	X 144	Y 1008	Width 16	Height 16	
+479 255	Section 439	X 256	Y 960	Width 32	Height 80	
+480 255	Section 439	X 416	Y 992	Width 96	Height 32	
+481 255	Section 439	X 96	Y 1056	Width 320	Height 32	
+482 255	Section 439	X 0	Y 1120	Width 96	Height 32	
+483 255	Section 439	X 0	Y 1152	Width 48	Height 32	
+484 255	Section 439	X 320	Y 1088	Width 32	Height 80	
+485 255	Section 439	X 416	Y 1120	Width 96	Height 32	
+486 255	Section 439	X 0	Y 1184	Width 160	Height 32	
+487 255	Section 439	X 224	Y 1184	Width 288	Height 32	
+488 255	Section 439	X 464	Y 1152	Width 48	Height 32	
+489 255	Section 439	X 0	Y 1248	Width 512	Height 32	
+490 255	Section 439	X 464	Y 128	Width 48	Height 32	
+491 256	Section 439	X 0	Y 1152	Width 64	Height 32	Portal 416	
+492 256	Section 439	X 448	Y 1152	Width 64	Height 32	Portal 749	
+493 256	Section 439	X 448	Y 128	Width 64	Height 32	Portal 548	
+494 257	Section 439	X 112	Y 48	Width 160	Height 16	
+495 257	Section 439	X 112	Y 240	Width 224	Height 16	
+496 257	Section 439	X 112	Y 1008	Width 32	Height 16	
+497 288	Preview 280	Animations 283	Section 439	X 96	Y 1125	
+498 288	Preview 280	Animations 283	Section 439	X 128	Y 1098	
+499 288	Preview 280	Animations 283	Section 439	X 128	Y 1162	
+500 372	Preview 366	Animations 369	Section 439	X 208	Y 266	
+501 342	Preview 324	Animations 335	Section 439	X 240	Y 336	InitLeft 0	Aggressive 1	
+502 342	Preview 324	Animations 335	Section 439	X 208	Y 480	InitLeft 0	Aggressive 1	
+503 342	Preview 324	Animations 335	Section 439	X 80	Y 352	InitLeft 0	Aggressive 1	
+504 276	Preview 263	Animations 267	Section 439	X 384	Y 1160	Rotation 0	IsClockwise 1	
+505 276	Preview 263	Animations 267	Section 439	X 368	Y 1080	Rotation 2	IsClockwise 1	
+506 276	Preview 263	Animations 267	Section 439	X 432	Y 1096	Rotation 0	IsClockwise 0	
+507 297	Preview 292	Animations 294	Section 439	X 384	Y 464	InitLeft 0	
+508 311	Preview 301	Animations 306	Section 439	X 48	Y 964	InitLeft 0	
+509 276	Preview 263	Animations 267	Section 439	X 256	Y 1160	Rotation 0	IsClockwise 1	
+510 297	Preview 292	Animations 294	Section 439	X 336	Y 736	InitLeft 0	
+511 297	Preview 292	Animations 294	Section 439	X 352	Y 592	InitLeft 0	
+512 311	Preview 301	Animations 306	Section 439	X 304	Y 1028	InitLeft 0	
+513 297	Preview 292	Animations 294	Section 439	X 432	Y 928	InitLeft 0	
+514 372	Preview 366	Animations 369	Section 439	X 144	Y 266	
+515 276	Preview 263	Animations 267	Section 439	X 144	Y 72	Rotation 0	IsClockwise 1	
+516 276	Preview 263	Animations 267	Section 439	X 208	Y 72	Rotation 0	IsClockwise 1	
+517 276	Preview 263	Animations 267	Section 439	X 304	Y 72	Rotation 0	IsClockwise 0	
+518 433	Preview 424	Animations 429	Section 439	X 320	Y 1168	
+519 433	Preview 424	Animations 429	Section 439	X 336	Y 1168	
+520 433	Preview 424	Animations 429	Section 439	X 256	Y 1040	
+521 433	Preview 424	Animations 429	Section 439	X 272	Y 1040	
+522 433	Preview 424	Animations 429	Section 439	X 320	Y 912	
+523 433	Preview 424	Animations 429	Section 439	X 336	Y 912	
+524 433	Preview 424	Animations 429	Section 439	X 272	Y 784	
+525 433	Preview 424	Animations 429	Section 439	X 256	Y 784	
+526 433	Preview 424	Animations 429	Section 439	X 256	Y 208	
+527 433	Preview 424	Animations 429	Section 439	X 272	Y 208	
+535 255	Section 533	X 0	Y 0	Width 512	Height 80	
+536 255	Section 533	X 0	Y 160	Width 512	Height 96	
+537 255	Section 533	X 0	Y 80	Width 32	Height 80	
+538 255	Section 533	X 32	Y 0	Width 16	Height 112	
+539 255	Section 533	X 96	Y 0	Width 16	Height 112	
+540 255	Section 533	X 160	Y 0	Width 16	Height 112	
+541 255	Section 533	X 224	Y 0	Width 16	Height 112	
+542 255	Section 533	X 288	Y 0	Width 16	Height 112	
+543 255	Section 533	X 352	Y 0	Width 16	Height 112	
+544 255	Section 533	X 416	Y 0	Width 16	Height 112	
+545 255	Section 533	X 480	Y 80	Width 32	Height 80	
+546 255	Section 533	X 32	Y 128	Width 32	Height 16	
+547 255	Section 533	X 448	Y 128	Width 32	Height 16	
+548 256	Section 533	X 0	Y 128	Width 64	Height 32	Portal 493	
+549 256	Section 533	X 448	Y 128	Width 64	Height 32	Portal 615	
+550 363	Preview 354	Animations 358	Section 533	X 152	Y 105	InitLeft 0	
+551 363	Preview 354	Animations 358	Section 533	X 280	Y 105	InitLeft 0	
+552 363	Preview 354	Animations 358	Section 533	X 408	Y 105	InitLeft 0	
+560 255	Section 558	X 0	Y 0	Width 512	Height 64	
+561 255	Section 558	X 0	Y 0	Width 32	Height 1024	
+562 255	Section 558	X 480	Y 0	Width 32	Height 1024	
+563 255	Section 558	X 0	Y 992	Width 512	Height 32	
+564 255	Section 558	X 352	Y 96	Width 64	Height 32	
+565 255	Section 558	X 0	Y 96	Width 96	Height 32	
+566 255	Section 558	X 0	Y 160	Width 96	Height 32	
+567 255	Section 558	X 144	Y 224	Width 16	Height 16	
+568 255	Section 558	X 96	Y 224	Width 16	Height 16	
+569 255	Section 558	X 96	Y 240	Width 64	Height 16	
+570 255	Section 558	X 0	Y 288	Width 96	Height 32	
+571 255	Section 558	X 160	Y 288	Width 16	Height 16	
+572 255	Section 558	X 160	Y 304	Width 64	Height 16	
+573 255	Section 558	X 208	Y 288	Width 16	Height 16	
+574 255	Section 558	X 96	Y 352	Width 16	Height 16	
+575 255	Section 558	X 96	Y 368	Width 64	Height 16	
+576 255	Section 558	X 144	Y 352	Width 16	Height 16	
+577 255	Section 558	X 224	Y 352	Width 64	Height 32	
+578 255	Section 558	X 0	Y 416	Width 96	Height 32	
+579 255	Section 558	X 160	Y 416	Width 64	Height 32	
+580 255	Section 558	X 288	Y 416	Width 16	Height 16	
+581 255	Section 558	X 288	Y 432	Width 64	Height 16	
+582 255	Section 558	X 336	Y 416	Width 16	Height 16	
+583 255	Section 558	X 96	Y 480	Width 64	Height 32	
+584 255	Section 558	X 224	Y 480	Width 192	Height 32	
+585 255	Section 558	X 0	Y 544	Width 96	Height 32	
+586 255	Section 558	X 160	Y 544	Width 16	Height 16	
+587 255	Section 558	X 208	Y 544	Width 144	Height 16	
+588 255	Section 558	X 160	Y 560	Width 192	Height 16	
+589 255	Section 558	X 0	Y 608	Width 288	Height 32	
+590 255	Section 558	X 352	Y 608	Width 64	Height 32	
+591 255	Section 558	X 96	Y 672	Width 128	Height 32	
+592 255	Section 558	X 0	Y 736	Width 48	Height 16	
+593 255	Section 558	X 80	Y 736	Width 80	Height 16	
+594 255	Section 558	X 0	Y 752	Width 160	Height 16	
+595 255	Section 558	X 288	Y 672	Width 16	Height 16	
+596 255	Section 558	X 336	Y 672	Width 80	Height 16	
+597 255	Section 558	X 288	Y 688	Width 128	Height 16	
+598 255	Section 558	X 224	Y 736	Width 16	Height 16	
+599 255	Section 558	X 272	Y 736	Width 80	Height 16	
+600 255	Section 558	X 224	Y 752	Width 128	Height 16	
+601 255	Section 558	X 96	Y 800	Width 80	Height 16	
+602 255	Section 558	X 208	Y 800	Width 80	Height 16	
+603 255	Section 558	X 96	Y 816	Width 192	Height 16	
+604 255	Section 558	X 352	Y 800	Width 64	Height 32	
+605 255	Section 558	X 32	Y 864	Width 16	Height 64	
+606 255	Section 558	X 32	Y 880	Width 64	Height 16	
+607 255	Section 558	X 80	Y 864	Width 16	Height 16	
+608 255	Section 558	X 160	Y 864	Width 64	Height 32	
+609 255	Section 558	X 288	Y 864	Width 224	Height 32	
+610 255	Section 558	X 0	Y 928	Width 160	Height 32	
+611 255	Section 558	X 224	Y 928	Width 128	Height 32	
+612 255	Section 558	X 464	Y 896	Width 16	Height 32	
+613 255	Section 558	X 416	Y 928	Width 96	Height 32	
+614 255	Section 558	X 32	Y 128	Width 16	Height 32	
+615 256	Section 558	X 0	Y 896	Width 64	Height 32	Portal 549	
+616 256	Section 558	X 448	Y 896	Width 64	Height 32	Portal 660	
+617 256	Section 558	X 0	Y 128	Width 64	Height 32	Portal 746	
+618 258	Section 558	X 112	Y 224	Width 32	Height 16	
+619 258	Section 558	X 176	Y 288	Width 32	Height 16	
+620 258	Section 558	X 304	Y 416	Width 32	Height 16	
+621 258	Section 558	X 112	Y 352	Width 32	Height 16	
+622 258	Section 558	X 176	Y 544	Width 32	Height 16	
+623 258	Section 558	X 304	Y 672	Width 32	Height 16	
+624 258	Section 558	X 48	Y 736	Width 32	Height 16	
+625 258	Section 558	X 240	Y 736	Width 32	Height 16	
+626 258	Section 558	X 176	Y 800	Width 32	Height 16	
+627 258	Section 558	X 48	Y 864	Width 32	Height 16	
+628 372	Preview 366	Animations 369	Section 558	X 176	Y 796	
+629 319	Preview 315	Animations 317	Section 558	X 304	Y 981	
+630 372	Preview 366	Animations 369	Section 558	X 384	Y 971	
+631 372	Preview 366	Animations 369	Section 558	X 432	Y 971	
+632 372	Preview 366	Animations 369	Section 558	X 304	Y 667	
+633 372	Preview 366	Animations 369	Section 558	X 304	Y 523	
+634 342	Preview 324	Animations 335	Section 558	X 112	Y 544	InitLeft 0	Aggressive 0	
+635 342	Preview 324	Animations 335	Section 558	X 128	Y 560	InitLeft 0	Aggressive 0	
+636 372	Preview 366	Animations 369	Section 558	X 112	Y 347	
+637 372	Preview 366	Animations 369	Section 558	X 304	Y 411	
+638 372	Preview 366	Animations 369	Section 558	X 176	Y 283	
+639 372	Preview 366	Animations 369	Section 558	X 112	Y 219	
+647 255	Section 645	X 0	Y 0	Width 512	Height 80	
+648 255	Section 645	X 0	Y 160	Width 512	Height 96	
+649 255	Section 645	X 0	Y 0	Width 32	Height 256	
+650 255	Section 645	X 480	Y 0	Width 32	Height 256	
+651 255	Section 645	X 32	Y 0	Width 16	Height 112	
+652 255	Section 645	X 96	Y 0	Width 16	Height 112	
+653 255	Section 645	X 160	Y 0	Width 16	Height 112	
+654 255	Section 645	X 224	Y 0	Width 16	Height 112	
+655 255	Section 645	X 288	Y 0	Width 16	Height 112	
+656 255	Section 645	X 352	Y 0	Width 16	Height 112	
+657 255	Section 645	X 416	Y 0	Width 16	Height 112	
+658 255	Section 645	X 448	Y 128	Width 64	Height 16	
+659 255	Section 645	X 0	Y 128	Width 64	Height 16	
+660 256	Section 645	X 0	Y 128	Width 64	Height 32	Portal 616	
+661 260	Section 645	X 448	Y 144	Width 16	Height 16	Portal 4	
+669 255	Section 667	X 0	Y 0	Width 512	Height 64	
+670 255	Section 667	X 0	Y 0	Width 32	Height 1792	
+671 255	Section 667	X 480	Y 0	Width 32	Height 1792	
+672 255	Section 667	X 0	Y 1760	Width 512	Height 32	
+673 255	Section 667	X 416	Y 96	Width 96	Height 32	
+674 255	Section 667	X 64	Y 128	Width 32	Height 16	
+675 255	Section 667	X 224	Y 160	Width 64	Height 32	
+676 255	Section 667	X 416	Y 160	Width 96	Height 32	
+677 255	Section 667	X 464	Y 128	Width 16	Height 32	
+678 255	Section 667	X 288	Y 224	Width 128	Height 32	
+679 255	Section 667	X 32	Y 352	Width 64	Height 16	
+680 255	Section 667	X 160	Y 352	Width 192	Height 16	
+681 255	Section 667	X 32	Y 368	Width 320	Height 16	
+682 255	Section 667	X 224	Y 288	Width 64	Height 32	
+683 255	Section 667	X 416	Y 352	Width 96	Height 32	
+684 255	Section 667	X 352	Y 416	Width 64	Height 32	
+685 255	Section 667	X 0	Y 480	Width 96	Height 32	
+686 255	Section 667	X 160	Y 480	Width 64	Height 16	
+687 255	Section 667	X 288	Y 480	Width 192	Height 16	
+688 255	Section 667	X 160	Y 496	Width 320	Height 16	
+689 255	Section 667	X 96	Y 544	Width 64	Height 32	
+690 255	Section 667	X 416	Y 608	Width 96	Height 32	
+691 255	Section 667	X 0	Y 608	Width 288	Height 32	
+692 255	Section 667	X 288	Y 672	Width 224	Height 32	
+693 255	Section 667	X 464	Y 640	Width 16	Height 32	
+694 255	Section 667	X 96	Y 736	Width 64	Height 16	
+695 255	Section 667	X 224	Y 736	Width 64	Height 16	
+696 255	Section 667	X 96	Y 752	Width 192	Height 16	
+697 255	Section 667	X 0	Y 800	Width 96	Height 32	
+698 255	Section 667	X 0	Y 864	Width 288	Height 16	
+699 255	Section 667	X 352	Y 864	Width 64	Height 16	
+700 255	Section 667	X 0	Y 880	Width 416	Height 16	
+701 255	Section 667	X 416	Y 928	Width 96	Height 32	
+702 255	Section 667	X 160	Y 896	Width 32	Height 80	
+703 255	Section 667	X 0	Y 928	Width 96	Height 32	
+704 255	Section 667	X 32	Y 896	Width 16	Height 32	
+705 255	Section 667	X 96	Y 992	Width 192	Height 32	
+706 255	Section 667	X 352	Y 992	Width 160	Height 32	
+707 255	Section 667	X 160	Y 1024	Width 32	Height 80	
+708 255	Section 667	X 288	Y 1056	Width 64	Height 32	
+709 255	Section 667	X 0	Y 1056	Width 160	Height 32	
+710 255	Section 667	X 160	Y 1120	Width 192	Height 32	
+711 255	Section 667	X 416	Y 1120	Width 96	Height 32	
+712 255	Section 667	X 0	Y 1120	Width 128	Height 32	
+713 255	Section 667	X 96	Y 1152	Width 32	Height 16	
+714 255	Section 667	X 352	Y 1184	Width 176	Height 32	
+715 255	Section 667	X 464	Y 1152	Width 16	Height 32	
+716 255	Section 667	X 0	Y 1184	Width 160	Height 32	
+717 255	Section 667	X 0	Y 1248	Width 224	Height 16	
+718 255	Section 667	X 288	Y 1248	Width 128	Height 32	
+719 255	Section 667	X 96	Y 1376	Width 64	Height 16	
+720 255	Section 667	X 224	Y 1376	Width 192	Height 16	
+721 255	Section 667	X 96	Y 1392	Width 320	Height 16	
+722 255	Section 667	X 416	Y 1312	Width 96	Height 32	
+723 255	Section 667	X 416	Y 1440	Width 96	Height 32	
+724 255	Section 667	X 288	Y 1408	Width 32	Height 96	
+725 255	Section 667	X 288	Y 1504	Width 224	Height 32	
+726 255	Section 667	X 0	Y 1440	Width 96	Height 32	
+727 255	Section 667	X 0	Y 1264	Width 288	Height 16	
+728 255	Section 667	X 0	Y 1504	Width 224	Height 32	
+729 255	Section 667	X 160	Y 1536	Width 32	Height 80	
+730 255	Section 667	X 224	Y 1568	Width 64	Height 32	
+731 255	Section 667	X 160	Y 1632	Width 256	Height 32	
+732 255	Section 667	X 416	Y 1696	Width 96	Height 32	
+733 255	Section 667	X 0	Y 1632	Width 96	Height 32	
+734 255	Section 667	X 0	Y 1696	Width 160	Height 32	
+735 255	Section 667	X 32	Y 1664	Width 16	Height 32	
+736 258	Section 667	X 96	Y 352	Width 64	Height 16	
+737 258	Section 667	X 160	Y 736	Width 64	Height 16	
+738 258	Section 667	X 288	Y 864	Width 64	Height 16	
+739 258	Section 667	X 224	Y 1248	Width 64	Height 16	
+740 258	Section 667	X 160	Y 1376	Width 64	Height 16	
+741 258	Section 667	X 224	Y 480	Width 64	Height 16	
+742 255	Section 667	X 0	Y 160	Width 96	Height 32	
+743 255	Section 667	X 32	Y 1152	Width 16	Height 32	
+744 256	Section 667	X 0	Y 1664	Width 64	Height 32	Portal 957	
+745 256	Section 667	X 0	Y 1152	Width 64	Height 32	Portal 937	
+746 256	Section 667	X 448	Y 1152	Width 64	Height 32	Portal 617	
+747 256	Section 667	X 448	Y 640	Width 64	Height 32	Portal 805	
+748 256	Section 667	X 448	Y 128	Width 64	Height 32	Portal 841	
+749 256	Section 667	X 0	Y 896	Width 64	Height 32	Portal 492	
+750 259	Section 667	X 48	Y 158	Width 16	Height 192	
+751 260	Section 667	X 64	Y 144	Width 16	Height 16	Portal 3	
+752 297	Preview 292	Animations 294	Section 667	X 384	Y 1056	InitLeft 0	
+753 297	Preview 292	Animations 294	Section 667	X 256	Y 1168	InitLeft 0	
+754 297	Preview 292	Animations 294	Section 667	X 320	Y 1312	InitLeft 0	
+755 372	Preview 366	Animations 369	Section 667	X 320	Y 1408	
+756 372	Preview 366	Animations 369	Section 667	X 256	Y 1280	
+757 372	Preview 366	Animations 369	Section 667	X 432	Y 1419	
+758 372	Preview 366	Animations 369	Section 667	X 176	Y 1371	
+759 319	Preview 315	Animations 317	Section 667	X 144	Y 1492	
+760 276	Preview 263	Animations 267	Section 667	X 240	Y 1659	Rotation 2	IsClockwise 0	
+761 276	Preview 263	Animations 267	Section 667	X 320	Y 1659	Rotation 2	IsClockwise 1	
+762 372	Preview 366	Animations 369	Section 667	X 384	Y 1739	
+763 372	Preview 366	Animations 369	Section 667	X 432	Y 1739	
+764 276	Preview 263	Animations 267	Section 667	X 24	Y 1600	Rotation 1	IsClockwise 1	
+765 288	Preview 280	Animations 283	Section 667	X 112	Y 1024	
+766 297	Preview 292	Animations 294	Section 667	X 264	Y 928	InitLeft 0	
+767 288	Preview 280	Animations 283	Section 667	X 132	Y 976	
+768 319	Preview 315	Animations 317	Section 667	X 112	Y 980	
+769 319	Preview 315	Animations 317	Section 667	X 384	Y 852	
+770 319	Preview 315	Animations 317	Section 667	X 240	Y 852	
+771 319	Preview 315	Animations 317	Section 667	X 240	Y 724	
+772 363	Preview 354	Animations 358	Section 667	X 368	Y 636	InitLeft 0	
+773 363	Preview 354	Animations 358	Section 667	X 32	Y 508	InitLeft 0	
+774 288	Preview 280	Animations 283	Section 667	X 48	Y 992	
+775 297	Preview 292	Animations 294	Section 667	X 416	Y 400	InitLeft 0	
+776 297	Preview 292	Animations 294	Section 667	X 320	Y 400	InitLeft 0	
+777 311	Preview 301	Animations 306	Section 667	X 304	Y 320	InitLeft 0	
+778 311	Preview 301	Animations 306	Section 667	X 432	Y 320	InitLeft 0	
+779 342	Preview 324	Animations 335	Section 667	X 112	Y 288	InitLeft 1	Aggressive 0	
+780 342	Preview 324	Animations 335	Section 667	X 176	Y 304	InitLeft 0	Aggressive 0	
+781 311	Preview 301	Animations 306	Section 667	X 352	Y 192	InitLeft 1	
+782 434	Preview 426	Animations 431	Section 667	X 160	Y 1616	
+783 434	Preview 426	Animations 431	Section 667	X 176	Y 1616	
+784 434	Preview 426	Animations 431	Section 667	X 96	Y 1168	
+785 434	Preview 426	Animations 431	Section 667	X 112	Y 1168	
+786 434	Preview 426	Animations 431	Section 667	X 160	Y 1104	
+787 434	Preview 426	Animations 431	Section 667	X 176	Y 1104	
+788 434	Preview 426	Animations 431	Section 667	X 160	Y 976	
+789 434	Preview 426	Animations 431	Section 667	X 176	Y 976	
+797 255	Section 795	X 0	Y 0	Width 512	Height 64	
+798 255	Section 795	X 0	Y 0	Width 32	Height 256	
+799 255	Section 795	X 0	Y 96	Width 96	Height 32	
+800 255	Section 795	X 0	Y 160	Width 96	Height 32	
+801 255	Section 795	X 0	Y 224	Width 512	Height 32	
+802 255	Section 795	X 480	Y 0	Width 32	Height 256	
+803 255	Section 795	X 384	Y 192	Width 32	Height 16	
+804 255	Section 795	X 32	Y 128	Width 16	Height 32	
+805 256	Section 795	X 0	Y 128	Width 64	Height 32	Portal 747	
+806 260	Section 795	X 384	Y 208	Width 16	Height 16	Portal 2	
+807 351	Preview 346	Animations 348	Section 795	X 136	Y 135	InitLeft 1	
+808 351	Preview 346	Animations 348	Section 795	X 392	Y 151	InitLeft 1	
+809 319	Preview 315	Animations 317	Section 795	X 96	Y 214	
+810 319	Preview 315	Animations 317	Section 795	X 208	Y 214	
+811 319	Preview 315	Animations 317	Section 795	X 336	Y 214	
+819 255	Section 817	X 0	Y 0	Width 32	Height 256	
+820 255	Section 817	X 0	Y 192	Width 512	Height 64	
+821 255	Section 817	X 0	Y 128	Width 64	Height 16	
+822 255	Section 817	X 0	Y 160	Width 96	Height 96	
+823 255	Section 817	X 160	Y 160	Width 64	Height 96	
+824 255	Section 817	X 288	Y 160	Width 64	Height 96	
+825 255	Section 817	X 416	Y 160	Width 96	Height 96	
+826 255	Section 817	X 0	Y 144	Width 48	Height 16	
+827 255	Section 817	X 448	Y 128	Width 64	Height 16	
+828 255	Section 817	X 464	Y 144	Width 48	Height 16	
+829 255	Section 817	X 0	Y 0	Width 512	Height 32	
+830 255	Section 817	X 480	Y 0	Width 32	Height 256	
+831 255	Section 817	X 32	Y 32	Width 32	Height 16	
+832 255	Section 817	X 96	Y 32	Width 48	Height 16	
+833 255	Section 817	X 112	Y 48	Width 32	Height 16	
+834 255	Section 817	X 160	Y 32	Width 32	Height 16	
+835 255	Section 817	X 224	Y 32	Width 32	Height 16	
+836 255	Section 817	X 288	Y 32	Width 48	Height 16	
+837 255	Section 817	X 304	Y 48	Width 32	Height 16	
+838 255	Section 817	X 352	Y 32	Width 32	Height 16	
+839 255	Section 817	X 416	Y 32	Width 48	Height 16	
+840 255	Section 817	X 432	Y 48	Width 32	Height 16	
+841 256	Section 817	X 0	Y 128	Width 64	Height 32	Portal 748	
+842 256	Section 817	X 448	Y 128	Width 64	Height 32	Portal 887	
+843 342	Preview 324	Animations 335	Section 817	X 192	Y 48	InitLeft 0	Aggressive 1	
+844 342	Preview 324	Animations 335	Section 817	X 264	Y 56	InitLeft 0	Aggressive 1	
+845 342	Preview 324	Animations 335	Section 817	X 320	Y 64	InitLeft 0	Aggressive 1	
+853 255	Section 851	X 0	Y 0	Width 512	Height 32	
+854 255	Section 851	X 0	Y 0	Width 32	Height 512	
+855 255	Section 851	X 160	Y 112	Width 256	Height 48	
+856 255	Section 851	X 128	Y 112	Width 320	Height 16	
+857 255	Section 851	X 480	Y 0	Width 32	Height 512	
+858 255	Section 851	X 448	Y 176	Width 64	Height 16	
+859 255	Section 851	X 448	Y 304	Width 64	Height 16	
+860 255	Section 851	X 448	Y 432	Width 64	Height 16	
+861 255	Section 851	X 0	Y 496	Width 512	Height 16	
+862 255	Section 851	X 0	Y 400	Width 48	Height 112	
+863 255	Section 851	X 0	Y 144	Width 48	Height 48	
+864 255	Section 851	X 32	Y 160	Width 64	Height 128	
+865 255	Section 851	X 0	Y 128	Width 64	Height 16	
+866 255	Section 851	X 32	Y 176	Width 96	Height 16	
+867 255	Section 851	X 352	Y 160	Width 64	Height 128	
+868 255	Section 851	X 352	Y 240	Width 96	Height 16	
+869 255	Section 851	X 32	Y 224	Width 384	Height 64	
+870 255	Section 851	X 160	Y 288	Width 64	Height 128	
+871 255	Section 851	X 128	Y 368	Width 128	Height 16	
+872 255	Section 851	X 288	Y 352	Width 80	Height 64	
+873 255	Section 851	X 400	Y 352	Width 16	Height 32	
+874 255	Section 851	X 336	Y 368	Width 112	Height 16	
+875 255	Section 851	X 352	Y 384	Width 64	Height 32	
+876 255	Section 851	X 288	Y 416	Width 64	Height 80	
+877 255	Section 851	X 256	Y 432	Width 64	Height 16	
+878 255	Section 851	X 32	Y 416	Width 64	Height 80	
+879 255	Section 851	X 64	Y 432	Width 64	Height 16	
+880 255	Section 851	X 0	Y 384	Width 64	Height 16	
+881 255	Section 851	X 0	Y 480	Width 112	Height 16	
+882 255	Section 851	X 144	Y 480	Width 96	Height 16	
+883 255	Section 851	X 272	Y 480	Width 240	Height 16	
+884 255	Section 851	X 160	Y 96	Width 80	Height 16	
+885 255	Section 851	X 272	Y 96	Width 32	Height 16	
+886 255	Section 851	X 336	Y 96	Width 80	Height 16	
+887 256	Section 851	X 0	Y 128	Width 64	Height 32	Portal 842	
+888 256	Section 851	X 0	Y 384	Width 64	Height 32	Portal 921	
+889 258	Section 851	X 240	Y 96	Width 96	Height 16	
+890 258	Section 851	X 368	Y 352	Width 32	Height 16	
+891 258	Section 851	X 112	Y 480	Width 160	Height 16	
+892 311	Preview 301	Animations 306	Section 851	X 104	Y 148	InitLeft 1	
+893 311	Preview 301	Animations 306	Section 851	X 136	Y 84	InitLeft 0	
+894 311	Preview 301	Animations 306	Section 851	X 424	Y 340	InitLeft 1	
+895 311	Preview 301	Animations 306	Section 851	X 184	Y 452	InitLeft 1	
+896 288	Preview 280	Animations 283	Section 851	X 176	Y 64	
+897 288	Preview 280	Animations 283	Section 851	X 256	Y 48	
+898 288	Preview 280	Animations 283	Section 851	X 336	Y 32	
+899 288	Preview 280	Animations 283	Section 851	X 368	Y 48	
+900 342	Preview 324	Animations 335	Section 851	X 440	Y 78	InitLeft 1	Aggressive 0	
+901 342	Preview 324	Animations 335	Section 851	X 440	Y 142	InitLeft 1	Aggressive 0	
+902 342	Preview 324	Animations 335	Section 851	X 440	Y 206	InitLeft 0	Aggressive 0	
+903 342	Preview 324	Animations 335	Section 851	X 440	Y 270	InitLeft 0	Aggressive 0	
+904 95	Preview 64	Animations 84	Section 851	X 368	Y 464	IsFlashy 0	
+905 92	Preview 58	Animations 78	Section 851	X 352	Y 464	IsFlashy 1	
+913 255	Section 911	X 0	Y 0	Width 512	Height 64	
+914 255	Section 911	X 0	Y 0	Width 32	Height 256	
+915 255	Section 911	X 64	Y 160	Width 32	Height 16	
+916 255	Section 911	X 480	Y 0	Width 32	Height 256	
+917 255	Section 911	X 416	Y 160	Width 96	Height 96	
+918 255	Section 911	X 0	Y 192	Width 512	Height 64	
+919 255	Section 911	X 448	Y 128	Width 64	Height 16	
+920 255	Section 911	X 464	Y 144	Width 48	Height 16	
+921 256	Section 911	X 448	Y 128	Width 64	Height 32	Portal 888	
+922 260	Section 911	X 64	Y 176	Width 16	Height 16	Portal 1	
+930 255	Section 928	X 0	Y 0	Width 256	Height 64	
+931 255	Section 928	X 0	Y 0	Width 32	Height 256	
+932 255	Section 928	X 224	Y 0	Width 32	Height 256	
+933 255	Section 928	X 160	Y 160	Width 96	Height 96	
+934 255	Section 928	X 192	Y 128	Width 64	Height 16	
+935 255	Section 928	X 208	Y 144	Width 48	Height 16	
+936 255	Section 928	X 0	Y 192	Width 256	Height 64	
+937 256	Section 928	X 192	Y 128	Width 64	Height 32	Portal 745	
+938 260	Section 928	X 64	Y 176	Width 16	Height 16	Portal 0	
+946 255	Section 944	X 0	Y 0	Width 768	Height 64	
+947 255	Section 944	X 0	Y 0	Width 32	Height 256	
+948 255	Section 944	X 0	Y 128	Width 64	Height 16	
+949 255	Section 944	X 0	Y 144	Width 48	Height 112	
+950 255	Section 944	X 32	Y 160	Width 64	Height 96	
+951 255	Section 944	X 80	Y 192	Width 608	Height 64	
+952 255	Section 944	X 672	Y 160	Width 96	Height 96	
+953 255	Section 944	X 720	Y 144	Width 48	Height 112	
+954 255	Section 944	X 704	Y 128	Width 64	Height 16	
+955 255	Section 944	X 736	Y 0	Width 32	Height 256	
+956 256	Section 944	X 0	Y 128	Width 64	Height 32	Portal 975	
+957 256	Section 944	X 704	Y 128	Width 64	Height 32	Portal 744	
+965 255	Section 963	X 0	Y 0	Width 256	Height 64	
+966 255	Section 963	X 0	Y 0	Width 32	Height 768	
+967 255	Section 963	X 224	Y 0	Width 32	Height 768	
+968 255	Section 963	X 160	Y 96	Width 96	Height 32	
+969 255	Section 963	X 208	Y 128	Width 48	Height 32	
+970 255	Section 963	X 96	Y 160	Width 160	Height 32	
+971 255	Section 963	X 160	Y 608	Width 96	Height 32	
+972 255	Section 963	X 208	Y 640	Width 48	Height 32	
+973 255	Section 963	X 160	Y 672	Width 96	Height 32	
+974 255	Section 963	X 0	Y 736	Width 256	Height 32	
+975 256	Section 963	X 192	Y 640	Width 64	Height 32	Portal 956	
 
 

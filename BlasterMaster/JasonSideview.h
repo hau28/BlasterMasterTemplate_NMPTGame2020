@@ -112,6 +112,9 @@ public:
     virtual void HandleTimerTick(LPTIMER sender);
     
     void keyUptoFixState() { HandleKeys(15); HandleKeyDown(15, DIK_UP); }
+
+    void Start_invulnerableTimer();
+
     ~CJasonSideview();
 };
 

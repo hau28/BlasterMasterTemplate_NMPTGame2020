@@ -5,9 +5,9 @@
 class BulletJasonOverheadLine {
 protected:
 	const float pi = 3.141592654;
-	const float BULLET_JASONOVERHEAD_SPEED = 0.15;
-	const float BASE_LIVINGTIME = 0.3; //300m
+	const float BULLET_JASONOVERHEAD_SPEED = 0.24;
 
+	float omega = 0.9;
 	float vx = 1;
 	float vy = 1;
 
@@ -36,7 +36,6 @@ private:
 	static int arrDir[4];
 
 	int dir;
-	float curAngle;
 
 	float angularVelocity;
 	float speed;
@@ -53,28 +52,26 @@ public:
 class WaveLine : public BulletJasonOverheadLine {
 private:
 
-	static float nextDirection;
-	//adjustment between bullets
-	const float DELAY_WAVE_OFFSET = 0.025;
-	const float DELAY_WAVE_MAX = 0.1;
-	static float nextDelay;
-
 	float direction;
-
-	float delay; //if the bullet is "delaying", it flies straight
-
-	const float BASE_FI_OFFSET = 3.14 * 2; //approximately 4*PI per second
 	float fiOffset; //RAD
 	float fi = 0;	//RAD
 
-	//at lv7, lv8 is adjusted in code
-	float spreadDiv = 6;
-	float spread = 1.65;
+	DWORD updateTime = 0;
+	void Init(int dx, int dy);
 
-	bool isHorizontal;
+	const float  AMPLITUDE = 1;
+
+	int originalAngle;
+
+	static int iAngle;
+	static int arrAngle[2];
+
+	float speed;
+	float velocity = 0.4;
 public:
-	WaveLine(float& speed, int level, int dx, int dy, float& livingTime);
+	WaveLine(float& speed, int level, int dx, int dy);
 	void Update(DWORD dt);
+
 };
 
 class CBullet_JasonOverhead : public CBullet
@@ -94,7 +91,6 @@ private:
 	float speed;
 	BulletJasonOverheadLine* bulletLine;
 	int bulletLevel;
-	float livingTime = 0;
 	bool flagOver = false;
 public:
 	CBullet_JasonOverhead() {};
@@ -107,6 +103,6 @@ public:
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs);
 
 	bool getflag() { return flagOver; };
-	
+
 };
 typedef CBullet_JasonOverhead* LPBULLET_JASONOVERHEAD;

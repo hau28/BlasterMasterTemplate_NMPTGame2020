@@ -74,6 +74,15 @@ void CJasonOverhead::HandleKeyUp(DWORD dt, int keyCode)
 
 void CJasonOverhead::HandleKeyDown(DWORD dt, int keyCode)
 {
+    // if (keyCode == DIK_T)
+    // {
+    //     CGameGlobal::GetInstance()->beingAttackedByEnemy();
+    //     CGameGlobal::GetInstance()->beingAttackedByEnemy();
+    //     CGameGlobal::GetInstance()->beingAttackedByEnemy();
+    //     CGameGlobal::GetInstance()->beingAttackedByEnemy();
+    //     CGameGlobal::GetInstance()->beingAttackedByEnemy();
+    // }
+
     if (keyCode == ControlKeys::FireKey)
     {
         if (flagBulletReloaded && numberOfJasonOverheadBullets < max_bullets_on_cam)
@@ -109,7 +118,8 @@ bool CJasonOverhead::IsMoving()
 void CJasonOverhead::UpdateState()
 {
     int newState = state;
-
+    if (state == JASONOVERHEAD_STATE_DEAD)
+        return;
     if (IsMoving())
     {
         if (MovingDirX != 0 && MovingDirY != 0)
@@ -147,6 +157,13 @@ void CJasonOverhead::UpdateState()
         case JASON_OVERHEAD_FACEDIR_LEFT: newState = JASONOVERHEAD_STATE_IDLE_LEFT; break;
         case JASON_OVERHEAD_FACEDIR_RIGHT: newState = JASONOVERHEAD_STATE_IDLE_RIGHT; break;
         }
+    }
+
+    if (CGameGlobal::GetInstance()->get_healthJasonOverHead() <= 0)
+    {
+        DebugOut(L"TT\n");
+        newState = JASONOVERHEAD_STATE_DEAD;
+        dyingEffectTimer->Start();
     }
 
     SetState(newState);
@@ -218,8 +235,8 @@ void CJasonOverhead::Shoot()
 
     gunlevel = CGameGlobal::GetInstance()->GetLevelGun();
 
-    CBullet_JasonOverhead* bullet = new CBullet_JasonOverhead(x, y, currentSectionId, dx, dy, 0, numberOfJasonOverheadBullets);
-    // CBullet_JasonOverhead* bullet = new CBullet_JasonOverhead(x, y, currentSectionId, dx, dy, gunlevel, numberOfJasonOverheadBullets);
+    // CBullet_JasonOverhead* bullet = new CBullet_JasonOverhead(x, y, currentSectionId, dx, dy, 0, numberOfJasonOverheadBullets);
+    CBullet_JasonOverhead* bullet = new CBullet_JasonOverhead(x, y, currentSectionId, dx, dy, gunlevel, numberOfJasonOverheadBullets);
     if (gunlevel == 3 || gunlevel ==2)
     {
         max_bullets_on_cam = 3;
@@ -302,7 +319,7 @@ void CJasonOverhead::HandleTimerTick(LPTIMER sender)
     if (sender == dyingEffectTimer)
     {
         // To do: switch scene
-        Sleep(4000);
+        // Sleep(4000);
         CGameEvent* event = new SwitchSceneEvent(ID_SCENE_INTRO);
         CGameGlobal::GetInstance()->resetHealth();
         CGame::AddGameEvent(event);
@@ -333,6 +350,7 @@ CJasonOverhead* CJasonOverhead::GetInstance()
 CJasonOverhead* CJasonOverhead::InitInstance(int x, int y, int sectionId)
 {
     GetInstance();
+    __instance->Init();
     __instance->SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
     __instance->SetPosition(x, y);
     __instance->currentSectionId = sectionId;
@@ -418,6 +436,7 @@ void CJasonOverhead::HandleOverlap(LPGAMEOBJECT overlappedObj)
 
 void CJasonOverhead::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
+    dyingEffectTimer->Update(dt);
     bulletReloadTimer->Update(dt);
     grenadeReloadTimer->Update(dt);
     CountJasonOverheadBullets(coObjs);
