@@ -5,6 +5,7 @@
 #include "CreateObjectEvent.h"
 #include "RemoveObjectEvent.h"
 #include "Bullet_Teleporter.h"
+#include "Sound.h"
 
 void CTeleporter::UpdateState()
 {
@@ -107,6 +108,7 @@ void CTeleporter::HandleTimerTick(LPTIMER sender)
 {
 	if (sender == idleTimer)
 	{
+		Sound::getInstance()->play(TELEPORTER_SWITCH, false, 1);
 		SetState(TELEPORTER_STATE_SWITCH_TO_UNSAFE);
 		switchTimer->Start();
 	}
@@ -127,6 +129,7 @@ void CTeleporter::HandleTimerTick(LPTIMER sender)
 
 void CTeleporter::ShootPlayer()
 {
+	Sound::getInstance()->play(ENEMY_OVERHEAD_SHOOT, false, 1);
 	float dirX, dirY; // direction to the player
 	CGameObjectBehaviour::CalcDirectionToPlayer(this, dirX, dirY);
 

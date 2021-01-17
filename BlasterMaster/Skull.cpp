@@ -4,6 +4,7 @@
 #include "GameObjectBehaviour.h"
 #include "PlayScene.h"
 #include "Bullet_Skull.h"
+#include "Sound.h"
 
 CSkull::CSkull(int classId, int x, int y, int sectionId, int animsId) : CEnemy::CEnemy(classId, x, y, sectionId, animsId)
 {
@@ -191,6 +192,7 @@ void CSkull::GetBoundingBox(float& left, float& top, float& right, float& bottom
 }
 void CSkull::DropBullet()
 {
+	if (flagAppeared) Sound::getInstance()->play(SKULL_BOMB, false, 1);
 	float dirX, dirY;
 	CGameObjectBehaviour::CalcDirectionToPlayer(this, dirX, dirY);
 

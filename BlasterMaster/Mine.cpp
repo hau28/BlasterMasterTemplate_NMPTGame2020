@@ -6,6 +6,7 @@
 #include "JasonSideview.h"
 #include "Bullet_Mine.h"
 #include "Utils.h"
+#include "Sound.h"
 
 
 
@@ -38,6 +39,12 @@ void CMine::UpdateVelocity(DWORD dt)
 {
 	// Thy cute
 	vy = MINE_GRAVITY;
+	if (animationHandlers[state]->currentFrameIndex == 1)
+		flagSound = true;
+	if (animationHandlers[state]->currentFrameIndex == 0 && flagSound) {
+		Sound::getInstance()->play(MINE, false, 1);
+		flagSound = false;
+	}
 }
 
 void CMine::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
@@ -75,6 +82,8 @@ void CMine::HandleOverlap(LPGAMEOBJECT overlappedObj)
 
 void CMine::Explode()
 {
+	
+	Sound::getInstance()->play(ENEMY_DIE, false, 1);
 	CEnemy::Explode();
 	ShootBullets();
 }

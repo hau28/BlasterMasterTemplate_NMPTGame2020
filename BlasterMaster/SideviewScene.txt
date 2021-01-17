@@ -445,6 +445,7 @@
 423 419
 424 421
 
+
 [OBJECTS]
 #ObjId	ClassId	Properties...
 4 3	Preview TEXTURE_SOPHIA_R0C6	Animations SOPHIA_ANIMATIONS	Section 899	X 35	Y 118	

@@ -28,7 +28,7 @@ void CBullet_Floater::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 	if (IsBlockableObject(obj))
 	{
-		Sound::getInstance()->play(SMALL_PINK_BULLET_TO_WALL, false, 1);
+		Sound::getInstance()->play(SMALL_PINK_BULLET_EXPLOSION, false, 1);
 		CGameObjectBehaviour::BlockObject(dt, coEvent);
 		Explode(CLASS_SMALL_EXPLOSION_SIDEVIEW);
 	}

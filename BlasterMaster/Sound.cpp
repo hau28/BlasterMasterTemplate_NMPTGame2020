@@ -48,11 +48,35 @@ Sound::Sound(HWND hWnd)
 }
 
 void Sound::loadGameSounds() {
-	//WORLD SOUND
+	//SOUND
 	Sound::getInstance()->loadSound(AREA2);
-	Sound::getInstance()->loadSound(SMALL_PINK_BULLET_TO_WALL);
+	Sound::getInstance()->loadSound(SMALL_PINK_BULLET_EXPLOSION);
 	Sound::getInstance()->loadSound(ENEMY_DIE);
 	Sound::getInstance()->loadSound(JASON_GOT_HIT);
+	Sound::getInstance()->loadSound(JASON_DIE);
+	Sound::getInstance()->loadSound(PANDA_MOVING);
+	Sound::getInstance()->loadSound(PANDA_JUMP_SOUND);
+	Sound::getInstance()->loadSound(DOME_FLY);
+	Sound::getInstance()->loadSound(MENU);
+	Sound::getInstance()->loadSound(SOPHIA_GOT_HIT);
+	Sound::getInstance()->loadSound(SOPHIA_DIE);
+	Sound::getInstance()->loadSound(SOPHIA_SHOOT);
+	Sound::getInstance()->loadSound(SOPHIA_JUMP);
+	Sound::getInstance()->loadSound(SOPHIA_LAND);
+	Sound::getInstance()->loadSound(MENU_SELECT);
+	Sound::getInstance()->loadSound(ENEMY_GOT_HIT);
+	Sound::getInstance()->loadSound(SOPHIA_BULLET_EXPLOSION);
+	Sound::getInstance()->loadSound(SWAP_PLAYER);
+	Sound::getInstance()->loadSound(JASON_JUMP);
+	Sound::getInstance()->loadSound(JASON_SIDEVIEW_SHOOT);
+	Sound::getInstance()->loadSound(BUZZ);
+	Sound::getInstance()->loadSound(SKULL_BOMB);
+	Sound::getInstance()->loadSound(MINE);
+	Sound::getInstance()->loadSound(POWERUP);
+	Sound::getInstance()->loadSound(SWITCH_SCENE);
+	Sound::getInstance()->loadSound(ENEMY_OVERHEAD_SHOOT);
+	Sound::getInstance()->loadSound(TELEPORTER_SWITCH);
+	//VOLUME
 }
 
 Sound::~Sound()

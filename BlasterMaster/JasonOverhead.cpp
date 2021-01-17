@@ -7,6 +7,7 @@
 #include "WalkInPortalEvent.h"
 #include "PlayScene.h"
 #include "SwitchSceneEvent.h"
+#include "Sound.h"
 
 CJasonOverhead* CJasonOverhead::__instance = nullptr;
 
@@ -216,6 +217,7 @@ void CJasonOverhead::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
             LPPORTAL portal = dynamic_cast<LPPORTAL>(obj);
             if (portal)
             {
+                Sound::getInstance()->play(SWITCH_SCENE, false, 1);
                 SwitchSceneEvent* sse = new SwitchSceneEvent(portal);
                 DebugOut(L"Switch to scene Id: %d\n", sse->getIDNextScene());
                 CGame::AddGameEvent(sse);

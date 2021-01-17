@@ -6,6 +6,7 @@
 #include "RemoveObjectEvent.h"
 #include "Utils.h"
 #include "Bullet_Eyeball.h"
+#include "Sound.h"
 
 void CEyeball::UpdateState()
 {
@@ -108,6 +109,7 @@ void CEyeball::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 void CEyeball::ShootPlayer()
 {
+	Sound::getInstance()->play(ENEMY_OVERHEAD_SHOOT, false, 1);
 	float dirX, dirY; // direction to the player
 	CGameObjectBehaviour::CalcDirectionToPlayer(this, dirX, dirY);
 

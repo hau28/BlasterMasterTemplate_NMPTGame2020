@@ -35,11 +35,13 @@ void CEnemy::TakeDamage(int damage)
 
 	if (damage < healthPoint)
 	{
+		Sound::getInstance()->play(ENEMY_GOT_HIT, false, 1);
 		healthPoint -= damage;
 		PlayFlashingEffect();
 	}
 	else
 	{
+		Sound::getInstance()->play(ENEMY_DIE, false, 1);
 		healthPoint = 0;
 		Explode();
 		DropItem();
@@ -74,7 +76,6 @@ void CEnemy::DropItem()
 
 void CEnemy::Explode()
 {
-	Sound::getInstance()->play(ENEMY_DIE, false, 1);
 	CGameObjectBehaviour::ExplodeAtCenter(this, CLASS_LARGE_EXPLOSION_SIDEVIEW);
 }
 
