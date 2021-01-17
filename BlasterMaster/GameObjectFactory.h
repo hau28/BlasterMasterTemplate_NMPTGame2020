@@ -18,6 +18,9 @@
 #include "Insect.h"
 #include "BreakableBlock.h"
 #include "Item.h"
+#include "Teleporter.h"
+#include "Cannon.h"
+#include "Eyeball.h"
 #include "Boss.h"
 
 /// <summary>

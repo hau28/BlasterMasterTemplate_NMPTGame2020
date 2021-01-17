@@ -116,7 +116,9 @@ typedef CAnimationHandler* LPANIMATION_HANDLER;
 /// <summary>
 /// <para> [Flyweight] [Singleton] </para>
 /// <para> Contains a list of Animations reference. </para>
-/// <para> Only use this to look up Animations and put into an AnimationSet </para>
+/// <para> Only use this to lo
+/// 
+///  up Animations and put into an AnimationSet </para>
 /// </summary>
 class CAnimationLib
 {

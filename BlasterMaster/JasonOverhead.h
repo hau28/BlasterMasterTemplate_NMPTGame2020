@@ -1,6 +1,8 @@
 #pragma once
 #include "AnimatableObject.h"
 #include "Timer.h"
+#include "ObjectFlashingEffectPlayer.h"
+#include <queue>
 
 // 2 25 21 31
 
@@ -20,7 +22,11 @@ private:
     const float JASON_OVERHEAD_MOVING_SPEED_X = 0.006f;
     const float JASON_OVERHEAD_MOVING_SPEED_Y = 0.006f;
     const int DYING_EFFECT_DURATION = 1000;
-    LPTIMER dyingEffectTimer = nullptr;
+
+
+    const float GRENADE_DISTANCE = 2.5 * 16;
+    const float GRENADE_DISTANCE_FAR = 4 * 16;
+
     CJasonOverhead();
     void Init();
 
@@ -33,12 +39,38 @@ private:
     int MovingDirY = 0;
 
     bool IsMoving();
+    float distance;
 
     int FaceDir = 1;
 
+    bool flagInvulnerable;
+
+    bool flagBulletReloaded;
+    LPTIMER bulletReloadTimer;
+
+    const int JASONOVERHEAD_BULLET_RELOAD_DURATION = 100;
+    const int JASONOVERHEAD_GRENADE_RELOAD_DURATION = 50;
+    //const int JASONOVERHEAD_BULLETLEVEL45_RELOAD_DURATION = 300;
+
+    bool flaggrenadeReloaded;
+    LPTIMER grenadeReloadTimer;
+
+    LPTIMER invulnerableTimer = nullptr;
+    LPTIMER dyingEffectTimer = nullptr;
+
     void UpdateState();
+    void GetShootPosition(float& x, float& y, float dx, float dy);
+    void GetDropBombPosition(float& x, float& y, float dx, float dy);
+    int max_bullets_on_cam = 2;
+    int numberOfJasonOverheadBullets;
+    void CountJasonOverheadBullets(vector<LPGAMEOBJECT>* coObjs);
+    void Shoot();
+    void DropBomb();
+    void checkDxDy(float& dx, float& dy);
 
     static CJasonOverhead* __instance;
+
+    int gunlevel = 4;
 
 public:
     virtual void UpdateVelocity(DWORD dt);
@@ -47,8 +79,12 @@ public:
     virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
     virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs);
     void SnapToPortalMiddle(LPGAMEOBJECT portal, bool snapX);
+
     virtual void HandleTimerTick(LPTIMER sender);
+
     static CJasonOverhead* GetInstance();
     static CJasonOverhead* InitInstance(int x, int y, int sectionId);
+
+
 };
 

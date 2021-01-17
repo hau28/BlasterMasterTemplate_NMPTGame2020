@@ -10,6 +10,7 @@
 #include "JasonJumpInEvent.h"
 #include "Bullet_JasonSideview.h"
 #include "SwitchSceneEvent.h"
+#include "Sound.h"
 
 CJasonSideview* CJasonSideview::__instance = nullptr;
 
@@ -100,6 +101,7 @@ void CJasonSideview::PlayVulnerableFlasingEffect()
 
 void CJasonSideview::HandleOnDamage()
 {
+    Sound::getInstance()->play(JASON_GOT_HIT, false, 1);
 	flagInvulnerable = true;
 	invulnerableTimer->Start();
     PlayVulnerableFlasingEffect();
@@ -293,19 +295,19 @@ void CJasonSideview::HandleKeyUp(DWORD dt, int keyCode)
 {
     if ((keyCode == DIK_RIGHT || keyCode == DIK_LEFT /*|| keyCode == ControlKeys::JumpKey*/) && !flagClimb )
     {
-        if (flagCrawl && !flagOnAir)
+        if ((flagCrawl && !flagOnAir)|| (!flagCrawl && !flagJumpWalk))
             vx = 0;
 
         if (!flagCrawl && !IsKeyDown(ControlKeys::JumpKey))
         {
             ax = JASONSIDEVIEW_AX*3;
             flagWalk = true;
-            flagCrawl = false;
             /*if (keyCode == DIK_RIGHT)
                 SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
             else
                 SetState(JASONSIDEVIEW_STATE_IDLE_LEFT);*/
         }
+
     }
 
     //stop climbing
@@ -314,6 +316,7 @@ void CJasonSideview::HandleKeyUp(DWORD dt, int keyCode)
         vy = 0;
         animationHandlers[state]->startLoopIndex = 1;
     }
+
 }
 
 void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)

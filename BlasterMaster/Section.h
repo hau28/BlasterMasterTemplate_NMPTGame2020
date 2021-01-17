@@ -4,6 +4,7 @@
 #include "Textures.h"
 #include "GameObject.h"
 #include "Portal.h"
+#include "GridObjects.h"
 
 class CSection
 {
@@ -38,7 +39,8 @@ public:
 	void addObject(LPGAMEOBJECT obj);
 	void removeObject(LPGAMEOBJECT obj, bool deleteAfterRemoving);
 
-	vector<CGameObject*> Objects;
+	// vector<CGameObject*> Objects;
+	CGridObjects* gridObjects = nullptr;
 
 	LPPORTAL findScenePortal(int port);
 };

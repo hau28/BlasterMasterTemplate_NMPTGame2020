@@ -6,8 +6,10 @@ Sound* Sound::instance = nullptr;
 
 Sound* Sound::getInstance()
 {
-	if (instance == nullptr)
+	if (instance == nullptr) {
 		instance = new Sound(CGame::GetInstance()->getCurrentHWND());
+		instance->loadGameSounds();
+	}
 
 	return instance;
 }
@@ -45,6 +47,14 @@ Sound::Sound(HWND hWnd)
 	isMute = false;
 }
 
+void Sound::loadGameSounds() {
+	//WORLD SOUND
+	Sound::getInstance()->loadSound(AREA2);
+	Sound::getInstance()->loadSound(SMALL_PINK_BULLET_TO_WALL);
+	Sound::getInstance()->loadSound(ENEMY_DIE);
+	Sound::getInstance()->loadSound(JASON_GOT_HIT);
+}
+
 Sound::~Sound()
 {
 	for (auto it = soundBufferMap.begin(); it != soundBufferMap.end(); it++)
@@ -80,7 +90,7 @@ float Sound::getVolume()
 	return volume;
 }
 
-void Sound::loadSound(char* fileName, std::string name)
+void Sound::loadSound(std::string name)
 {
 	if (soundBufferMap.find(name) != soundBufferMap.end())
 		return;
@@ -92,6 +102,9 @@ void Sound::loadSound(char* fileName, std::string name)
 	unsigned char* wavData;
 	unsigned char* bufferPtr;
 	unsigned long bufferSize;
+
+	string fileNameTemp = ("Sound/" + name + ".wav").c_str();
+	char* fileName = &fileNameTemp[0];
 
 	int error = fopen_s(&filePtr, fileName, "rb");
 	if (error != 0)
