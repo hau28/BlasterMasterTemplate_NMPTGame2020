@@ -9,7 +9,7 @@
 CBullet_JasonOverhead::CBullet_JasonOverhead(float x, float y, int sectionId, int dirX, int dirY, int level, int index) : CBullet::CBullet(CLASS_JASON_OVERHEAD_BULLET, x, y, sectionId, true)
 {
 	startx = dirX;
-
+	bulletLevel = 8;
 	if (bulletLevel < 4) // bullets 0-> 3
 		bulletLine = new StraightLine(speed, bulletLevel, dirX, dirY);
 
@@ -19,7 +19,7 @@ CBullet_JasonOverhead::CBullet_JasonOverhead(float x, float y, int sectionId, in
 	}
 	
 	if (bulletLevel > 5)
-		bulletLine = new WaveLine(speed, bulletLevel, dirX, dirY);
+		bulletLine = new WaveLine(speed, bulletLevel, dirX, dirY, livingTime );
 
 	isHiddenByForeground = true;
 	isUpdatedWhenOffScreen = true;
@@ -190,16 +190,55 @@ void CircleLine::Update(DWORD dt)
 	}
 }
 
-WaveLine::WaveLine(float& speed, int level, int dx, int dy)
+WaveLine::WaveLine(float& speed, int level, int dx, int dy, float& livingTime)
 {
-	speed = BULLET_JASONOVERHEAD_SPEED * (level == 7 ? 1 : 0.5);
+	speed = BULLET_JASONOVERHEAD_SPEED * 0.5;
+
+	speed = BULLET_JASONOVERHEAD_SPEED * 0.5;
+	livingTime = BASE_LIVINGTIME * 99999;
 
 	if (dx == 0) vx = 0; else vx = (dx < 0 ? -1 : 1);
 	if (dy == 0) vy = 0; else vy = (dy < 0 ? -1 : 1);
+	isHorizontal = (dx != 0); //if not horizontal, definately veritcal
+	fiOffset = BASE_FI_OFFSET; //level8 bullets wave faster
+
+	//get new delay
+	delay = nextDelay;
+	nextDelay += DELAY_WAVE_OFFSET;
+	if (nextDelay > DELAY_WAVE_MAX) nextDelay = 0;
+
+	//get new direction
+	direction = nextDirection;
+	nextDirection = -nextDirection;
+
+	//level 8 adjustment
+	if (level == 8) {
+		fiOffset *= 2;
+		direction *= 2;
+		spreadDiv = 1.25; //no shrink
+	}
 }
+
+float WaveLine::nextDelay = 0;
+float WaveLine::nextDirection = 1;
 
 void WaveLine::Update(DWORD dt)
 {
+	delay -= dt;
+	if (delay > 0) return;
 
+	fi += fiOffset * dt;
+	if (abs(sin(fi)) <= dt) {
+		spread /= spreadDiv;
+	}
+
+	if (isHorizontal) { //flying horizontal - adjust vy
+		vy = cos(fi) * spread * direction; //cos(fi) la dao ham cua sin(fi)
+
+	}
+	else { //flying vertical - adjust vx
+		vx = cos(fi) * spread * direction;
+
+	}
 }
 

@@ -6,11 +6,13 @@ class BulletJasonOverheadLine {
 protected:
 	const float pi = 3.141592654;
 	const float BULLET_JASONOVERHEAD_SPEED = 0.15;
+	const float BASE_LIVINGTIME = 0.3; //300m
 
 	float vx = 1;
 	float vy = 1;
 
 	bool flagover = false;
+
 public:
 	float getVx() { return vx; }
 	float getVy() { return vy; }
@@ -51,8 +53,27 @@ public:
 class WaveLine : public BulletJasonOverheadLine {
 private:
 
+	static float nextDirection;
+	//adjustment between bullets
+	const float DELAY_WAVE_OFFSET = 0.025;
+	const float DELAY_WAVE_MAX = 0.1;
+	static float nextDelay;
+
+	float direction;
+
+	float delay; //if the bullet is "delaying", it flies straight
+
+	const float BASE_FI_OFFSET = 3.14 * 2; //approximately 4*PI per second
+	float fiOffset; //RAD
+	float fi = 0;	//RAD
+
+	//at lv7, lv8 is adjusted in code
+	float spreadDiv = 6;
+	float spread = 1.65;
+
+	bool isHorizontal;
 public:
-	WaveLine(float& speed, int level, int dx, int dy);
+	WaveLine(float& speed, int level, int dx, int dy, float& livingTime);
 	void Update(DWORD dt);
 };
 
@@ -73,7 +94,7 @@ private:
 	float speed;
 	BulletJasonOverheadLine* bulletLine;
 	int bulletLevel;
-	
+	float livingTime = 0;
 	bool flagOver = false;
 public:
 	CBullet_JasonOverhead() {};
