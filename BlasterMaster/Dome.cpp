@@ -2,6 +2,7 @@
 #include "TileArea.h"
 #include "GameObjectBehaviour.h"
 #include "Bullet.h"
+#include "Sound.h"
 
 CDome::CDome(int classId, int x, int y, int sectionId, int rotation, bool isClockwise, int animsId): CEnemy::CEnemy(classId, x, y, sectionId, animsId)
 {
@@ -145,7 +146,6 @@ void CDome::AddStickyForce()
 	int opositeRotation = AddToRotation(this->rotation, 2);
 	int stickyDirX, stickyDirY;
 	CalcDirectionVector(opositeRotation, stickyDirX, stickyDirY);
-
 	vx += stickyDirX * DOME_STICKY_FORCE;
 	vy += stickyDirY * DOME_STICKY_FORCE;
 }
@@ -227,7 +227,7 @@ void CDome::StartShooting()
 {
 	int shootDirX, shootDirY;
 	CalcDirectionVector(this->rotation, shootDirX, shootDirY);
-
+	Sound::getInstance()->play(DOME_FLY, false, 1);
 	vx = shootDirX * DOME_SHOOTING_SPEED;
 	vy = shootDirY * DOME_SHOOTING_SPEED;
 }

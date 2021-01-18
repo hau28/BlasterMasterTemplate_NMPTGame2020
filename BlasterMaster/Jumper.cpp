@@ -5,6 +5,7 @@
 #include "Floater.h"
 #include "CreateObjectEvent.h"
 #include "RemoveObjectEvent.h"
+#include "Sound.h"
 
 void CJumper::UpdateState()
 {
@@ -37,6 +38,7 @@ void CJumper::UpdateVelocity(DWORD dt)
 
 	if (numJump != 3) {
 		if (GetTickCount() - lastTimeJump >= JUMP_PERIOD / 6) {
+			Sound::getInstance()->play(PANDA_JUMP_SOUND, false, 1);
 			vy = -JUMPER_JUMP_FORCE;
 			if (x>Xplayer)
 				vx = -JUMPER_MOVE_SPEED * 3;
@@ -50,6 +52,7 @@ void CJumper::UpdateVelocity(DWORD dt)
 	}
 	else {
 		if (GetTickCount() - lastTimeJump >= JUMP_PERIOD) {
+			Sound::getInstance()->play(PANDA_JUMP_SOUND, false, 1);
 			vy = -JUMPER_JUMP_FORCE;
 			if (this->state == JUMPER_STATE_WALKLEFT)
 				vx = -JUMPER_MOVE_SPEED * 3;

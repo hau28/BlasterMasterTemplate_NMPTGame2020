@@ -1073,19 +1073,23 @@ void CPlayScene::HandleKeyDown(DWORD dt, int keyCode)
 	CGameGlobal* global = CGameGlobal::GetInstance();
 	if (keyCode == DIK_RETURN && !global->isMenuWeaponOpen())
 	{
+		Sound::getInstance()->play(MENU, false, 1);
 		global->OpenMenuWeapon();
 		return;
 	}
 	if (keyCode == DIK_RETURN && global->isMenuWeaponOpen())
 	{
+		Sound::getInstance()->play(MENU, false, 1);
 		global->CloseMenuWeapon();
 	}
 	if ((keyCode == DIK_RIGHT || keyCode == DIK_UP) && global->isMenuWeaponOpen())
 	{
+		Sound::getInstance()->play(MENU_SELECT, false, 1);
 		global->NextSelectedItem();
 	}
 	if ((keyCode == DIK_LEFT || keyCode == DIK_DOWN) && global->isMenuWeaponOpen())
 	{
+		Sound::getInstance()->play(MENU_SELECT, false, 1);
 		global->BackSelectedItem();
 	}
 }

@@ -101,7 +101,9 @@ void CJasonSideview::PlayVulnerableFlasingEffect()
 
 void CJasonSideview::HandleOnDamage()
 {
-    Sound::getInstance()->play(JASON_GOT_HIT, false, 1);
+    if (CGameGlobal::GetInstance()->get_healthJasonSideView() > 0) {
+        Sound::getInstance()->play(JASON_GOT_HIT, false, 1);
+    }
 	flagInvulnerable = true;
 	invulnerableTimer->Start();
     PlayVulnerableFlasingEffect();
@@ -357,6 +359,7 @@ void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)
             LPPORTAL portal = dynamic_cast<LPPORTAL>(overlappingScenePortal);
             if (portal)
             {
+                Sound::getInstance()->play(SWITCH_SCENE, false, 1);
                 SwitchSceneEvent* sse = new SwitchSceneEvent(portal);
 				CGame::AddGameEvent(sse);
             }
@@ -388,6 +391,7 @@ void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)
     // jason jump 
     if (keyCode == ControlKeys::JumpKey && !flagOnAir && !flagCrawl && !flagClimb)
     {
+        Sound::getInstance()->play(JASON_JUMP, false, 1);
         vx = 0;
         vy -= JASONSIDEVIEW_JUMP_SPEED_Y;
 
@@ -400,6 +404,7 @@ void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)
     //jason jump when climb
     if (keyCode == ControlKeys::JumpKey && flagClimb && !flagClimbOver)
     {
+        Sound::getInstance()->play(JASON_JUMP, false, 1);
         vy = -JASONSIDEVIEW_JUMP_SPEED_Y /2 ;
         flagClimb = false;
     }
@@ -408,6 +413,7 @@ void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)
     {
         if (CCollisionSolver::IsTouchingSophia(CSophia::GetInstance(), __instance)) 
         {
+            Sound::getInstance()->play(SWAP_PLAYER, false, 1);
             vx = 0;
             CJasonJumpInEvent* jasonJumpInEvent = new CJasonJumpInEvent(x, y, currentSectionId);
             CGame::AddGameEvent(jasonJumpInEvent);
@@ -436,6 +442,7 @@ void CJasonSideview::CountJasonSideviewBullets(vector<LPGAMEOBJECT>* coObjs)
 
 void CJasonSideview::Shoot()
 {
+    Sound::getInstance()->play(JASON_SIDEVIEW_SHOOT, false, 1);
     CBullet_JasonSideview* bullet = new CBullet_JasonSideview(0, 0, 0, flagTurnRight ? 1 : -1);
     CGameObjectBehaviour::CreateObjectAtCenterOfAnother(bullet, this);
 
@@ -676,12 +683,13 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
     {
         vx = 0; 
         vy = 0;
-
         animationHandlers[state]->startLoopIndex = 0;   
         SetState(JASONSIDEVIEW_STATE_DEAD);
         
-        if (!dyingEffectTimer->IsRunning())
+        if (!dyingEffectTimer->IsRunning()) {
+            Sound::getInstance()->play(JASON_DIE, false, 1);
             dyingEffectTimer->Start();
+        }
     }
 }
 
