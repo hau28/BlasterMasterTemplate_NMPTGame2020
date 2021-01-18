@@ -175,6 +175,7 @@ void CGameObjectBehaviour::ExplodeAtCenter(LPGAMEOBJECT obj, int explosionClassI
 void CGameObjectBehaviour::CreateObject(LPGAMEOBJECT obj)
 {
 	CCreateObjectEvent* ce = new CCreateObjectEvent(obj);
+
 	CGame::AddGameEvent(ce);
 }
 

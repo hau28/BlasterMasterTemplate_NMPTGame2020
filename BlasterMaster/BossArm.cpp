@@ -9,6 +9,7 @@
 CBossArm::CBossArm(int classId, int x, int y, int sectionId, int animsId, int state) : CEnemy::CEnemy(classId, x, y, sectionId, animsId)
 {
 	SetState(state);
+	isUpdatedWhenOffScreen = true;
 };
 
 void CBossArm::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -31,6 +32,7 @@ void CBossArm::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 void CBossArm::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
+	UpdatePosition(dt);
 }
 
 bool CBossArm::IsBlockableObject(LPGAMEOBJECT obj)

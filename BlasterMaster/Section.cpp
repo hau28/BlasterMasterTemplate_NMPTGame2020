@@ -206,3 +206,16 @@ LPPORTAL CSection::findScenePortal(int port)
 
 	return nullptr;
 }
+
+bool CSection::checkIsHasBossArm()
+{
+	vector<LPGAMEOBJECT> objects = gridObjects->GetAllObjects();
+	for (int i = 0; i < objects.size(); i++)
+	{
+		if (objects[i]->classId == CLASS_BOSS_ARM)
+		{
+				return true;
+		}
+	}
+	return false;
+}

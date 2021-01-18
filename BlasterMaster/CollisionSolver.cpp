@@ -104,6 +104,8 @@ void CCollisionSolver::SweptAABB(
 		dx_entry = sr - ml;
 		dx_exit = sl - mr;
 	}
+	else
+		dx_entry = dx_exit = 0;
 
 
 	if (dy > 0)
@@ -116,6 +118,8 @@ void CCollisionSolver::SweptAABB(
 		dy_entry = sb - mt;
 		dy_exit = st - mb;
 	}
+	else 
+		dy_entry = dy_exit = 0;
 
 	if (dx == 0)
 	{

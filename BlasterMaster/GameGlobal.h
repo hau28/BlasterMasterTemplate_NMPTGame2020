@@ -13,7 +13,6 @@
 #define BODY_DAMAGE_FALL 80
 
 #define MAX_AMMUNITIONS 99
-#define ID_SECTION_BOSS 1000959
 
 enum class Items {
 	PowerGrey, // add 1 bar
@@ -98,7 +97,7 @@ private:
 public:
 	//reset health
 	//get value methods
-	const int ID_SECTION_BOSSOVERHEAD = 1000959;
+	int ID_SECTION_BOSSOVERHEAD = -1;
 	bool stateBossBlackBackground = false;
 	static CGameGlobal* GetInstance();
 	int get_healthSophia() { return this->healthSophia; }
@@ -175,8 +174,6 @@ public:
 	
 	// CuteTN
 	bool HasCrusherBeam = true;
-
-
 };
 
 

@@ -981,7 +981,7 @@ void CPlayScene::handleGameEvent(LPGAME_EVENT gameEvent)
 	if (createObjEvent)
 	{ 
 		int sectionId = createObjEvent->gameObject->currentSectionId;
-		
+
 		if(Sections[sectionId])
 			Sections[sectionId]->addObject(createObjEvent->gameObject);
 	}
