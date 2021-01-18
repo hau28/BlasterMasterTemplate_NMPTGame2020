@@ -327,11 +327,11 @@ void CPlayScene::InitSaveGameOverhead()
 	global->getCheckPoint(xPlayer, yPlayer);
 	idSection = global->getCurrentSection();
 
-	DebugOut(L"\n get info");
 	CurrentSectionId = idSection;
 
 	Sections[idSection]->deleteJasonOverhead();
 	Sections[idSection]->pushJasonOverhead(xPlayer, yPlayer, idSection);
+	DebugOut(L"\n get info");
 }
 
 void CPlayScene::Load()

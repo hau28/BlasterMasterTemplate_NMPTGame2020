@@ -352,7 +352,6 @@ CJasonOverhead* CJasonOverhead::InitInstance(int x, int y, int sectionId)
 {
     GetInstance();
     __instance->Init();
-    __instance->SetState(JASONSIDEVIEW_STATE_IDLE_RIGHT);
     __instance->SetPosition(x, y);
     __instance->currentSectionId = sectionId;
 
