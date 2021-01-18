@@ -5,12 +5,21 @@
 
 class CBoss : public CEnemy
 {
-    vector<CBossArm*> ArmLeft;
-    vector<CBossArm*> ArmRight;
-    CBossHand* HandLeft;
-    CBossHand* HandRight;
+    vector<CEnemy*> ArmLeft;
+    vector<CEnemy*> ArmRight;
     
     void init_ObjectsArm();
+
+    float limitTop, limitRight, limitLeft, limitBottom;
+    float targeHandtLeftX, targetHandLeftY, targetHandRightX, targetHandRightY;
+    void init_RandomTargetLeft();
+    void init_RandomTargetRight();
+
+    bool isRandomLocationArmLeft = true;
+    bool isRandomLocationArmRight = true;
+
+    void checkTargetLocation();
+
 public:
     CBoss() {};
     CBoss(int classId, int x, int y, int sectionId, int animsId);
@@ -21,6 +30,8 @@ public:
     virtual void Render(float offsetX, float offsetY);
     virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
     virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs);
+
+    virtual bool IsBlockableObject(LPGAMEOBJECT obj);
 };
 typedef CBoss* LPBOSS;
 

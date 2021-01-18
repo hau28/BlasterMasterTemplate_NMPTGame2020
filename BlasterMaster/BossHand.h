@@ -20,5 +20,7 @@ public:
     virtual void HandleOverlap(LPGAMEOBJECT overlappedObj) {};
     virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
     virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs);
+
+    virtual bool IsBlockableObject(LPGAMEOBJECT obj);
 };
 typedef CBossHand* LPBOSSHAND;
