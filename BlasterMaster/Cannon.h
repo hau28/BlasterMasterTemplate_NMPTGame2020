@@ -11,7 +11,7 @@ const int CANNON_BOUNDBOX_OFFSETY = 4;
 const float CANNON_FLY_SPEED = 0.06f;
 const float CANNON_BULLET_SPEED = 0.08f;
 
-const int CANNON_HEALTHPOINT = 3;
+const int CANNON_HEALTHPOINT = 2;
 
 
 

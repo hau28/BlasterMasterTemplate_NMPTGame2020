@@ -2,11 +2,16 @@
 #include "Enemy.h"
 #include "BossArm.h"
 #include "BossHand.h"
+#include "Timer.h"
 
-class CBoss : public CEnemy
+class CBoss : public CEnemy, public ITimeTrackable
 {
     vector<CEnemy*> ArmLeft;
     vector<CEnemy*> ArmRight;
+
+    const int SHOT_PER_SHOOTING_PHASE = 4;
+    const int DELAY_BETWEEN_SHOOTING_PHASES = 2800;
+    const int DELAY_BETWEEN_SHOTS = 400;
     
     void init_ObjectsArm();
 
@@ -18,7 +23,11 @@ class CBoss : public CEnemy
     bool isRandomLocationArmLeft = true;
     bool isRandomLocationArmRight = true;
 
+    LPTIMER shootPhaseTimer;
+    LPTIMER singleShotTimer;
+
     void checkTargetLocation();
+    void ShootPlayer();
 
 public:
     CBoss() {};
@@ -32,6 +41,9 @@ public:
     virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs);
 
     virtual bool IsBlockableObject(LPGAMEOBJECT obj);
+
+    virtual void HandleTimerTick(LPTIMER sender);
+    void CalcBoundingBoxCenter(LPGAMEOBJECT obj, float& x, float& y);
 };
 typedef CBoss* LPBOSS;
 

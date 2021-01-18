@@ -8,9 +8,11 @@
 
 CBullet_JasonOverhead::CBullet_JasonOverhead(float x, float y, int sectionId, int dirX, int dirY, int level, int index) : CBullet::CBullet(CLASS_JASON_OVERHEAD_BULLET, x, y, sectionId, true)
 {
+	damage = BULLET_JASON_OVERHEAD_DAMAGE;
+
 	startx = dirX;
 	this->bulletLevel = level;
-	bulletLevel = 7;
+
 	if (bulletLevel < 4) // bullets 0-> 3
 		bulletLine = new StraightLine(speed, bulletLevel, dirX, dirY);
 

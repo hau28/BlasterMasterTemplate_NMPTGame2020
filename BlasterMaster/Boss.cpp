@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <time.h>  
 #include <math.h>
+#include "Bullet_Boss.h"
 
 const int BOSS_BOUNDBOX_WIDTH = 36;
 const int BOSS_BOUNDBOX_HEIGHT = 16;
@@ -97,6 +98,9 @@ CBoss::CBoss(int classId, int x, int y, int sectionId, int animsId) : CEnemy::CE
 	int rand2 = rand() % 2;
 	if (rand1 == 0) vx *= -1;
 	if (rand2 == 0) vy *= -1;
+
+	singleShotTimer = new CTimer(this, DELAY_BETWEEN_SHOTS, SHOT_PER_SHOOTING_PHASE);
+	shootPhaseTimer = new CTimer(this, DELAY_BETWEEN_SHOOTING_PHASES);
 };
 
 void CBoss::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -128,6 +132,15 @@ void CBoss::checkTargetLocation()
 		this->isRandomLocationArmLeft = true;
 }
 
+void CBoss::ShootPlayer()
+{
+
+	float dirX, dirY; // direction to the player
+	CGameObjectBehaviour::CalcDirectionToPlayer(this, dirX, dirY);
+	CBullet_Boss* bullet = new CBullet_Boss(0, 0, 0, dirX, dirY);
+	CGameObjectBehaviour::CreateObjectAtCenterOfBoss(bullet, this);
+}
+
 void CBoss::UpdateVelocity(DWORD dt)
 {
 	if (y <= this->limitTop || y >= this->limitBottom)
@@ -144,6 +157,9 @@ void CBoss::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 void CBoss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
+	singleShotTimer->Update(dt);
+	shootPhaseTimer->Update(dt);
+
 	if (isRandomLocationArmLeft)
 		init_RandomTargetLeft();
 
@@ -157,6 +173,24 @@ void CBoss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 bool CBoss::IsBlockableObject(LPGAMEOBJECT obj)
 {
 	return false;
+}
+
+void CBoss::HandleTimerTick(LPTIMER sender)
+{
+	if (sender == singleShotTimer)
+	{
+		ShootPlayer();
+	}
+
+	if (sender == shootPhaseTimer)
+	{
+		singleShotTimer->Start();
+	}
+}
+
+void CBoss::CalcBoundingBoxCenter(LPGAMEOBJECT obj, float& x, float& y)
+{
+
 }
 
 void CBoss::Render(float offsetX, float offsetY)

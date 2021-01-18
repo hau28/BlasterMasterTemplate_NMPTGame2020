@@ -178,10 +178,10 @@ void CJasonOverhead::UpdateState()
 
 void CJasonOverhead::GetShootPosition(float& x, float& y, float dx, float dy)
 {
-    const int JASONOVERHEAD_GUNUP_OFFSETX_FROM_CENTER = 6;
+    const int JASONOVERHEAD_GUNUP_OFFSETX_FROM_CENTER = 8;
     const int JASONOVERHEAD_GUNUP_OFFSETY_FROM_CENTER = -28;
-    const int JASONOVERHEAD_GUNDOWN_OFFSET_FROM_CENTER = -6;
-    const int JASONOVERHEAD_GUNLEFTRIGHT_OFFSETY_FROM_CENTER = -12;
+    const int JASONOVERHEAD_GUNDOWN_OFFSET_FROM_CENTER = -4;
+    const int JASONOVERHEAD_GUNLEFTRIGHT_OFFSETY_FROM_CENTER = -15;
     const int JASONOVERHEAD_GUNLEFT_OFFSETX_FROM_CENTER = -12; 
     const int JASONOVERHEAD_GUNTRIGHT_OFFSETX_FROM_CENTER = 12;
     // set the bullet center equals to Sophia center
@@ -440,6 +440,19 @@ void CJasonOverhead::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 void CJasonOverhead::HandleOverlap(LPGAMEOBJECT overlappedObj)
 {
+    //if (!overlappedObj)
+    //    return;
+
+    //if (dynamic_cast<LPTILE_AREA>(overlappedObj))
+    //{
+    //    LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(overlappedObj);
+    //    if (tileArea->classId == CLASS_TILE_SPIKE_O)
+    //    {
+    //        CGameGlobal::GetInstance()->beingAttackedBySpike();
+    //        //HandleOnDamage();
+    //        //flagKnockedBack = true;
+    //    }
+    //}
 }
 
 void CJasonOverhead::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
