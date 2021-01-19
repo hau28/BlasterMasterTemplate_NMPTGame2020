@@ -4,15 +4,26 @@
 #include "GameObjectBehaviour.h"
 #include <stdlib.h>
 #include <time.h>  
+#include "Sound.h"
 
 
 CPanda::CPanda(int classId, int x, int y, int sectionId, int animsId) : CEnemy::CEnemy(classId, x, y, sectionId, animsId)
 {
 	healthPoint = PANDA_HEALTHPOINT;
-
+	Sound::getInstance()->stop(PANDA_MOVING);
 	SetState(PANDA_STATE_WALK_RIGHT);
 	vyMax = PANDA_MAX_FALL_SPEED;
+	stepTimer = new CTimer(this, STEP_DURATION);
 };
+
+void CPanda::HandleTimerTick(LPTIMER sender) {
+	if (sender == stepTimer)
+	{
+		if (!flagOnAir) {
+			Sound::getInstance()->play(PANDA_MOVING, false, 1);
+		}
+	}
+}
 
 void CPanda::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -39,6 +50,7 @@ void CPanda::UpdateVelocity(DWORD dt)
 {
 	float Xplayer, Yplayer;
 	CGame::GetInstance()->GetCurrentPlayer()->GetPosition(Xplayer, Yplayer);
+	
 	if (!flagOnAir && vy >= 0)
 	{
 		if (isGoingToPlayer)
@@ -93,6 +105,7 @@ void CPanda::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 			flagOnAir = false;
 			if (flagTouchWall)
 			{
+				Sound::getInstance()->play(PANDA_JUMP_SOUND, false, 1);
 				vy = -PANDA_JUMP;
 			}
 		}
@@ -139,6 +152,7 @@ void CPanda::checkDeoverlapPlayer()
 
 void CPanda::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
+	stepTimer->Update(dt);
 	UpdateVelocity(dt);
 	flagOnAir = true;
 	flagTouchWall = false;
@@ -150,7 +164,6 @@ void CPanda::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 		SetState(PANDA_STATE_WALK_RIGHT);
 	if (vx < 0)
 		SetState(PANDA_STATE_WALK_LEFT);
-
 	// CuteTN
 	flashingEffect->Update(dt);
-}
+}	

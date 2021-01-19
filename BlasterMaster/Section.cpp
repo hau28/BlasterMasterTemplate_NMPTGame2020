@@ -192,8 +192,13 @@ void CSection::removeObject(LPGAMEOBJECT obj, bool deleteAfterRemoving)
 
 LPPORTAL CSection::findScenePortal(int port)
 {
+	if (gridObjects == nullptr)
+		return nullptr;
+
+	DebugOut(L"\n8374");
 	vector<LPGAMEOBJECT> objects = gridObjects->GetAllObjects();
 
+	DebugOut(L"\n123");
 	for (int i = 0; i < objects.size(); i++)
 	{
 		if (objects[i]->classId == CLASS_TILE_SCENEPORTAL)
@@ -203,7 +208,7 @@ LPPORTAL CSection::findScenePortal(int port)
 				return portal;
 		}
 	}
-
+	DebugOut(L"\n456");
 	return nullptr;
 }
 

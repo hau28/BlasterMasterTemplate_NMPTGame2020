@@ -142,6 +142,7 @@
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="BossArm.cpp" />
     <ClCompile Include="BossHand.cpp" />
+    <ClCompile Include="Bullet_Boss.cpp" />
     <ClCompile Include="Grenade_JasonOverhead.cpp" />
     <ClCompile Include="BreakableBlock.cpp" />
     <ClCompile Include="Bullet_Cannon.cpp" />
@@ -217,6 +218,7 @@
     <ClInclude Include="Boss.h" />
     <ClInclude Include="BossArm.h" />
     <ClInclude Include="BossHand.h" />
+    <ClInclude Include="Bullet_Boss.h" />
     <ClInclude Include="Grenade_JasonOverhead.h" />
     <ClInclude Include="BreakableBlock.h" />
     <ClInclude Include="Bullet.h" />
@@ -288,9 +290,33 @@
   </ItemGroup>
   <ItemGroup>
     <Media Include="Sound\area2.wav" />
+    <Media Include="Sound\buzz.wav" />
+    <Media Include="Sound\dome_fly.wav" />
     <Media Include="Sound\enemy_die.wav" />
+    <Media Include="Sound\enemy_got_hit.wav" />
+    <Media Include="Sound\enemy_overhead_shoot.wav" />
+    <Media Include="Sound\jason_die.wav" />
     <Media Include="Sound\jason_got_hit.wav" />
-    <Media Include="Sound\small_pink_bullet_to_wall.wav" />
+    <Media Include="Sound\jason_jump.wav" />
+    <Media Include="Sound\jason_sideview_shoot.wav" />
+    <Media Include="Sound\menu.wav" />
+    <Media Include="Sound\menu_select.wav" />
+    <Media Include="Sound\mine.wav" />
+    <Media Include="Sound\panda_jump.wav" />
+    <Media Include="Sound\panda_moving.wav" />
+    <Media Include="Sound\powerup.wav" />
+    <Media Include="Sound\skull_bomb.wav" />
+    <Media Include="Sound\small_pink_bullet_explosion.wav" />
+    <Media Include="Sound\sophia_bullet_explosion.wav" />
+    <Media Include="Sound\sophia_die.wav" />
+    <Media Include="Sound\sophia_got_hit.wav" />
+    <Media Include="Sound\sophia_jump.wav" />
+    <Media Include="Sound\sophia_land.wav" />
+    <Media Include="Sound\sophia_shoot.wav" />
+    <Media Include="Sound\swap_player.wav" />
+    <Media Include="Sound\switch_scene.wav" />
+    <Media Include="Sound\teleporter_switch.wav" />
+    <Media Include="Sound\worm_moving.wav" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BlasterMaster.rc" />

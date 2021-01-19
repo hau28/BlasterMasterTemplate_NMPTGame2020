@@ -99,6 +99,7 @@ public:
 	//get value methods
 	int ID_SECTION_BOSSOVERHEAD = -1;
 	bool stateBossBlackBackground = false;
+	bool isDeadBoss = false;
 	static CGameGlobal* GetInstance();
 	int get_healthSophia() { return this->healthSophia; }
 	int get_healthJasonSideView() { return this->healthJason; }

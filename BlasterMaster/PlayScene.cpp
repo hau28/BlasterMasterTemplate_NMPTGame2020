@@ -327,11 +327,11 @@ void CPlayScene::InitSaveGameOverhead()
 	global->getCheckPoint(xPlayer, yPlayer);
 	idSection = global->getCurrentSection();
 
-	DebugOut(L"\n get info");
 	CurrentSectionId = idSection;
 
 	Sections[idSection]->deleteJasonOverhead();
 	Sections[idSection]->pushJasonOverhead(xPlayer, yPlayer, idSection);
+	DebugOut(L"\n get info");
 }
 
 void CPlayScene::Load()
@@ -1007,11 +1007,19 @@ void CPlayScene::InitSectionForOverhead(int port)
 
 	for (auto section : Sections)
 	{
+		if (section.second == nullptr)
+		{
+			DebugOut(L"\nNghia da lam ban be that vong %d", section.first);
+
+			continue;
+		}
+			
 		portal = section.second->findScenePortal(port);
 		if (portal)
 			break;
 	}
 
+	DebugOut(L"\nlalalla");
 	if (!portal)
 	{
 		/*DebugOut(L"\nok2");*/ //Please don't remove it because it's all
@@ -1023,7 +1031,7 @@ void CPlayScene::InitSectionForOverhead(int port)
 	CGameObjectBehaviour::SetBoundingBoxCenter(CJasonOverhead::GetInstance(), playerCenterX, playerCenterY);
 	float playerX, playerY;
 	CJasonOverhead::GetInstance()->GetPosition(playerX, playerY);
-
+	DebugOut(L"\nlalalla1");
 	CurrentSectionId = portal->currentSectionId;
 	CJasonOverhead::GetInstance()->currentSectionId = CurrentSectionId;
 
@@ -1073,19 +1081,23 @@ void CPlayScene::HandleKeyDown(DWORD dt, int keyCode)
 	CGameGlobal* global = CGameGlobal::GetInstance();
 	if (keyCode == DIK_RETURN && !global->isMenuWeaponOpen())
 	{
+		Sound::getInstance()->play(MENU, false, 1);
 		global->OpenMenuWeapon();
 		return;
 	}
 	if (keyCode == DIK_RETURN && global->isMenuWeaponOpen())
 	{
+		Sound::getInstance()->play(MENU, false, 1);
 		global->CloseMenuWeapon();
 	}
 	if ((keyCode == DIK_RIGHT || keyCode == DIK_UP) && global->isMenuWeaponOpen())
 	{
+		Sound::getInstance()->play(MENU_SELECT, false, 1);
 		global->NextSelectedItem();
 	}
 	if ((keyCode == DIK_LEFT || keyCode == DIK_DOWN) && global->isMenuWeaponOpen())
 	{
+		Sound::getInstance()->play(MENU_SELECT, false, 1);
 		global->BackSelectedItem();
 	}
 }

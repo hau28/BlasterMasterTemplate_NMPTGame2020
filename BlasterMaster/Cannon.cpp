@@ -5,6 +5,7 @@
 #include "CreateObjectEvent.h"
 #include "RemoveObjectEvent.h"
 #include "Bullet_Cannon.h"
+#include "Sound.h"
 
 void CCannon::UpdateState()
 {
@@ -38,6 +39,7 @@ void CCannon::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 void CCannon::ShootHorizontal()
 {
+	Sound::getInstance()->play(ENEMY_OVERHEAD_SHOOT, false, 1);
 	CBullet_Cannon* bullet1 = new CBullet_Cannon(0, 0, 0, 1, 0);
 	CGameObjectBehaviour::CreateObjectAtCenterOfAnother(bullet1, this);
 
@@ -47,6 +49,7 @@ void CCannon::ShootHorizontal()
 
 void CCannon::ShootVertical()
 {
+	Sound::getInstance()->play(ENEMY_OVERHEAD_SHOOT, false, 1);
 	CBullet_Cannon* bullet1 = new CBullet_Cannon(0, 0, 0, 0, 1);
 	CGameObjectBehaviour::CreateObjectAtCenterOfAnother(bullet1, this);
 	CBullet_Cannon* bullet2 = new CBullet_Cannon(0, 0, 0, 0, -1);

@@ -2,6 +2,7 @@
 
 #include "TileArea.h"
 #include "GameObjectBehaviour.h"
+#include "Sound.h"
 
 CBullet_JasonSideview::CBullet_JasonSideview(float x, float y, int sectionId, float dirX) : CBullet::CBullet(CLASS_SMALL_PINK_BULLET, x, y, sectionId, true)
 {
@@ -42,6 +43,10 @@ void CBullet_JasonSideview::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 		CEnemy* enemy = dynamic_cast<CEnemy*>(obj);
 		CGameObjectBehaviour::HandleFriendlyBulletHitsEnemy(this, enemy);
 	}
+
+	if (IsBlockableObject(obj) && !dynamic_cast<CEnemy*>(obj)) {
+		Sound::getInstance()->play(SMALL_PINK_BULLET_EXPLOSION, false, 1);
+	}
 }
 
 void CBullet_JasonSideview::HandleOverlap(LPGAMEOBJECT overlappedObj)
@@ -60,6 +65,7 @@ void CBullet_JasonSideview::UpdatePosition(DWORD dt)
 	if (abs(x - startX) >= BULLET_JASON_SIDEVIEW_DISTANCE)
 	{
 		x = startX + (vx > 0 ? 1 : -1) * BULLET_JASON_SIDEVIEW_DISTANCE;
+		Sound::getInstance()->play(SMALL_PINK_BULLET_EXPLOSION, false, 1);
 		Explode(CLASS_SMALL_EXPLOSION_SIDEVIEW);
 	}
 }

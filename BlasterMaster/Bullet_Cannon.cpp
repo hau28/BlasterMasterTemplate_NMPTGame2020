@@ -4,13 +4,15 @@
 #include "GameObjectBehaviour.h"
 #include "Sound.h"
 
-CBullet_Cannon::CBullet_Cannon(float x, float y, int sectionId, float dirX, float dirY) : CBullet::CBullet(CLASS_LARGE_PINK_BULLET, x, y, sectionId, false)
+CBullet_Cannon::CBullet_Cannon(float x, float y, int sectionId, float dirX, float dirY) : CBullet::CBullet(CLASS_ENEMY_OVERHEAD_BULLET, x, y, sectionId, false)
 {
 	float nx, ny;
 	CGameObjectBehaviour::NormalizeVector2(dirX, dirY, nx, ny);
 
 	vx = nx * BULLET_CANNON_SPEED;
 	vy = ny * BULLET_CANNON_SPEED;
+
+	isHiddenByForeground = true;
 }
 
 void CBullet_Cannon::UpdateVelocity(DWORD dt)
@@ -28,9 +30,9 @@ void CBullet_Cannon::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 	if (IsBlockableObject(obj))
 	{
-		Sound::getInstance()->play(SMALL_PINK_BULLET_TO_WALL, false, 1);
+		Sound::getInstance()->play(SMALL_PINK_BULLET_EXPLOSION, false, 1);
 		CGameObjectBehaviour::BlockObject(dt, coEvent);
-		Explode(CLASS_EXPLOSION_OVERHEAD);
+		CGameObjectBehaviour::RemoveObject(this);
 	}
 }
 

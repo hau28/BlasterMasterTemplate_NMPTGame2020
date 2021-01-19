@@ -18,6 +18,7 @@ class CMine : public CEnemy
 
     void ShootBullets();
     virtual void Explode();
+    bool flagSound = true;
 
 public:
     CMine() {};

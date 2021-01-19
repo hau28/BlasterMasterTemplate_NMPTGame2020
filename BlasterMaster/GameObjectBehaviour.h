@@ -87,7 +87,7 @@ public:
 	static void CreateObject(LPGAMEOBJECT obj);
 
 	static void CreateObjectAtCenterOfAnother(LPGAMEOBJECT newObj, LPGAMEOBJECT fromObj);
-
+	static void CreateObjectAtCenterOfBoss(LPGAMEOBJECT newObj, LPGAMEOBJECT fromObj);
 	/// <summary>
 	/// Remove a game object from its section in the next frame.
 	/// Deallocate the object memory if isDestroyAfterRemove is true

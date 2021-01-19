@@ -2,6 +2,7 @@
 #include "TileArea.h"
 #include "GameObjectBehaviour.h"
 #include "CollisionSolver.h"
+#include "Sound.h"
 
 CBullet_Skull::CBullet_Skull(float x, float y, int sectionId, float dirX, float dirY) : CBullet::CBullet(CLASS_LARGE_GRAY_BULLET, x, y, sectionId, false)
 {
@@ -69,6 +70,7 @@ void CBullet_Skull::HandleOverlap(LPGAMEOBJECT overlappedObj)
 
 void CBullet_Skull::HandleTimerTick(CTimer* sender)
 {
+	Sound::getInstance()->play(SMALL_PINK_BULLET_EXPLOSION, false, 1);
 	Explode(CLASS_LARGE_EXPLOSION_SIDEVIEW);
 }
 

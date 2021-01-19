@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "Enemy.h"
 
-class CInsect : public CEnemy
+class CInsect : public CEnemy, public ITimeTrackable
 {
 
     const int INSECT_BOUNDBOX_WIDTH = 18;
@@ -20,11 +20,14 @@ class CInsect : public CEnemy
     const int INSECT_HEALTHPOINT = 6;
 
 private:
-    bool flagtouchwall = false;
 
+    const int BUZZ_DURATION = 300;
+    bool flagtouchwall = false;
+    LPTIMER buzzTimer;
     int timeUpdateVelocite;
     void UpdateState();
     bool turnRight = true;
+    bool flagDown = false;
 public:
     CInsect() {};
     CInsect(int classId, int x, int y, int sectionId, int animsId);
@@ -34,5 +37,6 @@ public:
     virtual void HandleOverlap(LPGAMEOBJECT overlappedObj);
 
     virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+    virtual void HandleTimerTick(LPTIMER sender);
 };
 typedef CInsect* LPINSECT;

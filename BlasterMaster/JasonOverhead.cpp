@@ -9,6 +9,7 @@
 #include "SwitchSceneEvent.h"
 #include "Bullet_JasonOverhead.h"
 #include "Grenade_JasonOverhead.h"
+#include "Sound.h"
 
 CJasonOverhead* CJasonOverhead::__instance = nullptr;
 
@@ -177,10 +178,10 @@ void CJasonOverhead::UpdateState()
 
 void CJasonOverhead::GetShootPosition(float& x, float& y, float dx, float dy)
 {
-    const int JASONOVERHEAD_GUNUP_OFFSETX_FROM_CENTER = 6;
+    const int JASONOVERHEAD_GUNUP_OFFSETX_FROM_CENTER = 8;
     const int JASONOVERHEAD_GUNUP_OFFSETY_FROM_CENTER = -28;
-    const int JASONOVERHEAD_GUNDOWN_OFFSET_FROM_CENTER = -6;
-    const int JASONOVERHEAD_GUNLEFTRIGHT_OFFSETY_FROM_CENTER = -12;
+    const int JASONOVERHEAD_GUNDOWN_OFFSET_FROM_CENTER = -4;
+    const int JASONOVERHEAD_GUNLEFTRIGHT_OFFSETY_FROM_CENTER = -15;
     const int JASONOVERHEAD_GUNLEFT_OFFSETX_FROM_CENTER = -12; 
     const int JASONOVERHEAD_GUNTRIGHT_OFFSETX_FROM_CENTER = 12;
     // set the bullet center equals to Sophia center
@@ -393,6 +394,7 @@ void CJasonOverhead::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
         case CLASS_TILE_PORTAL:
         {
+
             SnapToPortalMiddle(obj, coEvent->ny != 0);
 
             LPPORTAL fromPortal = dynamic_cast<LPPORTAL>(obj);
@@ -400,9 +402,17 @@ void CJasonOverhead::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
             // Sanh code from here!
             LPGAME_EVENT newEvent = new CWalkInPortalEvent("WalkInPortalEvent", fromPortal, toPortal);
-            CGame::GetInstance()->AddGameEvent(newEvent);
-            // to do: create an event to CGame, let CGame handle switching section
-            DebugOut(L"Jason to portal %d of section %d, tick %d\n", toPortal->associatedPortalId, toPortal->currentSectionId, GetTickCount());
+
+            if (currentSectionId == CGameGlobal::GetInstance()->ID_SECTION_BOSSOVERHEAD && !CGameGlobal::GetInstance()->isDeadBoss)
+            {
+                CGameObjectBehaviour::BlockObject(dt, coEvent);
+            }
+            else
+            {
+                CGame::GetInstance()->AddGameEvent(newEvent);
+                // to do: create an event to CGame, let CGame handle switching section
+                DebugOut(L"Jason to portal %d of section %d, tick %d\n", toPortal->associatedPortalId, toPortal->currentSectionId, GetTickCount());
+            }
 
             break;
         }
@@ -412,6 +422,7 @@ void CJasonOverhead::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
             LPPORTAL portal = dynamic_cast<LPPORTAL>(obj);
             if (portal)
             {
+                Sound::getInstance()->play(SWITCH_SCENE, false, 1);
                 SwitchSceneEvent* sse = new SwitchSceneEvent(portal);
                 DebugOut(L"Switch to scene Id: %d\n", sse->getIDNextScene());
                 CGame::AddGameEvent(sse);
@@ -438,6 +449,19 @@ void CJasonOverhead::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 void CJasonOverhead::HandleOverlap(LPGAMEOBJECT overlappedObj)
 {
+    //if (!overlappedObj)
+    //    return;
+
+    //if (dynamic_cast<LPTILE_AREA>(overlappedObj))
+    //{
+    //    LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(overlappedObj);
+    //    if (tileArea->classId == CLASS_TILE_SPIKE_O)
+    //    {
+    //        CGameGlobal::GetInstance()->beingAttackedBySpike();
+    //        //HandleOnDamage();
+    //        //flagKnockedBack = true;
+    //    }
+    //}
 }
 
 void CJasonOverhead::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)

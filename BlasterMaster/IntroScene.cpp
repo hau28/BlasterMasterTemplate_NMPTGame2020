@@ -372,6 +372,8 @@ void CIntroScene::pressContinue()
 	isFilmFinished = false;
 	isIntroFinished = false;
 	isLeftFinished = false;
+
+
 }
 
 void CIntroScene::pressEnd()

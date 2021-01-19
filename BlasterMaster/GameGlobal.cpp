@@ -233,8 +233,9 @@ void CGameGlobal::beingAttackedByEnemy()
 	case CLASS_JASONSIDEVIEW:
 		this->healthJason -= BODY_DAMAGE_ENEMY;
 		break;
-	default:
+	case CLASS_JASONOVERHEAD:
 		this->healthJason -= BODY_DAMAGE_ENEMY;
+		AddToGunLevel(-1);
 		break;
 	}
 
@@ -256,6 +257,7 @@ void CGameGlobal::beingAttackedByBullet()
 		break;
 	default:
 		this->healthJason -= BODY_DAMAGE_BULLET;
+		AddToGunLevel(-1);
 		break;
 	}
 
@@ -293,6 +295,7 @@ void CGameGlobal::beingAttackedBySpike()
 		break;
 	default:
 		this->healthJason -= BODY_DAMAGE_SPIKE;
+		AddToGunLevel(-1);
 		break;
 	}
 
@@ -641,6 +644,11 @@ void CGameGlobal::resetGame()
 	left = 3;
 	resetHealth();
 	this->Saved = false;
+
+	//hoi ky nhi?
+	this->stateBossBlackBackground = false;
+	this->isDeadBoss = false;
+	this->HasCrusherBeam = false;
 }
 
 void CGameGlobal::saveSophia(float offx, float offy)

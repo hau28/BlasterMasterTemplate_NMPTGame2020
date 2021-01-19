@@ -12,7 +12,7 @@ const float EYEBALL_FLY_SPEED = 0.15f;
 const float EYEBALL_STOP_SPEED = 0.004f;
 const float EYEBALL_BULLET_SPEED = 0.08f;
 
-const int EYEBALL_HEALTHPOINT = 3;
+const int EYEBALL_HEALTHPOINT = 1;
 
 
 

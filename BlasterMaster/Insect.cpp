@@ -1,6 +1,7 @@
 #include "Insect.h"
 #include "TileArea.h"
 #include "GameObjectBehaviour.h"
+#include "Sound.h"
 
 
 CInsect::CInsect(int classId, int x, int y, int sectionId, int animsId) : CEnemy::CEnemy(classId, x, y, sectionId, animsId)
@@ -13,6 +14,7 @@ CInsect::CInsect(int classId, int x, int y, int sectionId, int animsId) : CEnemy
 	vy = INSECT_MOVEUP_SPEED_Y;
 
 	timeUpdateVelocite = GetTickCount();
+	buzzTimer = new CTimer(this, BUZZ_DURATION);
 }
 
 void CInsect::UpdateVelocity(DWORD dt)
@@ -32,6 +34,10 @@ void CInsect::UpdateVelocity(DWORD dt)
 		}
 	}
 
+	if (vy > 0)
+		flagDown = true;
+	else
+		flagDown = false;
 	if (!turnRight)
 		vx = INSECT_MOVE_SPEED_X;
 	else 
@@ -39,8 +45,8 @@ void CInsect::UpdateVelocity(DWORD dt)
 
 	/*if (!flagtouchwall ) 
 		vy = -INSECT_MOVEUP_SPEED_Y;*/
-
 	UpdateState();
+	buzzTimer->Update(dt);
 
 }
 
@@ -69,12 +75,14 @@ void CInsect::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 		{
 			flagtouchwall = true;
 			vy = INSECT_FALL_SPEED_Y;
+			flagDown = true;
 		}
 
 		if (coEvent->ny < 0)
 		{
 			flagtouchwall = false;
 			vy = -INSECT_MOVEUP_SPEED_Y;
+			flagDown = true;
 		}
 
 		if (coEvent->nx < 0)
@@ -103,7 +111,15 @@ void CInsect::GetBoundingBox(float& left, float& top, float& right, float& botto
 	bottom = top + INSECT_BOUNDBOX_HEIGHT;
 }
 
+void CInsect::HandleTimerTick(LPTIMER sender)
+{
+	if (sender == buzzTimer)
+	{
+		if (flagDown) {
+			Sound::getInstance()->play(BUZZ, false, 1);
+		}
+	}
 
-
+}
 
 

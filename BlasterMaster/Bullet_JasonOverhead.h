@@ -5,12 +5,14 @@
 class BulletJasonOverheadLine {
 protected:
 	const float pi = 3.141592654;
-	const float BULLET_JASONOVERHEAD_SPEED = 0.15;
+	const float BULLET_JASONOVERHEAD_SPEED = 0.24;
 
+	float omega = 0.9;
 	float vx = 1;
 	float vy = 1;
 
 	bool flagover = false;
+
 public:
 	float getVx() { return vx; }
 	float getVy() { return vy; }
@@ -50,9 +52,26 @@ public:
 class WaveLine : public BulletJasonOverheadLine {
 private:
 
+	float direction;
+	float fiOffset; //RAD
+	float fi = 0;	//RAD
+
+	DWORD updateTime = 0;
+	void Init(int dx, int dy);
+
+	const float  AMPLITUDE = 1;
+
+	int originalAngle;
+
+	static int iAngle;
+	static int arrAngle[2];
+
+	float speed;
+	float velocity = 0.4;
 public:
 	WaveLine(float& speed, int level, int dx, int dy);
 	void Update(DWORD dt);
+
 };
 
 class CBullet_JasonOverhead : public CBullet
@@ -68,11 +87,11 @@ private:
 	float startY = 0;
 	int startx;
 	const float BULLET_JASON_OVERHEAD_DISTANCE = 4 * 16;
+	const float BULLET_JASON_OVERHEAD_DAMAGE = 1;
 
 	float speed;
 	BulletJasonOverheadLine* bulletLine;
 	int bulletLevel;
-	
 	bool flagOver = false;
 public:
 	CBullet_JasonOverhead() {};
@@ -85,6 +104,6 @@ public:
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs);
 
 	bool getflag() { return flagOver; };
-	
+
 };
 typedef CBullet_JasonOverhead* LPBULLET_JASONOVERHEAD;

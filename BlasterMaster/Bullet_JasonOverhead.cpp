@@ -8,8 +8,9 @@
 
 CBullet_JasonOverhead::CBullet_JasonOverhead(float x, float y, int sectionId, int dirX, int dirY, int level, int index) : CBullet::CBullet(CLASS_JASON_OVERHEAD_BULLET, x, y, sectionId, true)
 {
-	startx = dirX;
+	damage = BULLET_JASON_OVERHEAD_DAMAGE;
 
+	startx = dirX;
 	this->bulletLevel = level;
 
 	if (bulletLevel < 4) // bullets 0-> 3
@@ -135,26 +136,12 @@ CircleLine::CircleLine(float& speed, int level, int dx, int dy)
 	if (dx == 0)
 	{
 		vx = 0;
-		if (dy == -1)
-		{
-			vy = -1;
-		}
-		else
-		{ 
-			vy = 1;
-		}
+		vy = (dy == -1 ? -1 : 1);
 	}
 	else
 	{
 		vy = 0;
-		if (dx == -1)
-		{
-			vx = -1;
-		}
-		else
-		{
-			vx = 1;
-		}
+		vx = (dx == -1 ? -1 : 1);
 	}
 
 	dir = arrDir[iDir];
@@ -188,16 +175,63 @@ void CircleLine::Update(DWORD dt)
 	}
 }
 
+void WaveLine::Init(int dx, int dy)
+{
+	if (dx == 1)
+		direction = 3;
+
+	if (dx == -1)
+		direction = 1;
+
+	if (dy == 1)
+		direction = 4;
+
+	if (dy == -1)
+		direction = 2;
+}
+
 WaveLine::WaveLine(float& speed, int level, int dx, int dy)
 {
-	speed = BULLET_JASONOVERHEAD_SPEED * (level == 7 ? 1 : 0.5);
+	//speed = (level == 6 ? BULLET_JASONOVERHEAD_SPEED * 0.5 : BULLET_JASONOVERHEAD_SPEED*0.7);
+	speed = BULLET_JASONOVERHEAD_SPEED;
+	Init(dx, dy);
+	
+	originalAngle = arrAngle[iAngle];
+	iAngle = (iAngle + 1) % 2;
 
-	if (dx == 0) vx = 0; else vx = (dx < 0 ? -1 : 1);
-	if (dy == 0) vy = 0; else vy = (dy < 0 ? -1 : 1);
+	velocity = (level == 6 ? BULLET_JASONOVERHEAD_SPEED : BULLET_JASONOVERHEAD_SPEED * 2);
 }
+
+int WaveLine::iAngle = 0;
+int WaveLine::arrAngle[2] = { 60,220 };
 
 void WaveLine::Update(DWORD dt)
 {
+	updateTime += 50;
+	omega -= 0.05;
+	if (direction == 4)
+	{
+		vx = AMPLITUDE * cos(updateTime + originalAngle);
+		vy = velocity;
+	}
+
+	if (direction == 2)
+	{
+		vx = AMPLITUDE * cos(updateTime + originalAngle);
+		vy = -velocity;
+	}
+
+	if (direction == 3)
+	{
+		vy = AMPLITUDE * cos(updateTime + originalAngle);
+		vx = velocity;
+	}
+
+	if (direction == 1)
+	{
+		vy = AMPLITUDE * cos(updateTime + originalAngle);
+		vx = -velocity;
+	}
 
 }
 

@@ -14,6 +14,7 @@
 #include "SwitchSceneEvent.h"
 #include "GameGlobal.h"
 #include "BreakableBlock.h"
+#include "Sound.h"
 
 CSophia::CSophia(int classId, int x, int y)
 {
@@ -223,6 +224,9 @@ void CSophia::PlayVulnerableFlasingEffect()
 
 void CSophia::HandleOnDamage()
 {
+    if (CGameGlobal::GetInstance()->get_healthSophia() > 0) {
+        Sound::getInstance()->play(SOPHIA_GOT_HIT, false, 1);
+    }
     flagInvulnerable = true;
     invulnerableTimer->Start();
     vulnerableFlashingEffect->Play();
@@ -248,8 +252,9 @@ void CSophia::updateBody()
     if (flagOnAir) {
         if (vy < 0)
             bodyState = 3;
-        else if (vy > 0 && ground-y>1)
+        else if (vy > 0 && ground - y > 1) {
             bodyState = 1;
+        }
     }
 
     if (flag_JasonJumpOut) 
@@ -334,10 +339,12 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
 {
     if (!flagOnAir && keyCode == ControlKeys::JumpKey)
     {
+        Sound::getInstance()->play(SOPHIA_JUMP, false, 1);
         vy = -SOPHIA_JUMP_FORCE;
     }
     if (!flagOnAir && keyCode == ControlKeys::SwitchPlayerKey)
     {
+        Sound::getInstance()->play(SWAP_PLAYER, false, 1);
         flag_JasonJumpOut = true;
         updateBody();
         
@@ -511,6 +518,8 @@ void CSophia::CountSophiaBulletsAndWeapons(vector<LPGAMEOBJECT>* coObjs)
 
 void CSophia::Explode()
 {
+    Sound::getInstance()->play(SOPHIA_DIE,false,1);
+
     const float SOPHIA_EXPLOSION_OFFSET_X = -9;
     const float SOPHIA_EXPLOSION_OFFSET_Y = -8;
 
@@ -809,6 +818,7 @@ void CSophia::Shoot()
     float dx, dy, sx, sy;
     GetGunDirection(dx, dy);
 
+    Sound::getInstance()->play(SOPHIA_SHOOT, false, 1);
     LPBULLET_SOPHIA bullet = new CBullet_Sophia(x, y, currentSectionId, dx, dy);
 
     GetShootPosition(sx, sy);

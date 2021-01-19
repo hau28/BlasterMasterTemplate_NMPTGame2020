@@ -160,6 +160,7 @@
     <ClCompile Include="Grenade_JasonOverhead.cpp" />
     <ClCompile Include="Bullet_Teleporter.cpp" />
     <ClCompile Include="Bullet_Cannon.cpp" />
+    <ClCompile Include="Bullet_Boss.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -302,6 +303,7 @@
     <ClInclude Include="Grenade_JasonOverhead.h" />
     <ClInclude Include="Bullet_Teleporter.h" />
     <ClInclude Include="Bullet_Cannon.h" />
+    <ClInclude Include="Bullet_Boss.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="AnimationCore">
@@ -333,12 +335,74 @@
     <Media Include="Sound\jason_got_hit.wav">
       <Filter>Sound</Filter>
     </Media>
-    <Media Include="Sound\small_pink_bullet_to_wall.wav">
-      <Filter>Sound</Filter>
-    </Media>
     <Media Include="Sound\area2.wav">
       <Filter>Sound</Filter>
     </Media>
+    <Media Include="Sound\worm_moving.wav">
+      <Filter>Sound</Filter>
+    </Media>
+    <Media Include="Sound\panda_jump.wav">
+      <Filter>Sound</Filter>
+    </Media>
+    <Media Include="Sound\panda_moving.wav">
+      <Filter>Sound</Filter>
+    </Media>
+    <Media Include="Sound\dome_fly.wav">
+      <Filter>Sound</Filter>
+    </Media>
+    <Media Include="Sound\menu.wav">
+      <Filter>Sound</Filter>
+    </Media>
+    <Media Include="Sound\jason_die.wav">
+      <Filter>Sound</Filter>
+    </Media>
+    <Media Include="Sound\sophia_got_hit.wav">
+      <Filter>Sound</Filter>
+    </Media>
+    <Media Include="Sound\sophia_die.wav">
+      <Filter>Sound</Filter>
+    </Media>
+    <Media Include="Sound\sophia_shoot.wav">
+      <Filter>Sound</Filter>
+    </Media>
+    <Media Include="Sound\sophia_land.wav">
+      <Filter>Sound</Filter>
+    </Media>
+    <Media Include="Sound\sophia_jump.wav">
+      <Filter>Sound</Filter>
+    </Media>
+    <Media Include="Sound\menu_select.wav">
+      <Filter>Sound</Filter>
+    </Media>
+    <Media Include="Sound\enemy_got_hit.wav">
+      <Filter>Sound</Filter>
+    </Media>
+    <Media Include="Sound\sophia_bullet_explosion.wav">
+      <Filter>Sound</Filter>
+    </Media>
+    <Media Include="Sound\swap_player.wav">
+      <Filter>Sound</Filter>
+    </Media>
+    <Media Include="Sound\jason_sideview_shoot.wav">
+      <Filter>Sound</Filter>
+    </Media>
+    <Media Include="Sound\small_pink_bullet_explosion.wav">
+      <Filter>Sound</Filter>
+    </Media>
+    <Media Include="Sound\buzz.wav">
+      <Filter>Sound</Filter>
+    </Media>
+    <Media Include="Sound\skull_bomb.wav">
+      <Filter>Sound</Filter>
+    </Media>
+    <Media Include="Sound\mine.wav">
+      <Filter>Sound</Filter>
+    </Media>
+    <Media Include="Sound\powerup.wav" />
+    <Media Include="Sound\jason_jump.wav" />
+    <Media Include="Sound\switch_scene.wav" />
+    <Media Include="Sound\enemy_overhead_shoot.wav" />
+    <Media Include="Sound\teleporter_switch.wav" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BlasterMaster.rc" />

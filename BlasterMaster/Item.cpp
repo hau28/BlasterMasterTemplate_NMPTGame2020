@@ -1,7 +1,7 @@
 #include "Item.h"
 #include "GameGlobal.h"
 #include "GameObjectBehaviour.h"
-
+#include "Sound.h"
 
 vector<Color> CItem::itemFlashingColors =
 {
@@ -48,6 +48,7 @@ void CItem::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 	LPGAMEOBJECT player = CGame::GetInstance()->GetCurrentPlayer();
 	if (obj == player)
 	{
+
 		ApplyEffect(obj->classId);
 		CGameObjectBehaviour::RemoveObject(this);
 	}
@@ -106,6 +107,7 @@ void CItem::HandleTimerTick(CTimer* sender)
 
 void CItem::ApplyEffect(int playerClassId)
 {
+	Sound::getInstance()->play(POWERUP, false, 1);
 	switch (classId)
 	{
 	case CLASS_ITEM_POWER:

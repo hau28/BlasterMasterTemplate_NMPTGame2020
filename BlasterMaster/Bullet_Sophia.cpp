@@ -4,6 +4,7 @@
 #include "TileArea.h"
 #include "CreateObjectEvent.h"
 #include "RemoveObjectEvent.h"
+#include "Sound.h"
 
 CBullet_Sophia::CBullet_Sophia(int x, int y, int sectionId, int dirX, int dirY) : CBullet(CLASS_SOPHIA_BULLET, x, y, sectionId, true)
 {
@@ -48,6 +49,10 @@ void CBullet_Sophia::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 	{
 		CEnemy* enemy = dynamic_cast<CEnemy*>(obj);
 		CGameObjectBehaviour::HandleFriendlyBulletHitsEnemy(this, enemy);
+	}
+
+	if (IsBlockableObject(obj) && !dynamic_cast<CEnemy*>(obj)) {
+		Sound::getInstance()->play(SOPHIA_BULLET_EXPLOSION, false, 1);
 	}
 }
 
