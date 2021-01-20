@@ -24,18 +24,20 @@ const float OFFSET_Y_ARM_NODE = 15;
 
 void CBoss::init_RandomTargetLeft()
 {
+	DebugOut(L"\ntarget left");
 	this->isRandomLocationArmLeft = false;
 	
 	int rand1 = rand() % 2;
 	int rand2 = rand() % 2;
-	targeHandtLeftX = - rand1 * 60;
-	targetHandLeftY = rand2 * 60;
 
 	while (rand1 == 0 && rand2 == 0)
 	{
-		int rand1 = rand() % 2;
-		int rand2 = rand() % 2;
+		rand1 = rand() % 2;
+		rand2 = rand() % 2;
 	}
+
+	targeHandtLeftX = - rand1 * 60;
+	targetHandLeftY = rand2 * 60;
 
 	rand1 = rand() % 2;
 	if (rand1 == 0)
@@ -45,14 +47,15 @@ void CBoss::init_RandomTargetLeft()
 
 void CBoss::init_RandomTargetRight()
 {
+	DebugOut(L"\ntarget right");
 	this->isRandomLocationArmRight = false;
 	int rand1 = rand() % 2;
 	int rand2 = rand() % 2;
 
 	while (rand1 == 0 && rand2 == 0)
 	{
-		int rand1 = rand() % 2;
-		int rand2 = rand() % 2;
+		rand1 = rand() % 2;
+		rand2 = rand() % 2;
 	}
 
 	targetHandRightX = rand1 * 60;
@@ -70,10 +73,7 @@ void CBoss::updateVectorHand()
 	float dau1 = (targeHandtLeftX + this->x + 15 - xHand);
 	float dau2 = (targetHandLeftY + this->y + 20 - yHand);
 
-	float vx = 0.002f, vy = 0.002f;
-	if (dau1 < 0) vx *= -1;
-	if (dau2 < 0) vy *= -1;
-
+	float vx = dau1/50000, vy = dau2/50000;
 	float hvx, hvy;
 	ArmLeft[NUMBEROFNODESARM]->GetSpeed(hvx, hvy);
 	ArmLeft[NUMBEROFNODESARM]->SetSpeed(vx + hvx, vy + hvy);
@@ -82,10 +82,7 @@ void CBoss::updateVectorHand()
 	dau1 = (targetHandRightX + this->x + 15 - xHand);
 	dau2 = (targetHandRightY + this->y + 20 - yHand);
 
-	vx = 0.002f, vy = 0.002f;
-	if (dau1 < 0) vx *= -1;
-	if (dau2 < 0) vy *= -1;
-
+	vx = dau1 / 50000; vy = dau2 / 50000;
 	ArmRight[NUMBEROFNODESARM]->GetSpeed(hvx, hvy);
 	ArmRight[NUMBEROFNODESARM]->SetSpeed(vx + hvx, vy + hvy);
 }
@@ -105,7 +102,7 @@ void CBoss::init_ObjectsArm()
 		ArmLeft.push_back(arm);
 	}
 
-	CBossHand* HandLeft = new CBossHand(CLASS_BOSS_HAND,this->x -80, this->y + 80, this->currentSectionId, BOSS_HAND_ANIMATIONS, BOSS_HAND_STATE_LEFT);
+	CBossHand* HandLeft = new CBossHand(CLASS_BOSS_HAND,this->x - 60, this->y + 80, this->currentSectionId, BOSS_HAND_ANIMATIONS, BOSS_HAND_STATE_LEFT);
 	ArmLeft.push_back(HandLeft);
 	CGameObjectBehaviour::CreateObject(HandLeft);
 
@@ -126,7 +123,7 @@ CBoss::CBoss(int classId, int x, int y, int sectionId, int animsId) : CEnemy::CE
 	this->limitTop = 0;
 	this->limitRight = 200;
 	this->limitLeft = 0;
-	this->limitBottom = 80;
+	this->limitBottom = 70;
 
 	vx = BOSS_MOVE_SPEEDX;
 	vy = BOSS_MOVE_SPEEDY;
@@ -139,6 +136,12 @@ CBoss::CBoss(int classId, int x, int y, int sectionId, int animsId) : CEnemy::CE
 	CGameGlobal::GetInstance()->ID_SECTION_BOSSOVERHEAD = sectionId;
 	singleShotTimer = new CTimer(this, DELAY_BETWEEN_SHOTS, SHOT_PER_SHOOTING_PHASE);
 	shootPhaseTimer = new CTimer(this, DELAY_BETWEEN_SHOOTING_PHASES);
+	delayIdleHandLeftBossTimer = new CTimer(this, DELAY_IDLE_HAND_BOSS, 1);
+	delayIdleHandRightBossTimer = new CTimer(this, DELAY_IDLE_HAND_BOSS, 1);
+	delayIdleHandLeftBossTimer->Stop();
+	delayIdleHandRightBossTimer->Stop();
+
+	this->isLoadedBossArm = false;
 };
 
 void CBoss::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -149,7 +152,7 @@ void CBoss::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 	bottom = top + BOSS_BOUNDBOX_HEIGHT;
 }
 
-bool checkEquals(float x1, float y1, float x2, float y2)
+bool CBoss::checkEquals(float x1, float y1, float x2, float y2)
 {
 	if (abs(x1 - x2) > 3)
 		return false;
@@ -159,15 +162,38 @@ bool checkEquals(float x1, float y1, float x2, float y2)
 }
 void CBoss::checkTargetLocation()
 {
+
 	float xLeft, yLeft, xRight, yRight;
 
 	ArmLeft[NUMBEROFNODESARM]->GetPosition(xLeft, yLeft);
 	ArmRight[NUMBEROFNODESARM]->GetPosition(yRight, yRight);
-	if (checkEquals(xLeft, yLeft, targetHandLeftY + this->x + 15, targetHandLeftY + this->y + 20))
-		this->isRandomLocationArmLeft = true;
 
-	if (checkEquals(yRight, yRight, targetHandRightX + this->x + 15, targetHandRightY + this->y + 20))
-		this->isRandomLocationArmRight = true;
+	DebugOut(L"\nxhandleft = %f  yhandleft = %f", abs(xLeft - (targeHandtLeftX + this->x + 15)), abs(yLeft - (targetHandLeftY + this->y + 20)));
+
+	if (checkEquals(xLeft, yLeft, targeHandtLeftX + this->x + 15, targetHandLeftY + this->y + 20))
+	{
+		DebugOut(L"\noooo1");
+	}
+
+	if (!delayIdleHandLeftBossTimer->IsRunning())
+	{
+		DebugOut(L"\noooo2");
+	}
+
+	if (checkEquals(xLeft, yLeft, targeHandtLeftX + this->x + 15, targetHandLeftY + this->y + 20) && 
+		!delayIdleHandLeftBossTimer->IsRunning())
+	{
+		delayIdleHandLeftBossTimer->Start();
+		DebugOut(L"ok");
+		ArmLeft[NUMBEROFNODESARM]->SetSpeed(vx, vy);
+	}
+
+	if (checkEquals(yRight, yRight, targetHandRightX + this->x + 15, targetHandRightY + this->y + 20) && 
+		!delayIdleHandRightBossTimer->IsRunning())
+	{
+		delayIdleHandRightBossTimer->Start();
+		ArmRight[NUMBEROFNODESARM]->SetSpeed(vx, vy);
+	}
 }
 
 void CBoss::ShootPlayer()
@@ -219,6 +245,9 @@ void CBoss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 	singleShotTimer->Update(dt);
 	shootPhaseTimer->Update(dt);
 
+	delayIdleHandLeftBossTimer->Update(dt);
+	delayIdleHandRightBossTimer->Update(dt);
+
 	if (isRandomLocationArmLeft)
 		init_RandomTargetLeft();
 
@@ -243,14 +272,16 @@ bool CBoss::IsBlockableObject(LPGAMEOBJECT obj)
 
 void CBoss::MoveArmLeft()
 {
-		for (int i = NUMBEROFNODESARM - 1; i >= 1; i--)
+		for (int i = NUMBEROFNODESARM - 1; i >= 0; i--)
 		{
-			//float vx1, vx2, vy1, vy2;
-			//ArmLeft[i + 1]->GetSpeed(vx1, vy1);
-			//ArmLeft[i - 1]->GetSpeed(vx2, vy2);
-			//ArmLeft[i]->SetSpeed((vx1 + vx2) / 2, (vy2 + vy2) / 2);
 			float x1, y1, x2, y2, xmid, ymid;
 			ArmLeft[i + 1]->GetPosition(x1, y1);
+			if (i == 0)
+			{
+				x2 = x + 5;
+				y2 = y + 20;
+			}
+			else
 			ArmLeft[i - 1]->GetPosition(x2, y2);
 			xmid = (x1 + x2) / 2;
 			ymid = (y1 + y2) / 2;
@@ -270,19 +301,21 @@ void CBoss::MoveArmLeft()
 
 			ArmLeft[i]->SetSpeed(curVx, curVy);
 		}
-
-		float vx1, vy1;
-		ArmLeft[1]->GetSpeed(vx1, vy1);
-		ArmLeft[0]->SetSpeed((vx1 + vx) / 2, (vy1 + vy) / 2);
 }
 
 void CBoss::MoveArmRight()
 {
-		for (int i = NUMBEROFNODESARM - 1; i >= 1; i--)
+		for (int i = NUMBEROFNODESARM - 1; i >= 0; i--)
 		{
 			float x1, y1, x2, y2, xmid, ymid;
 			ArmRight[i + 1]->GetPosition(x1, y1);
-			ArmRight[i - 1]->GetPosition(x2, y2);
+			if (i == 0)
+			{
+				x2 = x + 50;
+				y2 = y + 20;
+			}
+			else
+				ArmRight[i - 1]->GetPosition(x2, y2);
 			xmid = (x1 + x2) / 2;
 			ymid = (y1 + y2) / 2;
 
@@ -301,10 +334,6 @@ void CBoss::MoveArmRight()
 
 			ArmRight[i]->SetSpeed(curVx, curVy);
 		}
-
-		float vx1, vy1;
-		ArmRight[1]->GetSpeed(vx1, vy1);
-		ArmRight[0]->SetSpeed((vx1 + vx) / 2, (vy1 + vy) / 2);
 }
 
 void CBoss::HandleTimerTick(LPTIMER sender)
@@ -317,6 +346,18 @@ void CBoss::HandleTimerTick(LPTIMER sender)
 	if (sender == shootPhaseTimer)
 	{
 		singleShotTimer->Start();
+	}
+
+	if (sender == delayIdleHandLeftBossTimer)
+	{
+		isRandomLocationArmLeft = true;
+		delayIdleHandLeftBossTimer->Stop();
+	}
+
+	if (sender == delayIdleHandRightBossTimer)
+	{
+		isRandomLocationArmRight = true;
+		delayIdleHandRightBossTimer->Stop();
 	}
 }
 

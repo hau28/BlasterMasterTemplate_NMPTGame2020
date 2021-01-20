@@ -332,6 +332,9 @@ void CPlayScene::InitSaveGameOverhead()
 	Sections[idSection]->deleteJasonOverhead();
 	Sections[idSection]->pushJasonOverhead(xPlayer, yPlayer, idSection);
 	DebugOut(L"\n get info");
+
+	if (idSection == global->ID_SECTION_BOSSOVERHEAD)
+		global->openEffectFlashingBoss();
 }
 
 void CPlayScene::Load()

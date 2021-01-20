@@ -610,6 +610,8 @@ void CGameGlobal::resetHealth()
 {
 	this->healthSophia = MAX_HEALTH_SOPHIA;
 	this->healthJason = MAX_HEALTH_JASONSIDEVIEW;
+
+	this->stateBossBlackBackground = false;
 }
 
 void CGameGlobal::saveGame()
