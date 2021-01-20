@@ -3,11 +3,11 @@
 #include "BossArm.h"
 #include "BossHand.h"
 #include "PlayScene.h"
+#include "Timer.h"
 
 const float BOSS_ARM_MOVING_MAX_SPEED = 0.1;
 const float BOSS_ARM_MAX_PULL_FORCE = 0.02;
-//const float BOSS_ARM_
-#include "Timer.h"
+const int HEALTH_BOSS = 80;
 
 class CBoss : public CEnemy, public ITimeTrackable
 {

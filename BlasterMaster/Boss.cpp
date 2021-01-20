@@ -142,6 +142,7 @@ CBoss::CBoss(int classId, int x, int y, int sectionId, int animsId) : CEnemy::CE
 	delayIdleHandRightBossTimer->Stop();
 
 	this->isLoadedBossArm = false;
+	this->healthPoint = 5;
 };
 
 void CBoss::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -160,35 +161,23 @@ bool CBoss::checkEquals(float x1, float y1, float x2, float y2)
 		return false;
 	return true;
 }
+
 void CBoss::checkTargetLocation()
 {
 
 	float xLeft, yLeft, xRight, yRight;
 
 	ArmLeft[NUMBEROFNODESARM]->GetPosition(xLeft, yLeft);
-	ArmRight[NUMBEROFNODESARM]->GetPosition(yRight, yRight);
-
-	DebugOut(L"\nxhandleft = %f  yhandleft = %f", abs(xLeft - (targeHandtLeftX + this->x + 15)), abs(yLeft - (targetHandLeftY + this->y + 20)));
-
-	if (checkEquals(xLeft, yLeft, targeHandtLeftX + this->x + 15, targetHandLeftY + this->y + 20))
-	{
-		DebugOut(L"\noooo1");
-	}
-
-	if (!delayIdleHandLeftBossTimer->IsRunning())
-	{
-		DebugOut(L"\noooo2");
-	}
+	ArmRight[NUMBEROFNODESARM]->GetPosition(xRight, yRight);
 
 	if (checkEquals(xLeft, yLeft, targeHandtLeftX + this->x + 15, targetHandLeftY + this->y + 20) && 
 		!delayIdleHandLeftBossTimer->IsRunning())
 	{
 		delayIdleHandLeftBossTimer->Start();
-		DebugOut(L"ok");
 		ArmLeft[NUMBEROFNODESARM]->SetSpeed(vx, vy);
 	}
 
-	if (checkEquals(yRight, yRight, targetHandRightX + this->x + 15, targetHandRightY + this->y + 20) && 
+	if (checkEquals(xRight, yRight, targetHandRightX + this->x + 15, targetHandRightY + this->y + 20) &&
 		!delayIdleHandRightBossTimer->IsRunning())
 	{
 		delayIdleHandRightBossTimer->Start();
@@ -237,6 +226,10 @@ void CBoss::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 void CBoss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
+	CGameGlobal* global = CGameGlobal::GetInstance();
+	if (!global->isRenderBoss)
+		return;
+
 	if (isLoadedBossArm == false)
 	{
 		init_ObjectsArm();
@@ -368,5 +361,7 @@ void CBoss::CalcBoundingBoxCenter(LPGAMEOBJECT obj, float& x, float& y)
 
 void CBoss::Render(float offsetX, float offsetY)
 {
-	CAnimatableObject::Render(offsetX, offsetY);
+	CGameGlobal * global = CGameGlobal::GetInstance();
+	if (global->isRenderBoss)
+		CAnimatableObject::Render(offsetX, offsetY);
 }

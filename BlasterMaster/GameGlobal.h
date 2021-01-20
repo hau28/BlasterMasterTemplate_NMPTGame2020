@@ -41,6 +41,9 @@ private:
 	static CGameGlobal * _instance;
 	const int BOSS_EFFECT_DURATION = 2000;
 	const int BOSS_EFFECT_FADE_IN_DURATION = 500;
+	const int BOSS_EFFECT_RENDER_FLASHING = 200;
+	const int BOSS_EFFECT_RENDER = 1000;
+	int times_render_boss = 0;
 	//Save Game
 
 	bool Saved = false;
@@ -54,6 +57,8 @@ private:
 	int IDCurrentSection = -1;
 	LPTIMER effectBossFlashingTimer;
 	LPTIMER effectBossFadeInTimer;
+	LPTIMER effectBossRenderFlashing;
+	LPTIMER effectBossRender;
 
 	//AnimationHandler Render 
 	CObjectAnimationHanlders HealthPow;
@@ -171,6 +176,8 @@ public:
 	bool isEffectFaded = false;
 	bool isEffectBoss = false;
 	bool isEffectBossFadeIn = false;
+	bool isRenderBossFlashing = false;
+	bool isRenderBoss = false;
 	void openEffectFlashingBoss();
 	
 	// CuteTN
