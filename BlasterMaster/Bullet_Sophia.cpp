@@ -23,6 +23,9 @@ CBullet_Sophia::CBullet_Sophia(int x, int y, int sectionId, int dirX, int dirY) 
 		SetState(BULLET_SOPHIA_SIDEVIEW_STATE_RIGHT);
 	else
 		SetState(BULLET_SOPHIA_SIDEVIEW_STATE_UP);
+
+	isHiddenByForeground = true;
+	zIndex = ZINDEX_SOPHIA_BULLET;
 }
 
 void CBullet_Sophia::UpdateVelocity(DWORD dt)

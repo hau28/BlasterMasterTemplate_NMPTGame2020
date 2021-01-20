@@ -304,6 +304,7 @@
     <ClInclude Include="Bullet_Teleporter.h" />
     <ClInclude Include="Bullet_Cannon.h" />
     <ClInclude Include="Bullet_Boss.h" />
+    <ClInclude Include="ZIndexConsts.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="AnimationCore">

@@ -20,6 +20,8 @@ CExplosion::CExplosion(int classId, int x, int y, int sectionId) : CAnimatableOb
 		this->isHiddenByForeground = true;
 
 	this->isUpdatedWhenOffScreen = true;
+
+	zIndex = ZINDEX_EXPLOSION;
 }
 
 #pragma endregion

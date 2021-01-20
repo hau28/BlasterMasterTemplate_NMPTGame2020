@@ -4,7 +4,7 @@
 #include "GameObjectBehaviour.h"
 #include "Sound.h"
 
-CBullet_Floater::CBullet_Floater(float x, float y, int sectionId, float dirX, float dirY) : CBullet::CBullet(CLASS_ENEMY_OVERHEAD_BULLET, x, y, sectionId, false)
+CBullet_Floater::CBullet_Floater(float x, float y, int sectionId, float dirX, float dirY) : CBullet::CBullet(CLASS_SMALL_PINK_BULLET, x, y, sectionId, false)
 {
 	float nx, ny;
 	CGameObjectBehaviour::NormalizeVector2(dirX, dirY, nx, ny);

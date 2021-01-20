@@ -29,7 +29,6 @@ CJasonSideview::CJasonSideview(int classId, int x, int y, int animsId) : CAnimat
     invulnerableTimer = new CTimer(this, INVULNERABLE_DURATION, 1);
     invulnerableTimer->Stop();
     flagInvulnerable = false;
-
 };
 
 void CJasonSideview::init_camBox()
@@ -89,6 +88,8 @@ void CJasonSideview::Init()
     flagBulletReloaded = true;
     bulletReloadTimer = new CTimer(this, JASONSIDEVIEW_BULLET_RELOAD_DURATION, 1);
     bulletReloadTimer->Stop();
+
+    zIndex = ZINDEX_JASONSIDEVIEW;
 }
 
 #pragma region key events handling

@@ -17,6 +17,8 @@ CBreakableBlock::CBreakableBlock(int classId, int x, int y, int sectionId, int a
 	allowOverlapWithBlocks = true;
 	isUpdatedWhenOffScreen = true;
 	isHiddenByForeground = true;
+
+	zIndex = ZINDEX_BREAKABLE_BLOCKS;
 }
 
 void CBreakableBlock::UpdateVelocity(DWORD dt)

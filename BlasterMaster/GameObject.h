@@ -46,6 +46,7 @@ public:
 	int currentSectionId = 0;
 	int classId = -1;
 	int objectId = -1;
+	int zIndex = ZINDEX_DEFAULT;
 	bool isHiddenByForeground = true;
 	bool isUpdatedWhenOffScreen = false;
 

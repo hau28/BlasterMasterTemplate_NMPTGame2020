@@ -243,3 +243,73 @@ bool CGameObjectBehaviour::IsMovableObject(LPGAMEOBJECT obj)
 
 	return true;
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+bool CompareRenderOrderSideview(LPGAMEOBJECT obj1, LPGAMEOBJECT obj2)
+{
+	return obj1->zIndex < obj2->zIndex;
+}
+
+bool CompareRenderOrderOverhead(LPGAMEOBJECT obj1, LPGAMEOBJECT obj2)
+{
+	if(obj1->zIndex != obj2->zIndex)
+		return obj1->zIndex < obj2->zIndex;
+
+	float cx1, cy1, cx2, cy2;
+	CGameObjectBehaviour::CalcBoundingBoxCenter(obj1, cx1, cy1);
+	CGameObjectBehaviour::CalcBoundingBoxCenter(obj2, cx2, cy2);
+
+	return cy1 < cy2;
+}
+
+void MySort(vector<LPGAMEOBJECT>& objects, function<int(LPGAMEOBJECT, LPGAMEOBJECT)> cmp)
+{
+	// MySort(objects, 0, objects.size()-1, cmp);
+	for(int i=0; i<objects.size(); i++)
+		for (int j = i + 1; j < objects.size(); j++)
+		{
+			if (cmp(objects[i], objects[j]))
+			{
+				LPGAMEOBJECT temp = objects[i];
+				objects[i] = objects[j];
+				objects[j] = temp;
+			}
+		}
+}
+
+// Quick sort baby: Not work baby
+void MySort(vector<LPGAMEOBJECT>& objects, int l, int r, function<int(LPGAMEOBJECT, LPGAMEOBJECT)> cmp)
+{
+	if (l >= r)
+		return;
+
+	int i = l;
+	int j = r;
+	LPGAMEOBJECT pivotObj = objects[(l + r) / 2];
+
+	while (true)
+	{
+		while (i <= r && cmp(pivotObj, objects[i]) == -1) i++;
+		while (j >= l && cmp(pivotObj, objects[j]) == 1 ) j--;
+
+		if (i < j)
+		{
+			// swap
+			LPGAMEOBJECT temp = objects[i];
+			objects[i] = objects[j];
+			objects[j] = temp;
+
+			i++;
+			j--;
+		}
+		
+		if (i >= j)
+			break;
+	}
+
+	DebugOut(L"L R %d %d %d %d\n", l, r, i, j);
+
+	MySort(objects, l, j, cmp);
+	MySort(objects, i, r, cmp);
+}

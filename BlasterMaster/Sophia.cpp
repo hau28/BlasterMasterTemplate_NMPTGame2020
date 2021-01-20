@@ -59,6 +59,7 @@ void CSophia::Init(int classId, int x, int y)
     homingMissileReloadTimer = new CTimer(this, SOPHIA_HOMING_MISSILE_RELOAD_DURATION, 1);
     homingMissileReloadTimer->Stop();
     
+    zIndex = ZINDEX_SOPHIA;
 };
 
 void CSophia::setGunState(int state) {

@@ -26,6 +26,7 @@ void CGrenade_JasonOverhead::Init(int dx, int dy)
 	explosionTimer->Reset();
 	explosionTimer->Stop();
 
+	isHiddenByForeground = true;
 }
 
 CGrenade_JasonOverhead::CGrenade_JasonOverhead(float x, float y, int sectionId, int dirX, int dirY, float distance) : CBullet::CBullet(CLASS_JASON_OVERHEAD_GRENADE, x, y, sectionId, true)
