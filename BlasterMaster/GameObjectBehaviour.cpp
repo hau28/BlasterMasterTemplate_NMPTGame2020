@@ -175,6 +175,7 @@ void CGameObjectBehaviour::ExplodeAtCenter(LPGAMEOBJECT obj, int explosionClassI
 void CGameObjectBehaviour::CreateObject(LPGAMEOBJECT obj)
 {
 	CCreateObjectEvent* ce = new CCreateObjectEvent(obj);
+
 	CGame::AddGameEvent(ce);
 }
 
@@ -182,6 +183,23 @@ void CGameObjectBehaviour::CreateObjectAtCenterOfAnother(LPGAMEOBJECT newObj, LP
 {
 	float centerX, centerY;
 	CalcBoundingBoxCenter(fromObj, centerX, centerY);
+
+	SetBoundingBoxCenter(newObj, centerX, centerY);
+	newObj->currentSectionId = fromObj->currentSectionId;
+
+	CreateObject(newObj);
+}
+
+void CGameObjectBehaviour::CreateObjectAtCenterOfBoss(LPGAMEOBJECT newObj, LPGAMEOBJECT fromObj)
+{
+	const float BOSS_OFFSETX_FROM_CENTER = 15;
+	const float BOSS_OFFSETY_FROM_CENTER = 36;
+
+	float centerX, centerY;
+	CalcBoundingBoxCenter(fromObj, centerX, centerY);
+
+	centerX -= BOSS_OFFSETX_FROM_CENTER;
+	centerY -= BOSS_OFFSETY_FROM_CENTER;
 
 	SetBoundingBoxCenter(newObj, centerX, centerY);
 	newObj->currentSectionId = fromObj->currentSectionId;

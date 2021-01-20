@@ -332,6 +332,9 @@ void CPlayScene::InitSaveGameOverhead()
 	Sections[idSection]->deleteJasonOverhead();
 	Sections[idSection]->pushJasonOverhead(xPlayer, yPlayer, idSection);
 	DebugOut(L"\n get info");
+
+	if (idSection == global->ID_SECTION_BOSSOVERHEAD)
+		global->openEffectFlashingBoss();
 }
 
 void CPlayScene::Load()
@@ -981,7 +984,7 @@ void CPlayScene::handleGameEvent(LPGAME_EVENT gameEvent)
 	if (createObjEvent)
 	{ 
 		int sectionId = createObjEvent->gameObject->currentSectionId;
-		
+
 		if(Sections[sectionId])
 			Sections[sectionId]->addObject(createObjEvent->gameObject);
 	}
@@ -1007,11 +1010,19 @@ void CPlayScene::InitSectionForOverhead(int port)
 
 	for (auto section : Sections)
 	{
+		if (section.second == nullptr)
+		{
+			DebugOut(L"\nNghia da lam ban be that vong %d", section.first);
+
+			continue;
+		}
+			
 		portal = section.second->findScenePortal(port);
 		if (portal)
 			break;
 	}
 
+	DebugOut(L"\nlalalla");
 	if (!portal)
 	{
 		/*DebugOut(L"\nok2");*/ //Please don't remove it because it's all
@@ -1023,7 +1034,7 @@ void CPlayScene::InitSectionForOverhead(int port)
 	CGameObjectBehaviour::SetBoundingBoxCenter(CJasonOverhead::GetInstance(), playerCenterX, playerCenterY);
 	float playerX, playerY;
 	CJasonOverhead::GetInstance()->GetPosition(playerX, playerY);
-
+	DebugOut(L"\nlalalla1");
 	CurrentSectionId = portal->currentSectionId;
 	CJasonOverhead::GetInstance()->currentSectionId = CurrentSectionId;
 

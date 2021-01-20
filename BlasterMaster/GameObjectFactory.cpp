@@ -59,6 +59,7 @@ LPGAMEOBJECT CGameObjectFactory::Create(int classId, map<string, string> propert
 	case CLASS_TILE_BLOCKABLE:
 	case CLASS_TILE_LADDER:
 	case CLASS_TILE_LAVA:
+	case CLASS_TILE_SPIKE_O:
 	case CLASS_TILE_SPIKE:
 		GetTileAreaObjectProps(properties, x, y, width, height, sectionId);
 		result = new CTileArea(classId, x, y, width, height, sectionId);

@@ -43,21 +43,29 @@ void CJasonOverhead::Init()
     grenadeReloadTimer = new CTimer(this, JASONOVERHEAD_GRENADE_RELOAD_DURATION, 1);
     grenadeReloadTimer->Stop();
 
+    vulnerableFlashingEffect = new CObjectFlashingEffectPlayer(this, &flashingColors, JASONOVERHEAD_VULNERABLE_EFFECT_FLASHING_DURATION);
+    flagInvulnerable = false;
 }
 
 
 void CJasonOverhead::HandleKeys(DWORD dt)
 {
+    auto keyEvents = NewKeyEvents();
     //Khong nhan phim khi chuyen section
     if (dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene()))
     {
         CPlayScene* _playScene= dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
         if (_playScene->isSectionSwitch())
+        {
+            for (auto e : keyEvents)
+            {
+                int keyCode = e->GetKeyCode();
+                    HandleKeyUp(dt, keyCode);
+            }
             return;
+        }
     }
     HandleKeysHold(dt);
-
-    auto keyEvents = NewKeyEvents();
 
     for (auto e : keyEvents)
     {
@@ -99,6 +107,12 @@ void CJasonOverhead::HandleKeyDown(DWORD dt, int keyCode)
 
 void CJasonOverhead::HandleKeysHold(DWORD dt)
 {
+    // CuteTN: Auto jump and fire
+    if (IsKeyDown(ControlKeys::AutoJumpKey))
+        HandleKeyDown(dt, ControlKeys::JumpKey);
+    if (IsKeyDown(ControlKeys::AutoFireKey))
+        HandleKeyDown(dt, ControlKeys::FireKey);
+
     MovingDirX = MovingDirY = 0;
 
     if (IsKeyDown(DIK_UP))
@@ -172,10 +186,10 @@ void CJasonOverhead::UpdateState()
 
 void CJasonOverhead::GetShootPosition(float& x, float& y, float dx, float dy)
 {
-    const int JASONOVERHEAD_GUNUP_OFFSETX_FROM_CENTER = 6;
+    const int JASONOVERHEAD_GUNUP_OFFSETX_FROM_CENTER = 8;
     const int JASONOVERHEAD_GUNUP_OFFSETY_FROM_CENTER = -28;
-    const int JASONOVERHEAD_GUNDOWN_OFFSET_FROM_CENTER = -6;
-    const int JASONOVERHEAD_GUNLEFTRIGHT_OFFSETY_FROM_CENTER = -12;
+    const int JASONOVERHEAD_GUNDOWN_OFFSET_FROM_CENTER = -4;
+    const int JASONOVERHEAD_GUNLEFTRIGHT_OFFSETY_FROM_CENTER = -15;
     const int JASONOVERHEAD_GUNLEFT_OFFSETX_FROM_CENTER = -12; 
     const int JASONOVERHEAD_GUNTRIGHT_OFFSETX_FROM_CENTER = 12;
     // set the bullet center equals to Sophia center
@@ -353,9 +367,26 @@ CJasonOverhead* CJasonOverhead::InitInstance(int x, int y, int sectionId)
     GetInstance();
     __instance->Init();
     __instance->SetPosition(x, y);
+    __instance->UpdateState();
     __instance->currentSectionId = sectionId;
 
     return __instance;
+}
+
+void CJasonOverhead::HandleOnDamage()
+{
+    if (CGameGlobal::GetInstance()->get_healthJasonSideView() > 0) {
+        Sound::getInstance()->play(JASON_GOT_HIT, false, 1);
+    }
+    flagInvulnerable = true;
+    invulnerableTimer->Start();
+    PlayVulnerableFlasingEffect();
+}
+
+void CJasonOverhead::PlayVulnerableFlasingEffect()
+{
+    if (vulnerableFlashingEffect)
+        vulnerableFlashingEffect->Play();
 }
 
 void CJasonOverhead::UpdateVelocity(DWORD dt)
@@ -373,20 +404,20 @@ void CJasonOverhead::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
     LPGAMEOBJECT obj = coEvent->otherObject;
 
+    if (IsBlockableObject(obj))
+    {
+        CGameObjectBehaviour::BlockObject(dt, coEvent);
+    }
+
     if (dynamic_cast<LPTILE_AREA>(obj))
     {
         LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(obj);
 
         switch (tileArea->classId)
         {
-        case CLASS_TILE_BLOCKABLE:
-        {
-			CGameObjectBehaviour::BlockObject(dt, coEvent);
-            break;
-        }
-
         case CLASS_TILE_PORTAL:
         {
+
             SnapToPortalMiddle(obj, coEvent->ny != 0);
 
             LPPORTAL fromPortal = dynamic_cast<LPPORTAL>(obj);
@@ -394,9 +425,17 @@ void CJasonOverhead::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
             // Sanh code from here!
             LPGAME_EVENT newEvent = new CWalkInPortalEvent("WalkInPortalEvent", fromPortal, toPortal);
-            CGame::GetInstance()->AddGameEvent(newEvent);
-            // to do: create an event to CGame, let CGame handle switching section
-            DebugOut(L"Jason to portal %d of section %d, tick %d\n", toPortal->associatedPortalId, toPortal->currentSectionId, GetTickCount());
+
+            if (currentSectionId == CGameGlobal::GetInstance()->ID_SECTION_BOSSOVERHEAD && !CGameGlobal::GetInstance()->isDeadBoss)
+            {
+                CGameObjectBehaviour::BlockObject(dt, coEvent);
+            }
+            else
+            {
+                CGame::GetInstance()->AddGameEvent(newEvent);
+                // to do: create an event to CGame, let CGame handle switching section
+                DebugOut(L"Jason to portal %d of section %d, tick %d\n", toPortal->associatedPortalId, toPortal->currentSectionId, GetTickCount());
+            }
 
             break;
         }
@@ -418,21 +457,57 @@ void CJasonOverhead::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
         }
     }
 
-    if (dynamic_cast<CEnemy*>(obj))
-    {
-        CGameGlobal::GetInstance()->beingAttackedByEnemy();
-    }
 
-    if (dynamic_cast<CBullet*>(obj))
-    {
-        CBullet* bullet = dynamic_cast<CBullet*>(obj);
-        if (!bullet->isFriendly)
-            CGameGlobal::GetInstance()->beingAttackedByEnemy();
-    }
 }
 
 void CJasonOverhead::HandleOverlap(LPGAMEOBJECT overlappedObj)
 {
+    if (!overlappedObj)
+        return;
+
+    if (!flagInvulnerable) {
+        if (dynamic_cast<CEnemy*>(overlappedObj))
+        {
+            CGameGlobal::GetInstance()->beingAttackedByEnemy();
+            HandleOnDamage();
+        }
+
+        if (dynamic_cast<CBullet*>(overlappedObj))
+        {
+            CBullet* bullet = dynamic_cast<CBullet*>(overlappedObj);
+            if (!bullet->isFriendly) {
+                CGameGlobal::GetInstance()->beingAttackedByBullet();
+                HandleOnDamage();
+            }
+
+        }
+
+        if (dynamic_cast<LPTILE_AREA>(overlappedObj))
+        {
+            LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(overlappedObj);
+            if (tileArea->classId == CLASS_TILE_SPIKE)
+            {
+                CGameGlobal::GetInstance()->beingAttackedBySpike();
+                HandleOnDamage();
+            }
+        }
+    }
+
+
+    if (!flagInvulnerable)
+    {
+        if (dynamic_cast<CEnemy*>(overlappedObj))
+        {
+            CGameGlobal::GetInstance()->beingAttackedByEnemy();
+        }
+
+        if (dynamic_cast<CBullet*>(overlappedObj))
+        {
+            CBullet* bullet = dynamic_cast<CBullet*>(overlappedObj);
+            if (!bullet->isFriendly)
+                CGameGlobal::GetInstance()->beingAttackedByEnemy();
+        }
+    }
 }
 
 void CJasonOverhead::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
@@ -441,6 +516,9 @@ void CJasonOverhead::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
     bulletReloadTimer->Update(dt);
     grenadeReloadTimer->Update(dt);
     CountJasonOverheadBullets(coObjs);
+
+    invulnerableTimer->Update(dt);
+    vulnerableFlashingEffect->Update(dt);
 
     HandleKeys(dt);
     CAnimatableObject::Update(dt, coObjs);

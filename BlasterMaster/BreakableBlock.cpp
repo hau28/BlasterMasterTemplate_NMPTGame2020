@@ -52,6 +52,21 @@ void CBreakableBlock::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 void CBreakableBlock::HandleOverlap(LPGAMEOBJECT overlappedObj)
 {
+	if (isDestroyed)
+		return;
+
+	if (dynamic_cast<CBullet*>(overlappedObj))
+	{
+		CBullet* bullet = dynamic_cast<CBullet*>(overlappedObj);
+		if (bullet->isFriendly)
+		{
+			if ((!requireCrusherBeam) || (CGameGlobal::GetInstance()->HasCrusherBeam && bullet->classId == CLASS_SOPHIA_BULLET))
+			{
+				CGameObjectBehaviour::RemoveObject(bullet);
+				Explode();
+			}
+		}
+	}
 }
 
 void CBreakableBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)

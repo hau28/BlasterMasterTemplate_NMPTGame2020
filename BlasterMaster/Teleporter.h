@@ -11,7 +11,7 @@ const int TELEPORTER_BOUNDBOX_OFFSETY = 24;
 const float TELEPORTER_FLY_SPEED = 0.06f;
 const float TELEPORTER_BULLET_SPEED = 0.08f;
 
-const int TELEPORTER_HEALTHPOINT = 3;
+const int TELEPORTER_HEALTHPOINT = 2;
 
 class CTeleporter : public CEnemy, public ITimeTrackable
 {

@@ -35,6 +35,7 @@ CGrenade_JasonOverhead::CGrenade_JasonOverhead(float x, float y, int sectionId, 
 	isUpdatedWhenOffScreen = true;
 	
 	GRENADE_JASON_OVERHEAD_DISTANCE = distance;
+	damage = GRENADE_JASON_OVERHEAD_DAMAGE;
 
 	Init(dirX, dirY);
 }

@@ -142,6 +142,7 @@
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="BossArm.cpp" />
     <ClCompile Include="BossHand.cpp" />
+    <ClCompile Include="Bullet_Boss.cpp" />
     <ClCompile Include="Grenade_JasonOverhead.cpp" />
     <ClCompile Include="BreakableBlock.cpp" />
     <ClCompile Include="Bullet_Cannon.cpp" />
@@ -217,6 +218,7 @@
     <ClInclude Include="Boss.h" />
     <ClInclude Include="BossArm.h" />
     <ClInclude Include="BossHand.h" />
+    <ClInclude Include="Bullet_Boss.h" />
     <ClInclude Include="Grenade_JasonOverhead.h" />
     <ClInclude Include="BreakableBlock.h" />
     <ClInclude Include="Bullet.h" />

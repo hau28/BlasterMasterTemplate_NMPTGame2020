@@ -49,6 +49,7 @@ Sound::Sound(HWND hWnd)
 
 void Sound::loadGameSounds() {
 	//SOUND
+	return;
 	Sound::getInstance()->loadSound(AREA2);
 	Sound::getInstance()->loadSound(SMALL_PINK_BULLET_EXPLOSION);
 	Sound::getInstance()->loadSound(ENEMY_DIE);

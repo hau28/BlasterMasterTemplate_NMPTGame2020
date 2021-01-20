@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "Portal.h"
 #include "GridObjects.h"
+#include "BossArm.h"
 
 class CSection
 {
@@ -43,6 +44,8 @@ public:
 	CGridObjects* gridObjects = nullptr;
 
 	LPPORTAL findScenePortal(int port);
+
+	bool checkIsHasBossArm();
 };
 
 typedef CSection* LPSECTION;

@@ -87,6 +87,7 @@ private:
 	float startY = 0;
 	int startx;
 	const float BULLET_JASON_OVERHEAD_DISTANCE = 4 * 16;
+	const float BULLET_JASON_OVERHEAD_DAMAGE = 1;
 
 	float speed;
 	BulletJasonOverheadLine* bulletLine;

@@ -152,6 +152,15 @@ CGameGlobal::CGameGlobal() {
 	this->isEffectBossFadeIn = false;
 	effectBossFadeInTimer = new CTimer(this, BOSS_EFFECT_FADE_IN_DURATION, 1);
 	effectBossFadeInTimer->Stop();
+
+	this->isRenderBoss = false;
+	this->isRenderBossFlashing = false;
+	effectBossRenderFlashing = new CTimer(this, BOSS_EFFECT_RENDER_FLASHING, 1);
+	effectBossRenderFlashing->Stop();
+
+	times_render_boss = 0;
+	effectBossRender = new CTimer(this, BOSS_EFFECT_RENDER, 1);
+	effectBossRender->Stop();
 }
 
 void CGameGlobal::Update(DWORD dt)
@@ -164,6 +173,9 @@ void CGameGlobal::UpdateEffect(DWORD dt)
 {
 	effectBossFadeInTimer->Update(dt);
 	effectBossFlashingTimer->Update(dt);
+	effectBossRender->Update(dt);
+	effectBossRenderFlashing->Update(dt);
+
 	if (isEffectFaded)
 	{
 		EffectFaded[ID_STATE_EFFECT]->Update();
@@ -610,6 +622,8 @@ void CGameGlobal::resetHealth()
 {
 	this->healthSophia = MAX_HEALTH_SOPHIA;
 	this->healthJason = MAX_HEALTH_JASONSIDEVIEW;
+
+	this->stateBossBlackBackground = false;
 }
 
 void CGameGlobal::saveGame()
@@ -644,6 +658,11 @@ void CGameGlobal::resetGame()
 	left = 3;
 	resetHealth();
 	this->Saved = false;
+
+	//hoi ky nhi?
+	this->stateBossBlackBackground = false;
+	this->isDeadBoss = false;
+	this->HasCrusherBeam = false;
 }
 
 void CGameGlobal::saveSophia(float offx, float offy)
@@ -805,6 +824,11 @@ void CGameGlobal::initEffectFaded()
 void CGameGlobal::openEffectFlashingBoss()
 {
 	this->isEffectBoss = true;
+	this->stateBossBlackBackground = false;
+	this->isEffectBossFadeIn = false;
+	this->isRenderBoss = false;
+	this->isRenderBossFlashing = false;
+	this->times_render_boss = 0;
 	this->effectBossFlashingTimer->Start();
 }
 
@@ -820,5 +844,27 @@ void CGameGlobal::HandleTimerTick(LPTIMER sender)
 	{
 		this->isEffectBossFadeIn = false;
 		stateBossBlackBackground = true;
+		this->effectBossRender->Start();
+	}
+	if (sender == effectBossRender)
+	{
+		this->isRenderBoss = true;
+		this->effectBossRender->Stop();
+		this->effectBossRenderFlashing->Start();
+	}
+	if (sender == effectBossRenderFlashing)
+	{
+		times_render_boss++;
+		if (times_render_boss <= 7)
+		{
+			//Flashing boss
+			this->effectBossRenderFlashing->Start();
+		}
+		else
+		{
+			times_render_boss = 0;
+			this->isRenderBossFlashing = false;
+			this->effectBossRenderFlashing->Stop();
+		}
 	}
 }

@@ -72,6 +72,13 @@ private:
 
     int gunlevel = 4;
 
+    void HandleOnDamage();
+
+    // CuteTN: Flashing effect on damage
+    const int JASONOVERHEAD_VULNERABLE_EFFECT_FLASHING_DURATION = 30;
+    CObjectFlashingEffectPlayer* vulnerableFlashingEffect = nullptr;
+    void PlayVulnerableFlasingEffect();
+
 public:
     virtual void UpdateVelocity(DWORD dt);
     virtual void HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent);

@@ -13,7 +13,6 @@
 #define BODY_DAMAGE_FALL 80
 
 #define MAX_AMMUNITIONS 99
-#define ID_SECTION_BOSS 1000959
 
 enum class Items {
 	PowerGrey, // add 1 bar
@@ -42,6 +41,9 @@ private:
 	static CGameGlobal * _instance;
 	const int BOSS_EFFECT_DURATION = 2000;
 	const int BOSS_EFFECT_FADE_IN_DURATION = 500;
+	const int BOSS_EFFECT_RENDER_FLASHING = 200;
+	const int BOSS_EFFECT_RENDER = 1000;
+	int times_render_boss = 0;
 	//Save Game
 
 	bool Saved = false;
@@ -55,6 +57,8 @@ private:
 	int IDCurrentSection = -1;
 	LPTIMER effectBossFlashingTimer;
 	LPTIMER effectBossFadeInTimer;
+	LPTIMER effectBossRenderFlashing;
+	LPTIMER effectBossRender;
 
 	//AnimationHandler Render 
 	CObjectAnimationHanlders HealthPow;
@@ -98,8 +102,9 @@ private:
 public:
 	//reset health
 	//get value methods
-	const int ID_SECTION_BOSSOVERHEAD = 1000959;
+	int ID_SECTION_BOSSOVERHEAD = -1;
 	bool stateBossBlackBackground = false;
+	bool isDeadBoss = false;
 	static CGameGlobal* GetInstance();
 	int get_healthSophia() { return this->healthSophia; }
 	int get_healthJasonSideView() { return this->healthJason; }
@@ -171,12 +176,12 @@ public:
 	bool isEffectFaded = false;
 	bool isEffectBoss = false;
 	bool isEffectBossFadeIn = false;
+	bool isRenderBossFlashing = false;
+	bool isRenderBoss = false;
 	void openEffectFlashingBoss();
 	
 	// CuteTN
 	bool HasCrusherBeam = true;
-
-
 };
 
 

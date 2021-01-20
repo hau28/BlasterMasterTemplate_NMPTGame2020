@@ -9,6 +9,7 @@
 CBossHand::CBossHand(int classId, int x, int y, int sectionId, int animsId, int state) : CEnemy::CEnemy(classId, x, y, sectionId, animsId)
 {
 	SetState(state);
+	isUpdatedWhenOffScreen = true;
 };
 
 void CBossHand::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -30,4 +31,11 @@ void CBossHand::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 void CBossHand::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
+	UpdateVelocity(dt);
+	UpdatePosition(dt);
+}
+
+bool CBossHand::IsBlockableObject(LPGAMEOBJECT obj)
+{
+	return false;
 }
