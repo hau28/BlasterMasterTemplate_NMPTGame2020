@@ -19,6 +19,14 @@ CBullet_ThunderBreak::CBullet_ThunderBreak(float x, float y, int section, int in
 	int thisUnitLifetime = THUNDERBREAK_LIFETIME - indexInChain * THUNDERBREAK_DELAY_PER_UNIT;
 	lifetimeTimer = new CTimer(this, thisUnitLifetime, 1);
 	delayToNextUnitTimer = new CTimer(this, THUNDERBREAK_DELAY_PER_UNIT, 1);
+
+	// set random bright color
+	const int MIN_COLOR_R = 200;
+	const int MIN_COLOR_G = 150;
+	const int MIN_COLOR_B = 150;
+	modifyR = MIN_COLOR_R + rand() % (256 - MIN_COLOR_R);
+	modifyG = MIN_COLOR_G + rand() % (256 - MIN_COLOR_G);
+	modifyB = MIN_COLOR_B + rand() % (256 - MIN_COLOR_B);
 }
 
 CBullet_ThunderBreak::CBullet_ThunderBreak(float x, float y, int section) : CBullet_ThunderBreak(x, y, section, 0)

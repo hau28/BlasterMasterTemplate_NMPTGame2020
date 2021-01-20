@@ -45,6 +45,7 @@ void CBullet::SetBoundingBoxInfo(int classId)
 		break;
 
 	case CLASS_JASON_OVERHEAD_BULLET:
+	case CLASS_JASON_OVERHEAD_WHITE_BULLET:
 		boundingBoxOffsetX = 9;
 		boundingBoxOffsetY = 8 + BULLET_OVERHEAD_OFFSET_FROM_SHADOW;
 		boundingBoxWidth = 8;

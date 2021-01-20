@@ -3,6 +3,7 @@
 #include "Explosion.h"
 #include "Bullet.h"
 #include "GameGlobal.h"
+#include "Bullet_Sophia.h"
 
 CBreakableBlock::CBreakableBlock(int classId, int x, int y, int sectionId, int animsId) : CAnimatableObject::CAnimatableObject(classId, x, y, sectionId, animsId)
 {
@@ -43,7 +44,7 @@ void CBreakableBlock::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 		CBullet* bullet = dynamic_cast<CBullet*>(obj);
 		if (bullet->isFriendly)
 		{
-			if ((!requireCrusherBeam) || (CGameGlobal::GetInstance()->HasCrusherBeam && bullet->classId == CLASS_SOPHIA_BULLET))
+			if ((!requireCrusherBeam) || (CGameGlobal::GetInstance()->HasCrusherBeam && dynamic_cast<CBullet_Sophia*>(bullet)))
 			{
 				CGameObjectBehaviour::RemoveObject(bullet);
 				Explode();
@@ -62,7 +63,7 @@ void CBreakableBlock::HandleOverlap(LPGAMEOBJECT overlappedObj)
 		CBullet* bullet = dynamic_cast<CBullet*>(overlappedObj);
 		if (bullet->isFriendly)
 		{
-			if ((!requireCrusherBeam) || (CGameGlobal::GetInstance()->HasCrusherBeam && bullet->classId == CLASS_SOPHIA_BULLET))
+			if ((!requireCrusherBeam) || (CGameGlobal::GetInstance()->HasCrusherBeam && dynamic_cast<CBullet_Sophia*>(bullet)))
 			{
 				CGameObjectBehaviour::RemoveObject(bullet);
 				Explode();
