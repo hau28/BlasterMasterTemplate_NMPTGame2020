@@ -102,5 +102,7 @@ public:
 	/// <param name="enemy"></param>
 	/// <param name="penetrable"></param>
 	static void HandleFriendlyBulletHitsEnemy(CBullet* bullet, CEnemy* enemy, bool penetrable = false);
+
+	static bool IsMovableObject(LPGAMEOBJECT obj);
 };
 

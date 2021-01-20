@@ -42,6 +42,13 @@ void CSection::Update(DWORD dt)
 	vector<LPGAMEOBJECT> objects = gridObjects->GetObjectsInArea(cx, cy, cw, ch);
 	gridObjects->ClearObjectsInArea(dt, cx, cy, cw, ch);
 
+	vector<LPGAMEOBJECT> movingObjects;
+	for (auto obj : objects)
+	{
+		if(CGameObjectBehaviour::IsMovableObject(obj))
+			movingObjects.push_back(obj);
+	}
+
 	for (auto obj : objects)
 	{
 		if (!obj)
@@ -53,7 +60,10 @@ void CSection::Update(DWORD dt)
 		{
 			if (obj->isUpdatedWhenOffScreen || checkObjInCamera(obj, SCREEN_EXTEND_OFFSET_DEFAULT))
 			{
-				obj->Update(dt, &objects);
+				if (CGameObjectBehaviour::IsMovableObject(obj))
+					obj->Update(dt, &objects);
+				else
+					obj->Update(dt, &movingObjects);
 			}
 		}
 	}
