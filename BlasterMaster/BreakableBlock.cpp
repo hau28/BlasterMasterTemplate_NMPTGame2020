@@ -11,7 +11,6 @@ CBreakableBlock::CBreakableBlock(int classId, int x, int y, int sectionId, int a
 	// this->y++;
 
 	requireCrusherBeam = classId != CLASS_BREAKABLE_OVERHEAD_BG;
-	modifyA = 255;
 	isDestroyed = false;
 	vx = vy = ax = ay = 0;
 
@@ -60,7 +59,6 @@ void CBreakableBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 	if (!checkObjInCamera(this))
 	{
 		isDestroyed = false;
-		modifyA = 0;
 	}
 
 	CAnimatableObject::Update(dt, coObjs);
@@ -80,7 +78,6 @@ void CBreakableBlock::Explode()
 	CGameObjectBehaviour::CreateObjectAtCenterOfAnother(explosion, this);
 
 	this->isDestroyed = true;
-	this->modifyA = 255;
 }
 
 void CBreakableBlock::Render(float offsetX, float offsetY)
@@ -90,9 +87,9 @@ void CBreakableBlock::Render(float offsetX, float offsetY)
 		DebugOut(L"[ERROR] Missing animation handler of state %d\n", state);
 	}
 
-	if (modifyA)
+	if (IsDestroyed())
 	{
-		animationHandlers[state]->Render(x + offsetX, y + offsetY, modifyA, modifyR, modifyG, modifyB);
-		animationHandlers[state]->Render(x + 1 + offsetX, y + 1 + offsetY, modifyA, modifyR, modifyG, modifyB);
+		animationHandlers[state]->Render(x + offsetX, y + offsetY, 255, modifyR, modifyG, modifyB);
+		animationHandlers[state]->Render(x + 1 + offsetX, y + 1 + offsetY, 255, modifyR, modifyG, modifyB);
 	}
 }
