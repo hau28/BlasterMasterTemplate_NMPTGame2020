@@ -35,8 +35,25 @@ void CBullet_Teleporter::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 		CGameObjectBehaviour::BlockObject(dt, coEvent);
 		CGameObjectBehaviour::RemoveObject(this);
 	}
+
+	// disappear when hitting player or player bullet
+	if (
+		obj == CGame::GetInstance()->GetCurrentPlayer() ||
+		(dynamic_cast<CBullet*>(obj) && dynamic_cast<CBullet*>(obj)->isFriendly)
+		)
+	{
+		CGameObjectBehaviour::RemoveObject(this);
+	}
 }
 
 void CBullet_Teleporter::HandleOverlap(LPGAMEOBJECT overlappedObj)
 {
+	// disappear when hitting player or player bullet
+	if (
+		overlappedObj == CGame::GetInstance()->GetCurrentPlayer() ||
+		(dynamic_cast<CBullet*>(overlappedObj) && dynamic_cast<CBullet*>(overlappedObj)->isFriendly)
+		)
+	{
+		CGameObjectBehaviour::RemoveObject(this);
+	}
 }

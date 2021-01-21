@@ -103,11 +103,16 @@ void CBullet_JasonOverhead::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 	if (IsBlockableObject(obj))
 	{
-		//if (coEvent->nx != 0)
-		//{
-		CGameObjectBehaviour::BlockObject(dt, coEvent);
-		Explode(CLASS_EXPLOSION_OVERHEAD);
-		//}
+		if (bulletLevel < 8)
+		{
+			CGameObjectBehaviour::BlockObject(dt, coEvent);
+			Explode(CLASS_EXPLOSION_OVERHEAD);
+		}
+		else
+		{
+			CExplosion* explosion = new CExplosion(CLASS_EXPLOSION_OVERHEAD);
+			CGameObjectBehaviour::CreateObjectAtCenterOfAnother(explosion, this);
+		}
 	}
 
 	if (dynamic_cast<CEnemy*>(obj))
@@ -115,14 +120,43 @@ void CBullet_JasonOverhead::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 		CEnemy* enemy = dynamic_cast<CEnemy*>(obj);
 		CGameObjectBehaviour::HandleFriendlyBulletHitsEnemy(this, enemy);
 	}
+
+	if (dynamic_cast<CBullet*>(obj) && !dynamic_cast<CBullet*>(obj)->isFriendly)
+	{
+		if (bulletLevel < 8)
+		{
+			CGameObjectBehaviour::RemoveObject(this);
+		}
+	}
 }
 
 void CBullet_JasonOverhead::HandleOverlap(LPGAMEOBJECT overlappedObj)
 {
+	if (IsBlockableObject(overlappedObj))
+	{
+		if (bulletLevel < 8)
+		{
+			Explode(CLASS_EXPLOSION_OVERHEAD);
+		}
+		else
+		{
+			CExplosion* explosion = new CExplosion(CLASS_EXPLOSION_OVERHEAD);
+			CGameObjectBehaviour::CreateObjectAtCenterOfAnother(explosion, this);
+		}
+	}
+
 	if (dynamic_cast<CEnemy*>(overlappedObj))
 	{
 		CEnemy* enemy = dynamic_cast<CEnemy*>(overlappedObj);
 		CGameObjectBehaviour::HandleFriendlyBulletHitsEnemy(this, enemy);
+	}
+
+	if (dynamic_cast<CBullet*>(overlappedObj) && !dynamic_cast<CBullet*>(overlappedObj)->isFriendly)
+	{
+		if (bulletLevel < 8)
+		{
+			CGameObjectBehaviour::RemoveObject(this);
+		}
 	}
 }
 
