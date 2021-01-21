@@ -406,6 +406,8 @@
     <Media Include="Sound\teleporter_switch.wav" />
     <Media Include="Sound\intro.wav" />
     <Media Include="Sound\sophia_enter_music.wav" />
+    <Media Include="Sound\missile.wav" />
+    <Media Include="Sound\thunder.wav" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BlasterMaster.rc" />

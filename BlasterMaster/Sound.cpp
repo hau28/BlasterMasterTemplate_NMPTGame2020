@@ -78,6 +78,8 @@ void Sound::loadGameSounds() {
 	Sound::getInstance()->loadSound(TELEPORTER_SWITCH);
 	Sound::getInstance()->loadSound(INTRO_MUSIC);
 	Sound::getInstance()->loadSound(SOPHIA_ENTER_MUSIC);
+	Sound::getInstance()->loadSound(MISSILE);
+	Sound::getInstance()->loadSound(THUNDER);
 	//VOLUME
 }
 

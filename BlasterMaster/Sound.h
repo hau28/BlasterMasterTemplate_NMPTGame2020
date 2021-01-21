@@ -39,6 +39,8 @@ const std::string ENEMY_OVERHEAD_SHOOT = "enemy_overhead_shoot";
 const std::string TELEPORTER_SWITCH = "teleporter_switch";
 const std::string INTRO_MUSIC = "intro";
 const std::string SOPHIA_ENTER_MUSIC = "sophia_enter_music";
+const std::string MISSILE = "missile";
+const std::string THUNDER = "thunder";
 
 
 class Sound

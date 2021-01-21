@@ -1,9 +1,12 @@
 #include "Bullet_ThunderBreak.h"
 #include "Enemy.h"
 #include "GameObjectBehaviour.h"
+#include "Sound.h"
 
 CBullet_ThunderBreak::CBullet_ThunderBreak(float x, float y, int section, int indexInChain) : CBullet(CLASS_THUNDERBREAK, x, y, section, true)
 {
+
+	Sound::getInstance()->play(THUNDER, false, 1);
 	vx = vy = ax = ay = 0;
 
 	this->indexInChain = indexInChain;

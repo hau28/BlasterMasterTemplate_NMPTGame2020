@@ -304,6 +304,7 @@
     <Media Include="Sound\menu.wav" />
     <Media Include="Sound\menu_select.wav" />
     <Media Include="Sound\mine.wav" />
+    <Media Include="Sound\missile.wav" />
     <Media Include="Sound\panda_jump.wav" />
     <Media Include="Sound\panda_moving.wav" />
     <Media Include="Sound\powerup.wav" />
@@ -319,6 +320,7 @@
     <Media Include="Sound\swap_player.wav" />
     <Media Include="Sound\switch_scene.wav" />
     <Media Include="Sound\teleporter_switch.wav" />
+    <Media Include="Sound\thunder.wav" />
     <Media Include="Sound\worm_moving.wav" />
   </ItemGroup>
   <ItemGroup>

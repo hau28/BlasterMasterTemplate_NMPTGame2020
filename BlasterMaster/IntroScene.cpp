@@ -201,6 +201,7 @@ void CIntroScene::Update(DWORD dt)
 	switch (state)
 	{
 	case (ID_STATE_TITLE):
+		Sound::getInstance()->play(INTRO_MUSIC, false, 1);
 		if (isTitleFinished && animationHandlers[state]->currentFrameIndex == animationHandlers[state]->startLoopIndex)
 		{
 			setState(ID_STATE_FILMINTRO);
@@ -209,7 +210,7 @@ void CIntroScene::Update(DWORD dt)
 		isIntroFinished = isTitleFinished = isFilmFinished = false;
 		break;
 	case (ID_STATE_FILMINTRO):
-		Sound::getInstance()->play(INTRO_MUSIC, false, 1);
+		Sound::getInstance()->play(SOPHIA_ENTER_MUSIC, false, 1);
 		if (isFilmFinished && animationHandlers[state]->currentFrameIndex == animationHandlers[state]->startLoopIndex)
 		{	
 			animationHandlers[state]->Reset();
@@ -218,9 +219,10 @@ void CIntroScene::Update(DWORD dt)
 		isIntroFinished = isTitleFinished = isFilmFinished = false;
 		break;
 	case (ID_STATE_SOPHIADOWNGROUND):
-		Sound::getInstance()->play(SOPHIA_ENTER_MUSIC, false, 1);
+		Sound::getInstance()->stop(INTRO_MUSIC);
 		if (isIntroFinished && animationHandlers[state]->currentFrameIndex == animationHandlers[state]->startLoopIndex)
 		{
+
 			animationHandlers[state]->Reset();
 			//CGame::GetInstance()->SwitchScene(ID_SCENE_END);
 			CGameEvent* event = new SwitchSceneEvent(ID_SCENE_SIDEVIEW);
