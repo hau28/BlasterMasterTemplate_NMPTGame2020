@@ -67,7 +67,7 @@ void CJasonSideview::Init()
     LPOBJECT_ANIMATIONS objAnims = CObjectAnimationsLib::GetInstance()->Get(JASONSIDEVIEW_ANIMATIONS);
     animationHandlers = objAnims->GenerateAnimationHanlders();
 
-    this->allowOverlapWithBlocks = true;
+    this->allowOverlapWithBlocks = false;
 
     invulnerableTimer = new CTimer(this, INVULNERABLE_DURATION, 1);
     invulnerableTimer->Stop();

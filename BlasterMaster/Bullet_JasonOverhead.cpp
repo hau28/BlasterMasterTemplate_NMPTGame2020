@@ -5,14 +5,24 @@
 #include "CreateObjectEvent.h"
 #include "RemoveObjectEvent.h"
 
+vector<Color> CBullet_JasonOverhead::FinalBulletFlashingColors = 
+{
+	{255, 180, 180},
+	{180, 255, 180},
+	{180, 180, 255},
+	{255, 255, 255},
+};
 
-CBullet_JasonOverhead::CBullet_JasonOverhead(float x, float y, int sectionId, int dirX, int dirY, int level, int index) : CBullet::CBullet(CLASS_JASON_OVERHEAD_BULLET, x, y, sectionId, true)
+CBullet_JasonOverhead::CBullet_JasonOverhead(float x, float y, int sectionId, int dirX, int dirY, int level, int index) :
+	CBullet::CBullet(level==8? CLASS_JASON_OVERHEAD_WHITE_BULLET : CLASS_JASON_OVERHEAD_BULLET, x, y, sectionId, true)
 {
 	damage = BULLET_JASON_OVERHEAD_DAMAGE;
 
 	startx = dirX;
 	this->bulletLevel = level;
-	
+
+	SetState(CalcStateFromDir(dirX, dirY));
+
 	if (bulletLevel < 4) // bullets 0-> 3
 		bulletLine = new StraightLine(speed, bulletLevel, dirX, dirY);
 
@@ -27,6 +37,44 @@ CBullet_JasonOverhead::CBullet_JasonOverhead(float x, float y, int sectionId, in
 	isHiddenByForeground = true;
 	isUpdatedWhenOffScreen = true;
 	allowOverlapWithBlocks = true;
+
+	if (bulletLevel == 8)
+	{
+		finalBulletColorEffect = new CObjectFlashingEffectPlayer(this, &FinalBulletFlashingColors, FINAL_BULLET_FLASHING_COLOR_DURATION, true);
+		finalBulletColorEffect->Play();
+	}
+}
+
+int CBullet_JasonOverhead::CalcStateFromDir(float dirX, float dirY)
+{
+	// horizontal
+	if (abs(dirX) > abs(dirY))
+	{
+		// left
+		if (dirX < 0)
+			return bulletLevel == 8 ? BULLET_WHITE_JASON_OVERHEAD_STATE_LEFT : BULLET_JASON_OVERHEAD_STATE_LEFT;
+		// right
+		else
+			return bulletLevel == 8 ? BULLET_WHITE_JASON_OVERHEAD_STATE_RIGHT : BULLET_JASON_OVERHEAD_STATE_RIGHT;
+	}
+	//vertical
+	else
+	{
+		// up
+		if (dirY < 0)
+			return bulletLevel == 8 ? BULLET_WHITE_JASON_OVERHEAD_STATE_UP : BULLET_JASON_OVERHEAD_STATE_UP;
+		// down
+		else
+			return bulletLevel == 8 ? BULLET_WHITE_JASON_OVERHEAD_STATE_DOWN : BULLET_JASON_OVERHEAD_STATE_DOWN;
+	}
+}
+
+void CBullet_JasonOverhead::UpdateState()
+{
+	if (dynamic_cast<CircleLine*>(bulletLine))
+	{
+		SetState(CalcStateFromDir(vx, vy));
+	}
 }
 
 void CBullet_JasonOverhead::UpdateVelocity(DWORD dt)
@@ -111,7 +159,13 @@ void CBullet_JasonOverhead::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 	{
 		flagOver = true;
 	}
+
+	if (finalBulletColorEffect)
+		finalBulletColorEffect->Update(dt);
+
 	CBullet::Update(dt, coObjs);
+
+	UpdateState();
 }
 
 void BulletJasonOverheadLine::Update(DWORD dt)

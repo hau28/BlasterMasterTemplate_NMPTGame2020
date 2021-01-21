@@ -1,5 +1,6 @@
 #pragma once
 #include "Bullet.h"
+#include "ObjectFlashingEffectPlayer.h"
 
 
 class BulletJasonOverheadLine {
@@ -93,6 +94,14 @@ private:
 	BulletJasonOverheadLine* bulletLine;
 	int bulletLevel;
 	bool flagOver = false;
+
+	int CalcStateFromDir(float dirX, float dirY);
+	void UpdateState();
+
+	const int FINAL_BULLET_FLASHING_COLOR_DURATION = 80;
+	static vector<Color> FinalBulletFlashingColors;
+	CObjectFlashingEffectPlayer* finalBulletColorEffect = nullptr;
+	
 public:
 	CBullet_JasonOverhead() {};
 	CBullet_JasonOverhead(float x, float y, int sectionId, int dirX, int dirY, int level, int index);
