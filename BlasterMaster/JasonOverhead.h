@@ -6,10 +6,10 @@
 
 // 2 25 21 31
 
-const int JASONOVERHEAD_BOUNDBOX_WIDTH = 20;
-const int JASONOVERHEAD_BOUNDBOX_HEIGHT = 9;
-const int JASONOVERHEAD_BOUNDBOX_OFFSETX = 2;
-const int JASONOVERHEAD_BOUNDBOX_OFFSETY = 25;
+const int JASONOVERHEAD_BOUNDBOX_WIDTH = 18;
+const int JASONOVERHEAD_BOUNDBOX_HEIGHT = 7;
+const int JASONOVERHEAD_BOUNDBOX_OFFSETX = 3;
+const int JASONOVERHEAD_BOUNDBOX_OFFSETY = 26;
 
 const int JASON_OVERHEAD_FACEDIR_UP = 0;
 const int JASON_OVERHEAD_FACEDIR_DOWN = 1;
@@ -21,7 +21,7 @@ class CJasonOverhead : public CAnimatableObject, public ITimeTrackable
 private:
     const float JASON_OVERHEAD_MOVING_SPEED_X = 0.006f;
     const float JASON_OVERHEAD_MOVING_SPEED_Y = 0.006f;
-    const int DYING_EFFECT_DURATION = 1000;
+    const int DYING_EFFECT_DURATION = 2000;
 
 
     const float GRENADE_DISTANCE = 2.5 * 16;
@@ -57,6 +57,7 @@ private:
 
     LPTIMER invulnerableTimer = nullptr;
     LPTIMER dyingEffectTimer = nullptr;
+    bool flagDead = false;
 
     void UpdateState();
     void GetShootPosition(float& x, float& y, float dx, float dy);
@@ -71,6 +72,13 @@ private:
     static CJasonOverhead* __instance;
 
     int gunlevel = 4;
+
+    void HandleOnDamage();
+
+    // CuteTN: Flashing effect on damage
+    const int JASONOVERHEAD_VULNERABLE_EFFECT_FLASHING_DURATION = 30;
+    CObjectFlashingEffectPlayer* vulnerableFlashingEffect = nullptr;
+    void PlayVulnerableFlasingEffect();
 
 public:
     virtual void UpdateVelocity(DWORD dt);

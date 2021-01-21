@@ -27,6 +27,8 @@ private:
     void ShootVertical();
     void ShootHorizontal();
 
+    virtual void DropItem();
+
 public:
     CCannon() {};
     CCannon(int classId, int x, int y, int sectionId, int animsId);

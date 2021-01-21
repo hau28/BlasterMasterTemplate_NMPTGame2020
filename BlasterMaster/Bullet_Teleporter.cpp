@@ -13,6 +13,7 @@ CBullet_Teleporter::CBullet_Teleporter(float x, float y, int sectionId, float di
 	vy = ny * BULLET_TELEPORTER_SPEED;
 
 	isHiddenByForeground = true;
+	zIndex = ZINDEX_OVERHEAD_ENEMY_BULLET;
 }
 
 void CBullet_Teleporter::UpdateVelocity(DWORD dt)

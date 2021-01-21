@@ -239,6 +239,7 @@
     <ClInclude Include="ControlKeys.h" />
     <ClInclude Include="Eyeball.h" />
     <ClInclude Include="GridObjects.h" />
+    <ClInclude Include="ZIndexConsts.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="JasonOverhead.h" />
     <ClInclude Include="GameGlobal.h" />

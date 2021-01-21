@@ -3,6 +3,8 @@
 #include "Explosion.h"
 #include "CreateObjectEvent.h"
 #include "RemoveObjectEvent.h"
+#include "TileArea.h"
+#include "BreakableBlock.h"
 
 void CGameObjectBehaviour::BlockObject(DWORD dt, LPCOLLISIONEVENT coEvent)
 {
@@ -229,4 +231,34 @@ void CGameObjectBehaviour::HandleFriendlyBulletHitsEnemy(CBullet* bullet, CEnemy
 				bullet->Explode(CLASS_SMALL_EXPLOSION_SIDEVIEW);
 		}
 	}
+}
+
+bool CGameObjectBehaviour::IsMovableObject(LPGAMEOBJECT obj)
+{
+	if(dynamic_cast<CTileArea*>(obj))
+		return false;
+
+	if (dynamic_cast<CBreakableBlock*>(obj))
+		return false;
+
+	return true;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+bool CompareRenderOrderSideview(LPGAMEOBJECT obj1, LPGAMEOBJECT obj2)
+{
+	return obj1->zIndex < obj2->zIndex;
+}
+
+bool CompareRenderOrderOverhead(LPGAMEOBJECT obj1, LPGAMEOBJECT obj2)
+{
+	if(obj1->zIndex != obj2->zIndex)
+		return obj1->zIndex < obj2->zIndex;
+
+	float cx1, cy1, cx2, cy2;
+	CGameObjectBehaviour::CalcBoundingBoxCenter(obj1, cx1, cy1);
+	CGameObjectBehaviour::CalcBoundingBoxCenter(obj2, cx2, cy2);
+
+	return cy1 < cy2;
 }

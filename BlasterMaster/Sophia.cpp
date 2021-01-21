@@ -59,6 +59,7 @@ void CSophia::Init(int classId, int x, int y)
     homingMissileReloadTimer = new CTimer(this, SOPHIA_HOMING_MISSILE_RELOAD_DURATION, 1);
     homingMissileReloadTimer->Stop();
     
+    zIndex = ZINDEX_SOPHIA;
 };
 
 void CSophia::setGunState(int state) {
@@ -493,7 +494,9 @@ void CSophia::CountSophiaBulletsAndWeapons(vector<LPGAMEOBJECT>* coObjs)
     {
         switch (obj->classId)
         {
-        case CLASS_SOPHIA_BULLET: numberOfSophiaBullets++; break;
+        case CLASS_SOPHIA_BULLET: 
+        case CLASS_SOPHIA_WHITE_BULLET: 
+            numberOfSophiaBullets++; break;
         case CLASS_HOMING_MISSILE: numberOfHomingMissiles++; break;
         case CLASS_THUNDERBREAK: numberOfThunderBreak++; break;
         case CLASS_MULTIWARHEAD_MISSILE:
@@ -819,7 +822,7 @@ void CSophia::Shoot()
     GetGunDirection(dx, dy);
 
     Sound::getInstance()->play(SOPHIA_SHOOT, false, 1);
-    LPBULLET_SOPHIA bullet = new CBullet_Sophia(x, y, currentSectionId, dx, dy);
+    LPBULLET_SOPHIA bullet = new CBullet_Sophia(x, y, currentSectionId, dx, dy, CGameGlobal::GetInstance()->HasCrusherBeam);
 
     GetShootPosition(sx, sy);
     CGameObjectBehaviour::SetBoundingBoxCenter(bullet, sx, sy);

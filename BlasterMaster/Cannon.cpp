@@ -1,6 +1,7 @@
 #include "Cannon.h"
 #include "TileArea.h"
 #include "GameObjectBehaviour.h"
+#include "Item.h"
 
 #include "CreateObjectEvent.h"
 #include "RemoveObjectEvent.h"
@@ -19,7 +20,6 @@ CCannon::CCannon(int classId, int x, int y, int sectionId, int animsId) : CEnemy
 	UpdateState();
 	flagVertical = true;
 	flagHorizontal = true;
-
 };
 
 void CCannon::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
@@ -45,6 +45,19 @@ void CCannon::ShootHorizontal()
 
 	CBullet_Cannon* bullet2 = new CBullet_Cannon(0, 0, 0, -1, 0);
 	CGameObjectBehaviour::CreateObjectAtCenterOfAnother(bullet2, this);
+}
+
+void CCannon::DropItem()
+{
+	const int EXPECTED_NONE = 40;
+	const int EXPECTED_GUN = 60;
+
+	int x = rand() % (EXPECTED_NONE + EXPECTED_GUN);
+	if (x >= EXPECTED_NONE)
+	{
+		LPITEM gunItem = new CItem(CLASS_ITEM_GUN, 0, 0, 0, false);
+		CGameObjectBehaviour::CreateObjectAtCenterOfAnother(gunItem, this);
+	}
 }
 
 void CCannon::ShootVertical()

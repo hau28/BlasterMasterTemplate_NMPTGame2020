@@ -42,6 +42,13 @@ void CSection::Update(DWORD dt)
 	vector<LPGAMEOBJECT> objects = gridObjects->GetObjectsInArea(cx, cy, cw, ch);
 	gridObjects->ClearObjectsInArea(dt, cx, cy, cw, ch);
 
+	vector<LPGAMEOBJECT> movingObjects;
+	for (auto obj : objects)
+	{
+		if(CGameObjectBehaviour::IsMovableObject(obj))
+			movingObjects.push_back(obj);
+	}
+
 	for (auto obj : objects)
 	{
 		if (!obj)
@@ -53,7 +60,10 @@ void CSection::Update(DWORD dt)
 		{
 			if (obj->isUpdatedWhenOffScreen || checkObjInCamera(obj, SCREEN_EXTEND_OFFSET_DEFAULT))
 			{
-				obj->Update(dt, &objects);
+				if (CGameObjectBehaviour::IsMovableObject(obj))
+					obj->Update(dt, &objects);
+				else
+					obj->Update(dt, &movingObjects);
 			}
 		}
 	}
@@ -74,6 +84,12 @@ void CSection::Render(float offset_x, float offset_y)
 	ch = CGame::GetInstance()->GetScreenHeight();
 
 	vector<LPGAMEOBJECT> objects = gridObjects->GetObjectsInArea(cx, cy, cw, ch);
+
+	// CuteTN Rendering order
+	if(CGame::GetInstance()->GetCurrentSceneId() == ID_SCENE_SIDEVIEW)
+		sort(objects.begin(), objects.end(), CompareRenderOrderSideview);
+	else if(CGame::GetInstance()->GetCurrentSceneId() == ID_SCENE_OVERHEAD)
+		sort(objects.begin(), objects.end(), CompareRenderOrderOverhead);
 
 	// CuteTN Note: the order of rendering would be implemented here :)
 	RenderTexture(backgroundTextureId, offset_x, offset_y);
@@ -195,10 +211,8 @@ LPPORTAL CSection::findScenePortal(int port)
 	if (gridObjects == nullptr)
 		return nullptr;
 
-	DebugOut(L"\n8374");
 	vector<LPGAMEOBJECT> objects = gridObjects->GetAllObjects();
 
-	DebugOut(L"\n123");
 	for (int i = 0; i < objects.size(); i++)
 	{
 		if (objects[i]->classId == CLASS_TILE_SCENEPORTAL)
@@ -208,7 +222,6 @@ LPPORTAL CSection::findScenePortal(int port)
 				return portal;
 		}
 	}
-	DebugOut(L"\n456");
 	return nullptr;
 }
 

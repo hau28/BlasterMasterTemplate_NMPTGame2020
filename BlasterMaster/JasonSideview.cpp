@@ -29,7 +29,6 @@ CJasonSideview::CJasonSideview(int classId, int x, int y, int animsId) : CAnimat
     invulnerableTimer = new CTimer(this, INVULNERABLE_DURATION, 1);
     invulnerableTimer->Stop();
     flagInvulnerable = false;
-
 };
 
 void CJasonSideview::init_camBox()
@@ -68,7 +67,7 @@ void CJasonSideview::Init()
     LPOBJECT_ANIMATIONS objAnims = CObjectAnimationsLib::GetInstance()->Get(JASONSIDEVIEW_ANIMATIONS);
     animationHandlers = objAnims->GenerateAnimationHanlders();
 
-    this->allowOverlapWithBlocks = true;
+    this->allowOverlapWithBlocks = false;
 
     invulnerableTimer = new CTimer(this, INVULNERABLE_DURATION, 1);
     invulnerableTimer->Stop();
@@ -89,6 +88,8 @@ void CJasonSideview::Init()
     flagBulletReloaded = true;
     bulletReloadTimer = new CTimer(this, JASONSIDEVIEW_BULLET_RELOAD_DURATION, 1);
     bulletReloadTimer->Stop();
+
+    zIndex = ZINDEX_JASONSIDEVIEW;
 }
 
 #pragma region key events handling
@@ -116,7 +117,8 @@ void CJasonSideview::CheckDistance(float& yStartFalling, float& yEndFalling)
 
     if (40 <= (yEndFalling - yStartFalling) && 50>= (yEndFalling - yStartFalling))
     {
-        vy -= JASONSIDEVIEW_KNOCKEDBACK_VY;
+        if(vy - JASONSIDEVIEW_KNOCKEDBACK_VY > JASONSIDEVIEW_JUMP_SPEED_Y_MAX)
+            vy -= JASONSIDEVIEW_KNOCKEDBACK_VY;
         CGameGlobal::GetInstance()->beingAttackedByLowFall();
         yStartFalling = yEndFalling;
         HandleOnDamage();
@@ -125,7 +127,8 @@ void CJasonSideview::CheckDistance(float& yStartFalling, float& yEndFalling)
                 
     if (yEndFalling - yStartFalling > 50)
     {
-        vy -= JASONSIDEVIEW_KNOCKEDBACK_VY;
+        if (vy - JASONSIDEVIEW_KNOCKEDBACK_VY > JASONSIDEVIEW_JUMP_SPEED_Y_MAX)
+            vy -= JASONSIDEVIEW_KNOCKEDBACK_VY;
         CGameGlobal::GetInstance()->beingAttackedByDrop();
         HandleOnDamage();
         flagKnockedBack = true;
@@ -153,7 +156,8 @@ void CJasonSideview::BeKnockedBack()
     else
     {
         if (!flagOnAir)
-            vy -= JASONSIDEVIEW_KNOCKEDBACK_VY;
+            if (vy - JASONSIDEVIEW_KNOCKEDBACK_VY > JASONSIDEVIEW_JUMP_SPEED_Y_MAX)
+                vy -= JASONSIDEVIEW_KNOCKEDBACK_VY;
 
         if (!flagClimb)
         {
@@ -168,7 +172,8 @@ void CJasonSideview::BeKnockedBack()
         else
         {
             flagClimb = false;
-            vy -= JASONSIDEVIEW_KNOCKEDBACK_VY;
+            if (vy - JASONSIDEVIEW_KNOCKEDBACK_VY > JASONSIDEVIEW_JUMP_SPEED_Y_MAX)
+                vy -= JASONSIDEVIEW_KNOCKEDBACK_VY;
 
             if (flagTurnRight)
                 vx -= JASONSIDEVIEW_KNOCKEDBACK_VX / 2;
@@ -393,7 +398,9 @@ void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)
     {
         Sound::getInstance()->play(JASON_JUMP, false, 1);
         vx = 0;
-        vy -= JASONSIDEVIEW_JUMP_SPEED_Y;
+
+        if (vy - JASONSIDEVIEW_JUMP_SPEED_Y > JASONSIDEVIEW_JUMP_SPEED_Y_MAX)
+            vy -= JASONSIDEVIEW_JUMP_SPEED_Y;
 
         if (flagTurnRight)
             SetState(JASONSIDEVIEW_STATE_JUMP_RIGHT);
@@ -405,7 +412,9 @@ void CJasonSideview::HandleKeyDown(DWORD dt, int keyCode)
     if (keyCode == ControlKeys::JumpKey && flagClimb && !flagClimbOver)
     {
         Sound::getInstance()->play(JASON_JUMP, false, 1);
-        vy = -JASONSIDEVIEW_JUMP_SPEED_Y /2 ;
+
+        if (vy - JASONSIDEVIEW_JUMP_SPEED_Y/2 > JASONSIDEVIEW_JUMP_SPEED_Y_MAX)
+            vy = -JASONSIDEVIEW_JUMP_SPEED_Y /2 ;
         flagClimb = false;
     }
 

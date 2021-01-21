@@ -6,8 +6,11 @@
 #include "RemoveObjectEvent.h"
 #include "Sound.h"
 
-CBullet_Sophia::CBullet_Sophia(int x, int y, int sectionId, int dirX, int dirY) : CBullet(CLASS_SOPHIA_BULLET, x, y, sectionId, true)
+CBullet_Sophia::CBullet_Sophia(int x, int y, int sectionId, int dirX, int dirY, bool enabledCrusherBeam) :
+	CBullet(enabledCrusherBeam? CLASS_SOPHIA_WHITE_BULLET : CLASS_SOPHIA_BULLET, x, y, sectionId, true)
 {
+	this->enabledCrusherBeam = enabledCrusherBeam;
+
 	damage = BULLET_SOPHIA_DAMAGE;
 
 	// normalize the direction vector
@@ -18,11 +21,31 @@ CBullet_Sophia::CBullet_Sophia(int x, int y, int sectionId, int dirX, int dirY) 
 	vy = ny * BULLET_SOPHIA_SPEED;
 
 	if (vx < 0)
-		SetState(BULLET_SOPHIA_SIDEVIEW_STATE_LEFT);
+		SetState(enabledCrusherBeam? BULLET_WHITE_SOPHIA_SIDEVIEW_STATE_LEFT : BULLET_SOPHIA_SIDEVIEW_STATE_LEFT);
 	else if (vx > 0)
-		SetState(BULLET_SOPHIA_SIDEVIEW_STATE_RIGHT);
+		SetState(enabledCrusherBeam ? BULLET_WHITE_SOPHIA_SIDEVIEW_STATE_RIGHT : BULLET_SOPHIA_SIDEVIEW_STATE_RIGHT);
 	else
-		SetState(BULLET_SOPHIA_SIDEVIEW_STATE_UP);
+		SetState(enabledCrusherBeam ? BULLET_WHITE_SOPHIA_SIDEVIEW_STATE_UP : BULLET_SOPHIA_SIDEVIEW_STATE_UP);
+
+	if (enabledCrusherBeam)
+	{
+		crusherBeamChangingColorEffectTimer = new CTimer(this, CRUSHER_BEAM_COLOR_DURATION);
+		crusherBeamChangingColorEffectTimer->Start();
+	}
+
+	isHiddenByForeground = true;
+	zIndex = ZINDEX_SOPHIA_BULLET;
+}
+
+void CBullet_Sophia::ChangeRandomColor()
+{
+	// set random bright color
+	const int MIN_COLOR_R = 150;
+	const int MIN_COLOR_G = 150;
+	const int MIN_COLOR_B = 150;
+	modifyR = MIN_COLOR_R + rand() % (256 - MIN_COLOR_R);
+	modifyG = MIN_COLOR_G + rand() % (256 - MIN_COLOR_G);
+	modifyB = MIN_COLOR_B + rand() % (256 - MIN_COLOR_B);
 }
 
 void CBullet_Sophia::UpdateVelocity(DWORD dt)
@@ -89,12 +112,25 @@ void CBullet_Sophia::CalcExplosionCenterPos(float& explosionX, float& explosionY
 
 void CBullet_Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
+	if (enabledCrusherBeam)
+	{
+		crusherBeamChangingColorEffectTimer->Update(dt);
+	}
+
 	CBullet::Update(dt, coObjs);
+}
+
+void CBullet_Sophia::HandleTimerTick(LPTIMER sender)
+{
+	if (sender == crusherBeamChangingColorEffectTimer)
+	{
+		ChangeRandomColor();
+	}
 }
 
 void CBullet_Sophia::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	if (state != BULLET_SOPHIA_SIDEVIEW_STATE_UP)
+	if (state != BULLET_SOPHIA_SIDEVIEW_STATE_UP && state != BULLET_WHITE_SOPHIA_SIDEVIEW_STATE_UP)
 	{
 		float offsetX, offsetY, width, height;
 		offsetX = BULLET_SOPHIA_BOUNDBOX_OFFSETX;
@@ -102,7 +138,7 @@ void CBullet_Sophia::GetBoundingBox(float& left, float& top, float& right, float
 		width = BULLET_SOPHIA_BOUNDBOX_WIDTH;
 		height = BULLET_SOPHIA_BOUNDBOX_HEIGHT;
 
-		if (state == BULLET_SOPHIA_SIDEVIEW_STATE_RIGHT)
+		if (state == BULLET_SOPHIA_SIDEVIEW_STATE_RIGHT || BULLET_WHITE_SOPHIA_SIDEVIEW_STATE_RIGHT)
 		{
 			CGameObjectBehaviour::TransformBoundBox(
 				BULLET_SOPHIA_BOUNDBOX_OFFSETX, BULLET_SOPHIA_BOUNDBOX_OFFSETY, BULLET_SOPHIA_BOUNDBOX_WIDTH, BULLET_SOPHIA_BOUNDBOX_HEIGHT,

@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 #include "GameObject.h"
 
 #include "Bullet.h"
@@ -102,5 +103,15 @@ public:
 	/// <param name="enemy"></param>
 	/// <param name="penetrable"></param>
 	static void HandleFriendlyBulletHitsEnemy(CBullet* bullet, CEnemy* enemy, bool penetrable = false);
+
+	static bool IsMovableObject(LPGAMEOBJECT obj);
 };
 
+/// <summary>
+/// returns true if obj1 must be behind obj2
+/// </summary>
+/// <param name="obj1"></param>
+/// <param name="obj2"></param>
+/// <returns></returns>
+bool CompareRenderOrderSideview(LPGAMEOBJECT obj1, LPGAMEOBJECT obj2);
+bool CompareRenderOrderOverhead(LPGAMEOBJECT obj1, LPGAMEOBJECT obj2);

@@ -3,6 +3,7 @@
 #include "Explosion.h"
 #include "Bullet.h"
 #include "GameGlobal.h"
+#include "Bullet_Sophia.h"
 
 CBreakableBlock::CBreakableBlock(int classId, int x, int y, int sectionId, int animsId) : CAnimatableObject::CAnimatableObject(classId, x, y, sectionId, animsId)
 {
@@ -11,13 +12,14 @@ CBreakableBlock::CBreakableBlock(int classId, int x, int y, int sectionId, int a
 	// this->y++;
 
 	requireCrusherBeam = classId != CLASS_BREAKABLE_OVERHEAD_BG;
-	modifyA = 255;
 	isDestroyed = false;
 	vx = vy = ax = ay = 0;
 
 	allowOverlapWithBlocks = true;
 	isUpdatedWhenOffScreen = true;
 	isHiddenByForeground = true;
+
+	zIndex = ZINDEX_BREAKABLE_BLOCKS;
 }
 
 void CBreakableBlock::UpdateVelocity(DWORD dt)
@@ -42,17 +44,34 @@ void CBreakableBlock::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 		CBullet* bullet = dynamic_cast<CBullet*>(obj);
 		if (bullet->isFriendly)
 		{
-			if ((!requireCrusherBeam) || (CGameGlobal::GetInstance()->HasCrusherBeam && bullet->classId == CLASS_SOPHIA_BULLET))
-			{
-				CGameObjectBehaviour::RemoveObject(bullet);
-				Explode();
-			}
+			if(bullet->classId != CLASS_JASON_OVERHEAD_GRENADE)
+				if ((!requireCrusherBeam) || (CGameGlobal::GetInstance()->HasCrusherBeam && dynamic_cast<CBullet_Sophia*>(bullet)))
+				{
+					CGameObjectBehaviour::RemoveObject(bullet);
+					Explode();
+				}
 		}
 	}
 }
 
 void CBreakableBlock::HandleOverlap(LPGAMEOBJECT overlappedObj)
 {
+	if (isDestroyed)
+		return;
+
+	if (dynamic_cast<CBullet*>(overlappedObj))
+	{
+		CBullet* bullet = dynamic_cast<CBullet*>(overlappedObj);
+		if (bullet->isFriendly)
+		{
+			if(bullet->classId != CLASS_JASON_OVERHEAD_GRENADE)
+				if ((!requireCrusherBeam) || (CGameGlobal::GetInstance()->HasCrusherBeam && dynamic_cast<CBullet_Sophia*>(bullet)))
+				{
+					CGameObjectBehaviour::RemoveObject(bullet);
+					Explode();
+				}
+		}
+	}
 }
 
 void CBreakableBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
@@ -60,7 +79,6 @@ void CBreakableBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 	if (!checkObjInCamera(this))
 	{
 		isDestroyed = false;
-		modifyA = 0;
 	}
 
 	CAnimatableObject::Update(dt, coObjs);
@@ -80,7 +98,6 @@ void CBreakableBlock::Explode()
 	CGameObjectBehaviour::CreateObjectAtCenterOfAnother(explosion, this);
 
 	this->isDestroyed = true;
-	this->modifyA = 255;
 }
 
 void CBreakableBlock::Render(float offsetX, float offsetY)
@@ -90,9 +107,9 @@ void CBreakableBlock::Render(float offsetX, float offsetY)
 		DebugOut(L"[ERROR] Missing animation handler of state %d\n", state);
 	}
 
-	if (modifyA)
+	if (IsDestroyed())
 	{
-		animationHandlers[state]->Render(x + offsetX, y + offsetY, modifyA, modifyR, modifyG, modifyB);
-		animationHandlers[state]->Render(x + 1 + offsetX, y + 1 + offsetY, modifyA, modifyR, modifyG, modifyB);
+		animationHandlers[state]->Render(x + offsetX, y + offsetY, 255, modifyR, modifyG, modifyB);
+		animationHandlers[state]->Render(x + 1 + offsetX, y + 1 + offsetY, 255, modifyR, modifyG, modifyB);
 	}
 }

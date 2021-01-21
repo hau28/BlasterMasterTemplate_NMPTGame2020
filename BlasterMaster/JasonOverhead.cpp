@@ -27,7 +27,7 @@ void CJasonOverhead::Init()
     LPOBJECT_ANIMATIONS objAnims = CObjectAnimationsLib::GetInstance()->Get(JASON_OVERHEAD_ANIMATIONS);
     animationHandlers = objAnims->GenerateAnimationHanlders();
 
-    this->allowOverlapWithBlocks = true;
+    this->allowOverlapWithBlocks = false;
 
     invulnerableTimer = new CTimer(this, INVULNERABLE_DURATION, 1);
     invulnerableTimer->Stop();
@@ -43,6 +43,10 @@ void CJasonOverhead::Init()
     grenadeReloadTimer = new CTimer(this, JASONOVERHEAD_GRENADE_RELOAD_DURATION, 1);
     grenadeReloadTimer->Stop();
 
+    vulnerableFlashingEffect = new CObjectFlashingEffectPlayer(this, &flashingColors, JASONOVERHEAD_VULNERABLE_EFFECT_FLASHING_DURATION);
+    flagInvulnerable = false;
+
+    flagDead = false;
 }
 
 
@@ -81,6 +85,9 @@ void CJasonOverhead::HandleKeyUp(DWORD dt, int keyCode)
 
 void CJasonOverhead::HandleKeyDown(DWORD dt, int keyCode)
 {
+    if (flagDead)
+        return;
+
     // if (keyCode == DIK_T)
     // {
     //     CGameGlobal::GetInstance()->beingAttackedByEnemy();
@@ -106,6 +113,15 @@ void CJasonOverhead::HandleKeyDown(DWORD dt, int keyCode)
 void CJasonOverhead::HandleKeysHold(DWORD dt)
 {
     MovingDirX = MovingDirY = 0;
+
+    if (flagDead)
+        return;
+
+    // CuteTN: Auto jump and fire
+    if (IsKeyDown(ControlKeys::AutoJumpKey))
+        HandleKeyDown(dt, ControlKeys::JumpKey);
+    if (IsKeyDown(ControlKeys::AutoFireKey))
+        HandleKeyDown(dt, ControlKeys::FireKey);
 
     if (IsKeyDown(DIK_UP))
         MovingDirY--;
@@ -168,9 +184,9 @@ void CJasonOverhead::UpdateState()
 
     if (CGameGlobal::GetInstance()->get_healthJasonOverHead() <= 0)
     {
-        DebugOut(L"TT\n");
         newState = JASONOVERHEAD_STATE_DEAD;
         dyingEffectTimer->Start();
+        flagDead = true;
     }
 
     SetState(newState);
@@ -365,6 +381,22 @@ CJasonOverhead* CJasonOverhead::InitInstance(int x, int y, int sectionId)
     return __instance;
 }
 
+void CJasonOverhead::HandleOnDamage()
+{
+    if (CGameGlobal::GetInstance()->get_healthJasonSideView() > 0) {
+        Sound::getInstance()->play(JASON_GOT_HIT, false, 1);
+    }
+    flagInvulnerable = true;
+    invulnerableTimer->Start();
+    PlayVulnerableFlasingEffect();
+}
+
+void CJasonOverhead::PlayVulnerableFlasingEffect()
+{
+    if (vulnerableFlashingEffect)
+        vulnerableFlashingEffect->Play();
+}
+
 void CJasonOverhead::UpdateVelocity(DWORD dt)
 {
     vx = MovingDirX * JASON_OVERHEAD_MOVING_SPEED_X * dt;
@@ -380,18 +412,17 @@ void CJasonOverhead::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
     LPGAMEOBJECT obj = coEvent->otherObject;
 
+    if (IsBlockableObject(obj))
+    {
+        CGameObjectBehaviour::BlockObject(dt, coEvent);
+    }
+
     if (dynamic_cast<LPTILE_AREA>(obj))
     {
         LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(obj);
 
         switch (tileArea->classId)
         {
-        case CLASS_TILE_BLOCKABLE:
-        {
-			CGameObjectBehaviour::BlockObject(dt, coEvent);
-            break;
-        }
-
         case CLASS_TILE_PORTAL:
         {
 
@@ -434,34 +465,57 @@ void CJasonOverhead::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
         }
     }
 
-    if (dynamic_cast<CEnemy*>(obj))
-    {
-        CGameGlobal::GetInstance()->beingAttackedByEnemy();
-    }
 
-    if (dynamic_cast<CBullet*>(obj))
-    {
-        CBullet* bullet = dynamic_cast<CBullet*>(obj);
-        if (!bullet->isFriendly)
-            CGameGlobal::GetInstance()->beingAttackedByEnemy();
-    }
 }
 
 void CJasonOverhead::HandleOverlap(LPGAMEOBJECT overlappedObj)
 {
-    //if (!overlappedObj)
-    //    return;
+    if (!overlappedObj)
+        return;
 
-    //if (dynamic_cast<LPTILE_AREA>(overlappedObj))
-    //{
-    //    LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(overlappedObj);
-    //    if (tileArea->classId == CLASS_TILE_SPIKE_O)
-    //    {
-    //        CGameGlobal::GetInstance()->beingAttackedBySpike();
-    //        //HandleOnDamage();
-    //        //flagKnockedBack = true;
-    //    }
-    //}
+    if (!flagInvulnerable) {
+        if (dynamic_cast<CEnemy*>(overlappedObj))
+        {
+            CGameGlobal::GetInstance()->beingAttackedByEnemy();
+            HandleOnDamage();
+        }
+
+        if (dynamic_cast<CBullet*>(overlappedObj))
+        {
+            CBullet* bullet = dynamic_cast<CBullet*>(overlappedObj);
+            if (!bullet->isFriendly) {
+                CGameGlobal::GetInstance()->beingAttackedByBullet();
+                HandleOnDamage();
+            }
+
+        }
+
+        if (dynamic_cast<LPTILE_AREA>(overlappedObj))
+        {
+            LPTILE_AREA tileArea = dynamic_cast<LPTILE_AREA>(overlappedObj);
+            if (tileArea->classId == CLASS_TILE_SPIKE)
+            {
+                CGameGlobal::GetInstance()->beingAttackedBySpike();
+                HandleOnDamage();
+            }
+        }
+    }
+
+
+    if (!flagInvulnerable)
+    {
+        if (dynamic_cast<CEnemy*>(overlappedObj))
+        {
+            CGameGlobal::GetInstance()->beingAttackedByEnemy();
+        }
+
+        if (dynamic_cast<CBullet*>(overlappedObj))
+        {
+            CBullet* bullet = dynamic_cast<CBullet*>(overlappedObj);
+            if (!bullet->isFriendly)
+                CGameGlobal::GetInstance()->beingAttackedByEnemy();
+        }
+    }
 }
 
 void CJasonOverhead::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
@@ -470,6 +524,9 @@ void CJasonOverhead::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
     bulletReloadTimer->Update(dt);
     grenadeReloadTimer->Update(dt);
     CountJasonOverheadBullets(coObjs);
+
+    invulnerableTimer->Update(dt);
+    vulnerableFlashingEffect->Update(dt);
 
     HandleKeys(dt);
     CAnimatableObject::Update(dt, coObjs);
