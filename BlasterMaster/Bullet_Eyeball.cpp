@@ -13,6 +13,7 @@ CBullet_Eyeball::CBullet_Eyeball(float x, float y, int sectionId, float dirX, fl
 	vy = ny * BULLET_EYEBALL_SPEED;
 
 	isHiddenByForeground = true;
+	zIndex = ZINDEX_OVERHEAD_ENEMY_BULLET;
 }
 
 void CBullet_Eyeball::UpdateVelocity(DWORD dt)

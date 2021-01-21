@@ -7,7 +7,7 @@
 // 2 25 21 31
 
 const int JASONOVERHEAD_BOUNDBOX_WIDTH = 20;
-const int JASONOVERHEAD_BOUNDBOX_HEIGHT = 9;
+const int JASONOVERHEAD_BOUNDBOX_HEIGHT = 7;
 const int JASONOVERHEAD_BOUNDBOX_OFFSETX = 2;
 const int JASONOVERHEAD_BOUNDBOX_OFFSETY = 25;
 
@@ -21,7 +21,7 @@ class CJasonOverhead : public CAnimatableObject, public ITimeTrackable
 private:
     const float JASON_OVERHEAD_MOVING_SPEED_X = 0.006f;
     const float JASON_OVERHEAD_MOVING_SPEED_Y = 0.006f;
-    const int DYING_EFFECT_DURATION = 1000;
+    const int DYING_EFFECT_DURATION = 2000;
 
 
     const float GRENADE_DISTANCE = 2.5 * 16;
@@ -57,6 +57,7 @@ private:
 
     LPTIMER invulnerableTimer = nullptr;
     LPTIMER dyingEffectTimer = nullptr;
+    bool flagDead = false;
 
     void UpdateState();
     void GetShootPosition(float& x, float& y, float dx, float dy);

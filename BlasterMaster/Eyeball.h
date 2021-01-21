@@ -4,9 +4,9 @@
 
 
 const int EYEBALL_BOUNDBOX_WIDTH = 14;
-const int EYEBALL_BOUNDBOX_HEIGHT = 4;
+const int EYEBALL_BOUNDBOX_HEIGHT = 5;
 const int EYEBALL_BOUNDBOX_OFFSETX = 1;
-const int EYEBALL_BOUNDBOX_OFFSETY = 30;
+const int EYEBALL_BOUNDBOX_OFFSETY = 20;
 
 const float EYEBALL_FLY_SPEED = 0.15f;
 const float EYEBALL_STOP_SPEED = 0.004f;
@@ -19,7 +19,7 @@ const int EYEBALL_HEALTHPOINT = 1;
 class CEyeball : public CEnemy, public ITimeTrackable
 {
 private:
-    const int DELAY_BETWEEN_MOVE = 2500;
+    const int DELAY_BETWEEN_MOVE = 1900;
     bool flagMove;
     bool flagRight;
     bool flagDown;
@@ -29,6 +29,9 @@ private:
 
     LPTIMER moveTimer;
     void ShootPlayer();
+
+protected:
+    virtual void Explode();
 
 public:
     CEyeball() {};

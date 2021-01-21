@@ -116,8 +116,13 @@ void CEyeball::ShootPlayer()
 	float Xplayer, Yplayer;
 	CGameObjectBehaviour::CalcBoundingBoxCenter(CGame::GetInstance()->GetCurrentPlayer(), Xplayer, Yplayer);
 
-		CBullet_Eyeball* bullet = new CBullet_Eyeball(0, 0, 0, dirX, dirY);
-		CGameObjectBehaviour::CreateObjectAtCenterOfAnother(bullet, this);
+	CBullet_Eyeball* bullet = new CBullet_Eyeball(0, 0, 0, dirX, dirY);
+	CGameObjectBehaviour::CreateObjectAtCenterOfAnother(bullet, this);
+}
+
+void CEyeball::Explode()
+{
+	CGameObjectBehaviour::RemoveObject(this);
 }
 
 void CEyeball::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)

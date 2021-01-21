@@ -44,11 +44,12 @@ void CBreakableBlock::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 		CBullet* bullet = dynamic_cast<CBullet*>(obj);
 		if (bullet->isFriendly)
 		{
-			if ((!requireCrusherBeam) || (CGameGlobal::GetInstance()->HasCrusherBeam && dynamic_cast<CBullet_Sophia*>(bullet)))
-			{
-				CGameObjectBehaviour::RemoveObject(bullet);
-				Explode();
-			}
+			if(bullet->classId != CLASS_JASON_OVERHEAD_GRENADE)
+				if ((!requireCrusherBeam) || (CGameGlobal::GetInstance()->HasCrusherBeam && dynamic_cast<CBullet_Sophia*>(bullet)))
+				{
+					CGameObjectBehaviour::RemoveObject(bullet);
+					Explode();
+				}
 		}
 	}
 }
@@ -63,11 +64,12 @@ void CBreakableBlock::HandleOverlap(LPGAMEOBJECT overlappedObj)
 		CBullet* bullet = dynamic_cast<CBullet*>(overlappedObj);
 		if (bullet->isFriendly)
 		{
-			if ((!requireCrusherBeam) || (CGameGlobal::GetInstance()->HasCrusherBeam && dynamic_cast<CBullet_Sophia*>(bullet)))
-			{
-				CGameObjectBehaviour::RemoveObject(bullet);
-				Explode();
-			}
+			if(bullet->classId != CLASS_JASON_OVERHEAD_GRENADE)
+				if ((!requireCrusherBeam) || (CGameGlobal::GetInstance()->HasCrusherBeam && dynamic_cast<CBullet_Sophia*>(bullet)))
+				{
+					CGameObjectBehaviour::RemoveObject(bullet);
+					Explode();
+				}
 		}
 	}
 }

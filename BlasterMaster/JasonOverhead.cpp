@@ -45,6 +45,8 @@ void CJasonOverhead::Init()
 
     vulnerableFlashingEffect = new CObjectFlashingEffectPlayer(this, &flashingColors, JASONOVERHEAD_VULNERABLE_EFFECT_FLASHING_DURATION);
     flagInvulnerable = false;
+
+    flagDead = false;
 }
 
 
@@ -83,6 +85,9 @@ void CJasonOverhead::HandleKeyUp(DWORD dt, int keyCode)
 
 void CJasonOverhead::HandleKeyDown(DWORD dt, int keyCode)
 {
+    if (flagDead)
+        return;
+
     // if (keyCode == DIK_T)
     // {
     //     CGameGlobal::GetInstance()->beingAttackedByEnemy();
@@ -107,13 +112,16 @@ void CJasonOverhead::HandleKeyDown(DWORD dt, int keyCode)
 
 void CJasonOverhead::HandleKeysHold(DWORD dt)
 {
+    MovingDirX = MovingDirY = 0;
+
+    if (flagDead)
+        return;
+
     // CuteTN: Auto jump and fire
     if (IsKeyDown(ControlKeys::AutoJumpKey))
         HandleKeyDown(dt, ControlKeys::JumpKey);
     if (IsKeyDown(ControlKeys::AutoFireKey))
         HandleKeyDown(dt, ControlKeys::FireKey);
-
-    MovingDirX = MovingDirY = 0;
 
     if (IsKeyDown(DIK_UP))
         MovingDirY--;
@@ -176,9 +184,9 @@ void CJasonOverhead::UpdateState()
 
     if (CGameGlobal::GetInstance()->get_healthJasonOverHead() <= 0)
     {
-        DebugOut(L"TT\n");
         newState = JASONOVERHEAD_STATE_DEAD;
         dyingEffectTimer->Start();
+        flagDead = true;
     }
 
     SetState(newState);
