@@ -8,6 +8,7 @@
 #include "SwitchSceneEvent.h"
 #include "GameEvent.h"
 #include "GameGlobal.h"
+#include "Sound.h"
 
 #define SCENE_SECTION_UNKNOWN -1
 #define SCENE_SECTION_TEXTURES 2
@@ -208,14 +209,16 @@ void CIntroScene::Update(DWORD dt)
 		isIntroFinished = isTitleFinished = isFilmFinished = false;
 		break;
 	case (ID_STATE_FILMINTRO):
+		Sound::getInstance()->play(INTRO_MUSIC, false, 1);
 		if (isFilmFinished && animationHandlers[state]->currentFrameIndex == animationHandlers[state]->startLoopIndex)
-		{
+		{	
 			animationHandlers[state]->Reset();
 			setState(ID_STATE_TITLE);
 		}
 		isIntroFinished = isTitleFinished = isFilmFinished = false;
 		break;
 	case (ID_STATE_SOPHIADOWNGROUND):
+		Sound::getInstance()->play(SOPHIA_ENTER_MUSIC, false, 1);
 		if (isIntroFinished && animationHandlers[state]->currentFrameIndex == animationHandlers[state]->startLoopIndex)
 		{
 			animationHandlers[state]->Reset();

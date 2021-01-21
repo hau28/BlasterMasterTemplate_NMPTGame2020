@@ -296,6 +296,7 @@
     <Media Include="Sound\enemy_die.wav" />
     <Media Include="Sound\enemy_got_hit.wav" />
     <Media Include="Sound\enemy_overhead_shoot.wav" />
+    <Media Include="Sound\intro.wav" />
     <Media Include="Sound\jason_die.wav" />
     <Media Include="Sound\jason_got_hit.wav" />
     <Media Include="Sound\jason_jump.wav" />
@@ -310,6 +311,7 @@
     <Media Include="Sound\small_pink_bullet_explosion.wav" />
     <Media Include="Sound\sophia_bullet_explosion.wav" />
     <Media Include="Sound\sophia_die.wav" />
+    <Media Include="Sound\sophia_enter_music.wav" />
     <Media Include="Sound\sophia_got_hit.wav" />
     <Media Include="Sound\sophia_jump.wav" />
     <Media Include="Sound\sophia_land.wav" />

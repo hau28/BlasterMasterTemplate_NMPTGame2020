@@ -823,6 +823,7 @@ void CGameGlobal::initEffectFaded()
 
 void CGameGlobal::openEffectFlashingBoss()
 {
+	//SOUND BOSS FLASH
 	this->isEffectBoss = true;
 	this->stateBossBlackBackground = false;
 	this->isEffectBossFadeIn = false;
@@ -848,6 +849,7 @@ void CGameGlobal::HandleTimerTick(LPTIMER sender)
 	}
 	if (sender == effectBossRender)
 	{
+		//SOUND BOSS XUAT HIEN
 		this->isRenderBoss = true;
 		this->effectBossRender->Stop();
 		this->effectBossRenderFlashing->Start();
