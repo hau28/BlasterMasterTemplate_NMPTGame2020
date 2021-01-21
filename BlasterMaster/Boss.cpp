@@ -124,7 +124,6 @@ void CBoss::Explode()
 		explosionTimer->Start();
 		flagDied = true;
 	}
-	
 }
 
 CBoss::CBoss(int classId, int x, int y, int sectionId, int animsId) : CEnemy::CEnemy(classId, x, y, sectionId, animsId)
@@ -243,12 +242,14 @@ void CBoss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
 	if (explodeCount == COUNT_EXPLOSION)
 	{
+		
 		CGameObjectBehaviour::RemoveObject(this);
-
 	}
 	explosionTimer->Update(dt);
 	if (healthPoint <= 0)
 	{
+		vx = 0;
+		vy = 0;
 		Explode();
 	}
 
@@ -360,7 +361,8 @@ void CBoss::HandleTimerTick(LPTIMER sender)
 {
 	if (sender == singleShotTimer)
 	{
-		ShootPlayer();
+		if(!flagDied)
+			ShootPlayer();
 	}
 
 	if (sender == shootPhaseTimer)

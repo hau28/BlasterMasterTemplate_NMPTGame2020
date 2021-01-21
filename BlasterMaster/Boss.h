@@ -16,7 +16,7 @@ class CBoss : public CEnemy, public ITimeTrackable
 
     const int SHOT_PER_SHOOTING_PHASE = 4;
     const int DELAY_BETWEEN_SHOOTING_PHASES = 2800;
-    const int DELAY_BETWEEN_SHOTS = 400;
+    const int DELAY_BETWEEN_SHOTS = 300;
     const int DELAY_IDLE_HAND_BOSS = 700;
     
     void init_ObjectsArm();
