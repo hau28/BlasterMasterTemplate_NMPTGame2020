@@ -47,6 +47,16 @@ class CBoss : public CEnemy, public ITimeTrackable
     void MoveArmLeft();
     void MoveArmRight();
     bool checkEquals(float x1, float y1, float x2, float y2);
+
+    const int EXPLOSION_REMOVE_DURATION = 100;
+    const int  COUNT_EXPLOSION = 50;
+    LPTIMER explosionTimer;
+    LPTIMER reloadTimer;
+
+    int explodeCount = 0;
+    bool flagexplode = false;
+    bool flagDied = false;
+    virtual void Explode();
 public:
     CBoss() {};
     CBoss(int classId, int x, int y, int sectionId, int animsId);
@@ -61,6 +71,10 @@ public:
 
     virtual void HandleTimerTick(LPTIMER sender);
     void CalcBoundingBoxCenter(LPGAMEOBJECT obj, float& x, float& y);
+
+    void GetPosition(float& x, float& y, float dx, float dy);
+
+
 };
 typedef CBoss* LPBOSS;
 

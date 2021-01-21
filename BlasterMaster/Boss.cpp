@@ -117,6 +117,16 @@ void CBoss::init_ObjectsArm()
 	CGameObjectBehaviour::CreateObject(HandRight);
 }
 
+void CBoss::Explode()
+{
+	if (!flagDied)
+	{
+		explosionTimer->Start();
+		flagDied = true;
+	}
+	
+}
+
 CBoss::CBoss(int classId, int x, int y, int sectionId, int animsId) : CEnemy::CEnemy(classId, x, y, sectionId, animsId)
 {
 	SetState(BOSS_BODY_STATE);
@@ -143,6 +153,10 @@ CBoss::CBoss(int classId, int x, int y, int sectionId, int animsId) : CEnemy::CE
 
 	this->isLoadedBossArm = false;
 	this->healthPoint = 5;
+
+	explosionTimer = new CTimer(this, EXPLOSION_REMOVE_DURATION, 10000);
+	explosionTimer->Reset();
+	explosionTimer->Stop();
 };
 
 void CBoss::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -161,6 +175,7 @@ bool CBoss::checkEquals(float x1, float y1, float x2, float y2)
 		return false;
 	return true;
 }
+
 
 void CBoss::checkTargetLocation()
 {
@@ -226,6 +241,17 @@ void CBoss::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 void CBoss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
+	if (explodeCount == COUNT_EXPLOSION)
+	{
+		CGameObjectBehaviour::RemoveObject(this);
+
+	}
+	explosionTimer->Update(dt);
+	if (healthPoint <= 0)
+	{
+		Explode();
+	}
+
 	CGameGlobal* global = CGameGlobal::GetInstance();
 	if (!global->isRenderBoss)
 		return;
@@ -256,6 +282,7 @@ void CBoss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 	MoveArmRight();
 	flagVx = vx;
 	flagVy = vy;
+
 }
 
 bool CBoss::IsBlockableObject(LPGAMEOBJECT obj)
@@ -352,11 +379,57 @@ void CBoss::HandleTimerTick(LPTIMER sender)
 		isRandomLocationArmRight = true;
 		delayIdleHandRightBossTimer->Stop();
 	}
+
+	if (sender == explosionTimer)
+	{
+		explodeCount++;
+		float dx = 0, dy = 0, sx, sy;
+
+		LPEXPLOSION explosion = new CExplosion(CLASS_BOSS_EXPLOSION, x, y, this->currentSectionId);
+		GetPosition(sx, sy, dx, dy);
+
+		dx = RandomFloat(-50, 50);
+		dy = RandomFloat(-50, 50);
+
+		CGameObjectBehaviour::SetBoundingBoxCenter(explosion, sx + dx, sy + dy);
+		CGameObjectBehaviour::CreateObject(explosion);
+
+		dx = RandomFloat(-70, 70);
+		dy = RandomFloat(-50, 50);
+
+		LPEXPLOSION explosion2 = new CExplosion(CLASS_BOSS_EXPLOSION, x, y, this->currentSectionId);
+		GetPosition(sx, sy, dx, dy);
+
+		CGameObjectBehaviour::SetBoundingBoxCenter(explosion2, sx + dx, sy + dy);
+		CGameObjectBehaviour::CreateObject(explosion2);
+
+		dx = RandomFloat(-60, 60);
+		dy = RandomFloat(-60, 60);
+
+		//large 
+		LPEXPLOSION explosion3 = new CExplosion(CLASS_BOSS_EXPLOSION, x, y, this->currentSectionId);
+		GetPosition(sx, sy, dx, dy);
+
+		CGameObjectBehaviour::SetBoundingBoxCenter(explosion3, sx + dx, sy + dy);
+		CGameObjectBehaviour::CreateObject(explosion3);
+
+		if (explodeCount == COUNT_EXPLOSION)
+		{
+			CGameObjectBehaviour::RemoveObject(explosion2);
+			CGameObjectBehaviour::RemoveObject(explosion);
+			CGameObjectBehaviour::RemoveObject(explosion3);
+		}
+	}
 }
 
 void CBoss::CalcBoundingBoxCenter(LPGAMEOBJECT obj, float& x, float& y)
 {
 
+}
+
+void CBoss::GetPosition(float& x, float& y, float dx, float dy)
+{
+	CGameObjectBehaviour::CalcBoundingBoxCenter(this, x, y);
 }
 
 void CBoss::Render(float offsetX, float offsetY)

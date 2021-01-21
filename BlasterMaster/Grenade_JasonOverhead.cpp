@@ -186,12 +186,12 @@ void CGrenade_JasonOverhead::HandleTimerTick(LPTIMER sender)
 		CGameObjectBehaviour::SetBoundingBoxCenter(explosion2, sx + dx, sy + dy);
 		CGameObjectBehaviour::CreateObject(explosion2);
 
-		if (flagexplode)
+		/*if (flagexplode)
 		{
 			CGameObjectBehaviour::RemoveObject(explosion2);
 			CGameObjectBehaviour::RemoveObject(explosion);
 			flagexplode = false;
-		}
+		}*/
 	}
 
 }

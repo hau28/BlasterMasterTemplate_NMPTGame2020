@@ -33,7 +33,7 @@ private:
 	LPTIMER explosionTimer;
 	LPTIMER reloadTimer;
 
-	const int EXPLOSION_REMOVE_DURATION = 30;
+	const int EXPLOSION_REMOVE_DURATION = 40;
 
 	const int COUNT_EXPLOSION = 5;
 
