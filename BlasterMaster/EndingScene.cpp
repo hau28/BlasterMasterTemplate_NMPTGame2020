@@ -49,16 +49,19 @@ void CEndingScene::setState(StateEnding state)
 		MountainY = 0;
 		ID_STATE = ID_STATE_FROG;
 		break;
-	case StateEnding::EARTHQUAKE:
+	case StateEnding::EARTHQUAKE:	
+		//SOUND EARTHQUAKE
 		ID_STATE = ID_STATE_FROG;
 		MountainX = 122;
 		MountainY = 112;
 		break;
 	case StateEnding::FILM:
+		//SOUND ENDING CAMERA MOVING TO PLAYER AND FROG
 		timer = 0;
 		ID_STATE = ID_STATE_FROG;
 		break;
 	case StateEnding::CREDIT:
+		//SOUND CREDIT
 		CGame::GetInstance()->SetCamPos(0, 0);
 		CGame::GetInstance()->setBackGroundColor(0, 0, 0);
 		posLetterX = 90;

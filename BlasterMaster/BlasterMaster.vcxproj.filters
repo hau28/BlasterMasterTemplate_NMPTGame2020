@@ -404,6 +404,8 @@
     <Media Include="Sound\switch_scene.wav" />
     <Media Include="Sound\enemy_overhead_shoot.wav" />
     <Media Include="Sound\teleporter_switch.wav" />
+    <Media Include="Sound\intro.wav" />
+    <Media Include="Sound\sophia_enter_music.wav" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BlasterMaster.rc" />
