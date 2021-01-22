@@ -219,6 +219,7 @@
     <ClInclude Include="BossArm.h" />
     <ClInclude Include="BossHand.h" />
     <ClInclude Include="Bullet_Boss.h" />
+    <ClInclude Include="CComeBackAfterCrusherEvent.h" />
     <ClInclude Include="Grenade_JasonOverhead.h" />
     <ClInclude Include="BreakableBlock.h" />
     <ClInclude Include="Bullet.h" />

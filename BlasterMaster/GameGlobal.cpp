@@ -2,7 +2,6 @@
 #include "Sophia.h"
 #include "JasonSideview.h"
 #include "JasonOverhead.h"
-#include "Sound.h"
 
 #define SCENE_SECTION_UNKNOWN -1
 #define SCENE_SECTION_TEXTURES 2
@@ -162,6 +161,9 @@ CGameGlobal::CGameGlobal() {
 	times_render_boss = 0;
 	effectBossRender = new CTimer(this, BOSS_EFFECT_RENDER, 1);
 	effectBossRender->Stop();
+
+	effectBossBossDead = new CTimer(this, BOSS_EFFECT_DEAD, 1);
+	effectBossBossDead->Stop();
 }
 
 void CGameGlobal::Update(DWORD dt)
@@ -176,6 +178,7 @@ void CGameGlobal::UpdateEffect(DWORD dt)
 	effectBossFlashingTimer->Update(dt);
 	effectBossRender->Update(dt);
 	effectBossRenderFlashing->Update(dt);
+	effectBossBossDead->Update(dt);
 
 	if (isEffectFaded)
 	{
@@ -664,6 +667,7 @@ void CGameGlobal::resetGame()
 	this->stateBossBlackBackground = false;
 	this->isDeadBoss = false;
 	this->HasCrusherBeam = false;
+	this->isWinGame = false;
 }
 
 void CGameGlobal::saveSophia(float offx, float offy)
@@ -872,4 +876,22 @@ void CGameGlobal::HandleTimerTick(LPTIMER sender)
 			this->effectBossRenderFlashing->Stop();
 		}
 	}
+	if (sender == effectBossBossDead)
+	{
+		this->stateBossBlackBackground = false;
+		//create crushed beam
+		LPITEM gunItem = new CItem(CLASS_ITEM_CRUSHERBEAM, 100, 100, ID_SECTION_BOSSOVERHEAD, false);
+		CGameObjectBehaviour::CreateObject(gunItem);
+	}
+}
+
+void CGameGlobal::openEffectBossDead()
+{
+	this->effectBossBossDead->Start();
+}
+
+void CGameGlobal::comeBackAfterGetCrusherBeam()
+{
+	CComeBackAfterCrusherEvent* newEvent = new CComeBackAfterCrusherEvent(sectionCrusherBeamComeback);
+	CGame::GetInstance()->AddGameEvent(newEvent);
 }

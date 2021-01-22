@@ -425,21 +425,26 @@ void CJasonOverhead::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
         {
         case CLASS_TILE_PORTAL:
         {
-
-            SnapToPortalMiddle(obj, coEvent->ny != 0);
-
-            LPPORTAL fromPortal = dynamic_cast<LPPORTAL>(obj);
-            LPPORTAL toPortal = CPortalLib::GetInstance()->Get(fromPortal->associatedPortalId);
-
-            // Sanh code from here!
-            LPGAME_EVENT newEvent = new CWalkInPortalEvent("WalkInPortalEvent", fromPortal, toPortal);
-
             if (currentSectionId == CGameGlobal::GetInstance()->ID_SECTION_BOSSOVERHEAD && !CGameGlobal::GetInstance()->isDeadBoss)
             {
                 CGameObjectBehaviour::BlockObject(dt, coEvent);
             }
             else
             {
+                SnapToPortalMiddle(obj, coEvent->ny != 0);
+
+                // CuteTN: this fixes a bug when JS enters a portal
+                if (coEvent->nx)
+                    vy = MovingDirY = 0;
+                else
+                    vx = MovingDirX = 0;
+
+                LPPORTAL fromPortal = dynamic_cast<LPPORTAL>(obj);
+                LPPORTAL toPortal = CPortalLib::GetInstance()->Get(fromPortal->associatedPortalId);
+
+                // Sanh code from here!
+                LPGAME_EVENT newEvent = new CWalkInPortalEvent("WalkInPortalEvent", fromPortal, toPortal);
+
                 CGame::GetInstance()->AddGameEvent(newEvent);
                 // to do: create an event to CGame, let CGame handle switching section
                 DebugOut(L"Jason to portal %d of section %d, tick %d\n", toPortal->associatedPortalId, toPortal->currentSectionId, GetTickCount());

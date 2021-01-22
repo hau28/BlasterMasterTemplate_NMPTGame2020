@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Enemy.h"
+#include "Item.h"
 
 #define MAX_HEALTH_SOPHIA 80
 #define MAX_HEALTH_JASONSIDEVIEW 80
@@ -8,8 +9,8 @@
 #define MAX_GUN_LEVEL 8
 #define BODY_DAMAGE_ENEMY 5 * 0
 #define BODY_DAMAGE_BULLET 5 * 0
-#define BODY_DAMAGE_LAVA 20 * 1
-#define BODY_DAMAGE_SPIKE 15 * 1
+#define BODY_DAMAGE_LAVA 20 * 0
+#define BODY_DAMAGE_SPIKE 15 * 0
 #define BODY_DAMAGE_FALL 80
 
 #define MAX_AMMUNITIONS 99
@@ -43,9 +44,11 @@ private:
 	const int BOSS_EFFECT_FADE_IN_DURATION = 500;
 	const int BOSS_EFFECT_RENDER_FLASHING = 200;
 	const int BOSS_EFFECT_RENDER = 1000;
+	const int BOSS_EFFECT_DEAD = 2000;
+	const int BOSS_EFFECT_CRUSHER_DELAY = 2000;
+
 	int times_render_boss = 0;
 	//Save Game
-
 	bool Saved = false;
 	int left = 3;
 	int flagPlayer = 1; // 1: Sophia 2:Jason SideView 3:Jason OverHead
@@ -59,6 +62,8 @@ private:
 	LPTIMER effectBossFadeInTimer;
 	LPTIMER effectBossRenderFlashing;
 	LPTIMER effectBossRender;
+	LPTIMER effectBossBossDead;
+	LPTIMER effectBossCrusherDelay;
 
 	//AnimationHandler Render 
 	CObjectAnimationHanlders HealthPow;
@@ -179,9 +184,14 @@ public:
 	bool isRenderBossFlashing = false;
 	bool isRenderBoss = false;
 	void openEffectFlashingBoss();
-	
+	void openEffectBossDead();
+
 	// CuteTN
+	int sectionCrusherBeamComeback = -1;
 	bool HasCrusherBeam = true;
+	void comeBackAfterGetCrusherBeam();
+
+	bool isWinGame = false;
 };
 
 

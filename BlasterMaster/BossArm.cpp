@@ -4,6 +4,7 @@
 #include "GameObjectBehaviour.h"
 #include <stdlib.h>
 #include <time.h>  
+#include "GameGlobal.h"
 
 
 CBossArm::CBossArm(int classId, int x, int y, int sectionId, int animsId, int state) : CEnemy::CEnemy(classId, x, y, sectionId, animsId)
@@ -32,6 +33,10 @@ void CBossArm::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 void CBossArm::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
+
+	CGameGlobal* global = CGameGlobal::GetInstance();
+	if (!global->isRenderBoss || global->isWinGame)
+		return;
 	UpdatePosition(dt);
 }
 

@@ -46,6 +46,8 @@ class CBoss : public CEnemy, public ITimeTrackable
 
     void MoveArmLeft();
     void MoveArmRight();
+    void RemoveArm();
+
     bool checkEquals(float x1, float y1, float x2, float y2);
 
     const int EXPLOSION_REMOVE_DURATION = 100;
