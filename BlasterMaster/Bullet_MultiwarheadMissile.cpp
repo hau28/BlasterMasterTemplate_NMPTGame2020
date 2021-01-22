@@ -1,11 +1,13 @@
 #include "Bullet_MultiwarheadMissile.h"
 #include "Enemy.h"
 #include "GameObjectBehaviour.h"
+#include "Sound.h"
 
 const float CBullet_MultiwarheadMissile::MULTIWARHEAD_MISSILE_INIT_VELOCITY_Y_TOP = -0.065f;
 
 CBullet_MultiwarheadMissile::CBullet_MultiwarheadMissile(float x, float y, int section, bool initLeft, float initVx, float initVy) : CBullet(CLASS_MULTIWARHEAD_MISSILE, x, y, section, true)
 {
+	Sound::getInstance()->play(MISSILE, false, 1);
 	SetState(initLeft ? MULTIWARHEAD_MISSILE_STATE_FLY_LEFT : MULTIWARHEAD_MISSILE_STATE_FLY_RIGHT);
 
 	vx = initVx;

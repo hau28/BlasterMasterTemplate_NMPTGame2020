@@ -2,6 +2,7 @@
 #include "Sophia.h"
 #include "JasonSideview.h"
 #include "JasonOverhead.h"
+#include "Sound.h"
 #include "GameObjectBehaviour.h"
 #include "CComeBackAfterCrusherEvent.h"
 
@@ -831,7 +832,11 @@ void CGameGlobal::initEffectFaded()
 void CGameGlobal::openEffectFlashingBoss()
 {
 	if (isWinGame == false)
+	{
+		Sound::getInstance()->stop(AREA2);
+		Sound::getInstance()->play(BOSS_ENTER, false, 1);
 		this->isEffectBoss = true;
+	}
 	else return;
 
 	this->stateBossBlackBackground = false;
@@ -856,8 +861,10 @@ void CGameGlobal::HandleTimerTick(LPTIMER sender)
 		stateBossBlackBackground = true;
 		this->effectBossRender->Start();
 	}
-	if (sender == effectBossRender)
+	if (sender == effectBossRender) 
 	{
+		Sound::getInstance()->stop(BOSS_ENTER);
+		Sound::getInstance()->play(BOSS, false, 1);
 		this->isRenderBoss = true;
 		this->effectBossRender->Stop();
 		this->effectBossRenderFlashing->Start();

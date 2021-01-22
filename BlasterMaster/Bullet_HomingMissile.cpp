@@ -1,9 +1,11 @@
 #include "Bullet_HomingMissile.h"
 #include "GameObjectBehaviour.h"
-
+#include "Sound.h"
 
 CBullet_HomingMissile::CBullet_HomingMissile(float x, float y, int section, LPGAMEOBJECT target) : CBullet(CLASS_HOMING_MISSILE, x, y, section, true)
 {
+
+	Sound::getInstance()->play(MISSILE, false, 1);
 	this->target = target;
 
 	this->isHiddenByForeground = false;

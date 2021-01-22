@@ -9,6 +9,7 @@
 #include "JasonOverhead.h"
 #include "GameGlobal.h"
 #include "Bullet_Boss.h"
+#include "Sound.h"
 
 const int BOSS_BOUNDBOX_WIDTH = 36;
 const int BOSS_BOUNDBOX_HEIGHT = 16;
@@ -201,6 +202,7 @@ void CBoss::checkTargetLocation()
 
 void CBoss::ShootPlayer()
 {
+	Sound::getInstance()->play(BOSS_SHOOT, false, 1);
 	float dirX, dirY; // direction to the player
 	CGameObjectBehaviour::CalcDirectionToPlayer(this, dirX, dirY);
 	CBullet_Boss* bullet = new CBullet_Boss(0, 0, 0, dirX, dirY);
@@ -262,6 +264,10 @@ void CBoss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 	explosionTimer->Update(dt);
 	if (healthPoint <= 0)
 	{
+		if (explodeCount == 0) {
+			Sound::getInstance()->stop(BOSS);
+			Sound::getInstance()->play(BOSS_DIE, false, 1);
+		}
 		vx = 0;
 		vy = 0;
 		Explode();
