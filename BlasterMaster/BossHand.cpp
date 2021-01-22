@@ -10,6 +10,8 @@ CBossHand::CBossHand(int classId, int x, int y, int sectionId, int animsId, int 
 {
 	SetState(state);
 	isUpdatedWhenOffScreen = true;
+
+	zIndex = ZINDEX_BOSS;
 };
 
 void CBossHand::GetBoundingBox(float& left, float& top, float& right, float& bottom)

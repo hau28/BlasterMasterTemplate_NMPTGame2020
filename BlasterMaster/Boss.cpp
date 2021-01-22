@@ -25,7 +25,6 @@ const float OFFSET_Y_ARM_NODE = 15;
 
 void CBoss::init_RandomTargetLeft()
 {
-	DebugOut(L"\ntarget left");
 	this->isRandomLocationArmLeft = false;
 	
 	int rand1 = rand() % 2;
@@ -48,7 +47,6 @@ void CBoss::init_RandomTargetLeft()
 
 void CBoss::init_RandomTargetRight()
 {
-	DebugOut(L"\ntarget right");
 	this->isRandomLocationArmRight = false;
 	int rand1 = rand() % 2;
 	int rand2 = rand() % 2;
@@ -157,6 +155,8 @@ CBoss::CBoss(int classId, int x, int y, int sectionId, int animsId) : CEnemy::CE
 	explosionTimer = new CTimer(this, EXPLOSION_REMOVE_DURATION, 10000);
 	explosionTimer->Reset();
 	explosionTimer->Stop();
+
+	zIndex = ZINDEX_BOSS;
 };
 
 void CBoss::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -203,10 +203,19 @@ void CBoss::checkTargetLocation()
 void CBoss::ShootPlayer()
 {
 	Sound::getInstance()->play(BOSS_SHOOT, false, 1);
+
+	const int SHOOT_POS_OFFSETY_FROM_CENTER = -11;
+
 	float dirX, dirY; // direction to the player
 	CGameObjectBehaviour::CalcDirectionToPlayer(this, dirX, dirY);
-	CBullet_Boss* bullet = new CBullet_Boss(0, 0, 0, dirX, dirY);
-	CGameObjectBehaviour::CreateObjectAtCenterOfBoss(bullet, this);
+	CBullet_Boss* bullet = new CBullet_Boss(0, 0, 0, dirX, dirY - SHOOT_POS_OFFSETY_FROM_CENTER);
+
+	CGameObjectBehaviour::CreateObjectAtCenterOfAnother(bullet, this);
+
+	// Adjust shoot position
+	float bx, by;
+	bullet->GetPosition(bx, by);
+	bullet->SetPosition(bx, by + SHOOT_POS_OFFSETY_FROM_CENTER);
 }
 
 void CBoss::UpdateVelocity(DWORD dt)
@@ -247,6 +256,10 @@ void CBoss::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 }
 
 void CBoss::HandleOverlap(LPGAMEOBJECT overlappedObj)
+{
+}
+
+void CBoss::DropItem()
 {
 }
 

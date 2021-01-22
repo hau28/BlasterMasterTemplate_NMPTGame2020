@@ -10,14 +10,16 @@ vector<Color> CItem::itemFlashingColors =
 	{255, 255, 255} // white
 };
 
-CItem::CItem(int classId, int x, int y, int sectionId, bool isFlashy) : CAnimatableObject::CAnimatableObject(classId, x, y, sectionId)
+CItem::CItem(int classId, int x, int y, int sectionId, bool isFlashy, bool isAutoDisappear) : CAnimatableObject::CAnimatableObject(classId, x, y, sectionId)
 {
 	x = int(x);
 	y = int(y);
 
 	this->isFlashy = isFlashy;
 
-	normalPhaseTimer = new CTimer(this, ITEM_NORMAL_PHASE_DURATION, 1);
+	this->isAutoDisappear = isAutoDisappear;
+	if(isAutoDisappear)
+		normalPhaseTimer = new CTimer(this, ITEM_NORMAL_PHASE_DURATION, 1);
 
 	blinkingPhaseTimer = new CTimer(this, ITEM_BLINKING_PHASE_DURATION, 1);
 	blinkingPhaseTimer->Stop();
@@ -65,7 +67,9 @@ void CItem::HandleOverlap(LPGAMEOBJECT overlappedObj)
 
 void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
-	normalPhaseTimer->Update(dt);
+	if(isAutoDisappear && normalPhaseTimer)
+		normalPhaseTimer->Update(dt);
+
 	blinkingPhaseTimer->Update(dt);
 	blinkTimer->Update(dt);
 
@@ -158,6 +162,7 @@ void CItem::ApplyEffect(int playerClassId)
 		Sound::getInstance()->play(CRUSHER, false, 1);
 		Sleep(4414);
 		CGameGlobal::GetInstance()->comeBackAfterGetCrusherBeam();
+		CGameGlobal::GetInstance()->HasCrusherBeam = true;
 		break;
 	default:
 		break;

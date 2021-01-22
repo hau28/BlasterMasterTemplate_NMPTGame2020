@@ -12,7 +12,7 @@ void CGameObject::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 }
 
 
-void CGameObject::RenderBoundingBox()
+void CGameObject::RenderBoundingBox(float offsetX, float offsetY)
 {
 	D3DXVECTOR3 p(x, y, 0);
 	RECT rect;
@@ -28,7 +28,7 @@ void CGameObject::RenderBoundingBox()
 	rect.bottom = (int)b - (int)t;
 
 	// CuteTN to do: work on this function later... or maybe never :)
-	// CGame::GetInstance()->Draw(x, y, bbox, rect.left, rect.top, rect.right, rect.bottom, 32);
+	CGame::GetInstance()->Draw(l + offsetX, t + offsetY, bbox, rect.left, rect.top, rect.right, rect.bottom, 200);
 }
 
 CGameObject::~CGameObject()

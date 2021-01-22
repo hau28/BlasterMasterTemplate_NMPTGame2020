@@ -302,8 +302,6 @@ void CPlayScene::InitSaveGameSideView()
 
 
 			Sections[_idSectionSophia]->pushSophia(sophiaX, sophiaY, _idSectionSophia);
-			DebugOut(L"\n Da add sophia tai x %f, y %f id = %d", sophiaX, sophiaY, _idSectionSophia);
-
 		}
 
 		CJasonSideview::GetInstance()->resetState();
@@ -331,7 +329,6 @@ void CPlayScene::InitSaveGameOverhead()
 
 	Sections[idSection]->deleteJasonOverhead();
 	Sections[idSection]->pushJasonOverhead(xPlayer, yPlayer, idSection);
-	DebugOut(L"\n get info");
 
 	if (idSection == global->ID_SECTION_BOSSOVERHEAD)
 		global->openEffectFlashingBoss();
@@ -384,7 +381,7 @@ void CPlayScene::Load()
 
 	f.close();
 
-	//CTextures::GetInstance()->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
+	CTextures::GetInstance()->Add(ID_TEX_BBOX, L"textures\\Utilities\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 	
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 
@@ -1014,8 +1011,6 @@ void CPlayScene::InitSectionForOverhead(int port)
 	{
 		if (section.second == nullptr)
 		{
-			DebugOut(L"\nNghia da lam ban be that vong %d", section.first);
-
 			continue;
 		}
 			
@@ -1024,7 +1019,6 @@ void CPlayScene::InitSectionForOverhead(int port)
 			break;
 	}
 
-	DebugOut(L"\nlalalla");
 	if (!portal)
 	{
 		/*DebugOut(L"\nok2");*/ //Please don't remove it because it's all
@@ -1036,7 +1030,6 @@ void CPlayScene::InitSectionForOverhead(int port)
 	CGameObjectBehaviour::SetBoundingBoxCenter(CJasonOverhead::GetInstance(), playerCenterX, playerCenterY);
 	float playerX, playerY;
 	CJasonOverhead::GetInstance()->GetPosition(playerX, playerY);
-	DebugOut(L"\nlalalla1");
 	CurrentSectionId = portal->currentSectionId;
 	CJasonOverhead::GetInstance()->currentSectionId = CurrentSectionId;
 

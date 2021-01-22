@@ -60,6 +60,7 @@ class CBoss : public CEnemy, public ITimeTrackable
     bool flagexplode = false;
     bool flagDied = false;
     virtual void Explode();
+    void DropItem();
 
 public:
     CBoss() {};

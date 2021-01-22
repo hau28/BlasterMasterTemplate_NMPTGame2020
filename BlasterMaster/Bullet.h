@@ -41,6 +41,8 @@ public:
     virtual void Explode(int explosionClassId);
 
     virtual void ExplodeGrenade(DWORD timetolive);
+
+    virtual void Render(float offsetX, float offsetY);
 };
 
 typedef CBullet* LPBULLET;

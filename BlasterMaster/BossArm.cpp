@@ -11,6 +11,8 @@ CBossArm::CBossArm(int classId, int x, int y, int sectionId, int animsId, int st
 {
 	SetState(state);
 	isUpdatedWhenOffScreen = true;
+
+	zIndex = ZINDEX_BOSS;
 };
 
 void CBossArm::GetBoundingBox(float& left, float& top, float& right, float& bottom)

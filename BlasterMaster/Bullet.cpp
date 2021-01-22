@@ -69,6 +69,13 @@ void CBullet::SetBoundingBoxInfo(int classId)
 		boundingBoxHeight = 3;
 		break;
 
+	case CLASS_BOSS_BULLET:
+		boundingBoxOffsetX = 11;
+		boundingBoxOffsetY = 12 + BULLET_OVERHEAD_OFFSET_FROM_SHADOW;
+		boundingBoxWidth = 9;
+		boundingBoxHeight = 5;
+		break;
+
 	default:
 		break;
 	}
@@ -124,4 +131,8 @@ void CBullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 			CGameObjectBehaviour::RemoveObject(this);
 }
 
+void CBullet::Render(float offsetX, float offsetY)
+{
+	CAnimatableObject::Render(offsetX, offsetY);
+}
 

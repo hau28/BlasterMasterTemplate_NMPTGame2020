@@ -84,9 +84,6 @@ void CEnemy::PlayFlashingEffect()
 {
 	if (flashingEffect)
 	{
-		if (classId == CLASS_BOSS_BODY)
-			DebugOut(L"Boss got flashed\n");
-
 		flashingEffect->Play();
 	}
 }
