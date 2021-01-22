@@ -830,14 +830,17 @@ void CGameGlobal::initEffectFaded()
 
 void CGameGlobal::openEffectFlashingBoss()
 {
-	this->isEffectBoss = true;
+	if (isWinGame == false)
+		this->isEffectBoss = true;
+	else return;
+
 	this->stateBossBlackBackground = false;
 	this->isEffectBossFadeIn = false;
 	this->isRenderBoss = false;
 	this->isRenderBossFlashing = false;
 	this->times_render_boss = 0;
 	this->effectBossFlashingTimer->Start();
-}
+}	
 
 void CGameGlobal::HandleTimerTick(LPTIMER sender)
 {
@@ -885,6 +888,7 @@ void CGameGlobal::HandleTimerTick(LPTIMER sender)
 
 void CGameGlobal::openEffectBossDead()
 {
+	isDeadBoss = true;
 	this->effectBossBossDead->Start();
 }
 
