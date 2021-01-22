@@ -152,7 +152,7 @@ CBoss::CBoss(int classId, int x, int y, int sectionId, int animsId) : CEnemy::CE
 	delayIdleHandRightBossTimer->Stop();
 
 	this->isLoadedBossArm = false;
-	this->healthPoint = 10;
+	this->healthPoint = HEALTH_BOSS;
 
 	explosionTimer = new CTimer(this, EXPLOSION_REMOVE_DURATION, 10000);
 	explosionTimer->Reset();
@@ -252,6 +252,11 @@ void CBoss::HandleOverlap(LPGAMEOBJECT overlappedObj)
 
 void CBoss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
+	DebugOut(L"\n health = %d", this->healthPoint);
+	CGameGlobal* global = CGameGlobal::GetInstance();
+	if (!global->isRenderBoss)
+		this->healthPoint = HEALTH_BOSS;
+
 	if(flashingEffect)
 		flashingEffect->Update(dt);
 
@@ -274,7 +279,6 @@ void CBoss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 		CGameGlobal::GetInstance()->isWinGame = true;
 	}
 
-	CGameGlobal* global = CGameGlobal::GetInstance();
 	if (!global->isRenderBoss || global->isWinGame)
 		return;
 
