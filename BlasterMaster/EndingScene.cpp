@@ -7,6 +7,7 @@
 #include <time.h>  
 #include <algorithm>
 #include <string> 
+#include "Sound.h"
 
 #define SCENE_SECTION_UNKNOWN -1
 #define SCENE_SECTION_TEXTURES 2
@@ -50,7 +51,7 @@ void CEndingScene::setState(StateEnding state)
 		ID_STATE = ID_STATE_FROG;
 		break;
 	case StateEnding::EARTHQUAKE:	
-		//SOUND EARTHQUAKE
+		Sound::getInstance()->play(ENDING, false, 1);
 		ID_STATE = ID_STATE_FROG;
 		MountainX = 122;
 		MountainY = 112;
@@ -61,7 +62,8 @@ void CEndingScene::setState(StateEnding state)
 		ID_STATE = ID_STATE_FROG;
 		break;
 	case StateEnding::CREDIT:
-		//SOUND CREDIT
+		Sound::getInstance()->stop(ENDING);
+		Sound::getInstance()->play(CREDIT, false, 1);
 		CGame::GetInstance()->SetCamPos(0, 0);
 		CGame::GetInstance()->setBackGroundColor(0, 0, 0);
 		posLetterX = 90;

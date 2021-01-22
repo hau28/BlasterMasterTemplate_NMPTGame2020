@@ -2,6 +2,7 @@
 #include "Sophia.h"
 #include "JasonSideview.h"
 #include "JasonOverhead.h"
+#include "Sound.h"
 
 #define SCENE_SECTION_UNKNOWN -1
 #define SCENE_SECTION_TEXTURES 2
@@ -823,7 +824,8 @@ void CGameGlobal::initEffectFaded()
 
 void CGameGlobal::openEffectFlashingBoss()
 {
-	//SOUND BOSS FLASH
+	Sound::getInstance()->stop(AREA2);
+	Sound::getInstance()->play(BOSS_ENTER, false, 1);
 	this->isEffectBoss = true;
 	this->stateBossBlackBackground = false;
 	this->isEffectBossFadeIn = false;
@@ -847,9 +849,10 @@ void CGameGlobal::HandleTimerTick(LPTIMER sender)
 		stateBossBlackBackground = true;
 		this->effectBossRender->Start();
 	}
-	if (sender == effectBossRender)
+	if (sender == effectBossRender) 
 	{
-		//SOUND BOSS XUAT HIEN
+		Sound::getInstance()->stop(BOSS_ENTER);
+		Sound::getInstance()->play(BOSS, false, 1);
 		this->isRenderBoss = true;
 		this->effectBossRender->Stop();
 		this->effectBossRenderFlashing->Start();

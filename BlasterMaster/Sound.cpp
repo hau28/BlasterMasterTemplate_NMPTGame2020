@@ -80,6 +80,11 @@ void Sound::loadGameSounds() {
 	Sound::getInstance()->loadSound(SOPHIA_ENTER_MUSIC);
 	Sound::getInstance()->loadSound(MISSILE);
 	Sound::getInstance()->loadSound(THUNDER);
+	Sound::getInstance()->loadSound(ENDING);
+	Sound::getInstance()->loadSound(CREDIT);
+	Sound::getInstance()->loadSound(BOSS);
+	Sound::getInstance()->loadSound(BOSS_ENTER);
+	Sound::getInstance()->loadSound(BOSS_SHOOT);
 	//VOLUME
 }
 
