@@ -20,6 +20,8 @@ CCannon::CCannon(int classId, int x, int y, int sectionId, int animsId) : CEnemy
 	UpdateState();
 	flagVertical = true;
 	flagHorizontal = true;
+
+	zIndex = ZINDEX_CANNON;
 };
 
 void CCannon::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)

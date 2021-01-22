@@ -19,6 +19,7 @@ private:
 	const int WEAPON_AMOUNT = 20;
 
 	bool isFlashy;
+	bool isAutoDisappear;
 
 	const int ITEM_NORMAL_PHASE_DURATION = 10000;
 	const int ITEM_BLINKING_PHASE_DURATION = 2000;
@@ -34,7 +35,7 @@ private:
 
 public:
 	CItem() {};
-	CItem(int classId, int x, int y, int sectionId, bool isFlashy = false);
+	CItem(int classId, int x, int y, int sectionId, bool isFlashy = false, bool isAutoDisappear = true);
 
 	virtual void UpdateVelocity(DWORD dt);
 	virtual void HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent);

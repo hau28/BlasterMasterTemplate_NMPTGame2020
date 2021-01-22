@@ -23,11 +23,13 @@
 #define ID_STATE_RED 3303
 #define ID_STATE_CREDIT 3304
 #define ID_STATE_DRAGON 3306
+#define ID_STATE_THE_END 3307
 
 #define ID_ENDING_SCENE 3401
 #define ID_MOUNTAIN 3402
 #define ID_RED_SCENE 3403
 #define ID_CREDIT 3404
+#define ID_THE_END 3405
 
 CEndingScene::CEndingScene(int id, LPCWSTR filePath, int startupSectionId) : CScene(id, filePath)
 {
@@ -155,6 +157,9 @@ void CEndingScene::Load()
 
 	objAnims = CObjectAnimationsLib::GetInstance()->Get(ID_CREDIT);
 	Credit = objAnims->GenerateAnimationHanlders();
+
+	objAnims = CObjectAnimationsLib::GetInstance()->Get(ID_THE_END);
+	TheEnd = objAnims->GenerateAnimationHanlders();
 
 	init_MapLetter();
 	init_LetterCredit();
@@ -419,7 +424,7 @@ void CEndingScene::init_LetterCredit()
 {
 	CGame::GetInstance()->SetCamPos(0, 0);
 	posLetterX = 90;
-	posLetterY = 300;
+	posLetterY = 200;
 	ifstream f;
 	f.open(L"CREDIT.txt");
 
@@ -432,14 +437,14 @@ void CEndingScene::init_LetterCredit()
 		string line(str);
 		add_LineCredit(line);
 	}
-
+	
 	f.close();
 
 	DebugOut(L"\n[INFO] Done loading CREDIT resources");
 }
 void CEndingScene::add_LineCredit(string line)
 {	
-	posLetterX = 90;
+	posLetterX = 70;
 	std::transform(line.begin(), line.end(), line.begin(), ::tolower);
 	for (int i = 0; i < line.length(); i++)
 	{
@@ -464,7 +469,7 @@ void CEndingScene::render_DragonFollowCamera()
 {
 	float cx, cy;
 	CGame::GetInstance()->GetCamPos(cx, cy);
-	Credit[ID_STATE_DRAGON]->Render(cx, cy);
+	Credit[ID_STATE_DRAGON]->Render(cx - 15, cy);
 }
 void CEndingScene::render_LetterCredit()
 {
@@ -474,12 +479,15 @@ void CEndingScene::render_LetterCredit()
 		int id = mapLetter[item.letter];
 		Credit[id]->Render(item.x, item.y);
 	}
+
+	TheEnd[ID_STATE_THE_END]->Render(120, posLetterY + 60);
 }
+
 void CEndingScene::move_Camera()
 {
 	float cx, cy;
 	CGame::GetInstance()->GetCamPos(cx, cy);
-	if (cy >= 1000)
+	if (cy >= posLetterY)
 		return;
 	CGame::GetInstance()->SetCamPos(cx, cy + 0.5);
 }

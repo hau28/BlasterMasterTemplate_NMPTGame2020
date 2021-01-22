@@ -30,7 +30,7 @@ void CTileArea::GetBoundingBox(float& left, float& top, float& right, float& bot
 
 void CTileArea::Render(float offsetX, float offsetY)
 {
-	RenderBoundingBox();
+	// RenderBoundingBox(offsetX, offsetY);
 	// what do you want to draw?
 	// WHAT DO YOU WANT TO DRAW???
 }

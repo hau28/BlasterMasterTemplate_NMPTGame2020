@@ -888,8 +888,8 @@ void CGameGlobal::HandleTimerTick(LPTIMER sender)
 	{
 		this->stateBossBlackBackground = false;
 		//create crushed beam
-		LPITEM gunItem = new CItem(CLASS_ITEM_CRUSHERBEAM, 100, 100, ID_SECTION_BOSSOVERHEAD, false);
-		CGameObjectBehaviour::CreateObject(gunItem);
+		LPITEM crusherBeam = new CItem(CLASS_ITEM_CRUSHERBEAM, 100, 100, ID_SECTION_BOSSOVERHEAD, false, false);
+		CGameObjectBehaviour::CreateObject(crusherBeam);
 	}
 }
 

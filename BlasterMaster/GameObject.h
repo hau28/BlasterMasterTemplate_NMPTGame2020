@@ -64,7 +64,7 @@ public:
 	virtual void SetState(int state) { this->state = state; }
 	int GetState() { return this->state; }
 
-	void RenderBoundingBox();
+	void RenderBoundingBox(float offsetX, float offsetY);
 
 	/// <summary>
 	/// <para> Getting the actual hitbox (collision box) of a game object. Relative to gameworld, not to the sprite itself. </para>
