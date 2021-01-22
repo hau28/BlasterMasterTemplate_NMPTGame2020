@@ -279,6 +279,8 @@ void Sound::stop(std::string name)
 void Sound::setVolume(float percentage, std::string name)
 {
 	//volume = percentage;
+	this->percentage = percentage;
+
 	if (name == "")
 	{
 		long volumne = MIN_DB * (1 - percentage / 100);
@@ -312,4 +314,17 @@ void Sound::unMute()
 void Sound::cleanUp()
 {
 	delete this;
+}
+
+void Sound::AddToPercentage(float amount)
+{
+	percentage += amount;
+	percentage = min(percentage, 100);
+	percentage = max(percentage, 0);
+	setVolume(percentage, "");
+}
+
+float Sound::GetPercentage()
+{
+	return percentage;
 }

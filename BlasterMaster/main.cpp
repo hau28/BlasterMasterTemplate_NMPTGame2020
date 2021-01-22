@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <windows.h>
 #include <d3d9.h>
 #include <d3dx9.h>
@@ -9,7 +9,7 @@
 
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
-#define MAIN_WINDOW_TITLE L"BLASTER MASTER - GAME DO STUDIO"
+#define MAIN_WINDOW_TITLE L"BLASTER MASTER - GAME ĐƠ STUDIO"
 
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 255, 255)

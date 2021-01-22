@@ -86,7 +86,12 @@ public:
 	void mute();
 	void unMute();
 	void cleanUp();
+
+	void AddToPercentage(float amount);
+	float GetPercentage();
 private:
+	float percentage = 100;
+
 	Sound(HWND hWnd);
 	static Sound* instance;
 	IDirectSound8* pDevice;

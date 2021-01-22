@@ -1103,13 +1103,15 @@ void CPlayScene::HandleKeyDown(DWORD dt, int keyCode)
 	}
 
 	// Volume
-	if (keyCode == DIK_9)
+	if (keyCode == DIK_ADD || keyCode == DIK_EQUALS)
 	{
-
+		Sound::getInstance()->AddToPercentage(5);
+		DebugOut(L"[INFO] Volume Up to %f\n", Sound::getInstance()->GetPercentage());
 	}
-	if (keyCode == DIK_0)
+	if (keyCode == DIK_MINUS || keyCode == DIK_NUMPADMINUS)
 	{
-
+		Sound::getInstance()->AddToPercentage(-5);
+		DebugOut(L"[INFO] Volume Down to %f\n", Sound::getInstance()->GetPercentage());
 	}
 
 	// Cheat
@@ -1117,13 +1119,13 @@ void CPlayScene::HandleKeyDown(DWORD dt, int keyCode)
 	{
 		CGameGlobal::GetInstance()->AddToJasonHealth(999);
 		CGameGlobal::GetInstance()->AddToSophiaHealth(999);
-		DebugOut(L"[CHEAT] So healthy!\n");
+		DebugOut(L"[CHEAT] Healthy and balance!\n");
 	}
 
 	if (keyCode == DIK_G)
 	{
 		CGameGlobal::GetInstance()->AddToGunLevel(999);
-		DebugOut(L"[CHEAT] Bang bang bang!\n");
+		DebugOut(L"[CHEAT] Hey, small gun, can you say \"pow pow pow\"!\n");
 	}
 
 	if (keyCode == DIK_W)
