@@ -195,6 +195,7 @@ void CJasonOverhead::UpdateState()
 
     if (CGameGlobal::GetInstance()->get_healthJasonOverHead() <= 0)
     {
+        Sound::getInstance()->stop(AREA2);
         newState = JASONOVERHEAD_STATE_DEAD;
         dyingEffectTimer->Start();
         flagDead = true;
