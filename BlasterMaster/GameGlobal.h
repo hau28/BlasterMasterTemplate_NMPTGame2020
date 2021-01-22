@@ -188,7 +188,7 @@ public:
 
 	// CuteTN
 	int sectionCrusherBeamComeback = -1;
-	bool HasCrusherBeam = true;
+	bool HasCrusherBeam = false;
 	void comeBackAfterGetCrusherBeam();
 
 	bool isWinGame = false;

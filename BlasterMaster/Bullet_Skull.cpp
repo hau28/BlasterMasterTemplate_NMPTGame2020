@@ -10,15 +10,19 @@ CBullet_Skull::CBullet_Skull(float x, float y, int sectionId, float dirX, float 
 	CGameObjectBehaviour::NormalizeVector2(dirX, dirY, nx, ny);
 
 	float Xplayer, Yplayer;
-	CGame::GetInstance()->GetCurrentPlayer()->GetPosition(Xplayer, Yplayer);
+	CGameObjectBehaviour::CalcBoundingBoxCenter(CGame::GetInstance()->GetCurrentPlayer(), Xplayer, Yplayer);
 
-	float module = sqrt(pow(Xplayer - dirX, 2) + pow(Yplayer - dirY, 2));
+	float cenX, cenY;
+	CGameObjectBehaviour::CalcBoundingBoxCenter(this, cenX, cenY);
 
-	float distanceX = Xplayer - dirX;
-	float distanceY = Yplayer - dirY;
+	float module = sqrt(pow(Xplayer - cenX, 2) + pow(Yplayer - cenY, 2));
 
-	vx = (float)(distanceX / module * 2)/16;
-	vy =(float) (distanceY / module * 3)/16;
+	float distanceX = Xplayer - cenX;
+	float distanceY = Yplayer - cenY;
+
+	vx = -(float)(distanceX / module * 2) / 50;
+
+	vy = (float)(distanceY / module * 3) / 16; 
 
 	explodeTimer = new CTimer(this, TIME_TO_EXPLODE, 1);
 	explodeTimer->Start();

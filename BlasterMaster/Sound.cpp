@@ -52,7 +52,6 @@ void Sound::loadGameSounds() {
 
 	//VOLUME
 	Sound::getInstance()->loadSound(AREA2);
-	Sound::getInstance()->setVolume(50, AREA2);
 	Sound::getInstance()->loadSound(SMALL_PINK_BULLET_EXPLOSION);
 	Sound::getInstance()->loadSound(ENEMY_DIE);
 	Sound::getInstance()->loadSound(JASON_GOT_HIT);
