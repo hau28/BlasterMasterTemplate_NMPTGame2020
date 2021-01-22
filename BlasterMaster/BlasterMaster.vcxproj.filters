@@ -416,6 +416,8 @@
     <Media Include="Sound\boss_shoot.wav" />
     <Media Include="Sound\boss_die.wav" />
     <Media Include="Sound\crusher.wav" />
+    <Media Include="Sound\grenade.wav" />
+    <Media Include="Sound\jason_shoot_overhead.wav" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BlasterMaster.rc" />

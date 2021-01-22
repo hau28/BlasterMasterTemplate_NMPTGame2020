@@ -4,6 +4,7 @@
 #include "TileArea.h"
 #include "CreateObjectEvent.h"
 #include "RemoveObjectEvent.h"
+#include "Sound.h"
 
 vector<Color> CBullet_JasonOverhead::FinalBulletFlashingColors = 
 {
@@ -103,6 +104,7 @@ void CBullet_JasonOverhead::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 	if (IsBlockableObject(obj))
 	{
+		Sound::getInstance()->play(SMALL_PINK_BULLET_EXPLOSION, false, 1);
 		if (bulletLevel < 8)
 		{
 			CGameObjectBehaviour::BlockObject(dt, coEvent);

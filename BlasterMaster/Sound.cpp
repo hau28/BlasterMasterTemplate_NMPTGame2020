@@ -49,7 +49,10 @@ Sound::Sound(HWND hWnd)
 
 void Sound::loadGameSounds() {
 	//SOUND
+
+	//VOLUME
 	Sound::getInstance()->loadSound(AREA2);
+	Sound::getInstance()->setVolume(50, AREA2);
 	Sound::getInstance()->loadSound(SMALL_PINK_BULLET_EXPLOSION);
 	Sound::getInstance()->loadSound(ENEMY_DIE);
 	Sound::getInstance()->loadSound(JASON_GOT_HIT);
@@ -87,7 +90,10 @@ void Sound::loadGameSounds() {
 	Sound::getInstance()->loadSound(BOSS_SHOOT);
 	Sound::getInstance()->loadSound(BOSS_DIE);
 	Sound::getInstance()->loadSound(CRUSHER);
-	//VOLUME
+	Sound::getInstance()->loadSound(JASON_SHOOT_OVERHEAD);
+	Sound::getInstance()->loadSound(GRENADE);
+	Sound::getInstance()->loadSound(JASON_GOT_HIT_OVERHEAD);
+
 }
 
 Sound::~Sound()
@@ -276,7 +282,7 @@ void Sound::setVolume(float percentage, std::string name)
 	//volume = percentage;
 	if (name == "")
 	{
-		long volumne = (percentage) / 100 * (-DSBVOLUME_MIN) + DSBVOLUME_MIN;
+		long volumne = MIN_DB * (1 - percentage / 100);
 		for (std::map< std::string, IDirectSoundBuffer8*> ::iterator it = soundBufferMap.begin(); it != soundBufferMap.end(); it++)
 		{
 			it->second->SetVolume(volumne);
@@ -288,7 +294,7 @@ void Sound::setVolume(float percentage, std::string name)
 		it = soundBufferMap.find(name);
 		if (it == soundBufferMap.end())
 			return;
-		long volumne = (percentage) / 100 * (-DSBVOLUME_MIN) + DSBVOLUME_MIN;
+		long volumne = MIN_DB *(1-percentage/100);
 		it->second->SetVolume(volumne);
 	}
 }

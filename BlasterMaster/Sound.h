@@ -48,6 +48,11 @@ const std::string BOSS_ENTER = "boss_enter";
 const std::string BOSS_SHOOT = "boss_shoot";
 const std::string BOSS_DIE = "boss_die";
 const std::string CRUSHER = "crusher";
+const std::string JASON_SHOOT_OVERHEAD = "jason_shoot_overhead";
+const std::string GRENADE = "grenade";
+const std::string JASON_GOT_HIT_OVERHEAD = "jason_got_hit_overhead";
+
+const long MIN_DB = -4000;
 
 class Sound
 {

@@ -304,10 +304,12 @@
     <Media Include="Sound\enemy_die.wav" />
     <Media Include="Sound\enemy_got_hit.wav" />
     <Media Include="Sound\enemy_overhead_shoot.wav" />
+    <Media Include="Sound\grenade.wav" />
     <Media Include="Sound\intro.wav" />
     <Media Include="Sound\jason_die.wav" />
     <Media Include="Sound\jason_got_hit.wav" />
     <Media Include="Sound\jason_jump.wav" />
+    <Media Include="Sound\jason_shoot_overhead.wav" />
     <Media Include="Sound\jason_sideview_shoot.wav" />
     <Media Include="Sound\menu.wav" />
     <Media Include="Sound\menu_select.wav" />

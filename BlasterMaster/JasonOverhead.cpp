@@ -268,7 +268,7 @@ void CJasonOverhead::Shoot()
     checkDxDy(dx,dy);
 
     gunlevel = CGameGlobal::GetInstance()->GetLevelGun();
-
+    Sound::getInstance()->play(JASON_SHOOT_OVERHEAD, false, 1);
     // CBullet_JasonOverhead* bullet = new CBullet_JasonOverhead(x, y, currentSectionId, dx, dy, 0, numberOfJasonOverheadBullets);
     CBullet_JasonOverhead* bullet = new CBullet_JasonOverhead(x, y, currentSectionId, dx, dy, gunlevel, numberOfJasonOverheadBullets);
     if (gunlevel == 3 || gunlevel ==2)
@@ -296,6 +296,7 @@ void CJasonOverhead::DropBomb()
         distance = GRENADE_DISTANCE_FAR;
     else
         distance = GRENADE_DISTANCE;
+    Sound::getInstance()->play(GRENADE, false, 1);
     CGrenade_JasonOverhead* bomb = new CGrenade_JasonOverhead(x, y, currentSectionId, dx, dy, distance);
     GetDropBombPosition(sx, sy, dx, dy);
     CGameObjectBehaviour::SetBoundingBoxCenter(bomb, sx, sy);
@@ -395,7 +396,7 @@ CJasonOverhead* CJasonOverhead::InitInstance(int x, int y, int sectionId)
 void CJasonOverhead::HandleOnDamage()
 {
     if (CGameGlobal::GetInstance()->get_healthJasonSideView() > 0) {
-        Sound::getInstance()->play(JASON_GOT_HIT, false, 1);
+        Sound::getInstance()->play(JASON_GOT_HIT_OVERHEAD, false, 1);
     }
     flagInvulnerable = true;
     invulnerableTimer->Start();
