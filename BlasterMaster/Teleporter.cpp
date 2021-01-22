@@ -88,11 +88,10 @@ void CTeleporter::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 void CTeleporter::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
-
-	 idleTimer->Update(dt);
-	 teleportTimer->Update(dt);
-	 switchTimer->Update(dt);
-	DebugOut(L"Teleporter position %f %f\n", x, y);
+	idleTimer->Update(dt);
+	teleportTimer->Update(dt);
+	switchTimer->Update(dt);
+	// DebugOut(L"Teleporter position %f %f\n", x, y);
 	CEnemy::Update(dt, coObjs);
 }
 

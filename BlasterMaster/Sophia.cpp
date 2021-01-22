@@ -976,7 +976,6 @@ void CSophia::HandleTimerTick(LPTIMER sender)
 
 CSophia::~CSophia()
 {
-    DebugOut(L"Thy cuteeee\n");
     CAnimatableObject::~CAnimatableObject();
 }
 
