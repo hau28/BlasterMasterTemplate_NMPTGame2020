@@ -29,6 +29,8 @@ void CJasonOverhead::Init()
 
     this->allowOverlapWithBlocks = false;
 
+    SetModifyColor(255, 255, 255, 255);
+
     invulnerableTimer = new CTimer(this, INVULNERABLE_DURATION, 1);
     invulnerableTimer->Stop();
 

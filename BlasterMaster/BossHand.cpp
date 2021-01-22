@@ -31,6 +31,8 @@ void CBossHand::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 void CBossHand::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
+	if (flashingEffect)
+		flashingEffect->Update(dt);
 
 	CGameGlobal* global = CGameGlobal::GetInstance();
 	if (!global->isRenderBoss || global->isWinGame)
@@ -42,4 +44,8 @@ void CBossHand::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 bool CBossHand::IsBlockableObject(LPGAMEOBJECT obj)
 {
 	return false;
+}
+
+void CBossHand::TakeDamage(int damage)
+{
 }

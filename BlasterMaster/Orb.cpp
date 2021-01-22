@@ -167,17 +167,17 @@ void COrb::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 			}
 		}
 
-		// suicidal orbs get exploded when touching player
-		LPGAMEOBJECT player = CGame::GetInstance()->GetCurrentPlayer();
-		if (obj == player && suicide)
-		{
-			Explode();
-		}
+
 }
 
 void COrb::HandleOverlap(LPGAMEOBJECT overlappedObj)
 {
-	// Chibi cute
+	// suicidal orbs get exploded when touching player
+	LPGAMEOBJECT player = CGame::GetInstance()->GetCurrentPlayer();
+	if (overlappedObj == player && suicide)
+	{
+		Explode();
+	}
 }
 
 void COrb::GetBoundingBox(float& left, float& top, float& right, float& bottom)

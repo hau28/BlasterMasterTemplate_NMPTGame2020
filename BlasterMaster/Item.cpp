@@ -48,7 +48,6 @@ void CItem::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 	LPGAMEOBJECT player = CGame::GetInstance()->GetCurrentPlayer();
 	if (obj == player)
 	{
-
 		ApplyEffect(obj->classId);
 		CGameObjectBehaviour::RemoveObject(this);
 	}

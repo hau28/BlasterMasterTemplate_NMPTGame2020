@@ -151,7 +151,7 @@ CBoss::CBoss(int classId, int x, int y, int sectionId, int animsId) : CEnemy::CE
 	delayIdleHandRightBossTimer->Stop();
 
 	this->isLoadedBossArm = false;
-	this->healthPoint = 5;
+	this->healthPoint = 50000000;
 
 	explosionTimer = new CTimer(this, EXPLOSION_REMOVE_DURATION, 10000);
 	explosionTimer->Reset();
@@ -209,11 +209,17 @@ void CBoss::ShootPlayer()
 
 void CBoss::UpdateVelocity(DWORD dt)
 {
-	if (y <= this->limitTop || y >= this->limitBottom)
-		vy *= -1;
+	if (y <= this->limitTop)
+		vy = abs(vy);
+		
+	if(y >= this->limitBottom)
+		vy = -abs(vy);
 
-	if (x <= this->limitLeft || x >= this->limitRight)
-		vx *= -1;
+	if (x <= this->limitLeft)
+		vx = abs(vx);
+		
+	if (x >= this->limitRight)
+		vx = -abs(vx);
 }
 
 void CBoss::updateVectorArmFollowBodyBoss(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
@@ -238,8 +244,15 @@ void CBoss::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 }
 
+void CBoss::HandleOverlap(LPGAMEOBJECT overlappedObj)
+{
+}
+
 void CBoss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
+	if(flashingEffect)
+		flashingEffect->Update(dt);
+
 	if (explodeCount == COUNT_EXPLOSION)
 	{	
 		CGameObjectBehaviour::RemoveObject(this);
@@ -434,6 +447,23 @@ void CBoss::CalcBoundingBoxCenter(LPGAMEOBJECT obj, float& x, float& y)
 void CBoss::GetPosition(float& x, float& y, float dx, float dy)
 {
 	CGameObjectBehaviour::CalcBoundingBoxCenter(this, x, y);
+}
+
+void CBoss::PlayFlashingEffect()
+{
+	CEnemy::PlayFlashingEffect();
+
+	for (auto obj : ArmLeft)
+	{
+		if (dynamic_cast<CEnemy*>(obj))
+			dynamic_cast<CEnemy*>(obj)->PlayFlashingEffect();
+	}
+
+	for (auto obj : ArmRight)
+	{
+		if (dynamic_cast<CEnemy*>(obj))
+			dynamic_cast<CEnemy*>(obj)->PlayFlashingEffect();
+	}
 }
 
 void CBoss::Render(float offsetX, float offsetY)

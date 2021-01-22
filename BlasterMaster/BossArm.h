@@ -23,6 +23,8 @@ public:
     virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs);
 
     virtual bool IsBlockableObject(LPGAMEOBJECT obj);
+
+    void TakeDamage(int damage);
 };
 
 typedef CBossArm* LPBOSSARM;

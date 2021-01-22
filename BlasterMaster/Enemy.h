@@ -11,7 +11,6 @@ protected:
 	int healthPoint = 100;
 	virtual void DropItem();
 	virtual void Explode();
-	void PlayFlashingEffect();
 
 public:
 	CEnemy() {};
@@ -21,6 +20,7 @@ public:
 
 	int GetHealthPoint();
 
-	void TakeDamage(int damage);
+	virtual void TakeDamage(int damage);
+	virtual void PlayFlashingEffect();
 };
 
