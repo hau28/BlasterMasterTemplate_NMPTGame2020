@@ -77,6 +77,17 @@ void Sound::loadGameSounds() {
 	Sound::getInstance()->loadSound(SWITCH_SCENE);
 	Sound::getInstance()->loadSound(ENEMY_OVERHEAD_SHOOT);
 	Sound::getInstance()->loadSound(TELEPORTER_SWITCH);
+	Sound::getInstance()->loadSound(INTRO_MUSIC);
+	Sound::getInstance()->loadSound(SOPHIA_ENTER_MUSIC);
+	Sound::getInstance()->loadSound(MISSILE);
+	Sound::getInstance()->loadSound(THUNDER);
+	Sound::getInstance()->loadSound(ENDING);
+	Sound::getInstance()->loadSound(CREDIT);
+	Sound::getInstance()->loadSound(BOSS);
+	Sound::getInstance()->loadSound(BOSS_ENTER);
+	Sound::getInstance()->loadSound(BOSS_SHOOT);
+	Sound::getInstance()->loadSound(BOSS_DIE);
+	Sound::getInstance()->loadSound(CRUSHER);
 	//VOLUME
 }
 

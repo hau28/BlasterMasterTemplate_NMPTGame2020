@@ -405,6 +405,17 @@
     <Media Include="Sound\switch_scene.wav" />
     <Media Include="Sound\enemy_overhead_shoot.wav" />
     <Media Include="Sound\teleporter_switch.wav" />
+    <Media Include="Sound\intro.wav" />
+    <Media Include="Sound\sophia_enter_music.wav" />
+    <Media Include="Sound\missile.wav" />
+    <Media Include="Sound\thunder.wav" />
+    <Media Include="Sound\ending.wav" />
+    <Media Include="Sound\credit.wav" />
+    <Media Include="Sound\boss_enter.wav" />
+    <Media Include="Sound\boss.wav" />
+    <Media Include="Sound\boss_shoot.wav" />
+    <Media Include="Sound\boss_die.wav" />
+    <Media Include="Sound\crusher.wav" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BlasterMaster.rc" />

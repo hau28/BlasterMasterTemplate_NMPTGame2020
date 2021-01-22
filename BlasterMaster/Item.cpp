@@ -106,7 +106,8 @@ void CItem::HandleTimerTick(CTimer* sender)
 
 void CItem::ApplyEffect(int playerClassId)
 {
-	Sound::getInstance()->play(POWERUP, false, 1);
+	if (classId != CLASS_ITEM_CRUSHERBEAM)
+		Sound::getInstance()->play(POWERUP, false, 1);
 	switch (classId)
 	{
 	case CLASS_ITEM_POWER:
@@ -152,6 +153,10 @@ void CItem::ApplyEffect(int playerClassId)
 		break;
 
 	case CLASS_ITEM_CRUSHERBEAM:
+		Sound::getInstance()->stop(BOSS);
+		Sound::getInstance()->stop(BOSS_DIE);
+		Sound::getInstance()->play(CRUSHER, false, 1);
+		Sleep(4414);
 		CGameGlobal::GetInstance()->comeBackAfterGetCrusherBeam();
 		break;
 	default:

@@ -37,7 +37,17 @@ const std::string POWERUP = "powerup";
 const std::string SWITCH_SCENE = "switch_scene";
 const std::string ENEMY_OVERHEAD_SHOOT = "enemy_overhead_shoot";
 const std::string TELEPORTER_SWITCH = "teleporter_switch";
-
+const std::string INTRO_MUSIC = "intro";
+const std::string SOPHIA_ENTER_MUSIC = "sophia_enter_music";
+const std::string MISSILE = "missile";
+const std::string THUNDER = "thunder";
+const std::string ENDING = "ending";
+const std::string CREDIT = "credit";
+const std::string BOSS = "boss";
+const std::string BOSS_ENTER = "boss_enter";
+const std::string BOSS_SHOOT = "boss_shoot";
+const std::string BOSS_DIE = "boss_die";
+const std::string CRUSHER = "crusher";
 
 class Sound
 {

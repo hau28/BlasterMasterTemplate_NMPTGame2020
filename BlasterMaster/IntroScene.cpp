@@ -8,6 +8,7 @@
 #include "SwitchSceneEvent.h"
 #include "GameEvent.h"
 #include "GameGlobal.h"
+#include "Sound.h"
 
 #define SCENE_SECTION_UNKNOWN -1
 #define SCENE_SECTION_TEXTURES 2
@@ -156,7 +157,7 @@ void CIntroScene::Load()
 		break;
 	}
 }
-void CIntroScene::Update(DWORD dt)
+void CIntroScene:: Update(DWORD dt)
 {
 	//Nhap nhay background
 	int R = rand() % 256;
@@ -179,14 +180,23 @@ void CIntroScene::Update(DWORD dt)
 	case (ID_STATE_SOPHIADOWNGROUND):
 		if (animationHandlers[state]->currentFrameIndex == animationHandlers[state]->animation->GetNumberOfFrames()-1)
 			isIntroFinished = true;
+		if (animationHandlers[state]->currentFrameIndex == animationHandlers[state]->animation->GetNumberOfFrames() - 2)
+		{
+			Sound::getInstance()->stop(INTRO_MUSIC);
+			Sound::getInstance()->stop(SOPHIA_ENTER_MUSIC);
+		}
 		isTitleFinished = isFilmFinished = false;
 		break;
 	case (ID_STATE_LEFT1):
+		Sound::getInstance()->stop(INTRO_MUSIC);
+		Sound::getInstance()->stop(SOPHIA_ENTER_MUSIC);
 		if (animationHandlers[state]->currentFrameIndex == animationHandlers[state]->animation->GetNumberOfFrames() - 1)
 			isLeftFinished = true;
 		isTitleFinished = isFilmFinished = false;
 		break;
 	case (ID_STATE_LEFT0):
+		Sound::getInstance()->stop(INTRO_MUSIC);
+		Sound::getInstance()->stop(SOPHIA_ENTER_MUSIC);
 		if (animationHandlers[state]->currentFrameIndex == animationHandlers[state]->animation->GetNumberOfFrames() - 1)
 			isLeftFinished = true;
 		isTitleFinished = isFilmFinished = false;
@@ -209,7 +219,7 @@ void CIntroScene::Update(DWORD dt)
 		break;
 	case (ID_STATE_FILMINTRO):
 		if (isFilmFinished && animationHandlers[state]->currentFrameIndex == animationHandlers[state]->startLoopIndex)
-		{
+		{	
 			animationHandlers[state]->Reset();
 			setState(ID_STATE_TITLE);
 		}
@@ -218,6 +228,7 @@ void CIntroScene::Update(DWORD dt)
 	case (ID_STATE_SOPHIADOWNGROUND):
 		if (isIntroFinished && animationHandlers[state]->currentFrameIndex == animationHandlers[state]->startLoopIndex)
 		{
+
 			animationHandlers[state]->Reset();
 			//CGame::GetInstance()->SwitchScene(ID_SCENE_END);
 			CGameEvent* event = new SwitchSceneEvent(ID_SCENE_SIDEVIEW);
@@ -385,4 +396,27 @@ void CIntroScene::pressEnd()
 	isFilmFinished = false;
 	isIntroFinished = false;
 	isLeftFinished = false;
+}
+
+void CIntroScene::setState(int state)
+{
+	this->state = state;
+	//Stop all play sound
+	Sound::getInstance()->stop(INTRO_MUSIC);
+	Sound::getInstance()->stop(SOPHIA_ENTER_MUSIC);
+
+	//Play new sound
+	switch (state)
+	{
+	case ID_STATE_TITLE:
+		break;
+	case ID_STATE_FILMINTRO:
+		Sound::getInstance()->play(INTRO_MUSIC, false, 1);
+		break;
+	case ID_STATE_SOPHIADOWNGROUND:
+		Sound::getInstance()->play(SOPHIA_ENTER_MUSIC, false, 1);
+		break;
+	default:
+		break;
+	}
 }

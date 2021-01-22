@@ -9,6 +9,7 @@
 #include "JasonOverhead.h"
 #include "GameGlobal.h"
 #include "Bullet_Boss.h"
+#include "Sound.h"
 
 const int BOSS_BOUNDBOX_WIDTH = 36;
 const int BOSS_BOUNDBOX_HEIGHT = 16;
@@ -151,7 +152,7 @@ CBoss::CBoss(int classId, int x, int y, int sectionId, int animsId) : CEnemy::CE
 	delayIdleHandRightBossTimer->Stop();
 
 	this->isLoadedBossArm = false;
-	this->healthPoint = 50;
+	this->healthPoint = 10;
 
 	explosionTimer = new CTimer(this, EXPLOSION_REMOVE_DURATION, 10000);
 	explosionTimer->Reset();
@@ -201,6 +202,7 @@ void CBoss::checkTargetLocation()
 
 void CBoss::ShootPlayer()
 {
+	Sound::getInstance()->play(BOSS_SHOOT, false, 1);
 	float dirX, dirY; // direction to the player
 	CGameObjectBehaviour::CalcDirectionToPlayer(this, dirX, dirY);
 	CBullet_Boss* bullet = new CBullet_Boss(0, 0, 0, dirX, dirY);
@@ -262,6 +264,10 @@ void CBoss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 	explosionTimer->Update(dt);
 	if (healthPoint <= 0)
 	{
+		if (explodeCount == 0) {
+			Sound::getInstance()->stop(BOSS);
+			Sound::getInstance()->play(BOSS_DIE, false, 1);
+		}
 		vx = 0;
 		vy = 0;
 		Explode();
@@ -399,6 +405,9 @@ void CBoss::HandleTimerTick(LPTIMER sender)
 
 	if (sender == explosionTimer)
 	{
+		// CuteTN: flashing effect
+		PlayFlashingEffect();
+
 		explodeCount++;
 		float dx = 0, dy = 0, sx, sy;
 
