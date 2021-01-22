@@ -421,7 +421,7 @@ void CBoss::HandleTimerTick(LPTIMER sender)
 		CGameObjectBehaviour::CreateObject(explosion2);
 
 		dx = RandomFloat(-60, 60);
-		dy = RandomFloat(-60, 60);
+		dy = RandomFloat(-60, 0);
 
 		//large 
 		LPEXPLOSION explosion3 = new CExplosion(CLASS_BOSS_EXPLOSION, x, y, this->currentSectionId);
