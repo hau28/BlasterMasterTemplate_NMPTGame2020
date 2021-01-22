@@ -151,7 +151,7 @@ CBoss::CBoss(int classId, int x, int y, int sectionId, int animsId) : CEnemy::CE
 	delayIdleHandRightBossTimer->Stop();
 
 	this->isLoadedBossArm = false;
-	this->healthPoint = 50000000;
+	this->healthPoint = 50;
 
 	explosionTimer = new CTimer(this, EXPLOSION_REMOVE_DURATION, 10000);
 	explosionTimer->Reset();
