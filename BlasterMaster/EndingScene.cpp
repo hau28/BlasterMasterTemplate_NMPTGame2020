@@ -51,6 +51,7 @@ void CEndingScene::setState(StateEnding state)
 		ID_STATE = ID_STATE_FROG;
 		break;
 	case StateEnding::EARTHQUAKE:	
+		Sound::getInstance()->stop(AREA2);
 		Sound::getInstance()->play(ENDING, false, 1);
 		ID_STATE = ID_STATE_FROG;
 		MountainX = 122;

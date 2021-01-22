@@ -411,9 +411,11 @@ void CIntroScene::setState(int state)
 	case ID_STATE_TITLE:
 		break;
 	case ID_STATE_FILMINTRO:
+		Sound::getInstance()->stop(AREA2);
 		Sound::getInstance()->play(INTRO_MUSIC, false, 1);
 		break;
 	case ID_STATE_SOPHIADOWNGROUND:
+		Sound::getInstance()->stop(AREA2);
 		Sound::getInstance()->play(SOPHIA_ENTER_MUSIC, false, 1);
 		break;
 	default:

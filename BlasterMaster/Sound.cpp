@@ -87,6 +87,10 @@ void Sound::loadGameSounds() {
 	Sound::getInstance()->loadSound(BOSS_SHOOT);
 	Sound::getInstance()->loadSound(BOSS_DIE);
 	Sound::getInstance()->loadSound(CRUSHER);
+	Sound::getInstance()->loadSound(JASON_SHOOT_OVERHEAD);
+	Sound::getInstance()->loadSound(GRENADE);
+	Sound::getInstance()->loadSound(JASON_GOT_HIT_OVERHEAD);
+	
 	//VOLUME
 }
 
