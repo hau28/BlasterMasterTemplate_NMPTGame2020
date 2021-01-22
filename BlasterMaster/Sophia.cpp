@@ -28,6 +28,7 @@ void CSophia::Init(int classId, int x, int y)
     directionState = 1;
     turnRight = true;
     gunState = wheelState = 0;
+    bodyState = 0;
     vyMax = SOPHIA_MAX_FALL_SPEED;
     vxMax = SOPHIA_MAX_SPEED;
     lastTimeupdateDirection = GetTickCount();
@@ -343,7 +344,7 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
         Sound::getInstance()->play(SOPHIA_JUMP, false, 1);
         vy = -SOPHIA_JUMP_FORCE;
     }
-    if (!flagOnAir && keyCode == ControlKeys::SwitchPlayerKey)
+    if (!flagOnAir && keyCode == ControlKeys::SwitchPlayerKey && abs(vy) <= 0.001)
     {
         Sound::getInstance()->play(SWAP_PLAYER, false, 1);
         flag_JasonJumpOut = true;
