@@ -52,6 +52,8 @@ const std::string JASON_SHOOT_OVERHEAD = "jason_shoot_overhead";
 const std::string GRENADE = "grenade";
 const std::string JASON_GOT_HIT_OVERHEAD = "jason_got_hit_overhead";
 
+const long MIN_DB = -4000;
+
 class Sound
 {
 public:

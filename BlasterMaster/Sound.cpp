@@ -282,7 +282,7 @@ void Sound::setVolume(float percentage, std::string name)
 	//volume = percentage;
 	if (name == "")
 	{
-		long volumne = -4000 * (1 - percentage / 100);
+		long volumne = MIN_DB * (1 - percentage / 100);
 		for (std::map< std::string, IDirectSoundBuffer8*> ::iterator it = soundBufferMap.begin(); it != soundBufferMap.end(); it++)
 		{
 			it->second->SetVolume(volumne);
@@ -294,7 +294,7 @@ void Sound::setVolume(float percentage, std::string name)
 		it = soundBufferMap.find(name);
 		if (it == soundBufferMap.end())
 			return;
-		long volumne = -4000*(1-percentage/100);
+		long volumne = MIN_DB *(1-percentage/100);
 		it->second->SetVolume(volumne);
 	}
 }
