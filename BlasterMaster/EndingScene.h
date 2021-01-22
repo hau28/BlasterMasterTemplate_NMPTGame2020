@@ -47,6 +47,7 @@ public:
 	CObjectAnimationHanlders Mountain;
 	CObjectAnimationHanlders Red;
 	CObjectAnimationHanlders Credit;
+	CObjectAnimationHanlders TheEnd;
 
 	void HandleKeyEnter();
 	CEndingScene(int id, LPCWSTR filePath, int startupSection = -1);
