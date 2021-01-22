@@ -152,7 +152,7 @@ CBoss::CBoss(int classId, int x, int y, int sectionId, int animsId) : CEnemy::CE
 	delayIdleHandRightBossTimer->Stop();
 
 	this->isLoadedBossArm = false;
-	this->healthPoint = 10;
+	this->healthPoint = 1;
 
 	explosionTimer = new CTimer(this, EXPLOSION_REMOVE_DURATION, 10000);
 	explosionTimer->Reset();
@@ -430,7 +430,7 @@ void CBoss::HandleTimerTick(LPTIMER sender)
 		CGameObjectBehaviour::CreateObject(explosion2);
 
 		dx = RandomFloat(-60, 60);
-		dy = RandomFloat(-60, 0);
+		dy = RandomFloat(-80, 0);
 
 		//large 
 		LPEXPLOSION explosion3 = new CExplosion(CLASS_BOSS_EXPLOSION, x, y, this->currentSectionId);
