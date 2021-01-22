@@ -97,14 +97,17 @@ void CBullet_Sophia::CalcExplosionCenterPos(float& explosionX, float& explosionY
 	switch (state)
 	{
 	case BULLET_SOPHIA_SIDEVIEW_STATE_UP:
+	case BULLET_WHITE_SOPHIA_SIDEVIEW_STATE_UP:
 		explosionY = t;
 		break;
 	
 	case BULLET_SOPHIA_SIDEVIEW_STATE_LEFT:
+	case BULLET_WHITE_SOPHIA_SIDEVIEW_STATE_LEFT:
 		explosionX = l;
 		break;
 
 	case BULLET_SOPHIA_SIDEVIEW_STATE_RIGHT:
+	case BULLET_WHITE_SOPHIA_SIDEVIEW_STATE_RIGHT:
 		explosionX = r;
 		break;
 	}

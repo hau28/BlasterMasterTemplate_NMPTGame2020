@@ -7,10 +7,10 @@
 #define MAX_HEALTH_JASONSIDEVIEW 80
 #define MAX_HEALTH_JASONOVERHEAD 80
 #define MAX_GUN_LEVEL 8
-#define BODY_DAMAGE_ENEMY 5 * 0
-#define BODY_DAMAGE_BULLET 5 * 0
-#define BODY_DAMAGE_LAVA 20 * 0
-#define BODY_DAMAGE_SPIKE 15 * 0
+#define BODY_DAMAGE_ENEMY 5 * 1
+#define BODY_DAMAGE_BULLET 5 * 1
+#define BODY_DAMAGE_LAVA 20 * 1
+#define BODY_DAMAGE_SPIKE 15 * 1
 #define BODY_DAMAGE_FALL 80
 
 #define MAX_AMMUNITIONS 99
@@ -188,7 +188,7 @@ public:
 
 	// CuteTN
 	int sectionCrusherBeamComeback = -1;
-	bool HasCrusherBeam = false;
+	bool HasCrusherBeam = true;
 	void comeBackAfterGetCrusherBeam();
 
 	bool isWinGame = false;
