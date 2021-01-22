@@ -108,6 +108,15 @@ void CJasonOverhead::HandleKeyDown(DWORD dt, int keyCode)
         if (flaggrenadeReloaded)
             DropBomb();
     }
+
+    if (keyCode == DIK_P)
+    {
+        CGameGlobal::GetInstance()-> AddToGunLevel(1);
+    }
+    if (keyCode == DIK_O)
+    {
+        CGameGlobal::GetInstance()->AddToGunLevel(-1);
+    }
 }
 
 void CJasonOverhead::HandleKeysHold(DWORD dt)
@@ -464,8 +473,6 @@ void CJasonOverhead::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
         }
     }
-
-
 }
 
 void CJasonOverhead::HandleOverlap(LPGAMEOBJECT overlappedObj)

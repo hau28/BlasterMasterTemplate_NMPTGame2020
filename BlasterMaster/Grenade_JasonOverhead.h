@@ -9,6 +9,11 @@ private:
 	/// the starting position of the bullet, we need it because the bullet auto explode after a short while.
 	/// this is initialize at the first call of UpdateVelocity
 	/// </summary>
+	
+	float boundingBoxOffsetX = 8;
+	float boundingBoxOffsetY = 8;
+	float boundingBoxWidth = 21;
+	float boundingBoxHeight = 3;
 
 	bool flagStartedMoving = false;
 	float startX = 0;
@@ -55,6 +60,7 @@ public:
 	bool getflag() { return flagOver; };
 
 	void GetPosition(float& x, float& y, float dx, float dy);
+	//virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 
 };
 typedef CGrenade_JasonOverhead* LPGRENADEJASONOVERHEAD;
