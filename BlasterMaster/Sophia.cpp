@@ -469,6 +469,7 @@ void CSophia::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs)
 
     if ((!flagDead) && (!flagOnAir) && CGameGlobal::GetInstance()->get_healthSophia() <= 0)
     {
+        Sound::getInstance()->stop(AREA2);
         vx = vy = 0;
 
         if (!dyingEffectTimer->IsRunning())

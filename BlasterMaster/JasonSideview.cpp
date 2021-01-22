@@ -690,6 +690,7 @@ void CJasonSideview::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
     UpdatePosition(dt);
     if (CGameGlobal::GetInstance()->get_healthJasonSideView() <= 0)
     {
+        Sound::getInstance()->stop(AREA2);
         vx = 0; 
         vy = 0;
         animationHandlers[state]->startLoopIndex = 0;   

@@ -6,6 +6,7 @@
 #include "RemoveObjectEvent.h"
 #include <stdlib.h>    
 #include <time.h>  
+#include "Sound.h"
 
 void COrb::UpdateState()
 {
@@ -176,6 +177,7 @@ void COrb::HandleOverlap(LPGAMEOBJECT overlappedObj)
 	LPGAMEOBJECT player = CGame::GetInstance()->GetCurrentPlayer();
 	if (overlappedObj == player && suicide)
 	{
+		Sound::getInstance()->play(SMALL_PINK_BULLET_EXPLOSION, false, 1);
 		Explode();
 	}
 }
