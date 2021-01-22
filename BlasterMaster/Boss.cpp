@@ -252,10 +252,11 @@ void CBoss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 		vx = 0;
 		vy = 0;
 		Explode();
+		CGameGlobal::GetInstance()->isWinGame = true;
 	}
 
 	CGameGlobal* global = CGameGlobal::GetInstance();
-	if (!global->isRenderBoss)
+	if (!global->isRenderBoss || global->isWinGame)
 		return;
 
 	if (isLoadedBossArm == false)

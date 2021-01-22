@@ -669,6 +669,7 @@ void CGameGlobal::resetGame()
 	this->stateBossBlackBackground = false;
 	this->isDeadBoss = false;
 	this->HasCrusherBeam = false;
+	this->isWinGame = false;
 }
 
 void CGameGlobal::saveSophia(float offx, float offy)

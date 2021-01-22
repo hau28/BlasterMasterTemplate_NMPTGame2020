@@ -190,6 +190,8 @@ public:
 	int sectionCrusherBeamComeback = -1;
 	bool HasCrusherBeam = true;
 	void comeBackAfterGetCrusherBeam();
+
+	bool isWinGame = false;
 };
 
 
