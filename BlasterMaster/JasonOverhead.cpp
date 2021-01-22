@@ -208,7 +208,8 @@ void CJasonOverhead::GetShootPosition(float& x, float& y, float dx, float dy)
     const int JASONOVERHEAD_GUNUP_OFFSETX_FROM_CENTER = 8;
     const int JASONOVERHEAD_GUNUP_OFFSETY_FROM_CENTER = -28;
     const int JASONOVERHEAD_GUNDOWN_OFFSET_FROM_CENTER = -4;
-    const int JASONOVERHEAD_GUNLEFTRIGHT_OFFSETY_FROM_CENTER = -15;
+    const int JASONOVERHEAD_GUNLEFT_OFFSETY_FROM_CENTER = -14;
+    const int JASONOVERHEAD_GUNRIGHT_OFFSETY_FROM_CENTER = -12;
     const int JASONOVERHEAD_GUNLEFT_OFFSETX_FROM_CENTER = -12; 
     const int JASONOVERHEAD_GUNTRIGHT_OFFSETX_FROM_CENTER = 12;
     // set the bullet center equals to Sophia center
@@ -228,13 +229,13 @@ void CJasonOverhead::GetShootPosition(float& x, float& y, float dx, float dy)
     if (dx == -1)
     {
         x += JASONOVERHEAD_GUNLEFT_OFFSETX_FROM_CENTER;
-        y += JASONOVERHEAD_GUNLEFTRIGHT_OFFSETY_FROM_CENTER;
+        y += JASONOVERHEAD_GUNLEFT_OFFSETY_FROM_CENTER;
     }
 
     if (dx == 1)
     {
         x += JASONOVERHEAD_GUNTRIGHT_OFFSETX_FROM_CENTER;
-        y += JASONOVERHEAD_GUNLEFTRIGHT_OFFSETY_FROM_CENTER;
+        y += JASONOVERHEAD_GUNRIGHT_OFFSETY_FROM_CENTER;
     }
     
     y += CBullet_JasonOverhead::BULLET_OVERHEAD_OFFSET_FROM_SHADOW;
