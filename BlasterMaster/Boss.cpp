@@ -241,9 +241,10 @@ void CBoss::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 void CBoss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
 	if (explodeCount == COUNT_EXPLOSION)
-	{
-		
+	{	
 		CGameObjectBehaviour::RemoveObject(this);
+		RemoveArm();
+		CGameGlobal::GetInstance()->openEffectBossDead();
 	}
 	explosionTimer->Update(dt);
 	if (healthPoint <= 0)
@@ -439,4 +440,17 @@ void CBoss::Render(float offsetX, float offsetY)
 	CGameGlobal * global = CGameGlobal::GetInstance();
 	if (global->isRenderBoss)
 		CAnimatableObject::Render(offsetX, offsetY);
+}
+
+void CBoss::RemoveArm()
+{
+	for (auto arm : ArmLeft)
+	{
+		CGameObjectBehaviour::RemoveObject(arm);
+	}
+
+	for (auto arm : ArmRight)
+	{
+		CGameObjectBehaviour::RemoveObject(arm);
+	}
 }

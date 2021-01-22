@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Enemy.h"
+#include "Item.h"
 
 #define MAX_HEALTH_SOPHIA 80
 #define MAX_HEALTH_JASONSIDEVIEW 80
@@ -43,6 +44,7 @@ private:
 	const int BOSS_EFFECT_FADE_IN_DURATION = 500;
 	const int BOSS_EFFECT_RENDER_FLASHING = 200;
 	const int BOSS_EFFECT_RENDER = 1000;
+	const int BOSS_EFFECT_DEAD = 2000;
 	int times_render_boss = 0;
 	//Save Game
 
@@ -59,6 +61,7 @@ private:
 	LPTIMER effectBossFadeInTimer;
 	LPTIMER effectBossRenderFlashing;
 	LPTIMER effectBossRender;
+	LPTIMER effectBossBossDead;
 
 	//AnimationHandler Render 
 	CObjectAnimationHanlders HealthPow;
@@ -179,7 +182,8 @@ public:
 	bool isRenderBossFlashing = false;
 	bool isRenderBoss = false;
 	void openEffectFlashingBoss();
-	
+	void openEffectBossDead();
+
 	// CuteTN
 	bool HasCrusherBeam = true;
 };
