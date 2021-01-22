@@ -1101,6 +1101,38 @@ void CPlayScene::HandleKeyDown(DWORD dt, int keyCode)
 		Sound::getInstance()->play(MENU_SELECT, false, 1);
 		global->BackSelectedItem();
 	}
+
+	// Volume
+	if (keyCode == DIK_9)
+	{
+
+	}
+	if (keyCode == DIK_0)
+	{
+
+	}
+
+	// Cheat
+	if (keyCode == DIK_H)
+	{
+		CGameGlobal::GetInstance()->AddToJasonHealth(999);
+		CGameGlobal::GetInstance()->AddToSophiaHealth(999);
+		DebugOut(L"[CHEAT] So healthy!\n");
+	}
+
+	if (keyCode == DIK_G)
+	{
+		CGameGlobal::GetInstance()->AddToGunLevel(999);
+		DebugOut(L"[CHEAT] Bang bang bang!\n");
+	}
+
+	if (keyCode == DIK_W)
+	{
+		CGameGlobal::GetInstance()->AddToHomingMissile(999);
+		CGameGlobal::GetInstance()->AddToMultiwarheadMissile(999);
+		CGameGlobal::GetInstance()->AddToThunderBreak(999);
+		DebugOut(L"[CHEAT] Daddy bought me some toys!\n");
+	}
 }
 
 void CPlayScene::comeBackAfterCrusherBeam(int oldSection)
