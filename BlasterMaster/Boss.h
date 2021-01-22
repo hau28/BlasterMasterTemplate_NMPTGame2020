@@ -4,6 +4,7 @@
 #include "BossHand.h"
 #include "PlayScene.h"
 #include "Timer.h"
+#include "ObjectFlashingEffectPlayer.h"
 
 const float BOSS_ARM_MOVING_MAX_SPEED = 0.1;
 const float BOSS_ARM_MAX_PULL_FORCE = 0.02;
@@ -46,6 +47,8 @@ class CBoss : public CEnemy, public ITimeTrackable
 
     void MoveArmLeft();
     void MoveArmRight();
+    void RemoveArm();
+
     bool checkEquals(float x1, float y1, float x2, float y2);
 
     const int EXPLOSION_REMOVE_DURATION = 100;
@@ -57,13 +60,14 @@ class CBoss : public CEnemy, public ITimeTrackable
     bool flagexplode = false;
     bool flagDied = false;
     virtual void Explode();
+
 public:
     CBoss() {};
     CBoss(int classId, int x, int y, int sectionId, int animsId);
 
     virtual void UpdateVelocity(DWORD dt);
     virtual void HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent);
-    virtual void HandleOverlap(LPGAMEOBJECT overlappedObj) {};
+    virtual void HandleOverlap(LPGAMEOBJECT overlappedObj);
     virtual void Render(float offsetX, float offsetY);
     virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
     virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs);
@@ -74,7 +78,7 @@ public:
 
     void GetPosition(float& x, float& y, float dx, float dy);
 
-
+    void PlayFlashingEffect();
 };
 typedef CBoss* LPBOSS;
 

@@ -48,7 +48,6 @@ void CItem::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 	LPGAMEOBJECT player = CGame::GetInstance()->GetCurrentPlayer();
 	if (obj == player)
 	{
-
 		ApplyEffect(obj->classId);
 		CGameObjectBehaviour::RemoveObject(this);
 	}
@@ -152,6 +151,9 @@ void CItem::ApplyEffect(int playerClassId)
 		CGameGlobal::GetInstance()->AddToThunderBreak(WEAPON_AMOUNT);
 		break;
 
+	case CLASS_ITEM_CRUSHERBEAM:
+		CGameGlobal::GetInstance()->comeBackAfterGetCrusherBeam();
+		break;
 	default:
 		break;
 	}

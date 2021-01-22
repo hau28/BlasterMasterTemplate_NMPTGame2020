@@ -4,7 +4,7 @@
 #include "GameObjectBehaviour.h"
 #include <stdlib.h>
 #include <time.h>  
-
+#include "GameGlobal.h"
 
 CBossHand::CBossHand(int classId, int x, int y, int sectionId, int animsId, int state) : CEnemy::CEnemy(classId, x, y, sectionId, animsId)
 {
@@ -31,6 +31,12 @@ void CBossHand::HandleCollision(DWORD dt, LPCOLLISIONEVENT coEvent)
 
 void CBossHand::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 {
+	if (flashingEffect)
+		flashingEffect->Update(dt);
+
+	CGameGlobal* global = CGameGlobal::GetInstance();
+	if (!global->isRenderBoss || global->isWinGame)
+		return;
 	UpdateVelocity(dt);
 	UpdatePosition(dt);
 }
@@ -38,4 +44,8 @@ void CBossHand::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 bool CBossHand::IsBlockableObject(LPGAMEOBJECT obj)
 {
 	return false;
+}
+
+void CBossHand::TakeDamage(int damage)
+{
 }

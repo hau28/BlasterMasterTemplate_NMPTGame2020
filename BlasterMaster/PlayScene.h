@@ -86,7 +86,7 @@ public:
 	void InitSectionForOverhead(int port);
 	
 	//friend class CPlayScenceKeyHandler;
-
+	void comeBackAfterCrusherBeam(int oldSection);
 	~CPlayScene();
 };
 

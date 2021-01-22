@@ -33,6 +33,7 @@ void CEnemy::TakeDamage(int damage)
 	if (damage == 0)
 		return;
 
+
 	if (damage < healthPoint)
 	{
 		Sound::getInstance()->play(ENEMY_GOT_HIT, false, 1);
@@ -81,6 +82,11 @@ void CEnemy::Explode()
 
 void CEnemy::PlayFlashingEffect()
 {
-	if(flashingEffect)
+	if (flashingEffect)
+	{
+		if (classId == CLASS_BOSS_BODY)
+			DebugOut(L"Boss got flashed\n");
+
 		flashingEffect->Play();
+	}
 }
