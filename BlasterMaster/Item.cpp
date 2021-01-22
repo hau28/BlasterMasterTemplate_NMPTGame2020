@@ -152,6 +152,9 @@ void CItem::ApplyEffect(int playerClassId)
 		CGameGlobal::GetInstance()->AddToThunderBreak(WEAPON_AMOUNT);
 		break;
 
+	case CLASS_ITEM_CRUSHERBEAM:
+		CGameGlobal::GetInstance()->comeBackAfterGetCrusherBeam();
+		break;
 	default:
 		break;
 	}

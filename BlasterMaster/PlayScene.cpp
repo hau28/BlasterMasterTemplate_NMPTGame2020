@@ -1041,6 +1041,9 @@ void CPlayScene::InitSectionForOverhead(int port)
 	GetCurrentSection()->pushJasonOverhead(playerX, playerY, CJasonOverhead::GetInstance()->currentSectionId);
 	CGameGlobal::GetInstance()->savePlayer(3);
 	DebugOut(L"Section ID = %d, Section Jason overhead = %d", CurrentSectionId, CJasonOverhead::GetInstance()->currentSectionId);
+
+	//Reset after get item Crusher Beam
+	CGameGlobal::GetInstance()->sectionCrusherBeamComeback = CJasonOverhead::GetInstance()->currentSectionId;
 }
 
 /*
@@ -1103,6 +1106,13 @@ void CPlayScene::HandleKeyDown(DWORD dt, int keyCode)
 		Sound::getInstance()->play(MENU_SELECT, false, 1);
 		global->BackSelectedItem();
 	}
+}
+
+void CPlayScene::comeBackAfterCrusherBeam(int oldSection)
+{
+	Sections[CurrentSectionId]->deleteJasonOverhead();
+	Sections[oldSection]->pushJasonOverhead(100, 100, oldSection);
+	CurrentSectionId = oldSection;
 }
 
 CPlayScene::~CPlayScene() {

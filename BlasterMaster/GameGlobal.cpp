@@ -3,6 +3,7 @@
 #include "JasonSideview.h"
 #include "JasonOverhead.h"
 #include "GameObjectBehaviour.h"
+#include "CComeBackAfterCrusherEvent.h"
 
 #define SCENE_SECTION_UNKNOWN -1
 #define SCENE_SECTION_TEXTURES 2
@@ -884,4 +885,10 @@ void CGameGlobal::HandleTimerTick(LPTIMER sender)
 void CGameGlobal::openEffectBossDead()
 {
 	this->effectBossBossDead->Start();
+}
+
+void CGameGlobal::comeBackAfterGetCrusherBeam()
+{
+	CComeBackAfterCrusherEvent* newEvent = new CComeBackAfterCrusherEvent(sectionCrusherBeamComeback);
+	CGame::GetInstance()->AddGameEvent(newEvent);
 }

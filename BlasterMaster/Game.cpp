@@ -13,6 +13,7 @@
 #include "GameGlobal.h"
 #include "JasonOverhead.h"
 #include "GameObjectBehaviour.h"
+#include "CComeBackAfterCrusherEvent.h"
 
 //#include "SoundManager.h"
 
@@ -362,6 +363,14 @@ void CGame::HandleGameEvent(LPGAME_EVENT gameEvent)
 		
 		//SANH- HEALTH
 		CGameGlobal::GetInstance()->jasonJumpIntoSophia();
+	}
+
+	if (dynamic_cast<CComeBackAfterCrusherEvent*>(gameEvent))
+	{
+		CComeBackAfterCrusherEvent* event = dynamic_cast<CComeBackAfterCrusherEvent*>(gameEvent);
+		auto scene = dynamic_cast<LPPLAYSCENE>(CGame::GetInstance()->GetCurrentScene());
+		scene->comeBackAfterCrusherBeam(event->oldSection);
+		CGameGlobal::GetInstance()->initEffectFaded();
 	}
 
 	if (dynamic_cast<SwitchSceneEvent*>(gameEvent))

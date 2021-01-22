@@ -45,9 +45,10 @@ private:
 	const int BOSS_EFFECT_RENDER_FLASHING = 200;
 	const int BOSS_EFFECT_RENDER = 1000;
 	const int BOSS_EFFECT_DEAD = 2000;
+	const int BOSS_EFFECT_CRUSHER_DELAY = 2000;
+
 	int times_render_boss = 0;
 	//Save Game
-
 	bool Saved = false;
 	int left = 3;
 	int flagPlayer = 1; // 1: Sophia 2:Jason SideView 3:Jason OverHead
@@ -62,6 +63,7 @@ private:
 	LPTIMER effectBossRenderFlashing;
 	LPTIMER effectBossRender;
 	LPTIMER effectBossBossDead;
+	LPTIMER effectBossCrusherDelay;
 
 	//AnimationHandler Render 
 	CObjectAnimationHanlders HealthPow;
@@ -185,7 +187,9 @@ public:
 	void openEffectBossDead();
 
 	// CuteTN
+	int sectionCrusherBeamComeback = -1;
 	bool HasCrusherBeam = true;
+	void comeBackAfterGetCrusherBeam();
 };
 
 
