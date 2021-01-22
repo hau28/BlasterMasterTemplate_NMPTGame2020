@@ -85,6 +85,8 @@ void Sound::loadGameSounds() {
 	Sound::getInstance()->loadSound(BOSS);
 	Sound::getInstance()->loadSound(BOSS_ENTER);
 	Sound::getInstance()->loadSound(BOSS_SHOOT);
+	Sound::getInstance()->loadSound(BOSS_DIE);
+	Sound::getInstance()->loadSound(CRUSHER);
 	//VOLUME
 }
 

@@ -251,6 +251,10 @@ void CBoss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 	explosionTimer->Update(dt);
 	if (healthPoint <= 0)
 	{
+		if (explodeCount == 0) {
+			Sound::getInstance()->stop(BOSS);
+			Sound::getInstance()->play(BOSS_DIE, false, 1);
+		}
 		vx = 0;
 		vy = 0;
 		Explode();

@@ -46,7 +46,8 @@ const std::string CREDIT = "credit";
 const std::string BOSS = "boss";
 const std::string BOSS_ENTER = "boss_enter";
 const std::string BOSS_SHOOT = "boss_shoot";
-
+const std::string BOSS_DIE = "boss_die";
+const std::string CRUSHER = "crusher";
 
 class Sound
 {

@@ -414,6 +414,8 @@
     <Media Include="Sound\boss_enter.wav" />
     <Media Include="Sound\boss.wav" />
     <Media Include="Sound\boss_shoot.wav" />
+    <Media Include="Sound\boss_die.wav" />
+    <Media Include="Sound\crusher.wav" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BlasterMaster.rc" />

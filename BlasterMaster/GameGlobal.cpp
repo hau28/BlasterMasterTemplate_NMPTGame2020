@@ -2,6 +2,9 @@
 #include "Sophia.h"
 #include "JasonSideview.h"
 #include "JasonOverhead.h"
+#include "Sound.h"
+#include "GameObjectBehaviour.h"
+#include "CComeBackAfterCrusherEvent.h"
 
 #define SCENE_SECTION_UNKNOWN -1
 #define SCENE_SECTION_TEXTURES 2
