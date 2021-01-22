@@ -152,6 +152,10 @@ void CGrenade_JasonOverhead::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjs)
 	{
 		if (boomCount == COUNT_EXPLOSION)
 		{
+			//boundingBoxOffsetX += 5;
+			//boundingBoxWidth += 5;
+			//boundingBoxOffsetY += 5;
+			//boundingBoxHeight += 5;
 			Explode(CLASS_EXPLOSION_OVERHEAD);
 		}
 	}
@@ -201,3 +205,11 @@ void CGrenade_JasonOverhead::GetPosition(float& x, float& y, float dx, float dy)
 {
 	CGameObjectBehaviour::CalcBoundingBoxCenter(this, x, y);
 }
+
+//void CGrenade_JasonOverhead::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+//{
+//	left = x + boundingBoxOffsetX;
+//	right = left + boundingBoxWidth;
+//	top = y + boundingBoxOffsetY;
+//	bottom = top + boundingBoxHeight;
+//}

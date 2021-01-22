@@ -288,7 +288,7 @@ WaveLine::WaveLine(float& speed, int level, int dx, int dy)
 	originalAngle = arrAngle[iAngle];
 	iAngle = (iAngle + 1) % 2;
 
-	velocity = (level == 6 ? BULLET_JASONOVERHEAD_SPEED : BULLET_JASONOVERHEAD_SPEED * 2);
+	velocity = (level == 6 ? BULLET_JASONOVERHEAD_SPEED*2 : BULLET_JASONOVERHEAD_SPEED * 3);
 }
 
 int WaveLine::iAngle = 0;

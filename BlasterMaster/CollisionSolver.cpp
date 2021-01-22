@@ -197,7 +197,7 @@ bool CCollisionSolver::IsTouchingSophia (LPGAMEOBJECT obj1, LPGAMEOBJECT obj2)
 
 	obj1->GetBoundingBox(l1, t1, r1, b1);
 	obj2->GetBoundingBox(l2, t2, r2, b2);
-
+	if ((b1 < b2-2)||(t2+2<t1)) return false;
 	return
 		l1 <= l2 &&
 		r1 >= r2;
