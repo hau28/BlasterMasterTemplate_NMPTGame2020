@@ -21,7 +21,7 @@ protected:
 	void _ParseSection_OBJECT_ANIMATIONS(string line);
 
 public:
-	void setState(int state) { this->state = state; }
+	void setState(int state);
 	CObjectAnimationHanlders animationHandlers;
 	void HandleKeyEnter();
 	CIntroScene(int id, LPCWSTR filePath, int startupSection = -1);
