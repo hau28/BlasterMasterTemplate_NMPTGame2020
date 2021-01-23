@@ -665,7 +665,7 @@ void CGameGlobal::resetGame()
 	left = 3;
 	resetHealth();
 	this->Saved = false;
-
+	this->isOverheadtoSideView = false;
 	//hoi ky nhi?
 	this->stateBossBlackBackground = false;
 	this->isDeadBoss = false;
