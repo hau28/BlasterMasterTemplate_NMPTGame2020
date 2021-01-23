@@ -352,7 +352,7 @@ void CSophia::HandleKeyDown(DWORD dt, int keyCode)
         
         float xCenter, yCenter;
         CGameObjectBehaviour::CalcBoundingBoxCenter(CSophia::GetInstance(), xCenter, yCenter);
-        CJasonJumpOutEvent* jasonJumpOutEvent = new CJasonJumpOutEvent(xCenter, yCenter, currentSectionId);
+        CJasonJumpOutEvent* jasonJumpOutEvent = new CJasonJumpOutEvent(xCenter, yCenter - 5, currentSectionId);
         CGame::AddGameEvent(jasonJumpOutEvent);
         //CSophia::GetInstance()->init_camBox_FollowCamera();
         vx = 0;
